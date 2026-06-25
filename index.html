@@ -277,9 +277,16 @@
     /* tighter horizontal padding on all screens to reclaim usable width */
     .screen{padding:0 18px;}
 
-    /* topbar — pink SODO logo on left only, brand tag hidden */
-    #topbar{padding:16px 18px;}
+    /* topbar — solid-ish backdrop + blur so the pink SODO logo doesn't collide visually with section titles */
+    #topbar{padding:14px 16px;
+      background:linear-gradient(to bottom, rgba(5,5,7,0.85) 0%, rgba(5,5,7,0.55) 70%, rgba(5,5,7,0) 100%);
+      backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+      mix-blend-mode:normal;}
     .brand-tag{display:none;}
+    /* intro screens — extra top breathing room so big section titles clear the fixed topbar cleanly */
+    .intro{padding-top:88px;padding-bottom:48px;}
+    /* hero — also clear topbar so eyebrow doesn't tuck behind logo on tall phones */
+    #hero{padding-top:72px;}
 
     /* HERO — big-and-bold h1 as the main visual anchor; balanced vertical breathing */
     #hero .eyebrow{font-size:.6rem;margin-bottom:24px;letter-spacing:.24em;}
@@ -475,6 +482,9 @@ function hot(els){els.forEach(function(el){el.addEventListener('mouseenter',func
 /* ============ FLUID PARTICLE CURSOR TRAIL (background layer, behind all UI) ============ */
 var ac=document.getElementById('atmos'), ax=ac.getContext('2d'), aW=0,aH=0, DPR=Math.min(devicePixelRatio||1,1.35);
 var ambient=[], blobs=[], trail=[], TRAIL_MAX=(innerWidth<900?60:95);
+// Touch devices skip the pink trail effect entirely — only ambient dust renders. Cursor-trail-on-touch
+// looked "strange" to the user as it followed every swipe with pink streaks.
+var ATMOS_IS_TOUCH = window.matchMedia && window.matchMedia('(hover:none),(pointer:coarse)').matches;
 function atmoResize(){
   aW=innerWidth; aH=innerHeight;
   ac.width=Math.round(aW*DPR); ac.height=Math.round(aH*DPR);
@@ -502,6 +512,8 @@ window.addEventListener('touchmove',function(e){ if(e.touches[0]) onPointer(e.to
 // Cursor lerp with MAGNETIC pull toward nearby <a>/<button> — same logic as the orb so they stay in sync
 (function(){
   if(!cur) return;
+  // skip on touch — cursor element is display:none on mobile, no need to burn a RAF loop on it
+  if(window.matchMedia && window.matchMedia('(hover:none),(pointer:coarse)').matches) return;
   var cx=innerWidth/2, cy=innerHeight/2;
   function lerp(){
     requestAnimationFrame(lerp);
@@ -567,8 +579,8 @@ function atmoDraw(){
   var ease=0.14;
   var nx=flowX+(ptrX-flowX)*ease, ny=flowY+(ptrY-flowY)*ease;
   flowVX=nx-flowX; flowVY=ny-flowY; flowX=nx; flowY=ny;
-  // emit particles along the path while moving
-  if(ptrActive && (Math.abs(flowVX)+Math.abs(flowVY))>0.4){
+  // emit particles along the path while moving — DESKTOP ONLY (touch doesn't get the pink streak)
+  if(!ATMOS_IS_TOUCH && ptrActive && (Math.abs(flowVX)+Math.abs(flowVY))>0.4){
     spawnTrail(flowX,flowY,flowVX,flowVY);
   }
 
@@ -592,8 +604,8 @@ function atmoDraw(){
     g.addColorStop(1,'rgba(250,155,182,0)');
     ax.fillStyle=g; ax.beginPath(); ax.arc(p.x+waveX,p.y,rr,0,6.2832); ax.fill();
   }
-  // bright soft core right at the flow head for a "living energy" focal point
-  if(ptrActive){
+  // bright soft core right at the flow head for a "living energy" focal point — desktop only
+  if(!ATMOS_IS_TOUCH && ptrActive){
     var hg=ax.createRadialGradient(flowX,flowY,0,flowX,flowY,90);
     hg.addColorStop(0,'rgba(255,200,219,0.28)'); hg.addColorStop(0.5,'rgba(250,155,182,0.12)'); hg.addColorStop(1,'rgba(250,155,182,0)');
     ax.fillStyle=hg; ax.beginPath(); ax.arc(flowX,flowY,90,0,6.2832); ax.fill();
@@ -1304,7 +1316,7 @@ function feedScrollVel(y){ var dv=Math.abs(y-lastScrollY); lastScrollY=y; scroll
 (function(){
   var iri=document.getElementById('iri'); if(!iri || !window.THREE) return;
   var isTouch=window.matchMedia&&window.matchMedia('(hover:none),(pointer:coarse)').matches;
-  if(isTouch) return; // signature wow effect — not gated on prefers-reduced-motion
+  if(isTouch){ iri.remove(); return; }  // strip the canvas entirely on touch — no chance of stray render
 
   var renderer;
   try{
