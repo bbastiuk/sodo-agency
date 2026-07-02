@@ -3,12 +3,95 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>SODO AGENCY</title>
-<meta name="description" content="SODO AGENCY — boutique digital-агенція. Ми робимо бренди помітними." />
+<title>SODO AGENCY — SMM, таргет (Meta Ads) та digital-упаковка для бізнесу · Poznań</title>
+<meta name="description" content="SMM, таргетована реклама Meta Ads і digital-упаковка для бізнесів, яким потрібні заявки. Стратегія, контент, запуск реклами та система, що приводить клієнтів. Poznań." />
+<meta name="keywords" content="SMM, таргет, Meta Ads, таргетована реклама, digital агенція, Instagram, Poznań, ведення соцмереж, реклама Instagram, лідогенерація" />
+<meta name="theme-color" content="#050507" />
+<link rel="canonical" href="https://sodo.agency/" />
+
+<!-- Open Graph / social preview.
+     TODO: замініть og:url та og:image на реальні АБСОЛЮТНІ https-адреси після деплою
+     (відносні шляхи соцмережі не підхоплюють). Бажано зробити окрему картинку 1200×630. -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="SODO AGENCY" />
+<meta property="og:title" content="SMM, таргет і digital-упаковка для бізнесу, якому потрібні заявки" />
+<meta property="og:description" content="Ми допомагаємо брендам виглядати сильніше, запускати рекламу без хаосу й будувати систему, яка приводить клієнтів." />
+<meta property="og:url" content="https://sodo.agency/" />
+<meta property="og:image" content="https://sodo.agency/sodo-services/03-smm-target.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="SMM, таргет і digital-упаковка для бізнесу, якому потрібні заявки" />
+<meta name="twitter:description" content="Ми допомагаємо брендам виглядати сильніше, запускати рекламу без хаосу й будувати систему, яка приводить клієнтів." />
+<meta name="twitter:image" content="https://sodo.agency/sodo-services/03-smm-target.png" />
+
+<!-- Favicon — inline pink “S” monogram on dark, no external file needed -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23050507'/%3E%3Ctext x='32' y='45' font-family='Arial,Helvetica,sans-serif' font-size='40' font-weight='900' text-anchor='middle' fill='%23fa9bb6'%3ES%3C/text%3E%3C/svg%3E" />
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23050507'/%3E%3Ctext x='32' y='45' font-family='Arial,Helvetica,sans-serif' font-size='40' font-weight='900' text-anchor='middle' fill='%23fa9bb6'%3ES%3C/text%3E%3C/svg%3E" />
+
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
 <link href="https://fonts.cdnfonts.com/css/benzin" rel="stylesheet" />
+
+<!-- ============================================================
+     ANALYTICS — Meta Pixel + GA4
+     ↓↓↓ ЗАМІНІТЬ ці два значення на свої реальні ID, і трекінг увімкнеться сам.
+         Поки стоять плейсхолдери — скрипти НЕ вантажаться (нема помилок у консолі),
+         але події все одно збираються у чергу через SODO_track() і почнуть
+         відправлятись, щойно вставите справжні ID.
+     ============================================================ -->
+<script>
+(function(){
+  var GA4_ID   = 'G-XXXXXXXXXX';   // ← ваш GA4 Measurement ID
+  var PIXEL_ID = 'YOUR_PIXEL_ID';  // ← ваш Meta Pixel ID
+
+  // placeholder G-XXXXXXXXXX must NOT count as a real ID (X matches [A-Z0-9], so exclude it explicitly)
+  var gaOn    = /^G-[A-Z0-9]{6,}$/.test(GA4_ID) && !/^G-X+$/.test(GA4_ID);
+  var pixelOn = /^\d{6,}$/.test(PIXEL_ID);
+
+  // --- GA4 ---
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function(){ dataLayer.push(arguments); };
+  if(gaOn){
+    var g=document.createElement('script'); g.async=true;
+    g.src='https://www.googletagmanager.com/gtag/js?id='+GA4_ID;
+    document.head.appendChild(g);
+    gtag('js', new Date()); gtag('config', GA4_ID);
+  }
+
+  // --- Meta Pixel ---
+  if(pixelOn){
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}
+    (window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', PIXEL_ID); fbq('track', 'PageView');
+  }
+
+  // --- Unified event helper used across the site (safe no-op until IDs are set) ---
+  window.SODO_track = function(name, params){
+    params = params || {};
+    try{ if(gaOn && window.gtag) gtag('event', name, params); }catch(e){}
+    try{ if(pixelOn && window.fbq) fbq('trackCustom', name, params); }catch(e){}
+  };
+})();
+</script>
+
+<!-- Early device-mode detect (runs before first paint):
+     .m3d-on  → desktop with fine pointer → WebGL 3D services scene
+     .m3d-off → touch device / no JS-capable WebGL → premium DOM card stack
+     Decided here so the correct services block renders immediately, no flash. -->
+<script>
+(function(){
+  var touch=(window.matchMedia&&window.matchMedia('(hover:none),(pointer:coarse)').matches)
+    ||('ontouchstart' in window&&navigator.maxTouchPoints>0);
+  document.documentElement.classList.add(touch?'m3d-off':'m3d-on');
+  window.SODO_TOUCH=touch;
+})();
+</script>
+
 <style>
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
   :root{
@@ -25,40 +108,31 @@
   }
   img{max-width:100%;display:block;}
   ::-webkit-scrollbar{width:0;background:transparent;}
+  ::selection{background:var(--accent);color:#0a0a0c;}
 
-  /* ── cursor ── */
-  /* MINIMAL CURSOR — small solid white dot, NO blend-mode (difference made it appear green on the
-     iridescent orb). Sits inside the centre of the orb. Position lerps with magnetic attraction in JS. */
-  #cursor{position:fixed;width:9px;height:9px;background:#fff;border-radius:50%;
+  /* static film grain at 4% — takes the "flat digital gradient" edge off the dark background */
+  #grain{position:fixed;inset:0;pointer-events:none;z-index:90;opacity:.04;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='280'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='280' height='280' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+    background-size:280px 280px;}
+
+  /* ── cursor — SODO style: pink dot + soft lagging glow halo. No white dot, no outline ring,
+     no full-screen shader orb (removed: looked random + was the heaviest per-frame GPU cost).
+     Dot follows with light inertia (JS lerp + magnetic pull); halo eases slower → trail feel.
+     Fully hidden on touch devices. ── */
+  #cursor{position:fixed;width:7px;height:7px;background:var(--accent);border-radius:50%;
     pointer-events:none;z-index:9999;transform:translate(-50%,-50%);
-    transition:width .28s cubic-bezier(.16,1,.3,1), height .28s cubic-bezier(.16,1,.3,1), opacity .25s;}
-  /* outer ring hidden — single-element minimal style */
-  #ring{display:none;}
-  /* hover state: dot expands into a thin outline ring (1.5px stroke), still minimal */
-  body.hot #cursor{width:30px;height:30px;background:transparent;border:1.5px solid #fff;}
-
-  /* ── IRIDESCENT ORB — Lusion-style oil-slick / soap-film shader following the cursor.
-       Full-viewport WebGL canvas. mix-blend-mode:screen lets the iridescent colours brighten
-       the dark background instead of replacing it. Custom cursor + ring sit above (z-index 9999). ── */
-  #iri{position:fixed;inset:0;width:100%;height:100%;
-    pointer-events:none;z-index:50;
-    mix-blend-mode:screen;
-    will-change:transform;}
-  @media (hover:none),(pointer:coarse){ #iri{display:none;} }
-
-  /* ── persistent "scroll" hint at bottom-center, visible when not on hero and not at footer ── */
-  #scroll-hint{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);
-    font-family:"Benzin","Inter",sans-serif;font-size:.58rem;letter-spacing:.32em;text-transform:uppercase;
-    color:rgba(255,255,255,.32);z-index:55;pointer-events:none;
-    display:flex;flex-direction:column;align-items:center;gap:10px;
-    opacity:0;transition:opacity .55s ease;}
-  #scroll-hint.is-on{opacity:1;}
-  #scroll-hint .sh-line{width:1px;height:34px;background:linear-gradient(to bottom,rgba(250,155,182,.4),transparent);
-    position:relative;overflow:hidden;}
-  #scroll-hint .sh-line::after{content:"";position:absolute;top:-50%;left:0;width:100%;height:50%;
-    background:var(--accent);animation:cue 1.8s ease-in-out infinite;}
-  #scroll-hint .sh-text{padding-left:.32em;} /* compensate trailing letter-spacing */
-  @media (max-width:700px){ #scroll-hint{display:none;} } /* the existing hero scrollcue is enough on mobile */
+    box-shadow:0 0 8px rgba(250,155,182,.7),0 0 18px rgba(250,155,182,.22);
+    transition:width .3s cubic-bezier(.16,1,.3,1),height .3s cubic-bezier(.16,1,.3,1),
+      background .3s,box-shadow .3s,opacity .25s;}
+  #cursor-halo{position:fixed;width:30px;height:30px;border-radius:50%;pointer-events:none;z-index:9998;
+    transform:translate(-50%,-50%);
+    background:radial-gradient(circle,rgba(250,155,182,.16) 0%,rgba(250,155,182,.05) 45%,rgba(250,155,182,0) 70%);
+    transition:width .45s cubic-bezier(.16,1,.3,1),height .45s cubic-bezier(.16,1,.3,1),opacity .3s;}
+  /* hover over interactive elements: dot brightens + halo blooms */
+  body.hot #cursor{width:11px;height:11px;background:#ffc3d5;
+    box-shadow:0 0 10px rgba(250,155,182,.9),0 0 26px rgba(250,155,182,.35);}
+  body.hot #cursor-halo{width:48px;height:48px;}
+  @media (hover:none),(pointer:coarse),(max-width:700px){#cursor,#cursor-halo{display:none;}}
 
   /* ── fixed canvas atmosphere ── */
   /* star field — deepest back layer, crisp (no blur), no pointer interaction */
@@ -73,13 +147,17 @@
     background-size:contain;background-repeat:no-repeat;background-position:left center;
     width:104px;height:24px;transition:opacity .3s, transform .3s;cursor:none;}
   .logo-img:hover{opacity:.8;transform:translateY(-1px);}
-  #end .logo-img{width:120px;height:28px;}
+  #end .logo-img{width:120px;height:28px;margin-bottom:14px;}
   #topbar{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;
     justify-content:space-between;padding:26px 40px;mix-blend-mode:difference;}
   .brand{font-family:"Benzin","Inter",sans-serif;font-weight:900;font-size:1.05rem;letter-spacing:.02em;
     color:#fff;text-decoration:none;cursor:none;}
-  .brand-tag{font-family:"Benzin","Inter",sans-serif;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;
-    color:#fff;opacity:.6;}
+  /* persistent quiet CTA in the topbar — text link with a pink underline sweep, not a loud button */
+  .tb-cta{font-family:"Benzin","Inter",sans-serif;font-weight:600;font-size:.68rem;letter-spacing:.22em;
+    text-transform:uppercase;color:#fff;text-decoration:none;cursor:none;position:relative;padding-bottom:5px;}
+  .tb-cta::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--accent);
+    transform:scaleX(0);transform-origin:left;transition:transform .45s cubic-bezier(.16,1,.3,1);}
+  .tb-cta:hover::after{transform:scaleX(1);}
   #progress{position:fixed;top:0;left:0;height:2px;width:0;z-index:60;pointer-events:none;
     background:linear-gradient(90deg,rgba(250,155,182,.4),var(--accent));box-shadow:0 0 12px rgba(250,155,182,.6);}
 
@@ -111,8 +189,6 @@
      !important wins over the .l2 glow keyframes, so no text-shadow bleeds through the particle layer. */
   body.heroFx #hero h1 .l1,
   body.heroFx #hero h1 .l2{color:transparent !important;text-shadow:none !important;}
-  #hero .eyebrow{font-family:"Benzin","Inter",sans-serif;font-size:.66rem;letter-spacing:.28em;text-transform:uppercase;
-    color:var(--accent);margin-bottom:34px;opacity:0;animation:rise .9s .2s cubic-bezier(.16,1,.3,1) forwards;}
   #hero h1{font-family:"Benzin","Inter",sans-serif;font-weight:800;line-height:.92;letter-spacing:-.03em;
     font-size:clamp(2.8rem,11vw,11rem);}
   #hero h1 .l1{display:block;color:#fff;opacity:0;animation:rise 1s .35s cubic-bezier(.16,1,.3,1) forwards;}
@@ -124,17 +200,21 @@
   #hero .lead{margin-top:40px;font-family:"Benzin","Inter",sans-serif;font-weight:300;
     font-size:clamp(1rem,2.2vw,1.6rem);color:rgba(255,255,255,.7);letter-spacing:.01em;
     opacity:0;animation:rise 1s .7s cubic-bezier(.16,1,.3,1) forwards;}
-  #hero .scrollcue{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);
-    font-family:"Benzin","Inter",sans-serif;font-size:.6rem;letter-spacing:.26em;text-transform:uppercase;
-    color:rgba(255,255,255,.4);display:flex;flex-direction:column;align-items:center;gap:12px;
-    opacity:0;animation:rise 1s 1s cubic-bezier(.16,1,.3,1) forwards;}
-  /* compensate trailing letter-spacing so the word visually centers over the line */
-  #hero .scrollcue > span:first-child{padding-left:.26em;}
-  #hero .scrollcue .l{width:1px;height:46px;background:linear-gradient(rgba(250,155,182,.6),transparent);
-    position:relative;overflow:hidden;}
-  #hero .scrollcue .l::after{content:"";position:absolute;top:-50%;left:0;width:100%;height:50%;
-    background:var(--accent);animation:cue 1.8s ease-in-out infinite;}
-  @keyframes cue{0%{top:-50%;}100%{top:100%;}}
+  #hero .hero-offer{margin-top:38px;max-width:830px;font-family:"Benzin","Inter",sans-serif;font-weight:400;
+    font-size:clamp(1.12rem,2.5vw,1.85rem);line-height:1.34;letter-spacing:-.01em;color:#fff;
+    opacity:0;animation:rise 1s .7s cubic-bezier(.16,1,.3,1) forwards;}
+  #hero .hero-offer em{color:var(--accent);font-style:normal;}
+  /* outline services marquee at hero's lower edge — quiet identity strip, masked at both ends */
+  #hero .marq{position:absolute;bottom:36px;left:0;right:0;overflow:hidden;pointer-events:none;
+    opacity:0;animation:rise 1.2s 1.15s cubic-bezier(.16,1,.3,1) forwards;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent);
+    mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent);}
+  #hero .marq-in{display:flex;width:max-content;animation:marq 34s linear infinite;}
+  #hero .marq span{font-family:"Benzin","Inter",sans-serif;font-weight:800;font-size:.82rem;letter-spacing:.32em;
+    text-transform:uppercase;white-space:nowrap;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.22);}
+  #hero .marq b{color:rgba(250,155,182,.45);-webkit-text-stroke:0;}
+  @keyframes marq{to{transform:translateX(-50%);}}
+  @media (prefers-reduced-motion:reduce){#hero .marq-in{animation:none;}}
   @keyframes rise{from{opacity:0;transform:translateY(28px);}to{opacity:1;transform:translateY(0);}}
 
   /* ── intro screens (НАШІ ПОСЛУГИ / НАШІ КЛІЄНТИ) ── */
@@ -148,8 +228,12 @@
     color:rgba(255,255,255,.45);}
   .intro .count em{color:var(--accent);font-style:normal;}
 
-  /* ── SERVICES — pinned WebGL 3D scene (cards in depth, scroll-driven) ── */
-  #services{position:relative;height:1100vh;}
+  /* ── SERVICES — pinned WebGL 3D scene (cards in depth, scroll-driven) ──
+     Shown only on .m3d-on (desktop, fine pointer, WebGL ok). Touch / WebGL-fail → #services-m
+     premium DOM card stack instead. 520vh ≈ 4 screens of scroll for 5 cards — enough travel
+     for the depth journey, short enough that nobody "scrolls through empty space". */
+  #services{position:relative;height:520vh;display:none;}
+  .m3d-on #services{display:block;}
   #svc-sticky{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;}
   #svc-gl{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:0;}
   /* clean HTML caption synced to active 3D card */
@@ -173,47 +257,113 @@
   .svc-eyebrow{position:absolute;left:8%;top:14%;z-index:3;font-family:"Benzin","Inter",sans-serif;font-weight:500;
     font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.4);}
   .svc-eyebrow b{color:var(--accent);font-weight:600;}
+  /* sales layer inside the 3D caption: who it's for + inline CTA (caption itself is pointer-events:none,
+     only the CTA link re-enables events so the 3D canvas below still gets the mouse for tilt) */
+  .svc-caption .svc-for{font-family:"Benzin","Inter",sans-serif;font-weight:400;font-size:.8rem;line-height:1.5;
+    color:var(--accent);margin-bottom:10px;}
+  .svc-caption .cap-cta{pointer-events:auto;display:inline-flex;align-items:center;gap:10px;margin-top:20px;
+    font-family:"Benzin","Inter",sans-serif;font-weight:600;font-size:.82rem;color:#0a0a0c;text-decoration:none;
+    background:var(--accent);padding:13px 24px;border-radius:100px;cursor:none;
+    box-shadow:0 10px 30px rgba(250,155,182,.25);
+    transition:transform .3s cubic-bezier(.16,1,.3,1),box-shadow .3s,background .3s;}
+  .svc-caption .cap-cta:hover{background:#ffb3cb;transform:translateY(-2px);box-shadow:0 16px 40px rgba(250,155,182,.4);}
 
-  /* ── CLIENTS WebGL gallery (pinned horizontal) ── */
-  #clients-pin{height:300vh;position:relative;}
-  #clients-sticky{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;}
-  #clients-gl{position:absolute;inset:0;width:100%;height:100%;display:block;}
-  .cl-hud{position:absolute;inset:0;pointer-events:none;z-index:3;}
-  .cl-counter{position:absolute;right:40px;bottom:40px;text-align:right;font-family:"Benzin","Inter",sans-serif;}
-  .cl-counter .big{font-size:2.2rem;font-weight:700;color:#fff;line-height:1;}
-  .cl-counter .big em{color:var(--accent);font-style:normal;}
-  .cl-counter .tot{font-size:.66rem;letter-spacing:.2em;color:rgba(255,255,255,.4);margin-top:8px;}
-  .cl-name{position:absolute;left:40px;bottom:40px;font-family:"Benzin","Inter",sans-serif;font-weight:900;
-    font-size:clamp(1.6rem,4vw,3rem);letter-spacing:-.01em;}
-  .cl-hint{position:absolute;left:50%;bottom:30px;transform:translateX(-50%);font-family:"Benzin","Inter",sans-serif;
-    font-size:.58rem;letter-spacing:.26em;text-transform:uppercase;color:rgba(255,255,255,.35);
-    display:flex;align-items:center;gap:12px;}
-  .cl-hint .l{width:40px;height:1px;background:rgba(255,255,255,.25);position:relative;overflow:hidden;}
-  .cl-hint .l::after{content:"";position:absolute;inset:0;width:40%;background:var(--accent);
-    animation:slideLine 2.2s ease-in-out infinite;}
-  @keyframes slideLine{0%{transform:translateX(-120%);}100%{transform:translateX(260%);}}
+  /* ── SERVICES — mobile / fallback: premium vertical card stack (sticky deck).
+     Each card sticks near the top; the next one slides over it while the covered card
+     gently scales down + dims (JS-driven, rAF-throttled). Wow-effect without WebGL. ── */
+  /* default = visible (works with JS disabled too); .m3d-on (desktop WebGL mode) hides it */
+  #services-m{display:block;position:relative;z-index:1;max-width:640px;margin:0 auto;
+    padding:0 18px clamp(60px,8vh,110px);}
+  .m3d-on #services-m{display:none;}
+  .ms-stack{display:flex;flex-direction:column;gap:26px;}
+  .ms-card{position:sticky;top:calc(70px + var(--i,0)*12px);transform-origin:center top;
+    border-radius:24px;overflow:hidden;border:1px solid rgba(255,255,255,.1);
+    background:linear-gradient(170deg,var(--cc1,#1a0f14) 0%,#0a0a0e 60%,#08080b 100%);
+    box-shadow:0 24px 60px rgba(0,0,0,.55);will-change:transform;}
+  .ms-media{position:relative;aspect-ratio:16/10;overflow:hidden;}
+  .ms-media img{width:100%;height:100%;object-fit:cover;object-position:center 30%;display:block;}
+  .ms-media::after{content:"";position:absolute;inset:0;
+    background:linear-gradient(to bottom,rgba(8,8,11,0) 40%,rgba(8,8,11,.92) 100%);}
+  .ms-num{position:absolute;top:16px;right:18px;z-index:2;font-family:"Benzin","Inter",sans-serif;
+    font-weight:800;font-size:.78rem;letter-spacing:.1em;color:var(--accent);
+    background:rgba(5,5,7,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+    padding:7px 13px;border-radius:100px;border:1px solid rgba(250,155,182,.25);}
+  .ms-body{position:relative;padding:22px 22px 24px;}
+  .ms-body::before{content:"";position:absolute;left:22px;right:22px;top:0;height:1px;
+    background:linear-gradient(90deg,rgba(250,155,182,.35),rgba(250,155,182,0));}
+  .ms-body h3{font-family:"Benzin","Inter",sans-serif;font-weight:700;font-size:1.35rem;
+    letter-spacing:-.01em;color:#fff;margin-bottom:8px;}
+  .ms-body h3 em{color:var(--accent);font-style:normal;}
+  .ms-for{font-family:"Benzin","Inter",sans-serif;font-weight:400;font-size:.78rem;line-height:1.5;
+    color:var(--accent);margin-bottom:10px;}
+  .ms-desc{font-family:"Benzin","Inter",sans-serif;font-weight:300;font-size:.88rem;line-height:1.6;
+    color:rgba(255,255,255,.62);margin-bottom:16px;}
+  .ms-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:20px;}
+  .ms-tags span{font-family:"Benzin","Inter",sans-serif;font-weight:400;font-size:.6rem;letter-spacing:.04em;
+    color:rgba(255,255,255,.65);border:1px solid rgba(255,255,255,.13);padding:6px 11px;border-radius:100px;}
+  .ms-card .btn{width:100%;font-size:.9rem;padding:15px 24px;}
 
-  /* ── VIDEO MODAL ── */
-  #vmodal{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;
-    padding:5vh 24px;background:rgba(3,3,5,.86);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-    opacity:0;pointer-events:none;transition:opacity .45s ease;}
-  #vmodal.open{opacity:1;pointer-events:auto;}
-  #vmodal .vbox{position:relative;width:min(420px,92vw);aspect-ratio:9/16;max-height:86vh;border-radius:20px;
-    overflow:hidden;background:#000;border:1px solid rgba(250,155,182,.18);
-    box-shadow:0 40px 100px rgba(0,0,0,.6);transform:scale(.93);transition:transform .5s cubic-bezier(.16,1,.3,1);}
-  #vmodal.open .vbox{transform:scale(1);}
-  #vmodal video{width:100%;height:100%;object-fit:cover;display:block;}
-  #vmodal .vph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;
-    gap:16px;text-align:center;padding:30px;}
-  #vmodal .vph .ic{font-size:2.4rem;color:var(--accent);}
-  #vmodal .vph .t{font-family:"Benzin","Inter",sans-serif;font-weight:700;font-size:1.2rem;}
-  #vmodal .vph .d{font-size:.8rem;color:rgba(255,255,255,.45);line-height:1.6;max-width:30ch;}
-  #vmodal .vclose{position:absolute;top:-50px;right:0;width:40px;height:40px;border-radius:50%;
-    border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.04);color:#fff;font-size:1rem;
-    cursor:none;display:flex;align-items:center;justify-content:center;transition:border-color .25s,color .25s;}
-  #vmodal .vclose:hover{border-color:var(--accent);color:var(--accent);}
+  /* ── CLIENTS — premium cards (deliberately simpler than a second pinned WebGL block:
+     one strong scroll scene per page is enough; clients get depth via per-brand gradients,
+     ghost monograms and a hover sheen instead) ── */
+  .client-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;}
+  .client-card{position:relative;overflow:hidden;border-radius:22px;min-height:212px;
+    display:flex;flex-direction:column;justify-content:flex-end;padding:24px;
+    border:1px solid rgba(255,255,255,.08);
+    background:linear-gradient(160deg,var(--cc1,#1a0f14) 0%,#08080b 72%);
+    transition:transform .45s cubic-bezier(.16,1,.3,1),border-color .45s,box-shadow .45s;will-change:transform;}
+  .client-card .mono{position:absolute;top:-26px;right:-4px;font-family:"Benzin","Inter",sans-serif;
+    font-weight:900;font-size:8.5rem;line-height:1;color:rgba(255,255,255,.05);pointer-events:none;
+    transition:color .5s,transform .6s cubic-bezier(.16,1,.3,1);}
+  .client-card .glowspot{position:absolute;left:-30%;top:-45%;width:110%;height:110%;pointer-events:none;
+    background:radial-gradient(circle,var(--cc2t,rgba(250,155,182,.12)) 0%,rgba(0,0,0,0) 65%);
+    opacity:.7;transition:opacity .5s;}
+  .client-card .role{position:relative;display:inline-flex;align-self:flex-start;font-family:"Benzin","Inter",sans-serif;
+    font-weight:600;font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);
+    border:1px solid rgba(250,155,182,.3);padding:6px 12px;border-radius:100px;margin-bottom:14px;
+    background:rgba(5,5,7,.4);}
+  .client-card h3{position:relative;font-family:"Benzin","Inter",sans-serif;font-weight:800;
+    font-size:clamp(1.15rem,1.6vw,1.4rem);letter-spacing:-.01em;color:#fff;line-height:1.1;}
+  /* light sweep on hover — premium, no cheap glow */
+  .client-card::after{content:"";position:absolute;top:0;bottom:0;left:-70%;width:45%;pointer-events:none;
+    background:linear-gradient(105deg,rgba(255,255,255,0) 0%,rgba(255,255,255,.055) 50%,rgba(255,255,255,0) 100%);
+    transform:skewX(-18deg);transition:left .7s cubic-bezier(.16,1,.3,1);}
+  @media (hover:hover){
+    .client-card:hover{transform:translateY(-6px);border-color:rgba(250,155,182,.32);
+      box-shadow:0 28px 64px rgba(0,0,0,.5);}
+    .client-card:hover::after{left:130%;}
+    .client-card:hover .mono{color:rgba(255,255,255,.1);transform:translateY(-4px);}
+    .client-card:hover .glowspot{opacity:1;}
+  }
 
-  /* play section removed by user request */
+  /* ── ABOUT — bold editorial statement (same accent/ghost language as the intro screens) ── */
+  .about-big{font-family:"Benzin","Inter",sans-serif;font-weight:800;text-transform:uppercase;
+    letter-spacing:-.02em;line-height:1.14;font-size:clamp(1.45rem,3.9vw,3.1rem);color:#fff;max-width:1020px;}
+  .about-big .row{display:block;}
+  .about-big em{font-style:normal;color:var(--accent);text-shadow:0 0 36px rgba(250,155,182,.4);}
+  .about-big .ghost{color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.42);}
+  .about-sub{margin-top:26px;font-family:"Benzin","Inter",sans-serif;font-weight:300;
+    font-size:clamp(.95rem,1.5vw,1.1rem);line-height:1.65;color:rgba(255,255,255,.6);max-width:640px;}
+  .about-pills{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px;}
+  .about-pills span{font-family:"Benzin","Inter",sans-serif;font-weight:400;font-size:.7rem;letter-spacing:.05em;
+    color:rgba(255,255,255,.72);border:1px solid rgba(250,155,182,.22);background:rgba(250,155,182,.05);
+    padding:9px 16px;border-radius:100px;}
+
+  /* ── WHY SODO / APPROACH — editorial numbered rows ── */
+  .appr-rows{border-top:1px solid rgba(255,255,255,.09);}
+  .appr-row{position:relative;display:grid;grid-template-columns:80px 1fr 1.7fr;gap:26px;align-items:baseline;
+    padding:32px 14px;border-bottom:1px solid rgba(255,255,255,.09);
+    transition:background .45s,padding-left .45s cubic-bezier(.16,1,.3,1);}
+  .appr-row .n{font-family:"Benzin","Inter",sans-serif;font-weight:800;font-size:1rem;color:rgba(255,255,255,.28);
+    transition:color .4s,text-shadow .4s;}
+  .appr-row h3{font-family:"Benzin","Inter",sans-serif;font-weight:700;font-size:clamp(1.1rem,1.8vw,1.45rem);
+    letter-spacing:-.01em;color:#fff;}
+  .appr-row p{font-family:"Benzin","Inter",sans-serif;font-weight:300;font-size:.92rem;line-height:1.65;
+    color:rgba(255,255,255,.58);}
+  @media (hover:hover){
+    .appr-row:hover{background:linear-gradient(90deg,rgba(250,155,182,.06),rgba(250,155,182,0) 70%);padding-left:26px;}
+    .appr-row:hover .n{color:var(--accent);text-shadow:0 0 18px rgba(250,155,182,.6);}
+  }
 
   /* topbar SODO logo morph driven by scroll velocity (JS sets transform on inline style) */
   #brandLink{transition:transform .25s cubic-bezier(.16,1,.3,1);transform-origin:left center;}
@@ -228,16 +378,6 @@
   .cta-title em{color:var(--accent);font-style:normal;}
   .cta-sub{font-family:"Benzin","Inter",sans-serif;font-weight:300;font-size:1.05rem;color:rgba(255,255,255,.55);
     margin-bottom:46px;}
-  .cta-btn{display:inline-flex;align-items:center;gap:16px;cursor:none;text-decoration:none;
-    font-family:"Benzin","Inter",sans-serif;font-weight:600;font-size:1.05rem;color:#0a0a0c;
-    background:var(--accent);padding:22px 44px;border-radius:100px;
-    box-shadow:0 18px 50px rgba(250,155,182,.32);
-    transition:transform .35s cubic-bezier(.16,1,.3,1), box-shadow .35s, background .35s;}
-  .cta-btn:hover{transform:translateY(-4px) scale(1.02);box-shadow:0 26px 70px rgba(250,155,182,.5);background:#ffb3cb;}
-  /* idle breathing glow on CTA — slow, premium, never strobing */
-  @keyframes ctaBreath{0%,100%{box-shadow:0 14px 38px rgba(250,155,182,.20);}50%{box-shadow:0 18px 48px rgba(250,155,182,.32);}}
-  .cta-btn{animation:ctaBreath 4.2s ease-in-out infinite;}
-  .cta-btn:hover{animation:none;} /* hover state takes over */
 
   /* ── scroll-reveal: fade-up on first entry into viewport (IntersectionObserver-driven) ── */
   .reveal{opacity:0;transform:translateY(36px);
@@ -246,11 +386,7 @@
   .reveal.is-visible{opacity:1;transform:none;}
   @media (prefers-reduced-motion:reduce){
     .reveal{opacity:1;transform:none;transition:none;}
-    .cta-btn{animation:none;}
   }
-  .cta-btn .cta-ic{display:flex;}
-  .cta-btn .cta-arrow{font-size:1.2rem;transition:transform .35s cubic-bezier(.16,1,.3,1);}
-  .cta-btn:hover .cta-arrow{transform:translateX(6px);}
 
   /* ── footer minimal ── */
   #end{padding:80px 40px;display:flex;align-items:center;justify-content:space-between;gap:20px;
@@ -272,7 +408,7 @@
   }
   @media (max-width:700px){
     body{cursor:auto;}
-    #cursor,#ring{display:none;}
+    #cursor,#cursor-halo{display:none;}
 
     /* tighter horizontal padding on all screens to reclaim usable width */
     .screen{padding:0 18px;}
@@ -282,20 +418,16 @@
       background:linear-gradient(to bottom, rgba(5,5,7,0.85) 0%, rgba(5,5,7,0.55) 70%, rgba(5,5,7,0) 100%);
       backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
       mix-blend-mode:normal;}
-    .brand-tag{display:none;}
-    /* intro screens — extra top breathing room so big section titles clear the fixed topbar cleanly */
-    .intro{padding-top:88px;padding-bottom:48px;}
+    .tb-cta{font-size:.6rem;letter-spacing:.16em;}
+    /* intro screens — compact on mobile: no full-viewport empty zones, just a strong title block */
+    .intro{min-height:auto;padding-top:96px;padding-bottom:56px;}
     /* hero — also clear topbar so eyebrow doesn't tuck behind logo on tall phones */
     #hero{padding-top:72px;}
 
     /* HERO — big-and-bold h1 as the main visual anchor; balanced vertical breathing */
-    #hero .eyebrow{font-size:.6rem;margin-bottom:24px;letter-spacing:.24em;}
     #hero h1{font-size:clamp(3.6rem,18vw,6rem);line-height:.94;letter-spacing:-.04em;}
-    #hero .lead{font-size:1rem;margin-top:30px;padding:0 12px;line-height:1.5;}
-    #hero .scrollcue{bottom:32px;font-size:.55rem;}
-    /* mobile fix: remove letter-spacing on "scroll" word so it centres cleanly without the
-       trailing-em phantom space causing visible-text offset against the line beneath */
-    #hero .scrollcue > span:first-child{letter-spacing:0;padding-left:0;}
+    #hero .marq{bottom:26px;}
+    #hero .marq span{font-size:.66rem;letter-spacing:.26em;}
 
     /* INTRO sections (НАШІ ПОСЛУГИ, ЩО ГОВОРЯТЬ ПРО НАС) — compact title + label + count */
     .intro h2{font-size:clamp(2.2rem,10vw,3.6rem);line-height:1.02;}
@@ -312,21 +444,22 @@
     .svc-progress{right:10px;}
     .svc-progress .dot{width:6px;height:6px;}
 
-    /* CLIENTS 3D — name above counter, both anchored to bottom corners */
-    #clients-pin{height:240vh;}
-    .cl-name{left:18px;right:18px;bottom:90px;font-size:clamp(1.4rem,7vw,2.1rem);
-      max-width:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-    .cl-counter{right:18px;bottom:28px;text-align:right;}
-    .cl-counter .big{font-size:1.55rem;}
-    .cl-counter .tot{font-size:.58rem;margin-top:4px;letter-spacing:.18em;}
-    .cl-hint{display:none;}
+    /* CLIENTS cards — single column, tighter */
+    .client-grid{grid-template-columns:1fr;gap:14px;}
+    .client-card{min-height:172px;padding:20px;}
+    .client-card .mono{font-size:6.5rem;top:-18px;}
 
-    /* CTA — compact stack with tap-friendly button (≥44px tall) */
-    #cta{padding:60px 18px;}
+    /* ABOUT + APPROACH — stack cleanly */
+    .about-big{font-size:clamp(1.25rem,6vw,1.7rem);line-height:1.2;}
+    .about-big .ghost{-webkit-text-stroke:1px rgba(255,255,255,.42);}
+    .appr-row{grid-template-columns:1fr;gap:8px;padding:24px 4px;}
+    .appr-row .n{font-size:.8rem;color:var(--accent);}
+
+    /* CTA — compact stack with tap-friendly buttons (≥44px tall) */
+    #cta{min-height:auto;padding:76px 18px;}
     .cta-eyebrow{font-size:.7rem;margin-bottom:20px;letter-spacing:.20em;}
     .cta-title{font-size:clamp(2rem,9vw,3.2rem);margin-bottom:18px;line-height:1.04;}
     .cta-sub{font-size:.95rem;margin-bottom:34px;padding:0 8px;}
-    .cta-btn{padding:18px 30px;font-size:.95rem;gap:12px;}
 
     /* FOOTER — stack vertically on narrow screens so nothing wraps awkwardly */
     #end{padding:44px 20px;flex-direction:column;align-items:flex-start;gap:18px;text-align:left;}
@@ -336,32 +469,145 @@
   /* very-narrow phones (<=380px) — final squeeze so nothing clips */
   @media (max-width:380px){
     .screen{padding:0 14px;}
-    #cta{padding:50px 14px;}
-    .cta-btn{padding:16px 24px;font-size:.9rem;}
+    #cta{padding:60px 14px;}
     .svc-caption{left:14px;right:14px;}
-    .cl-name{left:14px;right:14px;font-size:1.3rem;}
-    .cl-counter{right:14px;}
+    #services-m{padding-left:14px;padding-right:14px;}
+    .ms-body{padding:18px 18px 20px;}
     #end{padding:38px 16px;}
   }
   @media (prefers-reduced-motion:reduce){
     *{animation-duration:.001s !important;}
-    .cl-hint .l::after,#hero .scrollcue .l::after{animation:none;}
+    /* infinite loops must stop entirely under reduced motion, not spin at .001s */
+    #hero h1 .l2{animation:rise .001s forwards;}
+    #hero .marq-in{animation:none;}
+  }
+
+  /* ============================================================
+     NEW CONTENT SECTIONS — packages, cases, process, FAQ, CTA bands
+     ============================================================ */
+  .sec{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:clamp(70px,10vh,130px) 32px;}
+  .sec-head{max-width:760px;margin:0 auto clamp(40px,6vh,68px);text-align:center;}
+  .sec-eyebrow{font-family:"Benzin","Inter",sans-serif;font-weight:500;font-size:.7rem;letter-spacing:.24em;
+    text-transform:uppercase;color:var(--accent);margin-bottom:20px;}
+  .sec-title{font-family:"Benzin","Inter",sans-serif;font-weight:800;letter-spacing:-.03em;line-height:1.05;
+    font-size:clamp(2rem,5.2vw,3.6rem);color:#fff;}
+  .sec-title em{color:var(--accent);font-style:normal;}
+  .sec-sub{margin-top:22px;font-family:"Benzin","Inter",sans-serif;font-weight:300;
+    font-size:clamp(.98rem,1.6vw,1.15rem);line-height:1.65;color:rgba(255,255,255,.62);}
+
+  /* buttons */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;cursor:none;text-decoration:none;
+    font-family:"Benzin","Inter",sans-serif;font-weight:600;font-size:1rem;line-height:1;
+    padding:18px 34px;border-radius:100px;border:1px solid transparent;
+    transition:transform .35s cubic-bezier(.16,1,.3,1),box-shadow .35s,background .35s,border-color .35s,color .35s;
+    -webkit-tap-highlight-color:transparent;}
+  .btn .ar{transition:transform .35s cubic-bezier(.16,1,.3,1);}
+  .btn:hover .ar{transform:translateX(5px);}
+  .btn--primary{background:var(--accent);color:#0a0a0c;box-shadow:0 16px 44px rgba(250,155,182,.28);}
+  .btn--primary:hover{background:#ffb3cb;transform:translateY(-3px);box-shadow:0 24px 64px rgba(250,155,182,.46);}
+  /* glass-style secondary button — soft frosted fill, barely-there border (no cheap outline look) */
+  .btn--ghost{background:rgba(255,255,255,.055);color:#fff;border-color:rgba(255,255,255,.1);
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);}
+  .btn--ghost:hover{background:rgba(250,155,182,.1);border-color:rgba(250,155,182,.35);color:#ffd2e0;
+    transform:translateY(-3px);}
+  .btn-row{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;align-items:center;}
+  #hero .hero-cta{margin-top:44px;opacity:0;animation:rise 1s .85s cubic-bezier(.16,1,.3,1) forwards;}
+
+  /* ── PROCESS — glowing progress line that fills on scroll; ghost numbers light up in turn.
+     No boxes, no cards: pure typography + one interactive line. ── */
+  .proc{position:relative;padding-top:10px;}
+  .proc-track{position:absolute;left:0;right:0;top:14px;height:1px;background:rgba(255,255,255,.1);}
+  .proc-track i{display:block;height:100%;width:100%;background:linear-gradient(90deg,rgba(250,155,182,.5),var(--accent));
+    box-shadow:0 0 14px rgba(250,155,182,.55);
+    transform:scaleX(var(--pp,0));transform-origin:left;will-change:transform;}
+  .proc-steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:34px;}
+  .proc-step{position:relative;padding-top:42px;}
+  .proc-step::before{content:"";position:absolute;top:10px;left:0;width:9px;height:9px;border-radius:50%;
+    background:#1c1c22;border:1px solid rgba(255,255,255,.28);
+    transition:background .45s,border-color .45s,box-shadow .45s;}
+  .proc-step.lit::before{background:var(--accent);border-color:var(--accent);box-shadow:0 0 16px rgba(250,155,182,.75);}
+  .proc-step .pn{display:block;font-family:"Benzin","Inter",sans-serif;font-weight:800;font-size:3.2rem;line-height:1;
+    color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.16);margin-bottom:16px;
+    transition:-webkit-text-stroke-color .5s,text-shadow .5s;}
+  .proc-step.lit .pn{-webkit-text-stroke:1px rgba(250,155,182,.6);text-shadow:0 0 26px rgba(250,155,182,.18);}
+  .proc-step h3{font-family:"Benzin","Inter",sans-serif;font-weight:700;font-size:1.12rem;color:#fff;margin-bottom:10px;}
+  .proc-step p{font-family:"Benzin","Inter",sans-serif;font-size:.88rem;line-height:1.6;
+    color:rgba(255,255,255,.58);font-weight:300;max-width:30ch;}
+
+  /* ── BIG LINK CTA — one confident typographic line, underline sweep + arrow slide ── */
+  .cta-big{max-width:1180px;margin:0 auto;padding:clamp(24px,5vh,60px) 32px;text-align:center;position:relative;z-index:1;}
+  .cta-big a{display:inline-block;text-decoration:none;cursor:none;-webkit-tap-highlight-color:transparent;}
+  .cta-big .t{display:block;font-family:"Benzin","Inter",sans-serif;font-weight:300;font-size:.95rem;
+    color:rgba(255,255,255,.5);margin-bottom:20px;letter-spacing:.02em;}
+  .cta-big .l{display:inline-flex;align-items:baseline;gap:20px;font-family:"Benzin","Inter",sans-serif;font-weight:800;
+    letter-spacing:-.02em;font-size:clamp(1.9rem,5vw,4rem);color:#fff;line-height:1.05;
+    position:relative;padding-bottom:12px;transition:color .35s;}
+  .cta-big .l em{font-style:normal;color:var(--accent);transition:transform .45s cubic-bezier(.16,1,.3,1);}
+  .cta-big .l::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--accent);
+    transform:scaleX(.16);transform-origin:left;opacity:.5;
+    transition:transform .55s cubic-bezier(.16,1,.3,1),opacity .55s;}
+  .cta-big a:hover .l{color:var(--accent);}
+  .cta-big a:hover .l::after{transform:scaleX(1);opacity:1;}
+  .cta-big a:hover .l em{transform:translateX(12px);}
+
+  /* inline CTA band */
+  .cta-band{max-width:1180px;margin:0 auto;padding:0 32px;}
+  .cta-band-inner{position:relative;overflow:hidden;border-radius:26px;padding:clamp(40px,6vw,64px);text-align:center;
+    background:linear-gradient(135deg,rgba(250,155,182,.14),rgba(250,155,182,.03));
+    border:1px solid rgba(250,155,182,.22);}
+  .cta-band h3{font-family:"Benzin","Inter",sans-serif;font-weight:800;letter-spacing:-.02em;
+    font-size:clamp(1.5rem,3.6vw,2.4rem);color:#fff;margin-bottom:14px;line-height:1.1;}
+  .cta-band h3 em{color:var(--accent);font-style:normal;}
+  .cta-band p{font-family:"Benzin","Inter",sans-serif;font-size:1rem;color:rgba(255,255,255,.6);
+    margin-bottom:30px;font-weight:300;}
+
+  /* footer social pills */
+  #end .e-links{display:flex;gap:14px;flex-wrap:wrap;}
+  #end .e-links a{display:inline-flex;align-items:center;gap:8px;font-family:"Benzin","Inter",sans-serif;
+    font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.6);
+    text-decoration:none;cursor:none;border:1px solid rgba(255,255,255,.14);padding:9px 16px;border-radius:100px;
+    transition:color .25s,border-color .25s;}
+  #end .e-links a:hover{color:var(--accent);border-color:var(--accent);}
+
+  @media (max-width:700px){
+    .sec{padding:64px 18px;}
+    .sec-head{margin-bottom:36px;}
+    .btn{padding:16px 26px;font-size:.94rem;}
+    .btn-row{gap:12px;}
+    .btn-row .btn{width:100%;}
+    .cta-band{padding:0 18px;}
+    .cta-band-inner{padding:36px 22px;}
+    /* PROCESS — vertical line down the left, steps hang off it */
+    .proc{padding-top:0;}
+    .proc-track{left:4px;right:auto;top:6px;bottom:6px;width:1px;height:auto;}
+    .proc-track i{height:100%;width:100%;transform:scaleY(var(--pp,0));transform-origin:top;
+      background:linear-gradient(180deg,rgba(250,155,182,.5),var(--accent));}
+    .proc-steps{grid-template-columns:1fr;gap:34px;}
+    .proc-step{padding-top:0;padding-left:34px;}
+    .proc-step::before{top:8px;left:0;}
+    .proc-step .pn{font-size:2.4rem;margin-bottom:10px;}
+    .proc-step p{max-width:none;}
+    .cta-big .t{font-size:.85rem;}
+    #end .e-links a{padding:8px 13px;font-size:.68rem;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .btn,.client-card,.appr-row{transition:none;}
   }
 </style>
 </head>
 <body>
 
 <canvas id="star-bg"></canvas>
+<canvas id="blob-bg" aria-hidden="true"></canvas>
 <canvas id="atmos"></canvas>
-<canvas id="iri" aria-hidden="true"></canvas>
+<div id="cursor-halo"></div>
 <div id="cursor"></div>
-<div id="ring"></div>
 <div id="progress"></div>
-<div id="scroll-hint" aria-hidden="true"><span class="sh-text">scroll</span><span class="sh-line"></span></div>
+<div id="grain" aria-hidden="true"></div>
 
 <div id="topbar">
   <a href="#top" class="brand logo-img" id="brandLink" aria-label="SODO"></a>
-  <span class="brand-tag">Digital Agency · Poznań</span>
+  <a href="#cta" class="tb-cta" data-cta="topbar">Обговорити <span aria-hidden="true">↗</span></a>
 </div>
 
 <!-- 1. LOADER -->
@@ -373,23 +619,46 @@
   </div>
 </div>
 
-<!-- 2. HERO -->
+<!-- 2. HERO — one idea per line: name → offer → action. Everything else lives further down. -->
 <section id="hero" class="screen"><span id="top"></span>
-  <div class="eyebrow">Boutique Digital Agency</div>
   <h1><span class="l1">SODO</span><span class="l2">AGENCY</span></h1>
   <canvas id="hero-text-fx" aria-hidden="true"></canvas>
-  <p class="lead">Ми робимо бренди помітними.</p>
-  <div class="scrollcue"><span>scroll</span><span class="l"></span></div>
+  <p class="hero-offer">SMM, таргет і digital-упаковка для бізнесів, яким потрібні <em>заявки</em> — а не просто красивий Instagram.</p>
+  <div class="hero-cta">
+    <div class="btn-row">
+      <a class="btn btn--primary" href="#cta" data-cta="hero-discuss">Обговорити проєкт <span class="ar">→</span></a>
+      <a class="btn btn--ghost" href="#svc-intro" data-cta="hero-services">Подивитись послуги</a>
+    </div>
+  </div>
+  <div class="marq" aria-hidden="true"><div class="marq-in">
+    <span>SMM <b>·</b> TARGET <b>·</b> SMM+TARGET <b>·</b> EDUCATION <b>·</b> DIGITAL SOLUTIONS <b>·</b> POZNAŃ <b>·</b>&nbsp;</span><span>SMM <b>·</b> TARGET <b>·</b> SMM+TARGET <b>·</b> EDUCATION <b>·</b> DIGITAL SOLUTIONS <b>·</b> POZNAŃ <b>·</b>&nbsp;</span>
+  </div></div>
 </section>
 
-<!-- 3. SERVICES intro -->
+<!-- 3. ABOUT — bold editorial statement -->
+<section id="about" class="sec">
+  <div class="sec-eyebrow reveal">Хто ми</div>
+  <h2 class="about-big reveal" data-reveal-delay="80">
+    <span class="row">Ми не <span class="ghost">просто</span> ведемо <span class="ghost">сторінки</span> —</span>
+    <span class="row">ми будуємо <em>систему</em>,</span>
+    <span class="row">яка приводить <em>клієнтів</em>.</span>
+  </h2>
+  <p class="about-sub reveal" data-reveal-delay="180">SODO — boutique digital-агенція з Познані. Стратегія, контент, Meta Ads і digital-рішення в одній зв'язці: без хаосу, з прозорими цифрами й візуалом, який продає.</p>
+  <div class="about-pills reveal" data-reveal-delay="260">
+    <span>Стратегія перед стартом</span>
+    <span>Прозора звітність</span>
+    <span>Контент + реклама як система</span>
+  </div>
+</section>
+
+<!-- 4. SERVICES intro -->
 <section class="screen intro" id="svc-intro">
   <div class="label reveal">01 — Наші послуги</div>
   <h2 class="reveal" data-reveal-delay="120"><span class="accent">НАШІ</span> <span class="ghost">ПОСЛУГИ</span></h2>
   <div class="count reveal" data-reveal-delay="240">5 напрямків • скрольте, щоб переглянути</div>
 </section>
 
-<!-- 4. SERVICE SCENES -->
+<!-- 4a. SERVICE SCENES — desktop: pinned WebGL depth journey (.m3d-on only) -->
 <section id="services">
   <div id="svc-sticky">
     <canvas id="svc-gl"></canvas>
@@ -399,85 +668,277 @@
   </div>
 </section>
 
-<!-- 5. CLIENTS intro -->
-<section class="screen intro" id="cl-intro">
-  <div class="label reveal">02 — Довіра</div>
-  <h2 class="reveal" data-reveal-delay="120"><span class="ghost">ЩО ГОВОРЯТЬ</span><br/><span class="accent">ПРО НАС</span></h2>
-  <div class="count reveal" data-reveal-delay="240">Відеовідгуки клієнтів • натисніть на картку</div>
+<!-- 4b. SERVICES — mobile / no-WebGL fallback: premium sticky card deck (.m3d-off only) -->
+<section id="services-m" aria-label="Наші послуги">
+  <div class="ms-stack">
+    <article class="ms-card" style="--i:0;--cc1:#2d0f1a;">
+      <div class="ms-media"><img src="./sodo-services/01-smm.png" alt="SMM — контент і візуал" loading="lazy" width="700" height="900" /><span class="ms-num">01 / 05</span></div>
+      <div class="ms-body">
+        <h3>SMM</h3>
+        <p class="ms-for">Для брендів, які хочуть виглядати сильніше й системніше</p>
+        <p class="ms-desc">Не просто постити, а виглядати сильніше, системніше і зрозуміліше для клієнта. Стратегія, візуал і контент, що чіпляють увагу та продають.</p>
+        <div class="ms-tags"><span>Стратегія</span><span>Контент</span><span>Reels</span><span>Stories</span></div>
+        <a class="btn btn--ghost" href="#cta" data-cta="svc-smm">Обговорити <span class="ar">→</span></a>
+      </div>
+    </article>
+
+    <article class="ms-card" style="--i:1;--cc1:#1a1228;">
+      <div class="ms-media"><img src="./sodo-services/02-target.png" alt="Таргетована реклама Meta Ads" loading="lazy" width="700" height="900" /><span class="ms-num">02 / 05</span></div>
+      <div class="ms-body">
+        <h3>Таргетована <em>реклама</em></h3>
+        <p class="ms-for">Для бізнесів, яким потрібні заявки, а не просто охоплення</p>
+        <p class="ms-desc">Запускаємо Meta Ads так, щоб було видно, куди йде бюджет, які крео працюють і скільки коштує заявка.</p>
+        <div class="ms-tags"><span>Meta Ads</span><span>Лідогенерація</span><span>Креативи</span><span>Масштабування</span></div>
+        <a class="btn btn--ghost" href="#cta" data-cta="svc-target">Обговорити <span class="ar">→</span></a>
+      </div>
+    </article>
+
+    <article class="ms-card" style="--i:2;--cc1:#101a1e;">
+      <div class="ms-media"><img src="./sodo-services/03-smm-target.png" alt="SMM + таргет — система" loading="lazy" width="700" height="900" /><span class="ms-num">03 / 05</span></div>
+      <div class="ms-body">
+        <h3>SMM <em>+</em> Таргет</h3>
+        <p class="ms-for">Для тих, кому потрібна система, а не хаос</p>
+        <p class="ms-desc">Зв'язка контенту, реклами, креативів і ретаргету. Не хаос, а система, яка стабільно приводить клієнтів.</p>
+        <div class="ms-tags"><span>Контент</span><span>Реклама</span><span>Ретаргет</span><span>Аналітика</span></div>
+        <a class="btn btn--primary" href="#cta" data-cta="svc-system">Обговорити <span class="ar">→</span></a>
+      </div>
+    </article>
+
+    <article class="ms-card" style="--i:3;--cc1:#141a0a;">
+      <div class="ms-media"><img src="./sodo-services/04-education.png" alt="Навчання та консалтинг" loading="lazy" width="700" height="900" /><span class="ms-num">04 / 05</span></div>
+      <div class="ms-body">
+        <h3>Навчання та <em>консалтинг</em></h3>
+        <p class="ms-for">Для власників і команд, які хочуть розібратись самі</p>
+        <p class="ms-desc">Для тих, хто хоче розібратись у рекламі, крео й кабінетах — і не зливати бюджет наосліп. Аудит, навчання, супровід.</p>
+        <div class="ms-tags"><span>Аудит</span><span>Навчання</span><span>Консультації</span></div>
+        <a class="btn btn--ghost" href="#cta" data-cta="svc-education">Обговорити <span class="ar">→</span></a>
+      </div>
+    </article>
+
+    <article class="ms-card" style="--i:4;--cc1:#1a1408;">
+      <div class="ms-media"><img src="./sodo-services/05-digital.png" alt="Digital-рішення — сайти, лендинги" loading="lazy" width="700" height="900" /><span class="ms-num">05 / 05</span></div>
+      <div class="ms-body">
+        <h3>Digital-<em>рішення</em></h3>
+        <p class="ms-for">Для брендів, яким потрібна серйозна digital-упаковка</p>
+        <p class="ms-desc">Сайти, лендинги й digital-інструменти, які допомагають бренду виглядати серйозніше і продавати краще.</p>
+        <div class="ms-tags"><span>Сайти</span><span>Лендинги</span><span>Чат-боти</span><span>Автоматизація</span></div>
+        <a class="btn btn--ghost" href="#cta" data-cta="svc-digital">Обговорити <span class="ar">→</span></a>
+      </div>
+    </article>
+  </div>
 </section>
 
-<!-- 6. CLIENTS gallery (pinned horizontal WebGL) -->
-<section id="clients-pin">
-  <div id="clients-sticky">
-    <canvas id="clients-gl"></canvas>
-    <div class="cl-hud">
-      <div class="cl-name" id="clName">RAZ'EB STUDIO</div>
-      <div class="cl-counter"><div class="big"><em id="clCur">01</em> / <span id="clTot">06</span></div><div class="tot">Clients</div></div>
-      <div class="cl-hint"><span>Скрольте</span><span class="l"></span><span>Дивіться</span></div>
+<!-- CTA band after services -->
+<section class="cta-band reveal" aria-label="Підібрати рішення">
+  <div class="cta-band-inner">
+    <h3>Не знаєш, який <em>формат</em> твій?</h3>
+    <p>Напиши пару слів про бізнес — підкажемо, з чого почати, без зобов'язань.</p>
+    <div class="btn-row">
+      <a class="btn btn--primary" href="#cta" data-cta="band-services">Підібрати рішення <span class="ar">→</span></a>
     </div>
   </div>
 </section>
 
-<!-- CTA -->
+<!-- 5. WHY SODO / APPROACH -->
+<section id="approach" class="sec">
+  <div class="sec-head">
+    <div class="sec-eyebrow reveal">02 — Підхід</div>
+    <h2 class="sec-title reveal" data-reveal-delay="120">Чому <em>SODO</em></h2>
+    <p class="sec-sub reveal" data-reveal-delay="200">Не «ведемо сторінки», а будуємо систему: кожен елемент підсилює інший.</p>
+  </div>
+  <div class="appr-rows">
+    <div class="appr-row reveal">
+      <div class="n">01</div>
+      <h3>Стратегія</h3>
+      <p>Спочатку розбираємось, кому і що продаємо, і тільки потім вмикаємо контент і рекламу. Без стратегії бюджет летить у нікуди.</p>
+    </div>
+    <div class="appr-row reveal" data-reveal-delay="70">
+      <div class="n">02</div>
+      <h3>Креатив і контент</h3>
+      <p>Візуал і крео, які зупиняють скрол. Не «контент для галочки», а матеріал, що працює на впізнаваність і продажі.</p>
+    </div>
+    <div class="appr-row reveal" data-reveal-delay="140">
+      <div class="n">03</div>
+      <h3>Реклама</h3>
+      <p>Meta Ads із чіткими KPI: видно, куди йде бюджет, які крео працюють і скільки коштує заявка.</p>
+    </div>
+    <div class="appr-row reveal" data-reveal-delay="210">
+      <div class="n">04</div>
+      <h3>Аналітика</h3>
+      <p>Рішення ухвалюємо на цифрах: масштабуємо те, що приносить результат, і вимикаємо те, що ні.</p>
+    </div>
+    <div class="appr-row reveal" data-reveal-delay="280">
+      <div class="n">05</div>
+      <h3>Digital</h3>
+      <p>Сайти, лендинги й інструменти, які підсилюють усю систему — від першого кліку до заявки.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 6. PROCESS — scroll-driven glowing line, ghost numbers light up as you pass -->
+<section id="process" class="sec">
+  <div class="sec-head">
+    <div class="sec-eyebrow reveal">03 — Як ми працюємо</div>
+    <h2 class="sec-title reveal" data-reveal-delay="120">Чотири кроки <em>без хаосу</em></h2>
+    <p class="sec-sub reveal" data-reveal-delay="200">Прозорий процес: ти завжди розумієш, що відбувається і навіщо.</p>
+  </div>
+  <div class="proc" id="proc">
+    <div class="proc-track" aria-hidden="true"><i id="procFill"></i></div>
+    <ol class="proc-steps">
+      <li class="proc-step reveal">
+        <span class="pn" aria-hidden="true">01</span>
+        <h3>Бриф</h3>
+        <p>Знайомимось із бізнесом, цілями та цифрами. Розбираємось, кому й що продаємо.</p>
+      </li>
+      <li class="proc-step reveal" data-reveal-delay="80">
+        <span class="pn" aria-hidden="true">02</span>
+        <h3>Стратегія</h3>
+        <p>План дій під твою задачу та прозора пропозиція — що робимо, у які строки й за що.</p>
+      </li>
+      <li class="proc-step reveal" data-reveal-delay="160">
+        <span class="pn" aria-hidden="true">03</span>
+        <h3>Запуск</h3>
+        <p>Контент, крео й реклама в роботі. Ти бачиш перші результати, а не обіцянки.</p>
+      </li>
+      <li class="proc-step reveal" data-reveal-delay="240">
+        <span class="pn" aria-hidden="true">04</span>
+        <h3>Оптимізація</h3>
+        <p>Дивимось на цифри, масштабуємо те, що працює, і прибираємо те, що ні.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- 7. CLIENTS — premium brand cards -->
+<section id="clients" class="sec">
+  <div class="sec-head">
+    <div class="sec-eyebrow reveal">04 — Клієнти</div>
+    <h2 class="sec-title reveal" data-reveal-delay="120">Бренди, які нам <em>довіряють</em></h2>
+    <p class="sec-sub reveal" data-reveal-delay="200">Від креативних студій до нерухомості — різні ніші, один підхід: система замість хаосу.</p>
+  </div>
+  <div class="client-grid">
+    <article class="client-card reveal" style="--cc1:#2d0f1a;--cc2t:rgba(250,155,182,.14);">
+      <span class="mono" aria-hidden="true">R</span><span class="glowspot" aria-hidden="true"></span>
+      <span class="role">Creative Studio</span>
+      <h3>RAZ'EB STUDIO</h3>
+    </article>
+    <article class="client-card reveal" data-reveal-delay="60" style="--cc1:#0d1829;--cc2t:rgba(139,191,255,.13);">
+      <span class="mono" aria-hidden="true">Y</span><span class="glowspot" aria-hidden="true"></span>
+      <span class="role">Beauty &amp; Wellness</span>
+      <h3>YCO</h3>
+    </article>
+    <article class="client-card reveal" data-reveal-delay="120" style="--cc1:#141a0a;--cc2t:rgba(168,216,122,.12);">
+      <span class="mono" aria-hidden="true">G</span><span class="glowspot" aria-hidden="true"></span>
+      <span class="role">Hospitality</span>
+      <h3>G×BAR POZNAŃ</h3>
+    </article>
+    <article class="client-card reveal" data-reveal-delay="180" style="--cc1:#1e0d14;--cc2t:rgba(240,184,208,.14);">
+      <span class="mono" aria-hidden="true">S</span><span class="glowspot" aria-hidden="true"></span>
+      <span class="role">Fashion</span>
+      <h3>SO CLOSE</h3>
+    </article>
+    <article class="client-card reveal" data-reveal-delay="240" style="--cc1:#111128;--cc2t:rgba(184,168,240,.14);">
+      <span class="mono" aria-hidden="true">F</span><span class="glowspot" aria-hidden="true"></span>
+      <span class="role">Real Estate</span>
+      <h3>FIRST STREET</h3>
+    </article>
+    <article class="client-card reveal" data-reveal-delay="300" style="--cc1:#1a1408;--cc2t:rgba(240,216,122,.12);">
+      <span class="mono" aria-hidden="true">Y</span><span class="glowspot" aria-hidden="true"></span>
+      <span class="role">Lifestyle &amp; Gastro</span>
+      <h3>YOŻ</h3>
+    </article>
+  </div>
+</section>
+
+<!-- Big typographic link-CTA — proof just happened above, so the ask is one confident line -->
+<section class="cta-big reveal" aria-label="Обговорити проєкт">
+  <a href="#cta" data-cta="biglink-clients">
+    <span class="t">Хочеш бачити тут свій бренд?</span>
+    <span class="l">Обговорити проєкт <em>→</em></span>
+  </a>
+</section>
+
+<!-- FINAL CTA -->
 <section id="cta" class="screen">
   <div class="cta-inner">
     <div class="cta-eyebrow reveal">Готові почати?</div>
     <h2 class="cta-title reveal" data-reveal-delay="120">Зробимо твій бренд<br/><em>помітним</em></h2>
-    <p class="cta-sub reveal" data-reveal-delay="240">Напиши нам в Instagram — обговоримо твій проєкт.</p>
-    <a class="cta-btn reveal" data-reveal-delay="360" href="https://www.instagram.com/sodo.agency/" target="_blank" rel="noopener">
-      <span class="cta-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.3" fill="currentColor" stroke="none"/></svg></span>
-      <span>Перейти на Instagram</span>
-      <span class="cta-arrow">→</span>
-    </a>
+    <p class="cta-sub reveal" data-reveal-delay="240">Напиши нам зручним способом — обговоримо твій проєкт і підберемо рішення.</p>
+    <div class="btn-row reveal" data-reveal-delay="360">
+      <a class="btn btn--primary" href="https://www.instagram.com/sodo.agency/" target="_blank" rel="noopener" data-soc="instagram" data-cta="final-instagram">
+        <span style="display:flex"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.3" fill="currentColor" stroke="none"/></svg></span>
+        <span>Instagram</span>
+        <span class="ar">→</span>
+      </a>
+      <!-- TODO: заміни на реальний Telegram-акаунт агенції -->
+      <a class="btn btn--ghost" href="https://t.me/sodo_agency" target="_blank" rel="noopener" data-soc="telegram" data-cta="final-telegram">
+        <span style="display:flex"><svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.3 18.7 19.5c-.24 1.06-.87 1.32-1.76.82l-4.86-3.58-2.35 2.26c-.26.26-.48.48-.98.48l.35-4.94 9-8.13c.39-.35-.09-.54-.6-.2L4.8 13.1l-4.8-1.5c-1.04-.32-1.06-1.04.22-1.54L20.5 2.9c.87-.32 1.63.2 1.4 1.4Z"/></svg></span>
+        <span>Telegram</span>
+        <span class="ar">→</span>
+      </a>
+    </div>
   </div>
 </section>
 
 <footer id="end">
   <div>
     <a href="#top" class="e-brand logo-img" id="footerLogo" aria-label="SODO"></a>
-    <div class="e-tag">© 2025 · Ми робимо бренди помітними</div>
+    <div class="e-tag">© 2026 · SMM · Meta Ads · Digital</div>
+  </div>
+  <div class="e-links">
+    <a href="https://www.instagram.com/sodo.agency/" target="_blank" rel="noopener" data-soc="instagram" data-cta="footer-instagram">Instagram</a>
+    <!-- TODO: заміни на реальний Telegram-акаунт агенції -->
+    <a href="https://t.me/sodo_agency" target="_blank" rel="noopener" data-soc="telegram" data-cta="footer-telegram">Telegram</a>
   </div>
   <div class="e-meta">Boutique Digital Agency · Poznań</div>
 </footer>
 
-<!-- VIDEO MODAL -->
-<div id="vmodal" aria-hidden="true">
-  <div class="vbox">
-    <button class="vclose" id="vclose" aria-label="Закрити">✕</button>
-    <div id="vcontent"></div>
-  </div>
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
 <script>
 (function(){
 'use strict';
 var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+// Single source of truth for "is this a touch / coarse-pointer device" (decided early in <head>,
+// drives the .m3d-on/.m3d-off services mode too).
+var IS_TOUCH = !!window.SODO_TOUCH;
 
-/* ============ DATA ============ */
+/* three.js + lenis are DESKTOP-ONLY and loaded async after first paint —
+   phones never download ~640KB of libraries they don't use. */
+function loadScript(src,cb){
+  var s=document.createElement('script'); s.src=src; s.async=true;
+  s.onload=function(){cb(null);}; s.onerror=function(){cb(new Error('load failed: '+src));};
+  document.head.appendChild(s);
+}
+
+/* ============ DATA — 5 service directions, sales copy: what / for whom / which problem ============ */
 var SERVICES = [
-  {n:'01', ic:'📱', t:'SMM', accent:true, d:'Виводимо твій бізнес у соцмережі й робимо це нестандартно. Стратегія, контент і візуал, що чіпляють увагу та реально продають.', tags:['Стратегія','Контент','Reels','Stories','Позиціонування'], c1:'#2d0f1a', c2:'#fa9bb6', img:'./sodo-services/01-smm.png'},
-  {n:'02', ic:'🎯', t:'Таргетована <em>реклама</em>', d:'Запускаємо рекламу, яка приносить клієнтів, а не просто покази. Чіткі KPI, тести гіпотез і масштабування того, що працює.', tags:['Meta Ads','Генерація лідів','Рекламні кампанії','Масштабування'], c1:'#1a1228', c2:'#b8a8f0', img:'./sodo-services/02-target.png'},
-  {n:'03', ic:'⚡', t:'SMM <em>+</em> Таргет', d:'Найсильніший формат: органіка й реклама працюють як єдина система. Повний маркетинговий супровід бізнесу під ключ.', tags:['Контент','Реклама','Аналітика','Зростання'], c1:'#101a1e', c2:'#8bd0e0', img:'./sodo-services/03-smm-target.png'},
-  {n:'04', ic:'💡', t:'Навчання та <em>консалтинг</em>', d:'Передаємо систему, а не лише поради. Навчаємо команди, проводимо аудит і впроваджуємо процеси, щоб ви росли самостійно.', tags:['Наставництво','Аудит','Навчання команд','Консультації'], c1:'#141a0a', c2:'#a8d87a', img:'./sodo-services/04-education.png'},
-  {n:'05', ic:'🧩', t:'Digital-<em>рішення</em>', d:'Будуємо цифрову екосистему бізнесу — від сайту до автоматизації. Ми не просто агенція, а технологічний партнер.', tags:['Сайти','AI-рішення','Чат-боти','CRM-системи','Монтаж відео','Автоматизація','Робочі простори','Внутрішні системи'], c1:'#1a1408', c2:'#f0d87a', img:'./sodo-services/05-digital.png'}
-];
-var CLIENTS = [
-  {name:"RAZ'EB STUDIO", role:'Creative Studio', c1:'#2d0f1a', c2:'#fa9bb6', video:''},
-  {name:'YCO', role:'Beauty & Wellness', c1:'#0d1829', c2:'#8bbfff', video:''},
-  {name:'G×BAR POZNAŃ', role:'Hospitality', c1:'#141a0a', c2:'#a8d87a', video:''},
-  {name:'SO CLOSE', role:'Fashion', c1:'#1e0d14', c2:'#f0b8d0', video:''},
-  {name:'FIRST STREET', role:'Real Estate', c1:'#111128', c2:'#b8a8f0', video:''},
-  {name:'YOŻ', role:'Lifestyle & Gastro', c1:'#1a1408', c2:'#f0d87a', video:''}
+  {n:'01', t:'SMM', who:'Для брендів, які хочуть виглядати сильніше й системніше',
+   d:'Не просто постити, а виглядати сильніше, системніше і зрозуміліше для клієнта. Стратегія, візуал і контент, що чіпляють увагу та продають.',
+   tags:['Стратегія','Контент','Reels','Stories'], c1:'#2d0f1a', c2:'#fa9bb6', img:'./sodo-services/01-smm.png', cta:'svc-smm'},
+  {n:'02', t:'Таргетована <em>реклама</em>', who:'Для бізнесів, яким потрібні заявки, а не просто охоплення',
+   d:'Запускаємо Meta Ads так, щоб було видно, куди йде бюджет, які крео працюють і скільки коштує заявка.',
+   tags:['Meta Ads','Лідогенерація','Креативи','Масштабування'], c1:'#1a1228', c2:'#b8a8f0', img:'./sodo-services/02-target.png', cta:'svc-target'},
+  {n:'03', t:'SMM <em>+</em> Таргет', who:'Для тих, кому потрібна система, а не хаос',
+   d:'Зв’язка контенту, реклами, креативів і ретаргету. Не хаос, а система, яка стабільно приводить клієнтів.',
+   tags:['Контент','Реклама','Ретаргет','Аналітика'], c1:'#101a1e', c2:'#8bd0e0', img:'./sodo-services/03-smm-target.png', cta:'svc-system'},
+  {n:'04', t:'Навчання та <em>консалтинг</em>', who:'Для власників і команд, які хочуть розібратись самі',
+   d:'Розібратись у рекламі, крео й кабінетах — і не зливати бюджет наосліп. Аудит, навчання, супровід.',
+   tags:['Аудит','Навчання','Консультації'], c1:'#141a0a', c2:'#a8d87a', img:'./sodo-services/04-education.png', cta:'svc-education'},
+  {n:'05', t:'Digital-<em>рішення</em>', who:'Для брендів, яким потрібна серйозна digital-упаковка',
+   d:'Сайти, лендинги й digital-інструменти, які допомагають бренду виглядати серйозніше і продавати краще.',
+   tags:['Сайти','Лендинги','Чат-боти','Автоматизація'], c1:'#1a1408', c2:'#f0d87a', img:'./sodo-services/05-digital.png', cta:'svc-digital'}
 ];
 
-/* ============ CURSOR ============ */
-var cur=document.getElementById('cursor'), ring=document.getElementById('ring');
-var mx=0,my=0,rx=0,ry=0, mxN=0.5,myN=0.5,mxE=0.5,myE=0.5;
-// pointer + cursor dot driven by onPointer() in the trail system below; ring eases separately
-(function ringRaf(){ rx+=((mx)-rx)*0.18; ry+=((my)-ry)*0.18; if(ring){ring.style.left=rx+'px';ring.style.top=ry+'px';} requestAnimationFrame(ringRaf); })();
-function hot(els){els.forEach(function(el){el.addEventListener('mouseenter',function(){document.body.classList.add('hot');});el.addEventListener('mouseleave',function(){document.body.classList.remove('hot');});});}
+/* ============ CURSOR — pink dot + lagging glow halo (SODO style) ============ */
+var cur=document.getElementById('cursor'), halo=document.getElementById('cursor-halo');
+var mx=0,my=0, mxN=0.5,myN=0.5;
+// dot position lerps with magnetic attraction in the loop below; halo eases slower → soft glow trail.
+// hover state (.hot on body) is set via event delegation so dynamically-injected links work too:
+document.addEventListener('mouseover',function(e){
+  if(e.target.closest && e.target.closest('a,button,summary,.client-card,.ms-card')) document.body.classList.add('hot');
+},{passive:true});
+document.addEventListener('mouseout',function(e){
+  if(e.target.closest && e.target.closest('a,button,summary,.client-card,.ms-card')) document.body.classList.remove('hot');
+},{passive:true});
 
 /* ============ FLUID PARTICLE CURSOR TRAIL (background layer, behind all UI) ============ */
 var ac=document.getElementById('atmos'), ax=ac.getContext('2d'), aW=0,aH=0, DPR=Math.min(devicePixelRatio||1,1.35);
@@ -509,16 +970,14 @@ function onPointer(cx,cy){
 window.addEventListener('mousemove',function(e){ onPointer(e.clientX,e.clientY); },{passive:true});
 window.addEventListener('touchmove',function(e){ if(e.touches[0]) onPointer(e.touches[0].clientX,e.touches[0].clientY); },{passive:true});
 
-// Cursor lerp with MAGNETIC pull toward nearby <a>/<button> — same logic as the orb so they stay in sync
+// Cursor lerp with MAGNETIC pull toward nearby <a>/<button>; halo chases the dot with extra lag
 (function(){
-  if(!cur) return;
-  // skip on touch — cursor element is display:none on mobile, no need to burn a RAF loop on it
-  if(window.matchMedia && window.matchMedia('(hover:none),(pointer:coarse)').matches) return;
-  var cx=innerWidth/2, cy=innerHeight/2;
+  if(!cur || IS_TOUCH) return; // cursor elements are display:none on mobile — no RAF loop there
+  var cx=innerWidth/2, cy=innerHeight/2, hx=cx, hy=cy;
   function lerp(){
     requestAnimationFrame(lerp);
     // magnetic offset toward nearest interactive element within 110px
-    var els = document.querySelectorAll('a, button, .cta-btn');
+    var els = document.querySelectorAll('a, button');
     var tx = ptrX, ty = ptrY, bestPull = 0;
     for(var i=0;i<els.length;i++){
       var r = els[i].getBoundingClientRect();
@@ -537,8 +996,11 @@ window.addEventListener('touchmove',function(e){ if(e.touches[0]) onPointer(e.to
     }
     cx += (tx - cx) * 0.22;
     cy += (ty - cy) * 0.22;
+    hx += (cx - hx) * 0.11;   // slower ease = visible soft-glow inertia
+    hy += (cy - hy) * 0.11;
     cur.style.left = cx + 'px';
     cur.style.top  = cy + 'px';
+    if(halo){ halo.style.left = hx + 'px'; halo.style.top = hy + 'px'; }
   }
   lerp();
 })();
@@ -552,7 +1014,7 @@ function spawnTrail(x,y,vx,vy){
     trail.push({
       x:x+Math.cos(ang)*spread, y:y+Math.sin(ang)*spread,
       vx:vx*0.16+(Math.random()-.5)*0.5, vy:vy*0.16+(Math.random()-.5)*0.5,
-      r:(34+Math.random()*46)*(0.7+speed/90),   // large soft particles
+      r:(26+Math.random()*34)*(0.7+speed/90),   // soft particles, kept modest
       life:1, decay:0.012+Math.random()*0.010
     });
   }
@@ -597,18 +1059,18 @@ function atmoDraw(){
     // scroll-velocity wave: gentle horizontal ripple that scales with scroll speed (premium motion)
     var waveX = sv>0.2 ? Math.sin(p.y*0.012 + tnow)*sv*1.6 : 0;
     var rr=p.r*(0.6+p.life*0.6);
-    var al=p.life*p.life*0.5;     // soft fade
+    var al=p.life*p.life*0.3;     // soft fade — low alpha keeps text readable through the trail
     var g=ax.createRadialGradient(p.x+waveX,p.y,0,p.x+waveX,p.y,rr);
     g.addColorStop(0,'rgba(252,170,196,'+(al*0.9)+')');
     g.addColorStop(0.45,'rgba(250,155,182,'+(al*0.4)+')');
     g.addColorStop(1,'rgba(250,155,182,0)');
     ax.fillStyle=g; ax.beginPath(); ax.arc(p.x+waveX,p.y,rr,0,6.2832); ax.fill();
   }
-  // bright soft core right at the flow head for a "living energy" focal point — desktop only
+  // soft core at the flow head — kept subtle so text under the cursor stays readable
   if(!ATMOS_IS_TOUCH && ptrActive){
-    var hg=ax.createRadialGradient(flowX,flowY,0,flowX,flowY,90);
-    hg.addColorStop(0,'rgba(255,200,219,0.28)'); hg.addColorStop(0.5,'rgba(250,155,182,0.12)'); hg.addColorStop(1,'rgba(250,155,182,0)');
-    ax.fillStyle=hg; ax.beginPath(); ax.arc(flowX,flowY,90,0,6.2832); ax.fill();
+    var hg=ax.createRadialGradient(flowX,flowY,0,flowX,flowY,52);
+    hg.addColorStop(0,'rgba(255,200,219,0.08)'); hg.addColorStop(0.5,'rgba(250,155,182,0.035)'); hg.addColorStop(1,'rgba(250,155,182,0)');
+    ax.fillStyle=hg; ax.beginPath(); ax.arc(flowX,flowY,52,0,6.2832); ax.fill();
   }
 
   // --- ambient dust on top (tiny, keeps depth) ---
@@ -623,13 +1085,16 @@ function atmoDraw(){
   if(performance.now()-lastMove>120) ptrActive=false;
   if(typeof scrollVel==='number') scrollVel*=0.90;  // distortion settles when scrolling stops
 }
-if(!reduce){ atmoDraw(); } else { /* reduced motion: leave a calm static backdrop */
+// DESKTOP-ONLY: the full-viewport per-frame trail redraw is skipped on touch (biggest 2D-canvas
+// cost on mobile). NOT gated on prefers-reduced-motion: the trail is cursor-driven (user-initiated
+// motion) and a key part of the brand look — Windows "show animations off" must not blank the site.
+if(!IS_TOUCH){ atmoDraw(); } else { /* calm static backdrop */
   ax.fillStyle='rgba(250,155,182,0.03)'; ax.fillRect(0,0,aW,aH);
 }
 
-/* adaptive quality: if the real device runs slow, lighten the trail automatically (protects weak laptops) */
+/* adaptive quality: if the real device runs slow, lighten the trail + the 3D scene automatically */
 (function(){
-  if(reduce) return;
+  if(IS_TOUCH) return;
   var frames=0, t0=performance.now(), low=0;
   function tick(){
     frames++; var now=performance.now();
@@ -639,6 +1104,7 @@ if(!reduce){ atmoDraw(); } else { /* reduced motion: leave a calm static backdro
         if(low>=2){ // sustained low fps -> step down quality
           TRAIL_MAX=Math.max(36,TRAIL_MAX-20);
           if(DPR>1){ DPR=1; atmoResize(); }
+          if(typeof svcQualityDown==='function') svcQualityDown();
           low=0;
         }
       } else low=0;
@@ -680,8 +1146,9 @@ if(!reduce){ atmoDraw(); } else { /* reduced motion: leave a calm static backdro
   }
   sResize(); window.addEventListener('resize',sResize,{passive:true});
 
-  // reduced motion → paint once, no animation
-  if(reduce){
+  // reduced motion OR touch → paint the star field ONCE, no per-frame animation loop
+  // (a full-viewport canvas clear+redraw every frame is wasted battery/jank on phones)
+  if(reduce || IS_TOUCH){
     for(var i=0;i<stars.length;i++){
       var s=stars[i];
       sx.fillStyle='rgba('+s.tint+','+s.a+')';
@@ -723,12 +1190,14 @@ if(!reduce){ atmoDraw(); } else { /* reduced motion: leave a calm static backdro
     var w=innerWidth, h=innerHeight;
     bc.width=w; bc.height=h; bc.style.width=w+'px'; bc.style.height=h+'px';
     var g=bx.createRadialGradient(w*0.5,h*0.55,0, w*0.5,h*0.55, Math.max(w,h)*0.5);
-    g.addColorStop(0,'rgba(250,155,182,0.18)');
-    g.addColorStop(0.55,'rgba(220,110,160,0.08)');
+    g.addColorStop(0,'rgba(250,155,182,0.12)');
+    g.addColorStop(0.55,'rgba(220,110,160,0.05)');
     g.addColorStop(1,'rgba(180,80,130,0)');
     bx.fillStyle=g; bx.fillRect(0,0,w,h);
   }
-  if(reduce || isTouch){ paintIdle(); window.addEventListener('resize',paintIdle,{passive:true}); return; }
+  // touch → one static soft glow, no animation loop. Desktop keeps the inertial glow even under
+  // reduced-motion (it's cursor-driven, and the client wants the look visible on every Windows setup).
+  if(isTouch){ paintIdle(); window.addEventListener('resize',paintIdle,{passive:true}); return; }
 
   var bW=0, bH=0, BDPR=Math.min(devicePixelRatio||1, 1.25);
   function bResize(){
@@ -745,14 +1214,14 @@ if(!reduce){ atmoDraw(); } else { /* reduced motion: leave a calm static backdro
   var P = [];
   for(var i=0;i<N;i++){
     var ang=Math.random()*6.2832;
-    var dist=Math.random()*55+8;              // tight cluster (≈120px diameter)
+    var dist=Math.random()*38+6;              // tight cluster (≈90px diameter)
     P.push({
       ox: Math.cos(ang)*dist,
       oy: Math.sin(ang)*dist*0.88,
       ph: Math.random()*6.2832,
       sp: 0.28+Math.random()*0.55,
       wob: 8+Math.random()*18,                 // smaller wobble — focused shape, less viewport spill
-      r:  55+Math.random()*60                  // smaller particles (55–115px) → full blob ≈ 240–320px
+      r:  30+Math.random()*34                  // small particles (30–64px) → compact, quiet glow
     });
   }
 
@@ -777,12 +1246,11 @@ if(!reduce){ atmoDraw(); } else { /* reduced motion: leave a calm static backdro
       var py = hY + p.oy + wy;
       var rr = p.r * (0.88 + Math.sin(t*p.sp*1.4 + p.ph)*0.12);
       var g = bx.createRadialGradient(px,py,0, px,py,rr);
-      // brand-pink palette — low per-particle alpha so additive overlap sums into a soft glowing blob
-      // (not a hard pink wall). Result: bright pink hot center, soft pink halo, dark bg untouched at edges.
-      // sharper falloff — bright at core, fast fade to zero at edges (no viewport-wide pink wash)
-      g.addColorStop(0.00, 'rgba(255,215,230,0.38)');  // bright pink core
-      g.addColorStop(0.25, 'rgba(250,155,182,0.22)');  // brand accent
-      g.addColorStop(0.60, 'rgba(220,100,155,0.05)');  // very faint halo
+      // brand-pink palette — DELIBERATELY faint: the blob must read as atmosphere, never wash out
+      // text the cursor passes over (client feedback 2026-07: "важко читати текст")
+      g.addColorStop(0.00, 'rgba(255,215,230,0.10)');  // soft pink core
+      g.addColorStop(0.25, 'rgba(250,155,182,0.055)'); // brand accent
+      g.addColorStop(0.60, 'rgba(220,100,155,0.015)'); // whisper halo
       g.addColorStop(1.00, 'rgba(180,70,125,0)');      // total fade
       bx.fillStyle = g;
       bx.beginPath(); bx.arc(px,py,rr,0,6.2832); bx.fill();
@@ -925,7 +1393,12 @@ if(!reduce){ atmoDraw(); } else { /* reduced motion: leave a calm static backdro
   }
 })();
 
-/* ============ SERVICES — WebGL 3D depth scene (scroll-driven journey) ============ */
+/* ============ SERVICES — WebGL 3D depth scene (scroll-driven journey) ============
+   The signature block: 5 photo cards floating in deep space, camera travels through them as you
+   scroll the pinned section. Desktop-only (.m3d-on). three.js arrives async via bootSvcGL();
+   any failure (no WebGL, blocked CDN) swaps to the premium DOM card deck (.m3d-off) — the page
+   NEVER shows an empty hole. NOT gated on prefers-reduced-motion: travel is scroll-driven
+   (user-initiated); under reduced-motion only the idle floating is stilled. */
 function hexToRgb(hex){var n=parseInt(hex.slice(1),16);return (n>>16)+','+((n>>8)&255)+','+(n&255);}
 var svcGL=document.getElementById('svc-gl');
 var svcRenderer, svcCam, svcScene, svcGroup, svcCards=[], svcPoints, svcDust;
@@ -933,23 +1406,22 @@ var svcStep=4.6;             // depth distance between cards
 var svcProgress=0;           // 0..1 across the pinned section
 var svcProgEased=0;          // smoothed for gliding descent
 var svcMxN=0.5, svcMyN=0.5;  // cursor for tilt
-function svcTexture(s,idx){
-  // If a photo path is provided, load it directly as the card texture (7:9 aspect, no procedural overlay)
+var AMBW = reduce ? 0 : 1;   // ambient wobble factor — 0 stills idle float under reduced-motion
+function svcTexture(s){
+  // photo path → load directly as the card texture (7:9 aspect); fall back to procedural if missing
   if(s.img){
     var loader=new THREE.TextureLoader();
     var tex=loader.load(
       s.img,
-      function(t){ /* loaded ok */ t.needsUpdate=true; },
+      function(t){ t.needsUpdate=true; },
       undefined,
       function(){
-        // load failed (file missing / blocked) → swap in the procedural fallback so the card isn't empty
         var fb=buildProceduralSvcTexture(s); tex.image=fb.image; tex.needsUpdate=true;
       }
     );
     tex.anisotropy=svcRenderer.capabilities.getMaxAnisotropy();
-    // NOTE: do NOT set tex.encoding=sRGBEncoding without also setting renderer.outputEncoding=sRGBEncoding —
-    // half-pipeline produces desaturated/red-shifted colors. Leaving default → texture bytes go straight to
-    // the canvas, which the browser displays as sRGB → colors match the source PNG exactly.
+    // NOTE: do NOT set tex.encoding=sRGBEncoding without renderer.outputEncoding — half-pipeline
+    // desaturates. Default passthrough displays the PNG's own colors exactly.
     tex.minFilter=THREE.LinearFilter;
     tex.generateMipmaps=false;
     return tex;
@@ -969,7 +1441,7 @@ function buildProceduralSvcTexture(s){
 }
 function initSvcGL(){
   svcRenderer=new THREE.WebGLRenderer({canvas:svcGL,antialias:true,alpha:true});
-  svcRenderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  svcRenderer.setPixelRatio(Math.min(devicePixelRatio||1,1.75)); // 1.75 cap: sharp on hi-dpi, ~25% less GPU than 2.0
   svcResize();
   svcScene=new THREE.Scene();
   svcScene.fog=new THREE.FogExp2(0x050507,0.085);
@@ -980,11 +1452,10 @@ function initSvcGL(){
   var r=new THREE.PointLight(0x8bbfff,0.7,40);r.position.set(6,-3,5);svcScene.add(r);
   svcGroup=new THREE.Group(); svcScene.add(svcGroup);
   SERVICES.forEach(function(s,i){
-    var tex=svcTexture(s,i);
+    var tex=svcTexture(s);
     var geo=new THREE.PlaneGeometry(3.5,4.5,18,22);
-    // photo cards → MeshBasicMaterial (no lighting interaction) so black areas of the photo stay pure black,
-    // not tinted by the pink point-lights or emissive glow.
-    // procedural cards → MeshStandardMaterial with per-service emissive (keeps the original atmospheric look).
+    // photo cards → MeshBasicMaterial (no light tint on the photo's blacks);
+    // procedural fallback → MeshStandardMaterial with per-service emissive.
     var mat;
     if(s.img){
       mat=new THREE.MeshBasicMaterial({map:tex,transparent:true});
@@ -997,7 +1468,7 @@ function initSvcGL(){
     mesh.userData={i:i,isPhoto:!!s.img}; svcGroup.add(mesh); svcCards.push(mesh);
   });
   // depth particles (space dust streaming)
-  var pc=420, pg=new THREE.BufferGeometry(), pp=new Float32Array(pc*3), SPAN=SERVICES.length*svcStep;
+  var pc=360, pg=new THREE.BufferGeometry(), pp=new Float32Array(pc*3), SPAN=SERVICES.length*svcStep;
   for(var i=0;i<pc;i++){pp[i*3]=(Math.random()-.5)*18;pp[i*3+1]=(Math.random()-.5)*12;pp[i*3+2]=-Math.random()*SPAN-2;}
   pg.setAttribute('position',new THREE.BufferAttribute(pp,3));
   svcPoints=new THREE.Points(pg,new THREE.PointsMaterial({color:0xfa9bb6,size:.045,transparent:true,opacity:.7,blending:THREE.AdditiveBlending,depthWrite:false}));
@@ -1007,23 +1478,26 @@ function initSvcGL(){
   svcScene.add(svcDust);
   // cursor tilt
   svcGL.addEventListener('mousemove',function(e){var rect=svcGL.getBoundingClientRect();svcMxN=(e.clientX-rect.left)/rect.width;svcMyN=(e.clientY-rect.top)/rect.height;});
-  // build caption dots
+  // progress dots
   var dots=document.getElementById('svcDots');
-  SERVICES.forEach(function(s,i){var d=document.createElement('div');d.className='dot';dots.appendChild(d);});
+  SERVICES.forEach(function(){var d=document.createElement('div');d.className='dot';dots.appendChild(d);});
   setSvcCaption(0);
+  requestScroll(window.scrollY||0); // prime svcProgress/svcVisible before first painted frame
   svcRender();
 }
+function svcQualityDown(){
+  if(svcRenderer && svcRenderer.getPixelRatio()>1.05){ svcRenderer.setPixelRatio(1); svcResize(); }
+}
 function svcResize(){
+  if(!svcRenderer) return;
   var w=svcGL.clientWidth||innerWidth, h=svcGL.clientHeight||innerHeight;
   svcRenderer.setSize(w,h,false);
   if(svcCam){
     svcCam.aspect=w/h; svcCam.updateProjectionMatrix();
-    // viewport-aware camera distance — moderate pullback on portrait (paired with reduced x-offset
-    // in svcAnim → cards fit horizontally without being too far away/foggy)
+    // viewport-aware camera distance — pull back on narrow windows so cards always fit
     var a=w/h;
     svcCam.position.z = a<0.55 ? 15 : (a<0.7 ? 13.5 : (a<1 ? 12 : (a<1.4 ? 10.5 : 8.6)));
-    // FOG DENSITY also aspect-aware — quadratic depth in FogExp2 means cards far from camera get
-    // washed out very quickly. Lower density on portrait keeps photo cards visible at z=13-15 distance.
+    // fog density aspect-aware too — FogExp2 washes far cards out fast on portrait
     if(svcScene && svcScene.fog){
       svcScene.fog.density = a<0.55 ? 0.038 : (a<0.7 ? 0.050 : (a<1 ? 0.065 : 0.085));
     }
@@ -1040,19 +1514,22 @@ function setSvcCaption(idx){
   cap.style.opacity=0; cap.style.transform='translateY(14px)';
   setTimeout(function(){
     cap.innerHTML='<div class="num">'+s.n+' <span>/ 05</span></div><h3>'+s.t+'</h3>'+
+      '<p class="svc-for">'+s.who+'</p>'+
       (s.d?'<p class="svc-desc">'+s.d+'</p>':'')+
-      '<div class="tags">'+tags+'</div>';
+      '<div class="tags">'+tags+'</div>'+
+      '<a class="cap-cta" href="#cta" data-cta="'+s.cta+'">Обговорити <span>→</span></a>';
     cap.style.opacity=1; cap.style.transform='translateY(0)';
   },180);
   var dots=document.querySelectorAll('#svcDots .dot');
   dots.forEach(function(d,i){d.classList.toggle('on',i===idx);});
 }
 
-var svcClk=new THREE.Clock();
+var svcClk=null;
 var svcVisible=true;
 function svcRender(){
   requestAnimationFrame(svcRender);
   if(!svcRenderer || !svcVisible) return;
+  if(!svcClk) svcClk=new THREE.Clock();
   var t=svcClk.getElapsedTime();
   svcProgEased += (svcProgress - svcProgEased) * 0.18;
   if(svcProgress>0.985) svcProgEased += (1 - svcProgEased)*0.25; // settle last card fully
@@ -1069,194 +1546,142 @@ function svcRender(){
     var focus = Math.max(0, 1 - dist/(svcStep*1.25));
     var ef = focus*focus*(3-2*focus);
     var side = worldZ>0 ? 1 : -1;
-    // focused-card x-offset shrinks on portrait so card stays centred and within viewport
+    // focused-card x-offset shrinks on portrait so the card stays centred within the viewport
     var focusedX = (innerWidth/innerHeight) < 1 ? 0.35 : 1.5;
     m.position.x = focusedX*ef + side*2.4*(1-ef) + (svcMxN-0.5)*0.4*ef;
-    m.position.y = (1-ef)*0.5*Math.sin(i*1.7) + Math.sin(t*0.5+i)*0.05;
+    m.position.y = (1-ef)*0.5*Math.sin(i*1.7) + Math.sin(t*0.5+i)*0.05*AMBW;
     m.rotation.y = -0.28 - (svcMxN-0.5)*0.32*ef + (1-ef)*0.45*side;
-    m.rotation.x = -(svcMyN-0.5)*0.22*ef + Math.sin(t*0.4+i)*0.02;
+    m.rotation.x = -(svcMyN-0.5)*0.22*ef + Math.sin(t*0.4+i)*0.02*AMBW;
     m.rotation.z = side*0.05*(1-ef);
     var s = 0.7 + ef*0.42; m.scale.set(s,s,s);
-    // higher minimum opacity on portrait → back cards stay readable through stronger relative fog
     var minOp = (innerWidth/innerHeight) < 1 ? 0.55 : 0.2;
     m.material.opacity = minOp + ef * (1 - minOp);
-    if(!m.userData.isPhoto) m.material.emissiveIntensity = 0.06 + ef*0.4; // BasicMaterial has no emissive
+    if(!m.userData.isPhoto) m.material.emissiveIntensity = 0.06 + ef*0.4;
     m.visible = worldZ < svcStep*1.6;
   }
-  var posA=svcPoints.geometry.attributes.position.array;
-  for(var k=0;k<posA.length;k+=3){ posA[k+2]+=0.02; if(posA[k+2]>3) posA[k+2]-=N*svcStep+5; }
-  svcPoints.geometry.attributes.position.needsUpdate=true;
-  svcDust.rotation.z=Math.sin(t*0.1)*0.03;
+  if(AMBW){
+    var posA=svcPoints.geometry.attributes.position.array;
+    for(var k2=0;k2<posA.length;k2+=3){ posA[k2+2]+=0.02; if(posA[k2+2]>3) posA[k2+2]-=N*svcStep+5; }
+    svcPoints.geometry.attributes.position.needsUpdate=true;
+    svcDust.rotation.z=Math.sin(t*0.1)*0.03;
+  }
   svcCam.position.x += (((svcMxN-0.5)*0.4) - svcCam.position.x)*0.05;
   svcCam.position.y += (((0.5-svcMyN)*0.3) - svcCam.position.y)*0.05;
   svcCam.lookAt(svcCam.position.x, svcCam.position.y, -10);
   svcRenderer.render(svcScene,svcCam);
 }
 
-/* ============ CLIENTS — WebGL horizontal gallery (pinned) ============ */
-var glcanvas=document.getElementById('clients-gl');
-var renderer, cam, scene3, cards3=[], group3, points3, GAP=5.2, CARD_W=3.4, CARD_H=4.3, maxX=0;
-var clCamZ=9; // viewport-aware camera distance — updated in resizeGL, applied each frame in animation
-var clProgress=0; // 0..1 from pin scroll
-var clVisible=true;
-function initGL(){
-  renderer=new THREE.WebGLRenderer({canvas:glcanvas,antialias:true,alpha:true});
-  renderer.setPixelRatio(Math.min(devicePixelRatio,2));
-  resizeGL();
-  scene3=new THREE.Scene();
-  scene3.fog=new THREE.FogExp2(0x050507,0.05);
-  cam=new THREE.PerspectiveCamera(42, glcanvas.clientWidth/glcanvas.clientHeight, 0.1, 100);
-  cam.position.set(0,0,clCamZ);
-  scene3.add(new THREE.AmbientLight(0xffffff,0.55));
-  var k=new THREE.PointLight(0xfa9bb6,1.4,40);k.position.set(-6,5,8);scene3.add(k);
-  var r=new THREE.PointLight(0x8bbfff,0.8,40);r.position.set(8,-4,4);scene3.add(r);
-  group3=new THREE.Group(); scene3.add(group3);
-  CLIENTS.forEach(function(p,i){
-    var tex=clientTexture(p,i);
-    var geo=new THREE.PlaneGeometry(CARD_W,CARD_H,16,20);
-    var mat=new THREE.MeshStandardMaterial({map:tex,roughness:.45,metalness:.2,emissive:new THREE.Color(p.c2),emissiveIntensity:.06,transparent:true});
-    var mesh=new THREE.Mesh(geo,mat); mesh.position.x=i*GAP; mesh.userData={i:i,baseX:i*GAP};
-    group3.add(mesh); cards3.push(mesh);
+/* boot + graceful fallback: touch never boots WebGL; desktop boots async; any failure
+   flips the page to the DOM card deck so services are always visible */
+var svcBooted=false;
+function bootSvcGL(){
+  if(svcBooted || IS_TOUCH || !svcGL) return; svcBooted=true;
+  loadScript('https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js', function(err){
+    if(err || !window.THREE){ svcFallback('three.js failed to load'); return; }
+    try{ initSvcGL(); }
+    catch(e){ console.warn('Service WebGL init failed', e); svcFallback(e && e.message); }
   });
-  maxX=(CLIENTS.length-1)*GAP;
-  // particles
-  var pc=520, pg=new THREE.BufferGeometry(), pp=new Float32Array(pc*3), SPAN=CLIENTS.length*GAP;
-  for(var i=0;i<pc;i++){pp[i*3]=(Math.random()-.3)*SPAN*1.4;pp[i*3+1]=(Math.random()-.5)*16;pp[i*3+2]=(Math.random()-.5)*20-2;}
-  pg.setAttribute('position',new THREE.BufferAttribute(pp,3));
-  points3=new THREE.Points(pg,new THREE.PointsMaterial({color:0xfa9bb6,size:.05,transparent:true,opacity:.7,blending:THREE.AdditiveBlending,depthWrite:false}));
-  scene3.add(points3);
-  // raycast click -> modal
-  var ray=new THREE.Raycaster(), m2=new THREE.Vector2(), dn={x:0,y:0};
-  glcanvas.addEventListener('mousedown',function(e){dn.x=e.clientX;dn.y=e.clientY;});
-  glcanvas.addEventListener('mouseup',function(e){
-    if(Math.hypot(e.clientX-dn.x,e.clientY-dn.y)>6)return;
-    var rect=glcanvas.getBoundingClientRect();
-    m2.x=((e.clientX-rect.left)/rect.width)*2-1; m2.y=-((e.clientY-rect.top)/rect.height)*2+1;
-    ray.setFromCamera(m2,cam); var hits=ray.intersectObjects(cards3);
-    if(hits.length) openVideo(hits[0].object.userData.i);
-  });
-  glcanvas.addEventListener('mousemove',function(e){
-    var rect=glcanvas.getBoundingClientRect();
-    m2.x=((e.clientX-rect.left)/rect.width)*2-1; m2.y=-((e.clientY-rect.top)/rect.height)*2+1;
-    ray.setFromCamera(m2,cam); document.body.classList.toggle('hot', ray.intersectObjects(cards3).length>0);
-  });
-  glRender();
 }
-function resizeGL(){
-  var w=glcanvas.clientWidth||innerWidth, h=glcanvas.clientHeight||innerHeight;
-  renderer.setSize(w,h,false);
-  var a=w/h;
-  // pull camera back on narrow/portrait viewports so the card always fits on screen
-  clCamZ = a<0.7 ? 14.5 : (a<1 ? 12 : (a<1.4 ? 10.5 : 9));
-  if(cam){cam.aspect=a;cam.updateProjectionMatrix();cam.position.z=clCamZ;}
-}
-window.addEventListener('resize',resizeGL);
-
-function clientTexture(p,idx){
-  var c=document.createElement('canvas'); c.width=512; c.height=640; var x=c.getContext('2d');
-  var g=x.createLinearGradient(0,0,512,640); g.addColorStop(0,p.c1); g.addColorStop(1,'#070708');
-  x.fillStyle=g; x.fillRect(0,0,512,640);
-  for(var i=0;i<5;i++){var rg=x.createRadialGradient(Math.random()*512,Math.random()*640,0,Math.random()*512,Math.random()*640,160+Math.random()*180);rg.addColorStop(0,'rgba('+hexToRgb(p.c2)+',0.2)');rg.addColorStop(1,'rgba('+hexToRgb(p.c2)+',0)');x.fillStyle=rg;x.fillRect(0,0,512,640);}
-  x.globalAlpha=.05; for(var d=0;d<240;d++){x.fillStyle=Math.random()>.5?'#fff':p.c2;x.fillRect(Math.random()*512,Math.random()*640,1.4,1.4);} x.globalAlpha=1;
-  // logo monogram (big letter) as "logo" placeholder
-  x.font='900 230px Benzin, Inter, sans-serif'; x.fillStyle='rgba(255,255,255,0.06)'; x.textAlign='center'; x.textBaseline='middle';
-  x.fillText(p.name.charAt(0), 256, 270);
-  // dark scrim bottom
-  var sc=x.createLinearGradient(0,300,0,640); sc.addColorStop(0,'rgba(5,5,8,0)'); sc.addColorStop(1,'rgba(5,5,8,0.92)'); x.fillStyle=sc; x.fillRect(0,300,512,340);
-  // role pill
-  x.fillStyle='#fa9bb6'; x.font='700 18px "Benzin","Inter",sans-serif'; var rt=p.role.toUpperCase(); var rw=x.measureText(rt).width+34; x.fillRect(34,34,rw,38);
-  x.fillStyle='#000'; x.textAlign='left'; x.textBaseline='middle'; x.fillText(rt,50,54);
-  // name + play
-  x.shadowColor='rgba(0,0,0,.6)'; x.shadowBlur=12; x.fillStyle='#fff'; x.font='900 40px Benzin, Inter, sans-serif'; x.textAlign='left'; x.textBaseline='alphabetic'; x.fillText(p.name,34,560); x.shadowBlur=0;
-  x.fillStyle='rgba(255,255,255,.55)'; x.font='400 16px "Benzin","Inter",sans-serif'; x.fillText('▶  ВІДЕОВІДГУК',34,600);
-  var tex=new THREE.CanvasTexture(c); tex.anisotropy=renderer.capabilities.getMaxAnisotropy(); return tex;
+function svcFallback(why){
+  if(why) console.warn('SODO services: DOM fallback engaged —', why);
+  svcRenderer=null;
+  var de=document.documentElement;
+  de.classList.remove('m3d-on'); de.classList.add('m3d-off');
+  initStackFx();
 }
 
-var clk=new THREE.Clock();
-function glRender(){
-  requestAnimationFrame(glRender);
-  if(!renderer || !clVisible)return;
-  var t=clk.getElapsedTime();
-  var cur=clProgress*maxX;
-  group3.position.x=-cur;
-  for(var i=0;i<cards3.length;i++){
-    var m=cards3[i], dn=(m.userData.baseX-cur)/GAP;
-    m.position.z=-Math.abs(dn)*1.1;
-    m.position.y=Math.sin(t*0.6+i)*0.12;
-    m.rotation.y=-dn*0.18;
-    m.rotation.x=Math.sin(t*0.4+i)*0.02;
-    var focus=1-Math.min(Math.abs(dn),1.4)/1.4;
-    m.material.emissiveIntensity=0.06+focus*0.22;
-    var s=0.9+focus*0.18; m.scale.set(s,s,s);
-    m.material.opacity=0.4+focus*0.6;
+/* ============ SERVICES mobile deck — covered card scales down + dims as the next slides over ============ */
+var stackFxOn=false;
+function initStackFx(){
+  if(stackFxOn) return; stackFxOn=true;
+  var cards=[].slice.call(document.querySelectorAll('#services-m .ms-card'));
+  if(!cards.length) return;
+  var ticking=false;
+  function upd(){
+    ticking=false;
+    for(var i=0;i<cards.length-1;i++){
+      var r=cards[i].getBoundingClientRect();
+      if(r.bottom<-40 || r.top>innerHeight+40){ // off-screen → skip style writes
+        if(cards[i].style.transform){ cards[i].style.transform=''; cards[i].style.filter=''; }
+        continue;
+      }
+      var nextTop=cards[i+1].getBoundingClientRect().top;
+      var cover=Math.min(Math.max((r.bottom-nextTop)/Math.max(r.height,1),0),1);
+      if(cover>0.001){
+        cards[i].style.transform='scale('+(1-cover*0.06).toFixed(4)+')';
+        cards[i].style.filter='brightness('+(1-cover*0.35).toFixed(3)+')';
+      } else if(cards[i].style.transform){
+        cards[i].style.transform=''; cards[i].style.filter='';
+      }
+    }
   }
-  if(points3){ points3.rotation.z=Math.sin(t*0.1)*0.02; }
-  cam.position.x+=(( (mxN-0.5)*0.8 )-cam.position.x)*0.04;
-  cam.position.y+=(( (myN-0.5)*0.5 )-cam.position.y)*0.04;
-  cam.lookAt(0,0,0); cam.position.z=clCamZ;
-  // HUD
-  var idx=Math.max(0,Math.min(CLIENTS.length-1,Math.round(clProgress*(CLIENTS.length-1))));
-  document.getElementById('clCur').textContent=String(idx+1).padStart(2,'0');
-  document.getElementById('clName').textContent=CLIENTS[idx].name;
-  renderer.render(scene3,cam);
+  window.addEventListener('scroll',function(){ if(!ticking){ticking=true;requestAnimationFrame(upd);} },{passive:true});
+  upd();
 }
 
-/* ============ VIDEO MODAL ============ */
-var vmodal=document.getElementById('vmodal'), vcontent=document.getElementById('vcontent');
-function openVideo(i){
-  var c=CLIENTS[i];
-  if(c.video){ vcontent.innerHTML='<video src="'+c.video+'" controls autoplay playsinline></video>'; }
-  else { vcontent.innerHTML='<div class="vph" style="background:radial-gradient(circle at 50% 35%, '+hexA(c.c2,.14)+', #0a0a0c 70%)"><div class="ic">▶</div><div class="t">'+c.name+'</div><div class="d">Тут буде відеовідгук клієнта.<br/>Додайте mp4 або YouTube у поле <b>video</b>.</div></div>'; }
-  vmodal.classList.add('open'); vmodal.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden';
-  if(window.__lenis) window.__lenis.stop();
-}
-function closeVideo(){
-  vmodal.classList.remove('open'); vmodal.setAttribute('aria-hidden','true'); document.body.style.overflow='';
-  setTimeout(function(){vcontent.innerHTML='';},420);
-  if(window.__lenis) window.__lenis.start();
-}
-function hexA(hex,a){return 'rgba('+hexToRgb(hex)+','+a+')';}
-document.getElementById('vclose').addEventListener('click',closeVideo);
-vmodal.addEventListener('click',function(e){if(e.target===vmodal)closeVideo();});
-document.addEventListener('keydown',function(e){if(e.key==='Escape'&&vmodal.classList.contains('open'))closeVideo();});
-
-/* ============ SMOOTH SCROLL + scroll-driven effects ============ */
+/* ============ SMOOTH SCROLL + scroll-driven effects ============
+   Lenis smooth-scroll is DESKTOP-ONLY (loaded async). On touch it fights native momentum
+   scrolling — #1 cause of scroll jank on phones — so phones keep native scroll. */
 var lenis=null;
-if(!reduce && window.Lenis){
-  lenis=new Lenis({duration:1.05,lerp:0.1,smoothWheel:true,wheelMultiplier:1,touchMultiplier:1.4,easing:function(t){return Math.min(1,1.001-Math.pow(2,-10*t));}});
-  window.__lenis=lenis;
-  (function raf(t){lenis.raf(t);requestAnimationFrame(raf);})();
+if(!reduce && !IS_TOUCH){
+  loadScript('https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js', function(err){
+    if(err || !window.Lenis) return; // native scroll is a fully working fallback
+    lenis=new Lenis({duration:1.05,lerp:0.1,smoothWheel:true,wheelMultiplier:1,easing:function(t){return Math.min(1,1.001-Math.pow(2,-10*t));}});
+    window.__lenis=lenis;
+    (function raf(t){lenis.raf(t);requestAnimationFrame(raf);})();
+  });
 }
-document.getElementById('brandLink').addEventListener('click',function(e){e.preventDefault(); if(lenis)lenis.scrollTo(0,{duration:1.1}); else scrollTo(0,0);});
-var _fl=document.getElementById('footerLogo'); if(_fl) _fl.addEventListener('click',function(e){e.preventDefault(); if(lenis)lenis.scrollTo(0,{duration:1.1}); else scrollTo(0,0);});
+
+/* in-page anchors: smooth-scroll via lenis on desktop, native smooth on mobile */
+document.addEventListener('click',function(e){
+  var a=e.target.closest ? e.target.closest('a[href^="#"]') : null;
+  if(!a) return;
+  var id=a.getAttribute('href'); if(!id || id.length<2) return;
+  var el=document.querySelector(id); if(!el) return;
+  e.preventDefault();
+  if(lenis) lenis.scrollTo(el,{duration:1.15});
+  else el.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});
+});
 
 var progressBar=document.getElementById('progress');
-var pin=document.getElementById('clients-pin');
 var svcSection=document.getElementById('services');
+var procEl=document.getElementById('proc');
+var procSteps=procEl?[].slice.call(procEl.querySelectorAll('.proc-step')):[];
+// throttle scroll work to one update per animation frame (avoids layout thrash on fast scroll)
+var _scrollTicking=false;
 function onScroll(y){
   var h=document.documentElement.scrollHeight-innerHeight;
   progressBar.style.width=(h>0?(y/h*100):0).toFixed(2)+'%';
   if(typeof feedScrollVel==='function') feedScrollVel(y);
-  // services pin progress -> 3D depth journey
-  if(svcSection){
+  // process line: fills while the section crosses the viewport; nodes light as the fill passes them
+  if(procEl){
+    var pr=procEl.getBoundingClientRect();
+    if(pr.bottom>-60 && pr.top<innerHeight+60){
+      var pp=Math.min(1,Math.max(0,(innerHeight*0.82-pr.top)/(pr.height+innerHeight*0.25)));
+      procEl.style.setProperty('--pp',pp.toFixed(4));
+      for(var pi=0;pi<procSteps.length;pi++){
+        procSteps[pi].classList.toggle('lit', pp*procSteps.length > pi+0.45);
+      }
+    }
+  }
+  // services pin progress → 3D depth journey; render only while the section is near the viewport.
+  // Journey completes at 86% of the pin: the last card settles fully focused and HOLDS for the
+  // remaining scroll, instead of the page unpinning the moment it arrives.
+  if(svcSection && svcRenderer){
     var sr=svcSection.getBoundingClientRect();
     var stot=svcSection.offsetHeight-innerHeight;
     var spassed=Math.min(Math.max(-sr.top,0),stot);
-    svcProgress=stot>0?spassed/stot:0;
-    // only render service 3D while the section is near/in the viewport (perf)
+    svcProgress=stot>0?Math.min(1,(spassed/stot)/0.86):0;
     svcVisible = sr.bottom > -100 && sr.top < innerHeight + 100;
   }
-  // clients pin progress -> horizontal gallery
-  if(pin){
-    var pr=pin.getBoundingClientRect();
-    var total=pin.offsetHeight-innerHeight;
-    var passed=Math.min(Math.max(-pr.top,0),total);
-    clProgress=total>0?passed/total:0;
-    clVisible = pr.bottom > -100 && pr.top < innerHeight + 100;
-  }
 }
-if(lenis){ lenis.on('scroll',function(e){onScroll(e.scroll);}); }
-else { window.addEventListener('scroll',function(){onScroll(scrollY);},{passive:true}); }
+function requestScroll(y){
+  if(_scrollTicking) return;
+  _scrollTicking=true;
+  requestAnimationFrame(function(){ onScroll(y); _scrollTicking=false; });
+}
+// single native listener — lenis animates window scroll, so this fires under lenis too
+window.addEventListener('scroll',function(){requestScroll(window.scrollY||window.pageYOffset||0);},{passive:true});
 
 /* ============ LOADER ============ */
 var loader=document.getElementById('loader'), lbar=document.getElementById('lbar'), lpct=document.getElementById('lpct'), prog=0;
@@ -1303,220 +1728,6 @@ var li=setInterval(function(){
 var scrollVel=0, lastScrollY=window.scrollY||0;
 function feedScrollVel(y){ var dv=Math.abs(y-lastScrollY); lastScrollY=y; scrollVel=Math.min(scrollVel*0.8+dv*0.06,6); }
 
-/* ============ IRIDESCENT ORB — WebGL shader (oil-slick / thin-film interference) following the cursor ============
-   Pipeline per fragment:
-     1. distance from cursor (normalised by short screen dim)
-     2. warp that distance via 2 octaves of simplex noise → organic "liquid" edge that drifts over time
-     3. smoothstep falloff to get a soft round blob (~40% of viewport short dim radius)
-     4. iridescent colour: 3 sin waves on R/G/B at 120° phase offsets, phase driven by radius+noise+time
-        → bands of pink/cyan/violet/orange that interfere like a soap bubble
-     5. clamp + alpha-multiply; mix-blend-mode:screen on the canvas brightens the dark background.
-   Lerp on cursor target gives the inertia/lag feel.
-   Disabled on touch (no mouse) and reduced-motion. */
-(function(){
-  var iri=document.getElementById('iri'); if(!iri || !window.THREE) return;
-  var isTouch=window.matchMedia&&window.matchMedia('(hover:none),(pointer:coarse)').matches;
-  if(isTouch){ iri.remove(); return; }  // strip the canvas entirely on touch — no chance of stray render
-
-  var renderer;
-  try{
-    renderer=new THREE.WebGLRenderer({canvas:iri, alpha:true, antialias:false, premultipliedAlpha:false});
-  } catch(e){ console.warn('Iridescent shader: WebGL init failed', e); return; }
-  renderer.setPixelRatio(Math.min(devicePixelRatio||1, 1.5));
-
-  var scene=new THREE.Scene();
-  var camera=new THREE.OrthographicCamera(-1,1,1,-1,0,1);
-  var uniforms={
-    uRes:    {value:new THREE.Vector2(innerWidth,innerHeight)},
-    uCursor: {value:new THREE.Vector2(innerWidth/2, innerHeight/2)},
-    uTime:   {value:0.0},
-    uClick:  {value:new THREE.Vector3(-9999, -9999, -10.0)}, // (x, y, clickTime) — ripple origin
-    uVel:    {value:new THREE.Vector2(0, 0)}                 // cursor velocity in px/frame (Y flipped, matches uCursor)
-  };
-  var frag=[
-    'precision highp float;',
-    'uniform vec2 uRes;',
-    'uniform vec2 uCursor;',
-    'uniform float uTime;',
-    'uniform vec3 uClick;',  // xy = click coords (fragCoord space), z = click time
-    'uniform vec2 uVel;',     // cursor velocity in fragCoord px/frame → drives motion-stretch
-    // Ashima 2D simplex noise
-    'vec3 mod289v3(vec3 x){return x-floor(x*(1.0/289.0))*289.0;}',
-    'vec2 mod289v2(vec2 x){return x-floor(x*(1.0/289.0))*289.0;}',
-    'vec3 perm(vec3 x){return mod289v3(((x*34.0)+1.0)*x);}',
-    'float snoise(vec2 v){',
-    '  const vec4 C=vec4(0.211324865405187,0.366025403784439,-0.577350269189626,0.024390243902439);',
-    '  vec2 i=floor(v+dot(v,C.yy));',
-    '  vec2 x0=v-i+dot(i,C.xx);',
-    '  vec2 i1=(x0.x>x0.y)?vec2(1.0,0.0):vec2(0.0,1.0);',
-    '  vec4 x12=x0.xyxy+C.xxzz; x12.xy-=i1;',
-    '  i=mod289v2(i);',
-    '  vec3 p=perm(perm(i.y+vec3(0.0,i1.y,1.0))+i.x+vec3(0.0,i1.x,1.0));',
-    '  vec3 m=max(0.5-vec3(dot(x0,x0),dot(x12.xy,x12.xy),dot(x12.zw,x12.zw)),0.0);',
-    '  m=m*m; m=m*m;',
-    '  vec3 x=2.0*fract(p*C.www)-1.0;',
-    '  vec3 h=abs(x)-0.5;',
-    '  vec3 ox=floor(x+0.5);',
-    '  vec3 a0=x-ox;',
-    '  m*=1.79284291400159-0.85373472095314*(a0*a0+h*h);',
-    '  vec3 g;',
-    '  g.x=a0.x*x0.x+h.x*x0.y;',
-    '  g.yz=a0.yz*x12.xz+h.yz*x12.yw;',
-    '  return 130.0*dot(m,g);',
-    '}',
-    'void main(){',
-    '  float ms = min(uRes.x, uRes.y);',
-    '  vec2 dG = gl_FragCoord.xy - uCursor;',
-    // VELOCITY STRETCH — shrink distance metric along motion direction so the blob appears
-    // elongated in that direction (like a water-drop in the wind). Magnitude clamped at length 18 px/frame.
-    '  float vmag = length(uVel);',
-    '  if(vmag > 0.5){',
-    '    vec2 vdir = uVel / vmag;',
-    '    float k = clamp(vmag / 18.0, 0.0, 1.0) * 0.55;',  // stretch amount 0..0.55
-    '    float along = dot(dG, vdir);',
-    '    float across = dot(dG, vec2(-vdir.y, vdir.x));',
-    '    dG = vdir * (along / (1.0 + k)) + vec2(-vdir.y, vdir.x) * across;',
-    '  }',
-    // gentler chromatic aberration (3,2) → unified shape, no rainbow fringe at edges
-    '  vec2 ab = vec2(3.0, 2.0);',
-    '  vec2 dR = dG + ab;',
-    '  vec2 dB = dG - ab;',
-    '  vec2 ndR = dR/ms, ndG = dG/ms, ndB = dB/ms;',
-    // single low-frequency noise per channel → smooth 1-2 lobe blob instead of chaotic cloud
-    '  float n1R = snoise(ndR*1.6 + uTime*0.14);',
-    '  float n1G = snoise(ndG*1.6 + uTime*0.14);',
-    '  float n1B = snoise(ndB*1.6 + uTime*0.14);',
-    '  float warpR = n1R*0.030;',
-    '  float warpG = n1G*0.030;',
-    '  float warpB = n1B*0.030;',
-    '  float rR = length(dR)/ms + warpR;',
-    '  float rG = length(dG)/ms + warpG;',
-    '  float rB = length(dB)/ms + warpB;',
-    // CLICK RIPPLE — expanding ring centered at last click point, distorts the orb iris pattern + adds alpha
-    '  float ct = uTime - uClick.z;',
-    '  float ripple = 0.0;',
-    '  if(ct > 0.0 && ct < 0.85){',
-    '    float cR = ct * 1400.0;',                      // ring expands at 1400 px/sec
-    '    float cd = length(gl_FragCoord.xy - uClick.xy);',
-    '    float ring = smoothstep(70.0, 0.0, abs(cd - cR));',
-    '    ripple = ring * (1.0 - ct/0.85);',             // fade over 0.85s
-    '  }',
-    // smaller radius (~half of previous) + fully smooth falloff to zero → clean rounded blob, no hard edge
-    '  float a = smoothstep(0.14, 0.0, rG) + ripple * 0.30;',
-    '  if(a < 0.002){ gl_FragColor = vec4(0.0); return; }',
-    // per-channel iridescent phase — distinct radii + 120° offsets give thin-film + chromatic aberration combined
-    // BLUE-GREEN-VIOLET palette only — no pink/red. Two phase drivers mix between three cool stops.
-    '  float p1 = rG*22.0 + n1G*1.8 + uTime*0.55 + ripple*8.0;',
-    '  float p2 = rR*16.0 + n1R*1.2 + uTime*0.30;',
-    '  float t1 = 0.5 + 0.5*sin(p1);',
-    '  float t2 = 0.5 + 0.5*sin(p2);',
-    '  vec3 violet = vec3(0.42, 0.18, 0.85);',
-    '  vec3 cyan   = vec3(0.18, 0.78, 0.95);',
-    '  vec3 green  = vec3(0.28, 0.92, 0.55);',
-    '  vec3 c = mix(mix(violet, cyan, t1), green, t2 * 0.55);',  // violet↔cyan blended with a green tint
-    '  c = clamp(c, 0.0, 1.0);',
-    '  gl_FragColor = vec4(c * a * 0.55, a * 0.68);',  // slightly brighter to compensate cooler palette
-    '}'
-  ].join('\n');
-
-  var mat=new THREE.ShaderMaterial({
-    uniforms:uniforms,
-    vertexShader:'void main(){gl_Position=vec4(position,1.0);}',
-    fragmentShader:frag,
-    transparent:true, depthTest:false, depthWrite:false
-  });
-  scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2,2), mat));
-
-  function iriResize(){
-    renderer.setSize(innerWidth, innerHeight, false);
-    uniforms.uRes.value.set(innerWidth, innerHeight);
-  }
-  iriResize();
-  window.addEventListener('resize', iriResize, {passive:true});
-
-  // raw mouse target (WebGL Y is bottom-origin → flip from clientY)
-  var rawTx=innerWidth/2, rawTy=innerHeight/2;
-  var tx=rawTx, ty=rawTy, cx=tx, cy=ty, prevCx=cx, prevCy=cy;
-  window.addEventListener('mousemove', function(e){
-    rawTx = e.clientX;
-    rawTy = innerHeight - e.clientY;
-  }, {passive:true});
-
-  // MAGNETIC ATTRACTION — when orb is near an <a>/<button>, pull its target toward the element's center.
-  // Recompute target each frame so even idle hover near a button still pulls.
-  function applyMagnetic(){
-    var els = document.querySelectorAll('a, button, .cta-btn');
-    var clientX = rawTx;
-    var clientY = innerHeight - rawTy;   // back to top-origin for getBoundingClientRect comparison
-    var nearestDx = 0, nearestDy = 0, bestPull = 0;
-    for(var i=0;i<els.length;i++){
-      var r = els[i].getBoundingClientRect();
-      if(r.width<2 || r.height<2) continue;
-      var cxE = r.left + r.width/2;
-      var cyE = r.top  + r.height/2;
-      var dx = cxE - clientX;
-      var dy = cyE - clientY;
-      var d  = Math.hypot(dx,dy);
-      if(d < 110){                       // 110px attraction radius
-        var pull = (1 - d/110);          // 0..1, stronger when closer
-        if(pull > bestPull){
-          bestPull = pull;
-          nearestDx = dx * pull * 0.35;  // 35% pull toward element center
-          nearestDy = -dy * pull * 0.35; // flip Y for WebGL coord space
-        }
-      }
-    }
-    tx = rawTx + nearestDx;
-    ty = rawTy + nearestDy;
-  }
-
-  var t0=performance.now();
-  // CLICK RIPPLE
-  window.addEventListener('click', function(e){
-    var now = (performance.now() - t0) * 0.001;
-    uniforms.uClick.value.set(e.clientX, innerHeight - e.clientY, now);
-  }, {passive:true, capture:true});
-
-  function loop(){
-    requestAnimationFrame(loop);
-    applyMagnetic();                              // adjust tx/ty toward nearby interactive element
-    prevCx = cx; prevCy = cy;
-    cx += (tx - cx) * 0.14;
-    cy += (ty - cy) * 0.14;
-    uniforms.uCursor.value.set(cx, cy);
-    uniforms.uVel.value.set(cx - prevCx, cy - prevCy);  // velocity → shader uses for stretch
-    uniforms.uTime.value = (performance.now() - t0) * 0.001;
-    renderer.render(scene, camera);
-  }
-  loop();
-})();
-
-/* orb pink trail removed by user request — only the iridescent shader orb remains as cursor visual */
-
-/* ============ SCROLL HINT — persistent "scroll" cue at bottom-center, visible mid-page ============
-   Appears once user scrolls past the hero's own scrollcue; hides as they approach the footer.
-   Pure scroll-position check, no observer needed. Disabled on mobile via CSS. */
-(function(){
-  var sh=document.getElementById('scroll-hint'); if(!sh) return;
-  var hero=document.getElementById('hero');
-  var clp =document.getElementById('clients-pin'); // clients section already has its own .cl-hint
-  var cta =document.getElementById('cta');
-  function update(){
-    var y=window.scrollY||0;
-    var heroBottom = hero ? hero.offsetTop+hero.offsetHeight : 0;
-    var ctaTop     = cta  ? cta.offsetTop                    : document.body.scrollHeight;
-    // hide our generic hint while the clients pin is anywhere near viewport — its own .cl-hint takes over
-    var clpStart   = clp  ? clp.offsetTop - innerHeight*0.5 : Infinity;
-    var clpEnd     = clp  ? clp.offsetTop + clp.offsetHeight: 0;
-    var inClients  = y >= clpStart && y <= clpEnd;
-    var show = y > heroBottom*0.6 && y < ctaTop - innerHeight*0.4 && !inClients;
-    sh.classList.toggle('is-on', show);
-  }
-  window.addEventListener('scroll', update, {passive:true});
-  window.addEventListener('resize', update, {passive:true});
-  update();
-})();
-
 /* ============ SCROLL REVEAL — IntersectionObserver-based fade-up for intro sections + CTA ============
    Each .reveal element fades in + slides up the first time it enters the viewport. Per-element stagger
    via data-reveal-delay (ms). Reduced-motion users get instant visibility via CSS rule above. */
@@ -1542,6 +1753,7 @@ function feedScrollVel(y){ var dv=Math.abs(y-lastScrollY); lastScrollY=y; scroll
 
 /* ============ LOGO MORPH on scroll — topbar SODO logo skews/scales by scroll velocity ============ */
 (function(){
+  if(IS_TOUCH || reduce) return; // skew-on-scroll is a desktop-only flourish — skip the RAF loop on mobile
   var brand=document.getElementById('brandLink'); if(!brand) return;
   function tick(){
     requestAnimationFrame(tick);
@@ -1555,11 +1767,25 @@ function feedScrollVel(y){ var dv=Math.abs(y-lastScrollY); lastScrollY=y; scroll
   tick();
 })();
 
+/* ============ ANALYTICS EVENT WIRING ============
+   Any element with data-cta (and optional data-soc) fires a tracked event on click. */
+(function(){
+  if(typeof window.SODO_track!=='function') return;
+  document.addEventListener('click', function(e){
+    var el = e.target.closest('[data-cta]');
+    if(!el) return;
+    var name = el.getAttribute('data-cta');
+    var soc  = el.getAttribute('data-soc');
+    SODO_track('cta_click', { cta: name, channel: soc || 'internal' });
+    if(soc==='instagram') SODO_track('lead_instagram', { source: name });
+    if(soc==='telegram')  SODO_track('lead_telegram',  { source: name });
+  }, {passive:true});
+})();
+
 /* init */
-hot(document.querySelectorAll('a,button'));
-try{ initSvcGL(); }catch(e){ console.warn('Service WebGL init failed',e); }
-try{ initGL(); }catch(e){ console.warn('Clients WebGL init failed',e); }
-onScroll(0);
+if(IS_TOUCH){ initStackFx(); }   // touch → premium DOM deck immediately
+else { bootSvcGL(); }            // desktop → async three.js → 3D depth scene (deck fallback on failure)
+onScroll(window.scrollY||0);
 })();
 </script>
 </body>
