@@ -1,0 +1,17 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+
+# Claude Code harness / local tooling
+.claude/
+__pycache__/
+*.pyc
+node_modules/
+
+# temp
+*.log
+
+# High-res source masters (not needed for the live site; kept locally)
+assets/images/source/

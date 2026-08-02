@@ -1,0 +1,49 @@
+/* ============================================================
+   SODO — Local fonts
+   ------------------------------------------------------------
+   Benzin — display typeface (H1/H2, big numbers, service & team names).
+   Not shipped for licensing reasons. Drop the licensed .woff2 files into
+   this folder (assets/fonts/) with the exact names below and the site
+   will pick them up automatically. Until then a heavy Cyrillic-capable
+   system fallback is used (see --font-display in css/style.css).
+
+   Where to buy / obtain Benzin: purchase a valid web licence and export
+   WOFF2. Recommended weights: Regular (400/500), Bold (700), Black (800/900).
+   ============================================================ */
+
+@font-face {
+  font-family: "Benzin";
+  src: url("benzin-medium.woff2") format("woff2");
+  font-weight: 400 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Benzin";
+  src: url("benzin-bold.woff2") format("woff2");
+  font-weight: 600 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Benzin";
+  src: url("benzin-extrabold.woff2") format("woff2");
+  font-weight: 800 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* OPTIONAL: bundle Inter locally instead of relying on the system stack.
+   Drop inter-variable.woff2 here and uncomment. Otherwise the system
+   font stack in --font-body is used (fast, zero extra requests). */
+/*
+@font-face {
+  font-family: "Inter";
+  src: url("inter-variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+*/
