@@ -1,590 +1,464 @@
 /* ============================================================
-   SODO Agency — main.js  (Vanilla JS, no dependencies)
-   ------------------------------------------------------------
-   EDIT ZONE below: form endpoint, case-study data.
+   SODO — main.js
+   Vanilla JS, без залежностей. Скрол-залежний рух рахується прямо
+   в обробнику scroll; rAF — лише для згладженого паралаксу від курсора.
+
+   ⚙️  НАЛАШТУВАННЯ — див. CONFIG нижче (ендпоінт форми).
    ============================================================ */
 (function () {
   'use strict';
 
   /* =========================================================
-     ⚙️  CONFIG — edit these
+     CONFIG
      ========================================================= */
 
-  // Paste your Formspree (or other) endpoint. Empty = demo mode
-  // (shows the success state without sending anywhere).
-  // Example: "https://formspree.io/f/abcdwxyz"
+  // Ендпоінт форми (напр. Formspree: https://formspree.io/f/xxxxxxx).
+  // Поки порожній — сайт НЕ вдає успішну відправку, а показує
+  // прямі способи зв'язку. Впишіть свій — і форма запрацює.
   var FORM_ENDPOINT = '';
 
-  // Case studies. Keep Street Barbershop factual (public data only).
-  // The other three are TEMPLATES — replace "—" with real numbers.
-  var CASES = [
-    {
-      logo: 'Street Barbershop',
-      niche: { uk: 'Барбершоп · Познань', pl: 'Barbershop · Poznań' },
-      task: {
-        uk: 'Вибудовуємо digital-присутність і системний потік записів через контент, рекламу та зрозумілу онлайн-комунікацію.',
-        pl: 'Budujemy obecność w digitalu i systemowy napływ rezerwacji przez treści, reklamę i jasną komunikację online.'
-      },
-      stats: [
-        { v: '4.9',    l: { uk: 'рейтинг у Booksy',        pl: 'ocena w Booksy' } },
-        { v: '3165',   l: { uk: 'відгуків клієнтів',        pl: 'opinii klientów' } },
-        { v: 'Booksy', l: { uk: 'онлайн-запис клієнтів',    pl: 'rezerwacje online' } }
-      ],
-      note: {
-        uk: 'Публічні показники профілю. Не всі відгуки та записи створені агенцією.',
-        pl: 'Publiczne dane profilu. Nie wszystkie opinie i rezerwacje pochodzą od agencji.'
-      }
-    },
-    {
-      logo: 'FORMAI', template: true,
-      niche: { uk: 'Виробництво · e-commerce', pl: 'Produkcja · e-commerce' },
-      stats: [
-        { v: '—', l: { uk: 'кількість заявок',   pl: 'liczba zgłoszeń' } },
-        { v: '—', l: { uk: 'ціна ліда',           pl: 'koszt leada' } },
-        { v: '—', l: { uk: 'ROAS',                pl: 'ROAS' } },
-        { v: '—', l: { uk: 'зростання продажів',  pl: 'wzrost sprzedaży' } }
-      ]
-    },
-    {
-      logo: 'LegalizuYou', template: true,
-      niche: { uk: 'Юридичні послуги', pl: 'Usługi prawne' },
-      stats: [
-        { v: '—', l: { uk: 'кількість заявок', pl: 'liczba zgłoszeń' } },
-        { v: '—', l: { uk: 'ціна заявки',       pl: 'koszt zgłoszenia' } },
-        { v: '—', l: { uk: 'географія',         pl: 'geografia' } },
-        { v: '—', l: { uk: 'масштабування',     pl: 'skalowanie' } }
-      ]
-    },
-    {
-      logo: 'MS West', template: true,
-      niche: { uk: 'Послуги · B2C', pl: 'Usługi · B2C' },
-      stats: [
-        { v: '—', l: { uk: 'кількість лідів', pl: 'liczba leadów' } },
-        { v: '—', l: { uk: 'охоплення',       pl: 'zasięg' } },
-        { v: '—', l: { uk: 'бюджет',          pl: 'budżet' } },
-        { v: '—', l: { uk: 'результат',       pl: 'wynik' } }
-      ]
-    }
-  ];
+  // Пошта для запасного варіанту (mailto), якщо ендпоінта немає.
+  var FALLBACK_EMAIL = 'hello@sodo.agency';
+  var FALLBACK_TG = 'https://t.me/sodoagency';
 
   /* =========================================================
-     🌍  i18n dictionary (UA is source, PL is full translation)
+     Хелпери
      ========================================================= */
-  var I18N = {
-    uk: {
-      'meta.title': 'SODO Agency — Meta Ads, Google Ads і SMM у Познані',
-      'meta.desc': 'Бутикова digital-агенція SODO: Meta Ads, Google Ads, SMM, контент, брендинг і сайти. Приводимо клієнтів, а не просто підписників — по всьому світу.',
-      'a11y.skip': 'Перейти до контенту',
-      'nav.services': 'Послуги', 'nav.cases': 'Кейси', 'nav.about': 'Про нас', 'nav.process': 'Етапи', 'nav.contacts': 'Контакти',
-      'cta.discuss': 'Обговорити проєкт',
-      'hero.eyebrow': 'Бутикове digital-агентство',
-      'hero.title1': 'ПРИВОДИМО', 'hero.title2': 'КЛІЄНТІВ.',
-      'hero.sub': 'А не просто підписників',
-      'hero.text': 'Поєднуємо Meta Ads, Google Ads і контент у систему, яка приводить заявки.',
-      'hero.cta2': 'Дивитися кейси',
-      'hero.location': 'Познань, Польща • Працюємо з клієнтами по всьому світу',
-      'hero.scroll': 'Скрол',
-      'manifesto.title': 'МИ — <span class="pink">SODO</span>.',
-      'manifesto.lead': 'Бутикове агентство SMM, таргетованої та контекстної реклами. Даємо бізнесу рух через стратегію, креатив і системний маркетинг.',
-      'manifesto.p1': 'Не робимо контент заради контенту.',
-      'manifesto.p2': 'Не запускаємо рекламу навмання.',
-      'manifesto.p3': 'Дивимося на цифри, продажі й те, що реально працює.',
-      'services.label': '( 01 — 05 )', 'services.title': 'ПОСЛУГИ',
-      'services.sub': 'Комплексно або окремими напрямами — залежить від задачі бізнесу.',
-      'service.more': 'Детальніше',
-      'service.meta.title': 'Meta Ads та Google Ads',
-      'service.meta.desc': 'Запускаємо таргетовану та контекстну рекламу не заради кліків. Будуємо зв’язку, тестуємо гіпотези, аналізуємо цифри й оптимізуємо кампанії під заявки та продажі.',
-      'service.smm.title': 'SMM',
-      'service.smm.desc': 'Стратегія, контент і ведення соцмереж у єдиній системі. Щоб сторінка не просто виглядала активною, а формувала довіру й допомагала продавати.',
-      'service.content.title': 'Контент і Reels',
-      'service.content.desc': 'Ідеї, сценарії, зйомка та монтаж. Створюємо контент, який зупиняє скрол і нормально пояснює, чому клієнту варто обрати саме вас.',
-      'service.branding.title': 'Брендинг',
-      'service.branding.desc': 'Позиціонування, айдентика й візуальна система. Збираємо бренд, який можна впізнати без десяти пояснень.',
-      'service.web.title': 'Сайти й лендінги',
-      'service.web.desc': 'Створюємо швидкі й зрозумілі сайти, які підтримують рекламу, пояснюють продукт і ведуть користувача до заявки.',
-      'cases.tag': 'Результати, а не красиві слова', 'cases.title': 'КЕЙСИ',
-      'cases.sub': 'Реальні клієнти й напрями, з якими ми працюємо.',
-      'cases.view': 'Переглянути кейс',
-      'clients.lead': 'Нам довіряють',
-      'process.tag': 'Як ми працюємо без хаосу', 'process.title': 'ЕТАПИ РОБОТИ',
-      'process.sub': 'Від стратегії до масштабування — без хаосу і випадкових запусків.',
-      'process.s1.title': 'Стратегія', 'process.s1.desc': 'Розбираємо продукт, аудиторію та точки росту',
-      'process.s2.title': 'Запуск', 'process.s2.desc': 'Готуємо креативи та запускаємо Meta Ads і Google Ads',
-      'process.s3.title': 'Контент', 'process.s3.desc': 'Створюємо контент, який прогріває та підсилює рекламу',
-      'process.s4.title': 'Масштабування', 'process.s4.desc': 'Залишаємо сильні зв’язки та збільшуємо результат',
-      'cta.eyebrow': 'Готові до руху?',
-      'cta.title': 'Є ЗАДАЧА?<br>ДАВАЙТЕ <span class="pink">ОБГОВОРИМО</span>.',
-      'cta.text': 'Розкажіть про бізнес і задачу — запропонуємо, з чого краще почати.',
-      'form.name': 'Ім’я', 'form.name.ph': 'Ваше ім’я',
-      'form.contact': 'Контакт', 'form.contact.ph': 'Telegram / Instagram / Email',
-      'form.niche': 'Ніша або сфера бізнесу', 'form.niche.ph': 'Напр. барбершоп, e-commerce, ресторан',
-      'form.err.name': 'Вкажіть ім’я',
-      'form.err.contact': 'Вкажіть, як з вами зв’язатися',
-      'form.err.niche': 'Опишіть коротко вашу нішу',
-      'form.instagram': 'Instagram', 'form.telegram': 'Telegram',
-      'form.sending': 'Надсилаємо…',
-      'form.error': 'Не вдалося надіслати. Напишіть нам у Telegram або Instagram.',
-      'form.success.title': 'Заявку надіслано',
-      'form.success.text': 'Дякуємо! Зв’яжемося з вами найближчим часом. Якщо зручніше — напишіть нам напряму в Instagram або Telegram.',
-      'footer.write': 'Написати нам',
-      'footer.slogan': 'ДАЄМО<br>БІЗНЕСУ <span class="pink">РУХ</span>.',
-      'footer.city': 'Познань, Польща',
-      'footer.copy': '© 2026 SODO Agency', 'footer.privacy': 'Політика приватності'
-    },
-    pl: {
-      'meta.title': 'SODO Agency — Meta Ads, Google Ads i SMM w Poznaniu',
-      'meta.desc': 'Butikowa agencja digital SODO: Meta Ads, Google Ads, SMM, treści, branding i strony. Przyprowadzamy klientów, a nie tylko obserwujących — na całym świecie.',
-      'a11y.skip': 'Przejdź do treści',
-      'nav.services': 'Usługi', 'nav.cases': 'Case studies', 'nav.about': 'O nas', 'nav.process': 'Etapy', 'nav.contacts': 'Kontakt',
-      'cta.discuss': 'Omówić projekt',
-      'hero.eyebrow': 'Butikowa agencja digital',
-      'hero.title1': 'ŚCIĄGAMY', 'hero.title2': 'KLIENTÓW.',
-      'hero.sub': 'A nie tylko obserwujących',
-      'hero.text': 'Łączymy Meta Ads, Google Ads i treści w system, który przynosi zgłoszenia.',
-      'hero.cta2': 'Zobacz case studies',
-      'hero.location': 'Poznań, Polska • Współpracujemy z klientami na całym świecie',
-      'hero.scroll': 'Scroll',
-      'manifesto.title': 'MY — <span class="pink">SODO</span>.',
-      'manifesto.lead': 'Butikowa agencja SMM, reklamy targetowanej i kontekstowej. Dajemy biznesowi ruch przez strategię, kreację i systemowy marketing.',
-      'manifesto.p1': 'Nie tworzymy treści dla samych treści.',
-      'manifesto.p2': 'Nie uruchamiamy reklam na oślep.',
-      'manifesto.p3': 'Patrzymy na liczby, sprzedaż i to, co naprawdę działa.',
-      'services.label': '( 01 — 05 )', 'services.title': 'USŁUGI',
-      'services.sub': 'Kompleksowo albo pojedynczymi kierunkami — zależnie od potrzeb biznesu.',
-      'service.more': 'Więcej',
-      'service.meta.title': 'Meta Ads i Google Ads',
-      'service.meta.desc': 'Uruchamiamy reklamę targetowaną i kontekstową nie dla samych kliknięć. Budujemy lejek, testujemy hipotezy, analizujemy liczby i optymalizujemy kampanie pod zgłoszenia i sprzedaż.',
-      'service.smm.title': 'SMM',
-      'service.smm.desc': 'Strategia, treści i prowadzenie social mediów w jednym systemie. Aby profil nie tylko wyglądał aktywnie, ale budował zaufanie i pomagał sprzedawać.',
-      'service.content.title': 'Treści i Reels',
-      'service.content.desc': 'Pomysły, scenariusze, zdjęcia i montaż. Tworzymy treści, które zatrzymują scroll i konkretnie tłumaczą, dlaczego warto wybrać właśnie was.',
-      'service.branding.title': 'Branding',
-      'service.branding.desc': 'Pozycjonowanie, identyfikacja i system wizualny. Składamy markę, którą można rozpoznać bez dziesięciu wyjaśnień.',
-      'service.web.title': 'Strony i landingi',
-      'service.web.desc': 'Tworzymy szybkie i zrozumiałe strony, które wspierają reklamę, tłumaczą produkt i prowadzą użytkownika do zgłoszenia.',
-      'cases.tag': 'Wyniki, a nie ładne słowa', 'cases.title': 'CASE STUDIES',
-      'cases.sub': 'Realni klienci i kierunki, z którymi pracujemy.',
-      'cases.view': 'Zobacz case study',
-      'clients.lead': 'Zaufali nam',
-      'process.tag': 'Jak pracujemy bez chaosu', 'process.title': 'ETAPY PRACY',
-      'process.sub': 'Od strategii do skalowania — bez chaosu i przypadkowych startów.',
-      'process.s1.title': 'Strategia', 'process.s1.desc': 'Analizujemy produkt, odbiorców i punkty wzrostu',
-      'process.s2.title': 'Start', 'process.s2.desc': 'Tworzymy kreacje i uruchamiamy Meta Ads i Google Ads',
-      'process.s3.title': 'Treści', 'process.s3.desc': 'Tworzymy treści, które podgrzewają i wzmacniają reklamę',
-      'process.s4.title': 'Skalowanie', 'process.s4.desc': 'Zostawiamy mocne połączenia i zwiększamy wynik',
-      'cta.eyebrow': 'Gotowi do ruchu?',
-      'cta.title': 'MASZ ZADANIE?<br>POROZMAWIAJMY.',
-      'cta.text': 'Opowiedz o biznesie i zadaniu — podpowiemy, od czego najlepiej zacząć.',
-      'form.name': 'Imię', 'form.name.ph': 'Twoje imię',
-      'form.contact': 'Kontakt', 'form.contact.ph': 'Telegram / Instagram / Email',
-      'form.niche': 'Nisza lub branża', 'form.niche.ph': 'Np. barbershop, e-commerce, restauracja',
-      'form.err.name': 'Podaj imię',
-      'form.err.contact': 'Podaj, jak się z tobą skontaktować',
-      'form.err.niche': 'Opisz krótko swoją niszę',
-      'form.instagram': 'Instagram', 'form.telegram': 'Telegram',
-      'form.sending': 'Wysyłamy…',
-      'form.error': 'Nie udało się wysłać. Napisz do nas na Telegramie lub Instagramie.',
-      'form.success.title': 'Zgłoszenie wysłane',
-      'form.success.text': 'Dziękujemy! Odezwiemy się wkrótce. Jeśli wygodniej — napisz do nas bezpośrednio na Instagramie lub Telegramie.',
-      'footer.write': 'Napisz do nas',
-      'footer.slogan': 'DAJEMY<br>BIZNESOWI <span class="pink">RUCH</span>.',
-      'footer.city': 'Poznań, Polska',
-      'footer.copy': '© 2026 SODO Agency', 'footer.privacy': 'Polityka prywatności'
-    }
-  };
+  var doc = document;
+  var root = doc.documentElement;
+  var body = doc.body;
+  var $ = function (s, c) { return (c || doc).querySelector(s); };
+  var $$ = function (s, c) { return Array.prototype.slice.call((c || doc).querySelectorAll(s)); };
 
-  /* =========================================================
-     Helpers
-     ========================================================= */
-  var $  = function (s, c) { return (c || document).querySelector(s); };
-  var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
-  var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-  var isDesktop = function () { return window.innerWidth > 900; };
+  var mqReduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var mqFine = window.matchMedia('(hover: hover) and (pointer: fine)');
+  var mqDesk = window.matchMedia('(min-width: 1024px)');
 
-  var LANGS = ['uk', 'pl'];
-  var lang = 'uk';
-  try { var saved = localStorage.getItem('sodo-lang'); if (LANGS.indexOf(saved) > -1) lang = saved; } catch (e) {}
+  var reduced = function () { return mqReduce.matches; };
+  var clamp = function (v, a, b) { return v < a ? a : v > b ? b : v; };
+  var lerp = function (a, b, t) { return a + (b - a) * t; };
+  var smooth = function (t) { return t * t * (3 - 2 * t); };
 
-  /* =========================================================
-     Analytics
-     ========================================================= */
-  function track(event, extra) {
-    var payload = { event: 'sodo_' + event };
-    if (extra) for (var k in extra) payload[k] = extra[k];
+  function track(name, extra) {
     window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push(payload);
-  }
-  function bindTracking() {
-    $$('[data-track]').forEach(function (el) {
-      el.addEventListener('click', function () { track(el.getAttribute('data-track')); });
-    });
+    var o = { event: 'sodo_' + name };
+    if (extra) for (var k in extra) o[k] = extra[k];
+    window.dataLayer.push(o);
   }
 
   /* =========================================================
-     i18n apply + language switch
+     1 · Вступ: без прелоадера, лише кадр на розкладку
      ========================================================= */
-  function t(key) { return (I18N[lang] && I18N[lang][key] != null) ? I18N[lang][key] : (I18N.uk[key] || ''); }
-
-  function applyI18n() {
-    $$('[data-i18n]').forEach(function (el) {
-      var key = el.getAttribute('data-i18n');
-      var val = t(key);
-      if (val == null) return;
-      var attr = el.getAttribute('data-i18n-attr');
-      if (attr) el.setAttribute(attr, val);
-      else if (el.hasAttribute('data-i18n-html')) el.innerHTML = val;
-      else el.textContent = val;
-    });
-    $$('[data-i18n-html]').forEach(function (el) {
-      var key = el.getAttribute('data-i18n-html');
-      if (key) el.innerHTML = t(key);
-    });
-    document.documentElement.setAttribute('lang', lang === 'uk' ? 'uk' : 'pl');
-    document.title = t('meta.title');
-    $$('.lang button, .footer__lang button').forEach(function (b) {
-      b.setAttribute('aria-pressed', b.getAttribute('data-lang') === lang ? 'true' : 'false');
-    });
-  }
-
-  function setLang(next, animate) {
-    if (LANGS.indexOf(next) < 0 || next === lang) return;
-    lang = next;
-    try { localStorage.setItem('sodo-lang', lang); } catch (e) {}
-    var main = document.body;
-    if (animate && !prefersReduced) {
-      main.style.transition = 'opacity .18s ease';
-      main.style.opacity = '0.55';
-      setTimeout(function () {
-        applyI18n(); renderCases();
-        main.style.opacity = '1';
-        setTimeout(function () { main.style.transition = ''; }, 220);
-      }, 150);
+  function intro() {
+    var hero = $('.hero');
+    var go = function () {
+      body.classList.remove('js-loading');
+      if (hero) hero.classList.add('is-ready');
+    };
+    if (doc.fonts && doc.fonts.ready) {
+      var done = false;
+      var once = function () { if (!done) { done = true; requestAnimationFrame(go); } };
+      doc.fonts.ready.then(once);
+      setTimeout(once, 400); // шрифт не має затримувати вступ
     } else {
-      applyI18n(); renderCases();
-    }
-    track('lang_switch', { lang: lang });
-  }
-
-  function bindLang() {
-    $$('.lang button, .footer__lang button').forEach(function (b) {
-      b.addEventListener('click', function () { setLang(b.getAttribute('data-lang'), true); });
-    });
-  }
-
-  /* =========================================================
-     Render case studies
-     ========================================================= */
-  function renderCases() {
-    var grid = $('#casesGrid');
-    if (!grid) return;
-    grid.innerHTML = '';
-    CASES.forEach(function (c, i) {
-      var art = document.createElement('article');
-      art.className = 'case reveal';
-      if (i % 2 === 1) art.setAttribute('data-delay', '1');
-      var stats = c.stats.map(function (s) {
-        return '<li><b>' + s.v + '</b> ' + s.l[lang] + '</li>';
-      }).join('');
-      var note = c.note ? '<p class="case__note">' + c.note[lang] + '</p>' : '';
-      var task = c.task ? '<p class="case__task">' + c.task[lang] + '</p>' : '';
-      art.innerHTML =
-        '<div class="case__top">' +
-          '<span class="case__logo">' + c.logo + '</span>' +
-          '<span class="case__niche">' + c.niche[lang] + '</span>' +
-        '</div>' +
-        task +
-        '<ul class="case__stats">' + stats + '</ul>' +
-        note;
-      grid.appendChild(art);
-    });
-    // re-bind tracking + observe reveal for freshly-created nodes
-    $$('#casesGrid [data-track]').forEach(function (el) {
-      el.addEventListener('click', function () { track(el.getAttribute('data-track')); });
-    });
-    if (revealObserver) $$('#casesGrid .reveal').forEach(function (el) { revealObserver.observe(el); });
-    else $$('#casesGrid .reveal').forEach(function (el) { el.classList.add('is-visible'); });
-  }
-
-  /* =========================================================
-     Mobile menu
-     ========================================================= */
-  var menu = $('#mobileMenu'), burger = $('#burger'), menuClose = $('#menuClose');
-  var lastFocused = null;
-
-  function focusables() { return $$('a[href], button:not([disabled])', menu); }
-
-  function openMenu() {
-    lastFocused = document.activeElement;
-    menu.classList.add('is-open');
-    menu.setAttribute('aria-hidden', 'false');
-    burger.setAttribute('aria-expanded', 'true');
-    document.body.classList.add('no-scroll');
-    var f = focusables(); if (f.length) f[0].focus();
-    document.addEventListener('keydown', menuKeydown);
-  }
-  function closeMenu() {
-    menu.classList.remove('is-open');
-    menu.setAttribute('aria-hidden', 'true');
-    burger.setAttribute('aria-expanded', 'false');
-    document.body.classList.remove('no-scroll');
-    document.removeEventListener('keydown', menuKeydown);
-    if (lastFocused) lastFocused.focus();
-  }
-  function menuKeydown(e) {
-    if (e.key === 'Escape') { closeMenu(); return; }
-    if (e.key === 'Tab') {
-      var f = focusables(); if (!f.length) return;
-      var first = f[0], last = f[f.length - 1];
-      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      requestAnimationFrame(go);
     }
   }
-  if (burger) burger.addEventListener('click', openMenu);
-  if (menuClose) menuClose.addEventListener('click', closeMenu);
-  $$('.menu__nav a').forEach(function (a) { a.addEventListener('click', closeMenu); });
 
   /* =========================================================
-     Smooth scroll to anchors (with header offset)
+     2 · Поява блоків
      ========================================================= */
-  function scrollToId(id) {
-    var target = document.getElementById(id);
-    if (!target) return;
-    var headerH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 74;
-    var y = target.getBoundingClientRect().top + window.pageYOffset - headerH - 8;
-    window.scrollTo({ top: y, behavior: prefersReduced ? 'auto' : 'smooth' });
-  }
-  $$('a[href^="#"]').forEach(function (a) {
-    a.addEventListener('click', function (e) {
-      var href = a.getAttribute('href');
-      if (href === '#' || href.length < 2) { if (href === '#') e.preventDefault(); return; }
-      var id = href.slice(1);
-      if (document.getElementById(id)) {
-        e.preventDefault();
-        if (menu && menu.classList.contains('is-open')) closeMenu();
-        scrollToId(id);
-        history.replaceState(null, '', href);
-      }
-    });
-  });
-
-  /* =========================================================
-     Header: glass on scroll + hide on scroll-down
-     ========================================================= */
-  var header = $('#siteHeader');
-  var lastY = window.pageYOffset, ticking = false;
-  function onScrollHeader() {
-    var y = window.pageYOffset;
-    if (header) {
-      header.classList.toggle('is-scrolled', y > 20);
-      var menuOpen = menu && menu.classList.contains('is-open');
-      if (!menuOpen && y > 400 && y > lastY + 4) header.classList.add('is-hidden');
-      else if (y < lastY - 4 || y < 200) header.classList.remove('is-hidden');
-    }
-    lastY = y;
-  }
-
-  /* =========================================================
-     Reveal on scroll
-     ========================================================= */
-  var revealObserver = null;
-  function setupReveal() {
-    if (!('IntersectionObserver' in window) || prefersReduced) {
-      $$('.reveal').forEach(function (el) { el.classList.add('is-visible'); });
+  function reveals() {
+    var targets = $$('.reveal, .case, .proc__step, .contact__title, .works__head, .srv__head');
+    if (!('IntersectionObserver' in window)) {
+      targets.forEach(function (el) { el.classList.add('is-in'); });
       return;
     }
-    revealObserver = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        if (en.isIntersecting) { en.target.classList.add('is-visible'); revealObserver.unobserve(en.target); }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('is-in');
+          io.unobserve(e.target);
+        }
       });
-    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
-    $$('.reveal').forEach(function (el) { revealObserver.observe(el); });
+    }, { threshold: 0.12, rootMargin: '0px 0px -7% 0px' });
+    targets.forEach(function (el) { io.observe(el); });
   }
 
   /* =========================================================
-     Hero intro
+     3 · Хедер: стан прокрутки + колір під секцією
      ========================================================= */
-  function heroIntro() {
-    var hero = $('#hero');
-    if (!hero) return;
-    if (prefersReduced) { hero.classList.add('is-ready'); return; }
-    requestAnimationFrame(function () { requestAnimationFrame(function () { hero.classList.add('is-ready'); }); });
-  }
+  var hdr = $('[data-hdr]');
+  var themed = $$('[data-theme]');
+  var lastTheme = '';
 
-  /* =========================================================
-     Magnetic buttons (desktop)
-     ========================================================= */
-  function setupMagnetic() {
-    if (!canHover || prefersReduced) return;
-    $$('[data-magnetic]').forEach(function (el) {
-      var raf = null;
-      el.addEventListener('mousemove', function (e) {
-        var r = el.getBoundingClientRect();
-        var x = (e.clientX - (r.left + r.width / 2)) * 0.25;
-        var y = (e.clientY - (r.top + r.height / 2)) * 0.35;
-        x = Math.max(-9, Math.min(9, x)); y = Math.max(-9, Math.min(9, y));
-        if (raf) cancelAnimationFrame(raf);
-        raf = requestAnimationFrame(function () { el.style.transform = 'translate3d(' + x + 'px,' + y + 'px,0)'; });
-      });
-      el.addEventListener('mouseleave', function () {
-        if (raf) cancelAnimationFrame(raf);
-        el.style.transform = '';
-      });
-    });
-  }
-
-  /* =========================================================
-     Parallax (desktop, rAF)
-     ========================================================= */
-  var parallaxEls = [];
-  function setupParallax() {
-    if (prefersReduced) return;
-    parallaxEls = $$('[data-parallax]');
-  }
-  function updateParallax() {
-    if (!parallaxEls.length || !isDesktop()) return;
-    var vh = window.innerHeight;
-    parallaxEls.forEach(function (el) {
-      var r = el.getBoundingClientRect();
-      if (r.bottom < -200 || r.top > vh + 200) return;
-      var speed = parseFloat(el.getAttribute('data-speed')) || 0.05;
-      var delta = (r.top + r.height / 2) - vh / 2;
-      el.style.transform = 'translate3d(0,' + (delta * speed).toFixed(1) + 'px,0)';
-    });
-  }
-
-  /* =========================================================
-     Process — reactive steps + stairs light
-     ========================================================= */
-  var procSteps = [], procVisual = null, procCurrent = -2;
-  function setProcActive(i) {
-    if (i === procCurrent) return;
-    procCurrent = i;
-    procSteps.forEach(function (s, idx) { s.classList.toggle('is-active', idx === i); });
-    if (i >= 0) { procVisual.style.setProperty('--active', i); procVisual.classList.add('is-lit'); }
-    else procVisual.classList.remove('is-lit');
-  }
-  function updateProcess() {
-    if (!procSteps.length || !procVisual) return;
-    var focus = window.innerHeight * 0.5, best = -1, bestD = Infinity, inView = false;
-    procSteps.forEach(function (s, idx) {
-      var r = s.getBoundingClientRect();
-      if (r.bottom < 0 || r.top > window.innerHeight) return;
-      inView = true;
-      var d = Math.abs((r.top + r.height / 2) - focus);
-      if (d < bestD) { bestD = d; best = idx; }
-    });
-    setProcActive(inView ? best : -1);
-  }
-  function setupProcess() {
-    procSteps = $$('.pstep');
-    procVisual = $('#processVisual');
-    if (!procSteps.length || !procVisual) return;
-    if (canHover) {
-      procSteps.forEach(function (s, idx) {
-        s.addEventListener('mouseenter', function () { setProcActive(idx); });
-      });
+  function headerState(y) {
+    if (!hdr) return;
+    hdr.classList.toggle('is-stuck', y > 14);
+    var line = y + (hdr.offsetHeight || 64) * 0.55;
+    var theme = 'dark';
+    for (var i = 0; i < themed.length; i++) {
+      var el = themed[i];
+      var top = el.getBoundingClientRect().top + y;
+      if (top <= line) theme = el.getAttribute('data-theme');
     }
-    updateProcess();
+    if (theme !== lastTheme) {
+      lastTheme = theme;
+      hdr.classList.toggle('is-light', theme === 'light');
+      hdr.classList.toggle('is-pink', theme === 'pink');
+    }
   }
 
   /* =========================================================
-     Unified scroll loop (header + parallax + process)
+     4 · Мобільне меню
      ========================================================= */
-  function onScroll() {
-    if (ticking) return;
-    ticking = true;
-    requestAnimationFrame(function () {
-      onScrollHeader();
-      updateParallax();
-      updateProcess();
-      ticking = false;
+  function menu() {
+    var btn = $('.burger');
+    var panel = $('#menu');
+    if (!btn || !panel) return;
+    var open = false;
+
+    function set(state) {
+      open = state;
+      btn.setAttribute('aria-expanded', String(state));
+      body.classList.toggle('is-locked', state);
+      if (state) {
+        panel.hidden = false;
+        requestAnimationFrame(function () { panel.classList.add('is-open'); });
+        var first = $('a', panel);
+        if (first) setTimeout(function () { first.focus(); }, 260);
+      } else {
+        panel.classList.remove('is-open');
+        setTimeout(function () { if (!open) panel.hidden = true; }, 620);
+      }
+    }
+
+    btn.addEventListener('click', function () { set(!open); });
+    panel.addEventListener('click', function (e) {
+      if (e.target.closest('a')) { set(false); btn.focus(); }
+    });
+    doc.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && open) { set(false); btn.focus(); }
+    });
+    window.addEventListener('resize', function () {
+      if (open && window.innerWidth >= 900) set(false);
     });
   }
 
   /* =========================================================
-     Lead form
+     5 · Послуги: розкриття (клік/клавіатура, наведення — бонус)
      ========================================================= */
-  function setupForm() {
-    var form = $('#leadForm');
-    if (!form) return;
-    var status = $('#formStatus');
-    var fields = $$('.field', form);
+  function services() {
+    var list = $('[data-services]');
+    if (!list) return;
+    var items = $$('.srv', list);
+    var hoverTimer = null;
 
-    function validateField(field) {
+    function setOpen(item, state) {
+      var btn = $('.srv__btn', item);
+      var panel = $('.srv__panel', item);
+      if (!btn || !panel) return;
+      item.classList.toggle('is-open', state);
+      btn.setAttribute('aria-expanded', String(state));
+      panel.setAttribute('data-open', String(state));
+    }
+
+    function openOnly(item) {
+      items.forEach(function (it) { setOpen(it, it === item); });
+    }
+
+    items.forEach(function (item, i) {
+      var btn = $('.srv__btn', item);
+      setOpen(item, i === 0); // перший відкритий за замовчуванням
+
+      btn.addEventListener('click', function () {
+        var isOpen = item.classList.contains('is-open');
+        if (mqFine.matches) {
+          if (!isOpen) { openOnly(item); track('service_open', { service: btn.textContent.trim() }); }
+        } else {
+          if (isOpen) setOpen(item, false);
+          else { openOnly(item); track('service_open', { service: btn.textContent.trim() }); }
+        }
+      });
+
+      item.addEventListener('mouseenter', function () {
+        if (!mqFine.matches || reduced()) return;
+        clearTimeout(hoverTimer);
+        hoverTimer = setTimeout(function () { openOnly(item); }, 110);
+      });
+      item.addEventListener('mouseleave', function () { clearTimeout(hoverTimer); });
+    });
+  }
+
+  /* =========================================================
+     6 · Паралакс колажу від курсора
+     ========================================================= */
+  var parallaxItems = [];
+  var px = 0, py = 0, tx = 0, ty = 0, parallaxOn = false;
+
+  function parallaxInit() {
+    var scope = $('[data-parallax]');
+    if (!scope || !mqFine.matches || reduced()) return;
+    parallaxItems = $$('[data-depth]', scope).map(function (el) {
+      return { el: el, d: parseFloat(el.getAttribute('data-depth')) || 10, x: 0, y: 0 };
+    });
+    if (!parallaxItems.length) return;
+    parallaxOn = true;
+    window.addEventListener('mousemove', function (e) {
+      tx = (e.clientX / window.innerWidth - 0.5) * 2;
+      ty = (e.clientY / window.innerHeight - 0.5) * 2;
+    }, { passive: true });
+  }
+
+  function parallaxFrame() {
+    if (!parallaxOn) return;
+    px = lerp(px, tx, 0.06);
+    py = lerp(py, ty, 0.06);
+    if (Math.abs(px - tx) < 0.0005 && Math.abs(py - ty) < 0.0005) return;
+    parallaxItems.forEach(function (it) {
+      var x = -px * it.d;
+      var y = -py * it.d * 0.6;
+      it.el.style.setProperty('--px', x.toFixed(2) + 'px');
+      it.el.style.setProperty('--py', y.toFixed(2) + 'px');
+      it.el.style.translate = x.toFixed(2) + 'px ' + y.toFixed(2) + 'px';
+    });
+  }
+
+  /* =========================================================
+     7 · Морфінг: кадр героя → плашка першого кейсу
+     ========================================================= */
+  var morph = { on: false, el: null, from: null, to: null, active: false };
+
+  function morphInit() {
+    var from = $('[data-morph="from"]');
+    var to = $('[data-morph="to"]');
+    if (!from || !to) return;
+    var img = $('img', from);
+    if (!img) return;
+
+    var el = doc.createElement('div');
+    el.className = 'morph';
+    el.setAttribute('aria-hidden', 'true');
+    var clone = doc.createElement('img');
+    clone.src = img.currentSrc || img.src;
+    clone.alt = '';
+    el.appendChild(clone);
+    body.appendChild(el);
+
+    morph.el = el; morph.from = from; morph.to = to;
+    morph.on = mqDesk.matches && !reduced();
+  }
+
+  function morphOff() {
+    if (!morph.el) return;
+    morph.el.style.display = 'none';
+    if (morph.active) { body.classList.remove('is-morphing'); morph.active = false; }
+  }
+
+  function morphFrame(y, vh) {
+    if (!morph.el) return;
+    if (!morph.on) { morphOff(); return; }
+
+    var fr = morph.from.getBoundingClientRect();
+    var tr = morph.to.getBoundingClientRect();
+    var fromAbs = fr.top + y;
+    var toAbs = tr.top + y;
+
+    var S = fromAbs + vh * 0.18;
+    var E = toAbs - vh * 0.24;
+    if (E - S < vh * 0.35) E = S + vh * 0.35;
+
+    var p = clamp((y - S) / (E - S), 0, 1);
+
+    if (p <= 0.002 || p >= 0.998) { morphOff(); return; }
+
+    if (!morph.active) { body.classList.add('is-morphing'); morph.active = true; }
+    var t = smooth(p);
+    var x = lerp(fr.left, tr.left, t);
+    var yy = lerp(fr.top, tr.top, t);
+    var w = lerp(fr.width, tr.width, t);
+    var h = lerp(fr.height, tr.height, t);
+
+    var s = morph.el.style;
+    s.display = 'block';
+    s.width = w.toFixed(1) + 'px';
+    s.height = h.toFixed(1) + 'px';
+    s.transform = 'translate3d(' + x.toFixed(1) + 'px,' + yy.toFixed(1) + 'px,0)';
+  }
+
+  /* =========================================================
+     8 · Фінал: рожевий екран розкривається
+     ========================================================= */
+  var pink = { sec: null, panel: null };
+
+  function pinkInit() {
+    pink.panel = $('[data-pink-panel]');
+    pink.sec = $('.contact');
+    if (pink.sec && reduced()) pink.sec.style.setProperty('--r', '1');
+  }
+
+  function pinkFrame(vh) {
+    if (!pink.panel || !pink.sec || reduced()) return;
+    var r = pink.panel.getBoundingClientRect();
+    var p = clamp((vh - r.top) / (vh * 0.72), 0, 1);
+    pink.sec.style.setProperty('--r', smooth(p).toFixed(3));
+  }
+
+  /* =========================================================
+     9 · Оновлення: скрол — напряму, rAF — лише для плавного паралаксу
+     ========================================================= */
+  function scrollUpdate() {
+    var y = window.pageYOffset || root.scrollTop || 0;
+    var vh = window.innerHeight || 800;
+    headerState(y);
+    morphFrame(y, vh);
+    pinkFrame(vh);
+  }
+
+  function loop() {
+    parallaxFrame();
+    requestAnimationFrame(loop);
+  }
+
+  /* =========================================================
+     10 · Форма
+     ========================================================= */
+  function form() {
+    var f = $('[data-form]');
+    if (!f) return;
+    var status = $('[data-form-status]', f);
+    var fields = $$('.field', f);
+
+    function fieldErr(field, show, msg) {
+      var err = $('.field__err', field);
       var input = $('input, textarea', field);
-      if (!input) return true;
-      var ok = input.value.trim().length >= 2;
-      field.classList.toggle('is-error', !ok);
-      return ok;
+      field.classList.toggle('has-err', show);
+      if (err) {
+        if (msg) err.textContent = msg;
+        err.hidden = !show;
+      }
+      if (input) input.setAttribute('aria-invalid', String(show));
     }
+
     fields.forEach(function (field) {
       var input = $('input, textarea', field);
-      if (input) input.addEventListener('input', function () {
-        if (field.classList.contains('is-error')) validateField(field);
+      if (!input) return;
+      input.addEventListener('input', function () {
+        if (field.classList.contains('has-err') && input.value.trim().length > 1) fieldErr(field, false);
       });
     });
 
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var valid = true, firstBad = null;
-      fields.forEach(function (field) {
-        var ok = validateField(field);
-        if (!ok && !firstBad) firstBad = $('input, textarea', field);
-        valid = valid && ok;
-      });
-      if (!valid) { if (firstBad) firstBad.focus(); status.textContent = ''; return; }
+    function say(text, isErr, html) {
+      if (!status) return;
+      status.classList.toggle('is-err', !!isErr);
+      if (html) status.innerHTML = html; else status.textContent = text;
+    }
 
-      track('form_submit', { lang: lang });
+    f.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var firstBad = null;
+      fields.forEach(function (field) {
+        var input = $('input, textarea', field);
+        if (!input) return;
+        var bad = input.value.trim().length < 2;
+        fieldErr(field, bad);
+        if (bad && !firstBad) firstBad = input;
+      });
+
+      if (firstBad) {
+        say('', true, 'перевірте підсвічені поля — і надсилайте.');
+        firstBad.focus();
+        return;
+      }
+
       var data = {
         name: $('#f-name').value.trim(),
         contact: $('#f-contact').value.trim(),
-        niche: $('#f-niche').value.trim(),
-        lang: lang
+        task: $('#f-task').value.trim()
       };
-
-      function success() { form.classList.add('is-sent'); status.textContent = ''; track('lead', data); }
+      track('form_submit');
 
       if (!FORM_ENDPOINT) {
-        // Demo mode — no backend configured.
-        console.warn('[SODO] FORM_ENDPOINT is empty — showing demo success. Set it in js/main.js to receive real leads.');
-        success();
+        // Чесний сценарій: інтеграції ще немає — не вдаємо успіх.
+        var subject = encodeURIComponent('Заявка з сайту SODO — ' + data.name);
+        var bodyTxt = encodeURIComponent(
+          'Ім’я: ' + data.name + '\nКонтакт: ' + data.contact + '\nЗадача: ' + data.task
+        );
+        say('', false,
+          '<b>форму ще не підключено до пошти.</b> щоб нічого не загубилось, надішліть це повідомлення напряму: ' +
+          '<a href="mailto:' + FALLBACK_EMAIL + '?subject=' + subject + '&body=' + bodyTxt + '">листом</a> або ' +
+          '<a href="' + FALLBACK_TG + '" target="_blank" rel="noopener">у telegram</a>. ' +
+          'текст уже підставлено — залишиться натиснути «надіслати» у вашому застосунку.');
         return;
       }
-      status.className = 'form__status warn';
-      status.textContent = t('form.sending');
+
+      var btn = $('button[type="submit"]', f);
+      if (btn) { btn.disabled = true; btn.dataset.txt = btn.textContent; btn.textContent = 'надсилаємо…'; }
+      say('надсилаємо…', false);
+
       fetch(FORM_ENDPOINT, {
         method: 'POST',
-        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify(data)
       }).then(function (r) {
-        if (r.ok) { success(); }
-        else { status.className = 'form__status warn'; status.textContent = t('form.error'); }
+        if (!r.ok) throw new Error('bad status');
+        f.reset();
+        say('дякуємо — заявку надіслано. відповімо на вказаний контакт.', false);
+        track('lead');
       }).catch(function () {
-        status.className = 'form__status warn'; status.textContent = t('form.error');
+        say('', true,
+          'не вдалося надіслати. напишіть, будь ласка, <a href="' + FALLBACK_TG + '" target="_blank" rel="noopener">у telegram</a> ' +
+          'або на <a href="mailto:' + FALLBACK_EMAIL + '">' + FALLBACK_EMAIL + '</a>.');
+      }).then(function () {
+        if (btn) { btn.disabled = false; btn.textContent = btn.dataset.txt || 'надіслати'; }
       });
     });
   }
 
   /* =========================================================
-     Init
+     11 · Аналітика на кнопках
      ========================================================= */
-  function init() {
-    applyI18n();
-    renderCases();
-    setupReveal();
-    bindLang();
-    bindTracking();
-    setupForm();
-    setupMagnetic();
-    setupParallax();
-    setupProcess();
-    heroIntro();
-    updateParallax();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', function () { updateParallax(); }, { passive: true });
+  function analytics() {
+    doc.addEventListener('click', function (e) {
+      var el = e.target.closest('[data-track]');
+      if (el) track(el.getAttribute('data-track'));
+    });
   }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  /* =========================================================
+     Старт
+     ========================================================= */
+  function init() {
+    intro();
+    reveals();
+    menu();
+    services();
+    parallaxInit();
+    morphInit();
+    pinkInit();
+    form();
+    analytics();
+
+    window.addEventListener('scroll', scrollUpdate, { passive: true });
+    window.addEventListener('resize', function () {
+      morph.on = !!morph.el && mqDesk.matches && !reduced();
+      if (!morph.on) morphOff();
+      scrollUpdate();
+    }, { passive: true });
+
+    if (mqReduce.addEventListener) {
+      mqReduce.addEventListener('change', function () {
+        morph.on = !!morph.el && mqDesk.matches && !reduced();
+        if (!morph.on) morphOff();
+        if (reduced() && pink.sec) pink.sec.style.setProperty('--r', '1');
+        scrollUpdate();
+      });
+    }
+
+    scrollUpdate();
+    if (parallaxOn) requestAnimationFrame(loop);
+  }
+
+  if (doc.readyState === 'loading') doc.addEventListener('DOMContentLoaded', init);
   else init();
 })();
