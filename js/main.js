@@ -14,12 +14,41 @@
   var menu = $('#mobileMenu');
   var menuButton = $('#menuButton');
   var mobileClose = $('#mobileClose');
+
   var activePanel = null;
   var lastFocus = null;
+  var focusTrapRoot = null;
+
+  function focusables(root) {
+    if (!root) return [];
+    return $$('a[href],button:not([disabled]),input:not([disabled]),textarea:not([disabled]),select:not([disabled]),[tabindex]:not([tabindex="-1"])', root)
+      .filter(function (el) { return el.offsetParent !== null; });
+  }
+
+  function trapFocus(e) {
+    if (e.key !== 'Tab' || !focusTrapRoot) return;
+    var items = focusables(focusTrapRoot);
+    if (!items.length) return;
+    var first = items[0];
+    var last = items[items.length - 1];
+
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  }
 
   function boot() {
+    if (!loader) {
+      body.classList.add('is-live');
+      return;
+    }
+
     if (reduced) {
-      if (loader) loader.classList.add('is-done');
+      loader.classList.add('is-done');
       body.classList.add('is-live');
       return;
     }
@@ -34,18 +63,16 @@
       setTimeout(function () {
         loader.classList.add('is-done');
         body.classList.add('is-live');
-      }, 280);
+      }, 240);
       return;
     }
 
-    var stages = [
-      { t: 120, w: '18%', status: 'SEARCHING FOR SIGNAL', code: 'NO SIGNAL' },
-      { t: 520, w: '44%', status: 'SCANNING CHANNELS', code: 'CH 02 / 05' },
-      { t: 980, w: '72%', status: 'LOCKING FREQUENCY', code: '49.833 / 18.983' },
-      { t: 1450, w: '100%', status: 'SIGNAL FOUND', code: 'ONLINE' }
-    ];
-
-    stages.forEach(function (stage) {
+    [
+      { t: 100, w: '18%', status: 'SEARCHING FOR SIGNAL', code: 'NO SIGNAL' },
+      { t: 460, w: '43%', status: 'SCANNING CHANNELS', code: 'CH 02 / 05' },
+      { t: 900, w: '74%', status: 'LOCKING FREQUENCY', code: 'SODO / RX' },
+      { t: 1380, w: '100%', status: 'SIGNAL FOUND', code: 'ONLINE' }
+    ].forEach(function (stage) {
       setTimeout(function () {
         loaderBar.style.width = stage.w;
         loaderStatus.textContent = stage.status;
@@ -53,19 +80,21 @@
       }, stage.t);
     });
 
-    setTimeout(function () { body.classList.add('is-switching'); }, 1620);
+    setTimeout(function () { body.classList.add('is-switching'); }, 1540);
 
     setTimeout(function () {
       loader.classList.add('is-done');
       body.classList.add('is-live');
       body.classList.remove('is-switching');
       try { sessionStorage.setItem('sodo-signal-seen', '1'); } catch (e) {}
-    }, 2050);
+    }, 1950);
   }
 
-  function setPointer() {
+  function setupPointer() {
     if (!canHover || reduced) return;
     var cursor = $('#cursor');
+    if (!cursor) return;
+
     var tx = -100, ty = -100, cx = tx, cy = ty;
 
     window.addEventListener('pointermove', function (e) {
@@ -92,94 +121,131 @@
   }
 
   function signalTransition(callback) {
-    if (reduced) { callback(); return; }
+    if (reduced) {
+      callback();
+      return;
+    }
+
     body.classList.remove('is-switching');
     void body.offsetWidth;
     body.classList.add('is-switching');
-    setTimeout(callback, 160);
-    setTimeout(function () { body.classList.remove('is-switching'); }, 460);
+
+    setTimeout(callback, 155);
+    setTimeout(function () { body.classList.remove('is-switching'); }, 450);
   }
 
   function openPanel(name, trigger) {
     var panel = $('[data-panel="' + name + '"]');
     if (!panel) return;
+
     lastFocus = trigger || document.activeElement;
-    if (menu && menu.classList.contains('is-open')) closeMenu();
+
+    if (menu && menu.classList.contains('is-open')) {
+      menu.classList.remove('is-open');
+      menu.setAttribute('aria-hidden', 'true');
+      if (menuButton) menuButton.setAttribute('aria-expanded', 'false');
+    }
 
     signalTransition(function () {
-      if (activePanel && activePanel !== panel) closePanel(false);
+      if (activePanel && activePanel !== panel) {
+        activePanel.classList.remove('is-open');
+        activePanel.setAttribute('aria-hidden', 'true');
+      }
+
       activePanel = panel;
+      focusTrapRoot = panel;
       panel.classList.add('is-open');
       panel.setAttribute('aria-hidden', 'false');
-      body.style.overflow = 'hidden';
-      var close = $('[data-close]', panel);
-      if (close) close.focus({ preventScroll: true });
+
+      var first = focusables(panel)[0];
+      if (first) first.focus({ preventScroll: true });
     });
   }
 
-  function closePanel(withTransition) {
+  function closePanel(withSignal) {
     if (!activePanel) return;
     var panel = activePanel;
-    var doClose = function () {
+
+    function finish() {
       panel.classList.remove('is-open');
       panel.setAttribute('aria-hidden', 'true');
       activePanel = null;
-      body.style.overflow = '';
-      if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
-    };
-    if (withTransition === false || reduced) doClose(); else signalTransition(doClose);
+      focusTrapRoot = null;
+
+      if (lastFocus && lastFocus.focus) {
+        lastFocus.focus({ preventScroll: true });
+      }
+    }
+
+    if (withSignal === false || reduced) finish();
+    else signalTransition(finish);
   }
 
   $$('[data-open]').forEach(function (btn) {
-    btn.addEventListener('click', function () { openPanel(btn.getAttribute('data-open'), btn); });
+    btn.addEventListener('click', function () {
+      openPanel(btn.getAttribute('data-open'), btn);
+    });
   });
+
   $$('[data-close]').forEach(function (btn) {
     btn.addEventListener('click', function () { closePanel(true); });
   });
 
   function openMenu() {
     if (!menu) return;
+    lastFocus = document.activeElement;
     menu.classList.add('is-open');
     menu.setAttribute('aria-hidden', 'false');
-    menuButton.setAttribute('aria-expanded', 'true');
-    body.style.overflow = 'hidden';
+    focusTrapRoot = menu;
+    if (menuButton) menuButton.setAttribute('aria-expanded', 'true');
+
+    var first = focusables(menu)[0];
+    if (first) first.focus({ preventScroll: true });
   }
 
-  function closeMenu() {
+  function closeMenu(restoreFocus) {
     if (!menu) return;
     menu.classList.remove('is-open');
     menu.setAttribute('aria-hidden', 'true');
-    menuButton.setAttribute('aria-expanded', 'false');
-    if (!activePanel) body.style.overflow = '';
+    if (menuButton) menuButton.setAttribute('aria-expanded', 'false');
+    if (!activePanel) focusTrapRoot = null;
+
+    if (restoreFocus !== false && lastFocus && lastFocus.focus) {
+      lastFocus.focus({ preventScroll: true });
+    }
   }
 
   if (menuButton) menuButton.addEventListener('click', openMenu);
-  if (mobileClose) mobileClose.addEventListener('click', closeMenu);
+  if (mobileClose) mobileClose.addEventListener('click', function () { closeMenu(true); });
 
   document.addEventListener('keydown', function (e) {
+    trapFocus(e);
+
     if (e.key !== 'Escape') return;
     if (activePanel) closePanel(true);
-    else if (menu && menu.classList.contains('is-open')) closeMenu();
+    else if (menu && menu.classList.contains('is-open')) closeMenu(true);
   });
 
-  function servicesPreview() {
+  function setupServicesPreview() {
     var monitor = $('.service-monitor');
     var title = $('#servicePreviewTitle');
     var note = $('#servicePreviewNote');
+    if (!monitor || !title || !note) return;
 
     $$('.service-row').forEach(function (row) {
-      var activate = function () {
-        $$('.service-row').forEach(function (r) {
-          r.classList.toggle('is-active', r === row);
+      function activate() {
+        $$('.service-row').forEach(function (item) {
+          item.classList.toggle('is-active', item === row);
         });
 
-        title.textContent = row.getAttribute('data-title');
-        note.textContent = row.getAttribute('data-note');
+        monitor.dataset.mode = row.getAttribute('data-service') || 'ads';
+        title.textContent = row.getAttribute('data-title') || '';
+        note.textContent = row.getAttribute('data-note') || '';
 
         monitor.classList.remove('is-glitching');
         void monitor.offsetWidth;
         monitor.classList.add('is-glitching');
-      };
+      }
 
       row.addEventListener('mouseenter', activate);
       row.addEventListener('focus', activate);
@@ -187,15 +253,15 @@
     });
   }
 
-  function magnetic() {
+  function setupMagnetic() {
     if (!canHover || reduced) return;
 
     $$('[data-magnetic]').forEach(function (el) {
       el.addEventListener('pointermove', function (e) {
         var r = el.getBoundingClientRect();
-        var x = (e.clientX - r.left - r.width / 2) * .12;
-        var y = (e.clientY - r.top - r.height / 2) * .12;
-        el.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+        var x = (e.clientX - r.left - r.width / 2) * .10;
+        var y = (e.clientY - r.top - r.height / 2) * .10;
+        el.style.transform = 'translate3d(' + x + 'px,' + y + 'px,0)';
       });
 
       el.addEventListener('pointerleave', function () {
@@ -204,20 +270,24 @@
     });
   }
 
-  function randomSignal() {
+  function setupAmbientSignal() {
     if (reduced) return;
     var screen = $('#crtScreen');
-    if (!screen) return;
+    if (!screen || !screen.animate) return;
 
     function pulse() {
-      var wait = 3800 + Math.random() * 5000;
+      var wait = 4200 + Math.random() * 5600;
+
       setTimeout(function () {
         screen.animate([
           { transform: 'translateX(0)', filter: 'none' },
-          { transform: 'translateX(-4px) skewX(-1deg)', filter: 'brightness(1.5) contrast(1.2)' },
-          { transform: 'translateX(3px)', filter: 'hue-rotate(8deg)' },
+          { transform: 'translateX(-4px) skewX(-1deg)', filter: 'brightness(1.45) contrast(1.18)' },
+          { transform: 'translateX(3px)', filter: 'hue-rotate(7deg)' },
           { transform: 'translateX(0)', filter: 'none' }
-        ], { duration: 170, easing: 'steps(2,end)' });
+        ], {
+          duration: 165,
+          easing: 'steps(2,end)'
+        });
         pulse();
       }, wait);
     }
@@ -225,14 +295,26 @@
     pulse();
   }
 
-  function form() {
-    var f = $('#leadForm');
-    var status = $('#formStatus');
-    if (!f) return;
+  function setupBrandReset() {
+    var brand = $('.brand');
+    if (!brand) return;
 
-    f.addEventListener('submit', function (e) {
+    brand.addEventListener('click', function (e) {
       e.preventDefault();
-      var data = new FormData(f);
+      if (activePanel) closePanel(true);
+      else if (!reduced) signalTransition(function () {});
+    });
+  }
+
+  function setupForm() {
+    var form = $('#leadForm');
+    var status = $('#formStatus');
+    if (!form || !status) return;
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      var data = new FormData(form);
       var name = String(data.get('name') || '').trim();
       var contact = String(data.get('contact') || '').trim();
       var message = String(data.get('message') || '').trim();
@@ -243,16 +325,22 @@
       }
 
       var subject = encodeURIComponent('SODO — новий запит від ' + name);
-      var bodyText = encodeURIComponent('Імʼя: ' + name + '\nКонтакт: ' + contact + '\n\nЗадача:\n' + message);
-      status.textContent = 'Відкриваємо пошту. Якщо зручніше — напишіть нам у Telegram або Instagram.';
+      var bodyText = encodeURIComponent(
+        'Імʼя: ' + name +
+        '\nКонтакт: ' + contact +
+        '\n\nЗадача:\n' + message
+      );
+
+      status.textContent = 'Запит підготовлено — відкриваємо пошту. Також можна написати нам напряму в Telegram або Instagram.';
       window.location.href = 'mailto:hello@sodo.agency?subject=' + subject + '&body=' + bodyText;
     });
   }
 
   boot();
-  setPointer();
-  servicesPreview();
-  magnetic();
-  randomSignal();
-  form();
+  setupPointer();
+  setupServicesPreview();
+  setupMagnetic();
+  setupAmbientSignal();
+  setupBrandReset();
+  setupForm();
 })();
