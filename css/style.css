@@ -198,3 +198,65 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
     opacity:1!important;transform:none!important;filter:none!important
   }
 }
+
+.signal-loader__mark{position:relative}
+.signal-loader__mark:before,.signal-loader__mark:after{
+  content:attr(data-text);
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  opacity:0;
+}
+.signal-loader__mark:before{color:var(--pink);transform:translateX(-7px)}
+.signal-loader__mark:after{color:#8fe7ff;transform:translateX(7px)}
+.signal-loader:not(.is-done) .signal-loader__mark:before{
+  animation:loaderGhostA 1.2s steps(2,end) infinite;
+}
+.signal-loader:not(.is-done) .signal-loader__mark:after{
+  animation:loaderGhostB 1.45s steps(2,end) infinite;
+}
+.object-caption{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  width:100%;
+}
+.crt-tune{
+  cursor:pointer;
+  color:#777;
+  font:700 8px/1 var(--font-mono);
+  letter-spacing:.13em;
+  text-transform:uppercase;
+  padding:4px 0;
+  transition:color .25s ease,transform .25s var(--ease);
+}
+.crt-tune:hover,.crt-tune:focus-visible{color:var(--pink);transform:translateX(2px)}
+.crt.is-tuning .crt__screen{
+  animation:crtTune .34s steps(3,end);
+}
+.crt.is-tuning .crt__signal{
+  animation:none!important;
+}
+@keyframes loaderGhostA{
+  0%,72%,100%{opacity:0;clip-path:inset(0 0 100% 0)}
+  74%{opacity:.62;clip-path:inset(18% 0 56% 0)}
+  77%{opacity:.24;clip-path:inset(64% 0 12% 0)}
+  80%{opacity:0}
+}
+@keyframes loaderGhostB{
+  0%,82%,100%{opacity:0;clip-path:inset(100% 0 0 0)}
+  84%{opacity:.5;clip-path:inset(48% 0 26% 0)}
+  88%{opacity:.2;clip-path:inset(10% 0 72% 0)}
+  91%{opacity:0}
+}
+@keyframes crtTune{
+  0%{filter:none;transform:none}
+  25%{filter:brightness(1.8) contrast(1.5);transform:translateX(-5px) skewX(-2deg)}
+  50%{filter:saturate(.4) contrast(2);transform:translateX(4px)}
+  75%{filter:brightness(.65) hue-rotate(15deg);transform:translateY(2px)}
+  100%{filter:none;transform:none}
+}
+@media(max-width:820px){
+  .crt-tune{font-size:7px}
+}
