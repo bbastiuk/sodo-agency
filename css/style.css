@@ -491,3 +491,10 @@ body.is-live .hero__object{opacity:1;filter:none}
   .hero__object{transform:none!important}
   .tv-screen-noise,.tv-screen-scanlines{animation:none!important}
 }
+
+.tv-photo-wrap.is-tuning .tv-screen-overlay{
+  animation:crtTune .34s steps(3,end);
+}
+.tv-photo-wrap.is-tuning .tv-screen-content{
+  animation:previewGlitch .28s steps(2,end);
+}
