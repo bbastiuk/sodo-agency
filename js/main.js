@@ -298,7 +298,7 @@
 
   function setupCrtTune() {
     var button = $('#crtTune');
-    var crt = $('.crt');
+    var crt = $('.tv-photo-wrap');
     var channel = $('#crtChannel');
     var message = $('#crtMessage');
     var sub = $('#crtSub');
