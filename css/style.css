@@ -92,3 +92,109 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
   .hero__title{font-size:clamp(4rem,7.6vw,8.2rem)}
   .hero__bottom{margin-top:24px}
 }
+
+.panel__content{isolation:isolate}
+.panel__content:after{
+  content:"";
+  position:fixed;
+  z-index:20;
+  left:0;right:0;
+  top:70px;
+  height:2px;
+  pointer-events:none;
+  opacity:0;
+  background:linear-gradient(90deg,transparent,var(--pink),#fff,var(--pink),transparent);
+  box-shadow:0 0 24px rgba(255,79,157,.75);
+}
+.panel.is-open .panel__content:after{animation:panelScan .72s .05s var(--ease) both}
+.panel__intro,.services-list,.service-monitor,.work-grid,.about-grid,.contact-copy,.contact-form{
+  transition:transform .72s var(--ease),filter .72s var(--ease),opacity .5s ease;
+}
+.panel:not(.is-open) .panel__intro,
+.panel:not(.is-open) .services-list,
+.panel:not(.is-open) .service-monitor,
+.panel:not(.is-open) .work-grid,
+.panel:not(.is-open) .about-grid,
+.panel:not(.is-open) .contact-copy,
+.panel:not(.is-open) .contact-form{
+  transform:translateY(22px) skewY(.5deg);
+  filter:blur(6px);
+  opacity:0;
+}
+.panel.is-open .panel__intro,
+.panel.is-open .services-list,
+.panel.is-open .service-monitor,
+.panel.is-open .work-grid,
+.panel.is-open .about-grid,
+.panel.is-open .contact-copy,
+.panel.is-open .contact-form{
+  transform:none;
+  filter:none;
+  opacity:1;
+}
+.service-monitor[data-mode="ads"]{
+  background:
+    radial-gradient(circle at 68% 28%,rgba(255,79,157,.28),transparent 18%),
+    linear-gradient(90deg,transparent 49.7%,rgba(255,255,255,.08) 50%,transparent 50.3%),
+    linear-gradient(transparent 49.7%,rgba(255,255,255,.08) 50%,transparent 50.3%),
+    #050505;
+}
+.service-monitor[data-mode="ads"]:before{
+  content:"";
+  position:absolute;
+  width:160px;height:160px;
+  border:1px solid rgba(255,79,157,.55);
+  border-radius:50%;
+  right:12%;top:18%;
+  box-shadow:0 0 0 26px rgba(255,79,157,.06),0 0 0 54px rgba(255,79,157,.025);
+}
+.service-monitor[data-mode="smm"]{
+  background:
+    linear-gradient(90deg,transparent 0 16%,rgba(255,79,157,.09) 16% 17%,transparent 17% 43%,rgba(255,255,255,.055) 43% 44%,transparent 44% 72%,rgba(255,79,157,.06) 72% 73%,transparent 73%),
+    #050505;
+}
+.service-monitor[data-mode="web"]{
+  background:
+    linear-gradient(135deg,rgba(255,79,157,.11),transparent 42%),
+    repeating-linear-gradient(90deg,rgba(255,255,255,.035) 0 1px,transparent 1px 42px),
+    repeating-linear-gradient(180deg,rgba(255,255,255,.035) 0 1px,transparent 1px 42px),
+    #050505;
+}
+.service-monitor[data-mode="web"]:before{
+  content:"";
+  position:absolute;
+  inset:15% 10% 29% 36%;
+  border:1px solid rgba(255,255,255,.15);
+  box-shadow:-36px 28px 0 -1px #050505,-36px 28px 0 0 rgba(255,79,157,.35);
+}
+.service-monitor[data-mode="bots"]{
+  background:
+    radial-gradient(circle at 25% 28%,rgba(255,79,157,.72) 0 3px,transparent 4px),
+    radial-gradient(circle at 60% 22%,rgba(255,255,255,.55) 0 2px,transparent 3px),
+    radial-gradient(circle at 76% 52%,rgba(255,79,157,.55) 0 3px,transparent 4px),
+    radial-gradient(circle at 40% 68%,rgba(255,255,255,.45) 0 2px,transparent 3px),
+    linear-gradient(28deg,transparent 0 48%,rgba(255,79,157,.1) 49% 50%,transparent 51%),
+    #050505;
+}
+.service-monitor[data-mode="strategy"]{
+  background:
+    conic-gradient(from 90deg at 70% 30%,rgba(255,79,157,.16),transparent 20% 80%,rgba(255,79,157,.12)),
+    repeating-linear-gradient(0deg,rgba(255,255,255,.03) 0 1px,transparent 1px 26px),
+    #050505;
+}
+@keyframes panelScan{
+  0%{opacity:0;transform:translateY(-8vh) scaleX(.15)}
+  18%{opacity:1}
+  55%{opacity:.8;transform:translateY(42vh) scaleX(.65)}
+  100%{opacity:0;transform:translateY(calc(100vh - 72px)) scaleX(1)}
+}
+@media(max-width:820px){
+  .panel__content:after{top:58px}
+  .panel.is-open .panel__content:after{animation-duration:.55s}
+}
+@media(prefers-reduced-motion:reduce){
+  .panel__content:after{display:none!important}
+  .panel__intro,.services-list,.service-monitor,.work-grid,.about-grid,.contact-copy,.contact-form{
+    opacity:1!important;transform:none!important;filter:none!important
+  }
+}
