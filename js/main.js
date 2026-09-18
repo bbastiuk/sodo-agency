@@ -139,10 +139,10 @@
       var delay=4400+Math.random()*5200;
       setTimeout(function(){
         screen.animate([
-          {transform:'perspective(700px) rotateY(1.5deg) rotateZ(.25deg) translateX(0)',filter:'brightness(1)'},
-          {transform:'perspective(700px) rotateY(1.5deg) rotateZ(.25deg) translateX(-5px)',filter:'brightness(1.7) contrast(1.35)'},
-          {transform:'perspective(700px) rotateY(1.5deg) rotateZ(.25deg) translateX(3px)',filter:'brightness(.72)'},
-          {transform:'perspective(700px) rotateY(1.5deg) rotateZ(.25deg) translateX(0)',filter:'brightness(1)'}
+          {transform:'perspective(760px) rotateY(1.2deg) rotateZ(-.15deg) translateX(0)',filter:'brightness(1)'},
+          {transform:'perspective(760px) rotateY(1.2deg) rotateZ(-.15deg) translateX(-5px)',filter:'brightness(1.65) contrast(1.32)'},
+          {transform:'perspective(760px) rotateY(1.2deg) rotateZ(-.15deg) translateX(3px)',filter:'brightness(.76)'},
+          {transform:'perspective(760px) rotateY(1.2deg) rotateZ(-.15deg) translateX(0)',filter:'brightness(1)'}
         ],{duration:170,easing:'steps(3,end)'});
         tick();
       },delay);
