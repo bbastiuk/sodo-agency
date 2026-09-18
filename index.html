@@ -4,249 +4,162 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
-  <title>SODO — digital agency | реклама, SMM, сайти</title>
-  <meta name="description" content="SODO — digital-агенція з Познані. Стратегія, Meta Ads, Google Ads, SMM, контент, сайти та автоматизація для бізнесу.">
+  <title>SODO — digital agency</title>
+  <meta name="description" content="SODO — digital agency. Стратегія, реклама, контент, сайти та digital-системи для брендів, які хочуть бути помітними.">
   <meta name="robots" content="index, follow">
-  <meta name="theme-color" content="#070707">\n  <link rel="canonical" href="https://bbastiuk.github.io/sodo-agency/">
+  <meta name="theme-color" content="#050505">
+  <link rel="canonical" href="https://bbastiuk.github.io/sodo-agency/">
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="SODO Agency">\n  <meta property="og:url" content="https://bbastiuk.github.io/sodo-agency/">
-  <meta property="og:title" content="SODO — digital agency | ваш бренд важко ігнорувати">
-  <meta property="og:description" content="Стратегія, реклама, контент і digital-продукти в одній системі.">
+  <meta property="og:title" content="SODO — digital agency">
+  <meta property="og:description" content="Стратегія · реклама · контент · сайти">
+  <meta property="og:url" content="https://bbastiuk.github.io/sodo-agency/">
   <meta property="og:image" content="assets/images/og-image.jpg">
   <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <a class="skip-link" href="#main">Перейти до контенту</a>
 
-  <div class="signal-loader" id="signalLoader" aria-label="Завантаження SODO">
-    <div class="signal-loader__grain" aria-hidden="true"></div>
-    <div class="signal-loader__top">
+  <div class="loader" id="loader" aria-label="Завантаження SODO">
+    <div class="loader__noise" aria-hidden="true"></div>
+    <div class="loader__chrome">
       <span>SODO / SIGNAL SYSTEM</span>
-      <span>00:00:01</span>
+      <span id="loaderTime">00:00:01</span>
     </div>
-    <div class="signal-loader__core">
-      <div class="signal-loader__mark" aria-hidden="true" data-text="SODO">SODO</div>
-      <p class="signal-loader__status" id="loaderStatus">SEARCHING FOR SIGNAL</p>
-      <div class="signal-loader__bar"><span id="loaderBar"></span></div>
+    <div class="loader__center">
+      <div class="loader__scope" aria-hidden="true"><i></i><i></i><i></i><span class="loader__beam"></span></div>
+      <strong class="loader__word" data-text="SODO">SODO</strong>
+      <p id="loaderStatus">SEARCHING FOR FREQUENCY</p>
     </div>
-    <div class="signal-loader__bottom">
-      <span>POZNAŃ / WORLDWIDE</span>
-      <span id="loaderCode">NO SIGNAL</span>
-    </div>
+    <div class="loader__foot"><span>ANALOG / DIGITAL</span><span id="loaderCode">NO SIGNAL</span></div>
   </div>
 
-  <div class="signal-flash" id="signalFlash" aria-hidden="true"></div>
-  <div class="cursor" id="cursor" aria-hidden="true"><span></span></div>
+  <div class="transition" id="transition" aria-hidden="true">
+    <div class="transition__slice transition__slice--a"></div>
+    <div class="transition__slice transition__slice--b"></div>
+    <div class="transition__slice transition__slice--c"></div>
+  </div>
 
   <header class="site-header" id="siteHeader">
-    <a class="brand" href="#" aria-label="SODO — головна">
-      <span class="brand__word">SODO</span>
-      <span class="brand__dot" aria-hidden="true"></span>
-    </a>
-
+    <a class="brand" href="#" id="brandHome" aria-label="SODO — головна"><span>SODO</span><i aria-hidden="true"></i></a>
     <nav class="desktop-nav" aria-label="Головна навігація">
-      <button class="nav-link" type="button" data-open="work">Роботи</button>
-      <button class="nav-link" type="button" data-open="services">Послуги</button>
-      <button class="nav-link" type="button" data-open="about">Про нас</button>
-      <button class="nav-link nav-link--accent" type="button" data-open="contact">Контакт</button>
+      <button type="button" data-open="work">Роботи</button>
+      <button type="button" data-open="services">Послуги</button>
+      <button type="button" data-open="about">Про нас</button>
+      <button type="button" class="desktop-nav__contact" data-open="contact">Контакт</button>
     </nav>
-
-    <button class="menu-button" id="menuButton" type="button" aria-expanded="false" aria-controls="mobileMenu">
-      <span>Меню</span><i></i>
-    </button>
+    <button class="menu-button" id="menuButton" type="button" aria-controls="mobileMenu" aria-expanded="false"><span>Меню</span><i aria-hidden="true"></i></button>
   </header>
 
   <main id="main">
-    <section class="hero" id="hero" aria-labelledby="heroTitle">
-      <div class="world" aria-hidden="true">
-        <div class="world__halo world__halo--a"></div>
-        <div class="world__halo world__halo--b"></div>
-        <div class="world__floor"></div>
-        <div class="world__grain"></div>
-      </div>
+    <section class="hero" aria-labelledby="heroTitle">
+      <div class="hero__ambient" aria-hidden="true"><span class="ambient__pink"></span><span class="ambient__line"></span><span class="ambient__grain"></span></div>
 
-      <div class="hero__frame">
-        <div class="hero__object" id="heroObject">
-          <div class="tv-photo-wrap">
-            <img
-              class="tv-photo"
-              src="https://images.unsplash.com/photo-1594434885674-0a15708152bf?auto=format&fit=crop&fm=webp&q=86&w=1400"
-              alt="Старий CRT-телевізор у темній кімнаті"
-              fetchpriority="high"
-              decoding="async">
-            <div class="tv-screen-overlay" id="crtScreen" aria-hidden="true">
-              <div class="tv-screen-noise"></div>
-              <div class="tv-screen-scanlines"></div>
-              <div class="tv-screen-content" id="crtSignal">
-                <span class="crt__micro" id="crtChannel">CH 09 / LIVE</span>
-                <strong id="crtMessage">SODO</strong>
-                <span class="crt__sub" id="crtSub">SIGNAL FOUND</span>
-              </div>
+      <div class="hero__layout">
+        <div class="hero__visual" id="heroVisual">
+          <div class="crt-stage">
+            <div class="crt-stage__shadow" aria-hidden="true"></div>
+            <img class="crt-photo" src="https://images.pexels.com/photos/704555/pexels-photo-704555.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="Вінтажний CRT-телевізор у темному просторі" fetchpriority="high" decoding="async">
+            <div class="crt-screen" id="crtScreen" aria-hidden="true">
+              <div class="crt-screen__wash"></div><div class="crt-screen__noise"></div><div class="crt-screen__scan"></div>
+              <div class="crt-screen__copy"><span>CH / 09</span><strong>SODO</strong><small>SIGNAL FOUND</small></div>
             </div>
-            <div class="tv-pink-spill" aria-hidden="true"></div>
+            <div class="crt-stage__spill" aria-hidden="true"></div>
           </div>
-          <div class="object-caption">
-            <span>SODO SIGNAL / 01</span>
-            <button class="crt-tune" id="crtTune" type="button" aria-label="Перемкнути сигнал">TUNE SIGNAL ↻</button>
-          </div>
+          <div class="hero__visual-caption"><span>01 / LIVE SIGNAL</span><span>RX 94.7</span></div>
         </div>
 
         <div class="hero__copy">
-          <p class="hero__kicker"><span></span> SODO / digital agency</p>
-          <h1 class="hero__title" id="heroTitle" aria-label="Ваш бренд важко ігнорувати">
-            <span class="hero__line"><i>ВАШ БРЕНД</i></span>
-            <span class="hero__line hero__line--pink"><i>ВАЖКО</i></span>
-            <span class="hero__line"><i>ІГНОРУВАТИ</i></span>
+          <p class="hero__eyebrow"><span aria-hidden="true"></span>SODO / DIGITAL AGENCY</p>
+          <h1 class="hero__title" id="heroTitle">
+            <span class="hero__line hero__line--small"><i>МИ НЕ РОБИМО</i></span>
+            <span class="hero__line hero__line--large"><i>КОНТЕНТ ЗАРАДИ <em>КОНТЕНТУ</em></i></span>
           </h1>
-          <div class="hero__bottom">
-            <p class="hero__desc">Стратегія · реклама · контент · сайти</p>
-            <div class="hero__actions">
-              <button class="button button--primary" type="button" data-open="contact" data-magnetic>
-                <span>Обговорити проєкт</span><b>↗</b>
-              </button>
-              <button class="button button--text" type="button" data-open="services">
-                <span>Що ми робимо</span><b>→</b>
-              </button>
-            </div>
+          <p class="hero__descriptor">стратегія · реклама · контент · сайти</p>
+          <div class="hero__actions">
+            <button class="cta cta--primary" type="button" data-open="contact"><span>ОБГОВОРИТИ ПРОЄКТ</span><b>→</b></button>
+            <button class="cta cta--ghost" type="button" data-open="services"><span>ЩО МИ РОБИМО</span></button>
           </div>
         </div>
       </div>
 
-      <div class="hero__edge hero__edge--left">SODO / 2026</div>
-      <div class="hero__edge hero__edge--right">ATTENTION IS THE CURRENCY</div>
-      <div class="hero__status"><span class="live-dot"></span> SIGNAL ONLINE <b>49°50′N / 18°59′E</b></div>
+      <div class="hero__meta hero__meta--left">SIGNAL IN THE NOISE / 2026</div>
+      <div class="hero__meta hero__meta--right"><span></span> ONLINE / POZNAŃ → WORLDWIDE</div>
     </section>
   </main>
 
-  <aside class="panel" id="panel-services" data-panel="services" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="servicesTitle">
-    <div class="panel__chrome">
-      <span>02 / SERVICES</span>
-      <button class="panel__close" type="button" data-close aria-label="Закрити">CLOSE ×</button>
-    </div>
-    <div class="panel__content panel__content--services">
-      <div class="panel__intro">
-        <p class="eyebrow">SODO / CAPABILITIES</p>
-        <h2 id="servicesTitle">Не все підряд.<br><span>Те, що рухає бізнес.</span></h2>
-      </div>
-      <div class="services-list" id="servicesList">
-        <button class="service-row is-active" type="button" data-service="ads" data-title="РЕКЛАМА" data-note="Meta Ads · Google Ads · аналітика · тестування зв’язок">
-          <span>01</span><strong>Таргетована реклама</strong><i>↗</i>
-        </button>
-        <button class="service-row" type="button" data-service="smm" data-title="SMM" data-note="Стратегія · контент · ведення · комʼюніті">
-          <span>02</span><strong>SMM</strong><i>↗</i>
-        </button>
-        <button class="service-row" type="button" data-service="web" data-title="WEB" data-note="Лендінги · корпоративні сайти · UX · конверсія">
-          <span>03</span><strong>Сайти</strong><i>↗</i>
-        </button>
-        <button class="service-row" type="button" data-service="bots" data-title="BOTS" data-note="Чат-боти · інтеграції · автоматизація лідів">
-          <span>04</span><strong>Чат-боти</strong><i>↗</i>
-        </button>
-        <button class="service-row" type="button" data-service="strategy" data-title="STRATEGY" data-note="Позиціонування · воронка · офер · маркетинг-система">
-          <span>05</span><strong>Стратегія</strong><i>↗</i>
-        </button>
-      </div>
-      <div class="service-monitor" data-mode="ads" aria-live="polite">
-        <div class="service-monitor__noise"></div>
-        <span class="service-monitor__index">SODO / ACTIVE SIGNAL</span>
-        <strong id="servicePreviewTitle">РЕКЛАМА</strong>
-        <p id="servicePreviewNote">Meta Ads · Google Ads · аналітика · тестування зв’язок</p>
-      </div>
-    </div>
-  </aside>
-
-  <aside class="panel" id="panel-work" data-panel="work" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="workTitle">
-    <div class="panel__chrome">
-      <span>03 / SELECTED WORK</span>
-      <button class="panel__close" type="button" data-close aria-label="Закрити">CLOSE ×</button>
-    </div>
-    <div class="panel__content panel__content--work">
-      <div class="panel__intro work-intro">
-        <p class="eyebrow">SELECTED / NOT EVERYTHING</p>
-        <h2 id="workTitle">Два проєкти.<br><span>Без стіни з логотипів.</span></h2>
-      </div>
-      <div class="work-grid">
-        <article class="work-card work-card--umi">
-          <div class="work-card__visual">
-            <div class="work-card__frame">
-              <span>UMI / POZNAŃ</span>
-              <strong>Japanese food<br>without template taste.</strong>
-              <b>WEB / PERFORMANCE / DIGITAL</b>
-            </div>
-          </div>
-          <div class="work-card__meta"><span>01 — UMI</span><p>сайт · digital · реклама</p><a href="https://umieat.com/" target="_blank" rel="noopener">Відкрити сайт ↗</a></div>
+  <section class="overlay" id="overlay-work" data-panel="work" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="workTitle">
+    <div class="overlay__topbar"><span>01 / SELECTED WORK</span><button type="button" data-close>Закрити <b>×</b></button></div>
+    <div class="overlay__body overlay__body--work">
+      <header class="overlay__intro work-intro"><p>PROOF / NOT A LOGO WALL</p><h2 id="workTitle">РОБОТИ,<br><span>ЯКІ МОЖНА ВІДКРИТИ.</span></h2></header>
+      <div class="work-list">
+        <article class="work-item">
+          <div class="work-item__visual work-item__visual--umi" aria-hidden="true"><div class="work-ui work-ui--umi"><span>UMI / POZNAŃ</span><strong>うみ</strong><small>JAPANESE FOOD / DIGITAL SYSTEM</small></div></div>
+          <div class="work-item__meta"><span>01</span><div><h3>UMI</h3><p>японська кухня · сайт · digital · реклама</p></div><a href="https://umieat.com/" target="_blank" rel="noopener">ВІДКРИТИ ↗</a></div>
         </article>
-        <article class="work-card work-card--razeb">
-          <div class="work-card__visual">
-            <div class="work-card__frame">
-              <span>RAZEB STUDIO</span>
-              <strong>Local brand.<br>Sharp digital presence.</strong>
-              <b>CONTENT / PAID SOCIAL / WEB</b>
-            </div>
-          </div>
-          <div class="work-card__meta"><span>02 — RAZEB STUDIO</span><p>контент · реклама · digital</p><a href="https://www.instagram.com/razebstudio/" target="_blank" rel="noopener">Instagram ↗</a></div>
+        <article class="work-item">
+          <div class="work-item__visual work-item__visual--razeb" aria-hidden="true"><div class="work-ui work-ui--razeb"><span>RAZEB / STUDIO</span><strong>RZB</strong><small>CONTENT / PAID SOCIAL / DIGITAL</small></div></div>
+          <div class="work-item__meta"><span>02</span><div><h3>Razeb Studio</h3><p>локальний бренд · контент · реклама · digital</p></div><a href="https://www.instagram.com/razebstudio/" target="_blank" rel="noopener">ВІДКРИТИ ↗</a></div>
         </article>
       </div>
     </div>
-  </aside>
+  </section>
 
-  <aside class="panel" id="panel-about" data-panel="about" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="aboutTitle">
-    <div class="panel__chrome">
-      <span>04 / ABOUT</span>
-      <button class="panel__close" type="button" data-close aria-label="Закрити">CLOSE ×</button>
-    </div>
-    <div class="panel__content panel__content--about">
-      <p class="eyebrow">SODO / DIGITAL AGENCY</p>
-      <h2 id="aboutTitle">Ми не робимо<br><span>контент заради контенту.</span></h2>
-      <div class="about-grid">
-        <p>Збираємо креатив, рекламу, сайти й автоматизацію в одну систему — щоб маркетинг не просто виглядав активним, а приводив людей до дії.</p>
-        <div class="about-points">
-          <div><span>01</span><b>Спочатку задача.<br>Потім інструмент.</b></div>
-          <div><span>02</span><b>Креатив без цифр —<br>це просто декор.</b></div>
-          <div><span>03</span><b>Менше шуму.<br>Сильніший сигнал.</b></div>
+  <section class="overlay" id="overlay-services" data-panel="services" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="servicesTitle">
+    <div class="overlay__topbar"><span>02 / SERVICES</span><button type="button" data-close>Закрити <b>×</b></button></div>
+    <div class="overlay__body overlay__body--services">
+      <header class="overlay__intro services-intro"><p>SYSTEM / CAPABILITIES</p><h2 id="servicesTitle">НЕ ВСЕ ПІДРЯД.<br><span>ТІЛЬКИ ТЕ, ЩО ПРАЦЮЄ РАЗОМ.</span></h2></header>
+      <div class="services-shell">
+        <div class="services-list" id="servicesList">
+          <button type="button" class="service-row is-active" data-service="smm" data-title="SMM" data-note="Стратегія контенту, ведення, рубрики й система присутності бренду."><span>01</span><strong>SMM</strong><i>↗</i></button>
+          <button type="button" class="service-row" data-service="ads" data-title="ТАРГЕТОВАНА РЕКЛАМА" data-note="Meta Ads, Google Ads, аналітика, тестування крео та звʼязок."><span>02</span><strong>ТАРГЕТОВАНА РЕКЛАМА</strong><i>↗</i></button>
+          <button type="button" class="service-row" data-service="web" data-title="САЙТИ" data-note="Лендінги й сайти, де візуал, UX і конверсія не сваряться між собою."><span>03</span><strong>САЙТИ</strong><i>↗</i></button>
+          <button type="button" class="service-row" data-service="bots" data-title="ЧАТ-БОТИ" data-note="Автоматизація заявок, комунікації та простих процесів без зайвого ручного хаосу."><span>04</span><strong>ЧАТ-БОТИ</strong><i>↗</i></button>
+          <button type="button" class="service-row" data-service="strategy" data-title="СТРАТЕГІЯ" data-note="Позиціонування, офер, воронка й логіка digital перед тим, як витрачати бюджет."><span>05</span><strong>СТРАТЕГІЯ</strong><i>↗</i></button>
+        </div>
+        <div class="service-preview" id="servicePreview" data-mode="smm" aria-live="polite">
+          <div class="service-preview__noise" aria-hidden="true"></div><span class="service-preview__index">ACTIVE SIGNAL / 01</span><strong id="servicePreviewTitle">SMM</strong><p id="servicePreviewNote">Стратегія контенту, ведення, рубрики й система присутності бренду.</p><div class="service-preview__meter" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
         </div>
       </div>
     </div>
-  </aside>
+  </section>
 
-  <aside class="panel panel--contact" id="panel-contact" data-panel="contact" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="contactTitle">
-    <div class="panel__chrome panel__chrome--dark">
-      <span>05 / CONTACT</span>
-      <button class="panel__close" type="button" data-close aria-label="Закрити">CLOSE ×</button>
+  <section class="overlay" id="overlay-about" data-panel="about" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="aboutTitle">
+    <div class="overlay__topbar"><span>03 / ABOUT</span><button type="button" data-close>Закрити <b>×</b></button></div>
+    <div class="overlay__body overlay__body--about">
+      <p class="about-code">SODO / DIGITAL SYSTEMS / CREATIVE</p>
+      <h2 id="aboutTitle">КРЕАТИВ,<br>СТРАТЕГІЯ І DIGITAL-СИСТЕМИ<br><span>В ОДНІЙ КОМАНДІ.</span></h2>
+      <div class="about-copy"><p>SODO — команда, яка поєднує креатив, стратегію і digital-системи, щоб бренди росли не тільки в стрічці, а в реальному бізнесі.</p><div class="about-notes"><span>СПОЧАТКУ ЗАДАЧА → ПОТІМ ІНСТРУМЕНТ</span><span>КРЕАТИВ БЕЗ ЦИФР = ДЕКОР</span><span>МЕНШЕ ШУМУ → СИЛЬНІШИЙ СИГНАЛ</span></div></div>
     </div>
-    <div class="panel__content panel__content--contact">
-      <div class="contact-copy">
-        <p class="eyebrow eyebrow--dark">NO NOISE / JUST TALK</p>
-        <h2 id="contactTitle">ТЕПЕР ПРО<br>ВАШ ПРОЄКТ.</h2>
-        <p>Опишіть задачу коротко. Без брифу на 42 поля.</p>
-        <div class="contact-links">
-          <a href="https://instagram.com/sodo.agency" target="_blank" rel="noopener">Instagram ↗</a>
-          <a href="https://t.me/sodo_agency" target="_blank" rel="noopener">Telegram ↗</a>
-          <a href="mailto:hello@sodo.agency">hello@sodo.agency ↗</a>
-        </div>
-      </div>
+  </section>
+
+  <section class="overlay overlay--contact" id="overlay-contact" data-panel="contact" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="contactTitle">
+    <div class="overlay__topbar overlay__topbar--dark"><span>04 / CONTACT</span><button type="button" data-close>Закрити <b>×</b></button></div>
+    <div class="overlay__body overlay__body--contact">
+      <div class="contact-copy"><p>SIGNAL FOUND / YOUR TURN</p><h2 id="contactTitle">ТЕПЕР ПРО<br>ВАШ ПРОЄКТ</h2><span>коротко опишіть задачу — без брифу на 42 поля</span></div>
       <form class="contact-form" id="leadForm" novalidate>
         <label><span>Імʼя</span><input name="name" autocomplete="name" required placeholder="Як до вас звертатися?"></label>
-        <label><span>Контакт</span><input name="contact" required placeholder="Telegram / Instagram / Email"></label>
-        <label><span>Задача</span><textarea name="message" rows="4" required placeholder="Що хочете запустити або покращити?"></textarea></label>
-        <button class="contact-submit" type="submit"><span>Надіслати</span><b>↗</b></button>
+        <label><span>Телефон / Email / Telegram</span><input name="contact" autocomplete="email" required placeholder="Ваш контакт"></label>
+        <label><span>Коротко про задачу</span><textarea name="message" rows="4" required placeholder="Що треба запустити або покращити?"></textarea></label>
+        <button class="contact-submit" type="submit"><span>НАДІСЛАТИ</span><b>→</b></button>
         <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
       </form>
+      <div class="contact-foot"><a href="https://instagram.com/sodo.agency" target="_blank" rel="noopener">Instagram ↗</a><a href="https://t.me/sodo_agency" target="_blank" rel="noopener">Telegram ↗</a><a href="mailto:hello@sodo.agency">hello@sodo.agency ↗</a></div>
     </div>
-  </aside>
+  </section>
 
-  <div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="mobile-menu__top"><span>SODO / MENU</span><button type="button" id="mobileClose">CLOSE ×</button></div>
+  <div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Мобільне меню">
+    <div class="mobile-menu__top"><span>SODO / MENU</span><button type="button" id="mobileClose">Закрити <b>×</b></button></div>
     <nav>
       <button type="button" data-open="work"><span>01</span>Роботи</button>
       <button type="button" data-open="services"><span>02</span>Послуги</button>
       <button type="button" data-open="about"><span>03</span>Про нас</button>
       <button type="button" data-open="contact"><span>04</span>Контакт</button>
     </nav>
-    <div class="mobile-menu__foot"><span>POZNAŃ / WORLDWIDE</span><span>© 2026</span></div>
+    <div class="mobile-menu__foot"><span>SIGNAL IN THE NOISE</span><span>© 2026</span></div>
   </div>
 
   <script src="js/main.js" defer></script>
