@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>SODO — digital-агенція. smm, реклама, сайти й чат-боти</title>
 <meta name="description" content="SODO — digital-агенція: smm, meta ads, google ads, сайти та чат-боти. Робимо бренд, який важко ігнорувати, і рекламу, яка приводить заявки.">
-<meta name="theme-color" content="#111111">
+<meta name="theme-color" content="#0B0B0C">
 <link rel="canonical" href="https://bbastiuk.github.io/sodo-agency/">
 
 <meta property="og:type" content="website">
@@ -23,9 +23,9 @@
 <script>document.documentElement.classList.add("js");</script>
 <link rel="preload" href="assets/fonts/unbounded-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/inter-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" as="image" href="assets/images/logo-sodo.webp" fetchpriority="high">
 <link rel="stylesheet" href="assets/fonts/fonts.css">
 <link rel="stylesheet" href="css/style.css">
-<link rel="preload" as="image" href="assets/images/branding-head.webp" fetchpriority="high">
 
 <script type="application/ld+json">
 {
@@ -41,22 +41,19 @@
 <script src="js/main.js" defer></script>
 </head>
 
-<body class="js-loading">
+<body>
 <a class="skip" href="#main">перейти до контенту</a>
 
 <header class="hdr" data-hdr>
   <div class="hdr__in">
-    <a class="hdr__mark" href="#top" aria-label="SODO — на початок"><span>SODO</span></a>
-
+    <a class="hdr__mark" href="#top" aria-label="SODO — на початок">SODO<i></i></a>
     <nav class="hdr__nav" aria-label="Основна навігація">
       <a href="#works">роботи</a>
       <a href="#services">послуги</a>
       <a href="#about">про нас</a>
     </nav>
-
-    <a class="hdr__cta" href="#contact" data-track="nav_contact">обговорити проєкт</a>
-
-    <button class="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Меню">
+    <a class="hdr__cta" href="#contact" data-track="nav_contact"><span>обговорити проєкт</span></a>
+    <button class="burger" type="button" aria-expanded="false" aria-controls="menu">
       <span class="burger__box"><i></i><i></i></span>
       <span class="burger__txt">меню</span>
     </button>
@@ -64,408 +61,503 @@
 </header>
 
 <div class="menu" id="menu" hidden>
-  <div class="menu__in">
-    <p class="label">навігація</p>
-    <nav class="menu__nav" aria-label="Мобільна навігація">
-      <a href="#works"><span class="menu__num">01</span> роботи</a>
-      <a href="#services"><span class="menu__num">02</span> послуги</a>
-      <a href="#process"><span class="menu__num">03</span> як працюємо</a>
-      <a href="#about"><span class="menu__num">04</span> про нас</a>
-      <a href="#contact"><span class="menu__num">05</span> обговорити проєкт</a>
-    </nav>
-    <div class="menu__foot">
-      <a href="https://instagram.com/sodo.agency" target="_blank" rel="noopener" data-track="instagram_click">instagram</a>
-      <a href="https://t.me/sodoagency" target="_blank" rel="noopener" data-track="telegram_click">telegram</a>
-      <a href="mailto:hello@sodo.agency" data-track="email_click">hello@sodo.agency</a>
-    </div>
+  <nav class="menu__nav" aria-label="Мобільна навігація">
+    <a href="#works"><i>01</i><span>роботи</span></a>
+    <a href="#services"><i>02</i><span>послуги</span></a>
+    <a href="#about"><i>03</i><span>про нас</span></a>
+    <a href="#contact"><i>04</i><span>контакт</span></a>
+  </nav>
+  <div class="menu__foot">
+    <a href="https://instagram.com/sodo.agency" target="_blank" rel="noopener">instagram</a>
+    <a href="https://t.me/sodoagency" target="_blank" rel="noopener">telegram</a>
+    <a href="mailto:hello@sodo.agency">hello@sodo.agency</a>
   </div>
 </div>
 
 <main id="main">
 
-<!-- ============ 01 · ПЕРШИЙ ЕКРАН ============ -->
-<section class="hero" id="top" data-theme="dark">
-  <div class="hero__grid">
+<!-- ═══════════ СЦЕНА 1 · ГЕРОЙ → ПЕРШИЙ КЕЙС ═══════════ -->
+<section class="stage" id="top" data-stage data-theme="dark">
+  <div class="stage__pin">
 
-    <div class="hero__copy">
-      <p class="label label--pink hero__eyebrow">digital-агенція · smm · реклама · сайти</p>
+    <div class="hero" data-hero>
+      <p class="hero__eyebrow label">(01) digital-агенція · познань · працюємо звідусіль</p>
 
-      <h1 class="hero__title">
-        <span class="line"><span class="line__in">ваш бренд</span></span>
-        <span class="line"><span class="line__in">важко</span></span>
-        <span class="line"><span class="line__in"><span class="mark-word">ігнорувати<svg class="scribble" viewBox="0 0 320 22" fill="none" aria-hidden="true"><path d="M5 15.5C74 7.5 186 4.5 315 9.5"/></svg></span></span></span>
-      </h1>
-
-      <p class="hero__sub">smm, реклама, сайти й автоматизація — під задачі вашого бізнесу</p>
-
-      <div class="hero__cta">
-        <a class="btn btn--pink" href="#contact" data-track="hero_contact">обговорити проєкт</a>
-        <a class="linkarrow" href="#works" data-track="hero_works">дивитися роботи
-          <svg viewBox="0 0 26 14" fill="none" aria-hidden="true"><path d="M1 7h23M18 1l6 6-6 6"/></svg>
-        </a>
+      <div class="word" data-word role="img" aria-label="SODO">
+        <span class="word__l word__l--1" data-letter="0"></span>
+        <span class="word__l word__l--2" data-letter="1"></span>
+        <span class="word__l word__l--3" data-letter="2"></span>
+        <span class="word__l word__l--4" data-letter="3"></span>
+        <img class="word__fallback" src="assets/images/logo-sodo.webp" alt="" width="1200" height="283">
       </div>
-    </div>
 
-    <div class="hero__collage" data-parallax>
-      <figure class="frag frag--main" data-depth="14" data-morph="from">
-        <img src="assets/images/branding-head.webp" alt="Чорний манекен-голова з рожевим розрізом — фірмовий об’єкт SODO" width="686" height="1141" fetchpriority="high" decoding="async">
-        <figcaption class="frag__cap">об’єкт 01 · айдентика</figcaption>
-      </figure>
-
-      <figure class="frag frag--phone" data-depth="30">
-        <img src="assets/images/smm-phone.webp" alt="Рука тримає смартфон зі сторіс — візуал для SMM" width="769" height="941" loading="lazy" decoding="async">
-      </figure>
-
-      <figure class="frag frag--poster" data-depth="44">
-        <div class="poster">
-          <p class="poster__kicker">sodo · допис</p>
-          <p class="poster__txt">інст є,<br>а клієнтів<br>немає?</p>
-          <p class="poster__foot">розбираємо в профілі →</p>
+      <figure class="frag frag--reel" data-depth="26">
+        <div class="mk mk--bare">
+          <div class="scr scr--ad">
+            <p class="ad__top">sodo · creative</p>
+            <p class="ad__big">інст є,<br>а клієнтів<br><b>немає?</b></p>
+            <p class="ad__bot">розбираємо в профілі →</p>
+          </div>
+          <span class="mk__demo">demo</span>
         </div>
+        <figcaption>креатив · reels</figcaption>
       </figure>
 
-      <figure class="frag frag--dart" data-depth="22">
-        <img src="assets/images/hero-dart.webp" alt="Рука з дротиком у центрі мішені — метафора таргетингу" width="1100" height="941" loading="lazy" decoding="async">
+      <figure class="frag frag--phone" data-depth="40">
+        <div class="mk mk--phone">
+          <span class="mk__notch"></span>
+          <div class="scr scr--chat">
+            <p class="chat__hd">sodo bot</p>
+            <p class="chat__b chat__b--in">вітаю! підкажу ціни й вільні вікна</p>
+            <p class="chat__b chat__b--out">коли є місце на завтра?</p>
+            <p class="chat__b chat__b--in">11:30 і 18:00. записати?</p>
+            <p class="chat__inp">повідомлення…</p>
+          </div>
+          <span class="mk__demo">demo</span>
+        </div>
+        <figcaption>чат-бот · telegram</figcaption>
       </figure>
 
-      <span class="tick tick--a" data-depth="52">таргет</span>
-      <span class="tick tick--b" data-depth="38">контент</span>
+      <div class="slot" data-slot aria-hidden="true"></div>
+
+      <div class="hero__bottom">
+        <h1 class="hero__h1">ваш бренд<br>важко ігнорувати</h1>
+        <div class="hero__aside">
+          <p class="hero__sub">smm, таргетована реклама, google ads, сайти й чат-боти — під задачі вашого бізнесу.</p>
+          <a class="btn btn--pink" href="#contact" data-track="hero_contact">
+            <span>обговорити проєкт</span>
+            <svg viewBox="0 0 26 14" aria-hidden="true"><path d="M1 7h23M18 1l6 6-6 6"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <p class="hero__scroll label">скрол <i></i></p>
     </div>
-  </div>
 
-  <div class="hero__mark" aria-hidden="true">
-    <img src="assets/images/logo-sodo.webp" alt="" width="1200" height="283" fetchpriority="high" decoding="async">
-  </div>
+    <figure class="cover" data-cover data-cursor="дивитись">
+      <div class="mk mk--site" data-mk-site>
+        <div class="mk__chrome">
+          <span class="mk__dots"><i></i><i></i><i></i></span>
+          <span class="mk__url">streetbarbershop.pl</span>
+          <span class="mk__demo">demo</span>
+        </div>
+        <div class="scr scr--barber">
+          <div class="scr__nav">
+            <b>STREET<br>BARBER</b>
+            <span>послуги</span><span>майстри</span><span>ціни</span>
+            <em>записатись</em>
+          </div>
+          <div class="scr__hero">
+            <div class="scr__copy">
+              <h2 class="scr__h">стрижка,<br>яку <i>помічають</i></h2>
+              <p class="scr__note">онлайн-запис · booksy</p>
+            </div>
+            <div class="scr__ph">
+              <img src="assets/images/branding-head.webp" alt="Кадр із фірмової зйомки для барбершопу" width="686" height="1141" loading="lazy" decoding="async">
+            </div>
+          </div>
+          <div class="scr__strip"><span>fade</span><span>beard trim</span><span>royal shave</span><span>дитяча</span><span>пн–нд 10:00–21:00</span></div>
+        </div>
+      </div>
+    </figure>
 
-  <div class="hero__foot">
-    <span class="label hero__scroll">скрол <i></i></span>
-    <span class="label hero__loc">познань · працюємо звідусіль</span>
+    <div class="cover__meta" data-cover-meta>
+      <p class="label">кейс 01 — барбершоп · познань</p>
+      <p class="cover__name">street barbershop</p>
+    </div>
   </div>
 </section>
 
-<!-- ============ 02 · РОБОТИ ============ -->
-<section class="works" id="works" data-theme="light">
-  <div class="works__head">
-    <p class="label">(01) роботи</p>
-    <h2 class="h2 reveal">вибрані<br>роботи</h2>
-    <p class="lead reveal">три рядки на кейс: що було, що зробили, що з цього вийшло. без домальованих цифр — порожнє поле чесніше за красиве.</p>
+<!-- ═══════════ КЕЙС 01 · ТІЛО ═══════════ -->
+<section class="case1" id="works" data-theme="dark">
+  <div class="case1__in">
+    <div class="case1__lead">
+      <h2 class="h2 reveal">сайт, який<br>приводить<br>на крісло</h2>
+    </div>
+    <div class="case1__rows">
+      <dl class="rows reveal">
+        <div><dt>задача</dt><dd>зробити салон помітним у районі й перевести увагу в записи, а не в лайки.</dd></div>
+        <div><dt>що зробили</dt><dd>сайт з онлайн-записом, серія рекламних креативів під сусідні райони, контент-система зі зйомок у салоні, бот для відповідей поза робочим часом.</dd></div>
+        <div><dt>публічні дані профілю</dt><dd><b>4.9</b> рейтинг у booksy · <b>3165</b> відгуків</dd></div>
+      </dl>
+      <p class="note reveal">відкриті показники профілю клієнта, а не приписаний агенції результат. матеріали нижче — демонстраційні макети, які замінюються реальними.</p>
+      <button class="more" type="button" aria-expanded="false" aria-controls="case1-more" data-track="case_open">
+        <span>дивитися кейс</span><i></i>
+      </button>
+    </div>
   </div>
 
-  <div class="works__list">
-
-    <article class="case" id="case-1">
-      <div class="case__text">
-        <p class="case__idx">01 / барбершоп · познань</p>
-        <h3 class="case__name">Street Barbershop</h3>
-        <dl class="case__rows">
-          <div><dt>задача</dt><dd>зробити салон помітним у районі й перевести увагу в записи, а не в лайки.</dd></div>
-          <div><dt>що зробили</dt><dd>оформили профіль і онлайн-запис, зібрали контент-систему зі зйомок у салоні, увімкнули локальний таргет на райони поруч.</dd></div>
-          <div><dt>публічні дані профілю</dt><dd><b>4.9</b> рейтинг у Booksy · <b>3165</b> відгуків · онлайн-запис</dd></div>
-        </dl>
-        <p class="case__note">це відкриті показники профілю клієнта, а не приписаний агенції результат.</p>
-      </div>
-      <div class="case__media">
-        <div class="plate plate--tall" data-morph="to">
-          <img src="assets/images/branding-head.webp" alt="Кейс Street Barbershop — фірмовий візуал" width="686" height="1141" loading="lazy" decoding="async">
+  <div class="case1__more" id="case1-more" data-collapse>
+    <div class="case1__more-in">
+      <figure class="shot shot--phone">
+        <div class="mk mk--phone">
+          <span class="mk__notch"></span>
+          <div class="scr scr--book">
+            <p class="book__hd">запис онлайн</p>
+            <p class="book__row"><span>fade</span><i>45 хв</i></p>
+            <p class="book__row"><span>beard trim</span><i>30 хв</i></p>
+            <p class="book__row book__row--on"><span>royal shave</span><i>60 хв</i></p>
+            <p class="book__days"><i>пн</i><i>вт</i><i class="on">ср</i><i>чт</i><i>пт</i></p>
+            <p class="book__cta">обрати час</p>
+          </div>
+          <span class="mk__demo">demo</span>
         </div>
-        <p class="plate__cap">демо-візуал · замінити на матеріали кейсу</p>
-      </div>
-    </article>
+        <figcaption>мобільний запис</figcaption>
+      </figure>
 
-    <article class="case" id="case-2">
-      <div class="case__text">
-        <p class="case__idx">02 / виробництво · e-commerce</p>
-        <h3 class="case__name">FORMAI <span class="chip">дані заповнити</span></h3>
-        <dl class="case__rows">
-          <div><dt>задача</dt><dd>продавати складний продукт онлайн і не залежати від сезонних сплесків попиту.</dd></div>
-          <div><dt>що зробили</dt><dd>розділили аудиторії за етапом вибору, зібрали креативи під кожен, під них — окремі посадкові сторінки.</dd></div>
-          <div><dt>результат</dt><dd class="case__empty">— заявок · — ціна ліда · — roas</dd></div>
-        </dl>
-        <p class="case__note">поля з «—» заповнюються реальними цифрами перед публікацією.</p>
-      </div>
-      <div class="case__media">
-        <div class="plate plate--wide">
-          <img src="assets/images/smm-phone.webp" alt="Демонстраційний візуал кейсу FORMAI" width="769" height="941" loading="lazy" decoding="async">
+      <figure class="shot shot--ad">
+        <div class="mk mk--bare">
+          <div class="scr scr--ad scr--ad-2">
+            <p class="ad__top">meta ads · креатив</p>
+            <p class="ad__big">борода<br>не чекає<br><b>до суботи</b></p>
+            <p class="ad__bot">вільні вікна сьогодні →</p>
+          </div>
+          <span class="mk__demo">demo</span>
         </div>
-        <p class="plate__cap">демо-візуал · замінити на матеріали кейсу</p>
-      </div>
-    </article>
+        <figcaption>рекламний креатив</figcaption>
+      </figure>
 
-    <article class="case" id="case-3">
-      <div class="case__text">
-        <p class="case__idx">03 / юридичні послуги</p>
-        <h3 class="case__name">LegalizuYou <span class="chip">дані заповнити</span></h3>
-        <dl class="case__rows">
-          <div><dt>задача</dt><dd>пояснити послугу простою мовою й отримувати звернення від людей, які вже шукають рішення.</dd></div>
-          <div><dt>що зробили</dt><dd>google ads на пошукові запити, сторінка з покроковим поясненням, чат-бот для першої відповіді поза робочим часом.</dd></div>
-          <div><dt>результат</dt><dd class="case__empty">— звернень · — ціна звернення · — географія</dd></div>
-        </dl>
-      </div>
-      <div class="case__media">
-        <div class="plate plate--sq">
-          <img src="assets/images/web-arch.webp" alt="Демонстраційний візуал кейсу LegalizuYou" width="769" height="941" loading="lazy" decoding="async">
+      <figure class="shot shot--id">
+        <div class="mk mk--bare">
+          <div class="scr scr--id">
+            <p class="id__aa">Aa</p>
+            <p class="id__row"><i></i><i></i><i></i></p>
+            <p class="id__t">unbounded · inter</p>
+            <p class="id__t id__t--mut">#0B0B0C · #F2EFEA · #F58BB0</p>
+          </div>
+          <span class="mk__demo">demo</span>
         </div>
-        <p class="plate__cap">демо-візуал · замінити на матеріали кейсу</p>
-      </div>
-    </article>
-
-    <article class="case" id="case-4">
-      <div class="case__text">
-        <p class="case__idx">04 / послуги · b2c</p>
-        <h3 class="case__name">MS West <span class="chip">дані заповнити</span></h3>
-        <dl class="case__rows">
-          <div><dt>задача</dt><dd>зібрати впізнаваний візуал і стабільний потік звернень із соцмереж.</dd></div>
-          <div><dt>що зробили</dt><dd>зняли серію reels у форматі «до / після», підсилили найкращі публікації рекламою.</dd></div>
-          <div><dt>результат</dt><dd class="case__empty">— звернень · — охоплення · — бюджет</dd></div>
-        </dl>
-      </div>
-      <div class="case__media">
-        <div class="plate plate--tall2">
-          <img src="assets/images/content-camera.webp" alt="Демонстраційний візуал кейсу MS West" width="769" height="941" loading="lazy" decoding="async">
-        </div>
-        <p class="plate__cap">демо-візуал · замінити на матеріали кейсу</p>
-      </div>
-    </article>
-
+        <figcaption>айдентика</figcaption>
+      </figure>
+    </div>
   </div>
 </section>
 
-<!-- ============ 03 · ПОСЛУГИ ============ -->
-<section class="services" id="services" data-theme="dark">
-  <div class="srv__head">
+<!-- ═══════════ ТИПОГРАФІЧНА ПАУЗА ═══════════ -->
+<section class="pause" data-pause data-theme="dark">
+  <p class="pause__line" data-pause-line="0"><span>увага,</span></p>
+  <p class="pause__line" data-pause-line="1"><span>що набуває</span></p>
+  <p class="pause__line" data-pause-line="2"><span>форми</span></p>
+  <p class="pause__note">ми не робимо контент заради контенту й не запускаємо рекламу навмання. спершу — що продаємо і кому, далі — форма.</p>
+</section>
+
+<!-- ═══════════ КЕЙС 02 · АСИМЕТРІЯ ═══════════ -->
+<section class="case2" data-theme="light">
+  <header class="case2__hd">
+    <p class="label">кейс 02 — юридичні послуги</p>
+    <h2 class="h2 reveal">legalizu<span>you</span></h2>
+  </header>
+
+  <div class="case2__grid">
+    <figure class="case2__site" data-float="0.1" data-cursor="дивитись">
+      <div class="mk mk--site">
+        <div class="mk__chrome">
+          <span class="mk__dots"><i></i><i></i><i></i></span>
+          <span class="mk__url">legalizuyou.pl</span>
+          <span class="mk__demo">demo</span>
+        </div>
+        <div class="scr scr--legal">
+          <div class="scr__nav"><b>LEGALIZU<br>YOU</b><span>послуги</span><span>ціни</span><span>faq</span><em>консультація</em></div>
+          <div class="legal__hero">
+            <h3>карта побиту<br>без здогадок</h3>
+            <p>покроково пояснюємо, які документи потрібні саме у вашій ситуації.</p>
+            <span class="legal__btn">перевірити ситуацію</span>
+          </div>
+          <div class="legal__steps"><span>01 анкета</span><span>02 документи</span><span>03 подання</span></div>
+        </div>
+      </div>
+      <figcaption>сайт · демонстраційний макет</figcaption>
+    </figure>
+
+    <figure class="case2__phone" data-float="0.3">
+      <div class="mk mk--phone">
+        <span class="mk__notch"></span>
+        <div class="scr scr--chat scr--chat-2">
+          <p class="chat__hd">бот · перша відповідь</p>
+          <p class="chat__b chat__b--in">яка у вас ситуація?</p>
+          <p class="chat__b chat__b--out">робота, перший раз</p>
+          <p class="chat__b chat__b--in">потрібні 4 документи — надіслати список?</p>
+          <p class="chat__inp">повідомлення…</p>
+        </div>
+        <span class="mk__demo">demo</span>
+      </div>
+      <figcaption>чат-бот</figcaption>
+    </figure>
+
+    <figure class="case2__serp" data-float="0.2">
+      <div class="mk mk--bare">
+        <div class="scr scr--serp">
+          <p class="serp__q">карта побиту познань</p>
+          <p class="serp__ad"><i>реклама</i> legalizuyou.pl<br><b>карта побиту — супровід під ключ</b><br><s>перевіримо документи за один день</s></p>
+          <p class="serp__org"><b>——————</b><br><s>————— ———— ——</s></p>
+        </div>
+        <span class="mk__demo">demo</span>
+      </div>
+      <figcaption>google ads · пошук</figcaption>
+    </figure>
+
+    <div class="case2__txt">
+      <dl class="rows rows--light reveal">
+        <div><dt>задача</dt><dd>пояснити послугу простою мовою й отримувати звернення від людей, які вже шукають рішення.</dd></div>
+        <div><dt>що зробили</dt><dd>пошукові кампанії під конкретні запити, сторінка з покроковим поясненням, бот для першої відповіді вночі.</dd></div>
+        <div><dt>результат</dt><dd class="empty">— звернень · — ціна звернення · — географія</dd></div>
+      </dl>
+      <p class="note note--light reveal">поля з «—» заповнюються реальними цифрами перед публікацією.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ ПОСЛУГИ ═══════════ -->
+<section class="srv" id="services" data-theme="dark" data-services>
+  <header class="srv__hd">
     <p class="label label--pink">(02) послуги</p>
-    <h2 class="h2 reveal">що ми<br>беремо на себе</h2>
-    <p class="lead reveal">можна одним напрямом, можна системою. нижче — яку задачу бізнесу закриває кожен.</p>
+    <h2 class="h2 reveal">що ми беремо<br>на себе</h2>
+  </header>
+
+  <div class="srv__body">
+    <ul class="srv__list">
+      <li class="srv__item" data-srv="0">
+        <button class="srv__btn" type="button" aria-expanded="false" aria-controls="srv-p0">
+          <i class="srv__num">01</i><span class="srv__name">smm</span><i class="srv__sign"></i>
+        </button>
+        <div class="srv__panel" id="srv-p0">
+          <div class="srv__panel-in">
+            <p>щоденна присутність, яку помічають: стратегія, рубрики, зйомки, тексти й публікації. закриває задачу «нас не пам’ятають» — коли продукт добрий, але дізнаються про нього востаннє.</p>
+            <ul class="tags"><li>стратегія</li><li>контент-план</li><li>зйомки й монтаж</li><li>ведення</li></ul>
+          </div>
+        </div>
+      </li>
+      <li class="srv__item" data-srv="1">
+        <button class="srv__btn" type="button" aria-expanded="false" aria-controls="srv-p1">
+          <i class="srv__num">02</i><span class="srv__name">meta ads</span><i class="srv__sign"></i>
+        </button>
+        <div class="srv__panel" id="srv-p1">
+          <div class="srv__panel-in">
+            <p>реклама в instagram і facebook на заявки, а не на покази. закриває задачу «клієнти потрібні вже цього місяця»: гіпотези, креативи, тести й відсікання того, що не окупається.</p>
+            <ul class="tags"><li>аудиторії</li><li>креативи</li><li>тести</li><li>оптимізація</li></ul>
+          </div>
+        </div>
+      </li>
+      <li class="srv__item" data-srv="2">
+        <button class="srv__btn" type="button" aria-expanded="false" aria-controls="srv-p2">
+          <i class="srv__num">03</i><span class="srv__name">google ads</span><i class="srv__sign"></i>
+        </button>
+        <div class="srv__panel" id="srv-p2">
+          <div class="srv__panel-in">
+            <p>показуємось тим, хто вже шукає ваш продукт. закриває задачу «попит є, але купують в інших»: пошукові кампанії, мінус-слова, чесна аналітика по конверсіях.</p>
+            <ul class="tags"><li>пошук</li><li>ремаркетинг</li><li>аналітика</li></ul>
+          </div>
+        </div>
+      </li>
+      <li class="srv__item" data-srv="3">
+        <button class="srv__btn" type="button" aria-expanded="false" aria-controls="srv-p3">
+          <i class="srv__num">04</i><span class="srv__name">сайти</span><i class="srv__sign"></i>
+        </button>
+        <div class="srv__panel" id="srv-p3">
+          <div class="srv__panel-in">
+            <p>лендінг або сайт, який не гальмує рекламу: швидкий, зрозумілий, з однією дією на екран. закриває задачу «трафік є, а заявок мало».</p>
+            <ul class="tags"><li>структура</li><li>дизайн</li><li>верстка</li><li>швидкість</li></ul>
+          </div>
+        </div>
+      </li>
+      <li class="srv__item" data-srv="4">
+        <button class="srv__btn" type="button" aria-expanded="false" aria-controls="srv-p4">
+          <i class="srv__num">05</i><span class="srv__name">чат-боти</span><i class="srv__sign"></i>
+        </button>
+        <div class="srv__panel" id="srv-p4">
+          <div class="srv__panel-in">
+            <p>автоматизація перших дотиків: бот відповідає вночі, збирає контакт, записує на послугу й передає менеджеру уже теплого клієнта. закриває задачу «відповідаємо за пів дня — і клієнт іде».</p>
+            <ul class="tags"><li>telegram</li><li>instagram direct</li><li>сценарії</li><li>інтеграції</li></ul>
+          </div>
+        </div>
+      </li>
+    </ul>
+
+    <div class="srv__stage" data-srv-stage aria-hidden="true">
+      <div class="srv__view is-on" data-view="0">
+        <div class="mk mk--phone">
+          <span class="mk__notch"></span>
+          <div class="scr scr--ig">
+            <p class="ig__hd">sodo.agency</p>
+            <p class="ig__grid"><i></i><i class="pk"></i><i></i><i></i><i></i><i class="pk"></i><i class="pk"></i><i></i><i></i></p>
+          </div>
+          <span class="mk__demo">demo</span>
+        </div>
+        <div class="mk mk--bare srv__side">
+          <div class="scr scr--ad scr--ad-3">
+            <p class="ad__top">рубрика</p>
+            <p class="ad__big">до /<br><b>після</b></p>
+          </div>
+          <span class="mk__demo">demo</span>
+        </div>
+      </div>
+
+      <div class="srv__view" data-view="1">
+        <div class="mk mk--bare">
+          <div class="scr scr--ad scr--ad-4">
+            <p class="ad__top">meta ads</p>
+            <p class="ad__big">перший<br>кадр<br><b>вирішує</b></p>
+            <p class="ad__bot">тест 6 креативів →</p>
+          </div>
+          <span class="mk__demo">demo</span>
+        </div>
+        <div class="mk mk--bare srv__side">
+          <div class="scr scr--ad scr--ad-5">
+            <p class="ad__big">до /<br><b>після</b></p>
+            <p class="ad__bot">той самий оффер, інший кадр</p>
+          </div>
+          <span class="mk__demo">demo</span>
+        </div>
+      </div>
+
+      <div class="srv__view" data-view="2">
+        <div class="mk mk--bare">
+          <div class="scr scr--serp scr--serp-2">
+            <p class="serp__q">барбершоп познань</p>
+            <p class="serp__ad"><i>реклама</i> streetbarbershop.pl<br><b>барбершоп у вільді · запис онлайн</b><br><s>вільні вікна сьогодні</s></p>
+            <p class="serp__org"><b>——————</b><br><s>————— ———— ——</s></p>
+            <p class="serp__org"><b>————</b><br><s>—————— ——</s></p>
+          </div>
+          <span class="mk__demo">demo</span>
+        </div>
+      </div>
+
+      <div class="srv__view" data-view="3">
+        <div class="mk mk--site">
+          <div class="mk__chrome">
+            <span class="mk__dots"><i></i><i></i><i></i></span>
+            <span class="mk__url">streetbarbershop.pl</span>
+            <span class="mk__demo">demo</span>
+          </div>
+          <div class="scr scr--barber scr--barber-2">
+            <div class="scr__nav"><b>STREET<br>BARBER</b><span>послуги</span><span>ціни</span><em>записатись</em></div>
+            <div class="scr__hero">
+              <div class="scr__copy">
+                <h3 class="scr__h">стрижка,<br>яку <i>помічають</i></h3>
+                <p class="scr__note">онлайн-запис · booksy</p>
+              </div>
+              <div class="scr__ph"><img src="assets/images/branding-head.webp" alt="" width="686" height="1141" loading="lazy" decoding="async"></div>
+            </div>
+            <div class="scr__strip"><span>fade</span><span>beard trim</span><span>royal shave</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="srv__view" data-view="4">
+        <div class="mk mk--phone">
+          <span class="mk__notch"></span>
+          <div class="scr scr--chat scr--chat-3">
+            <p class="chat__hd">sodo bot</p>
+            <p class="chat__b chat__b--in">вітаю! що вас цікавить?</p>
+            <p class="chat__b chat__b--out">ціни</p>
+            <p class="chat__b chat__b--in">надсилаю прайс і вільні вікна</p>
+            <p class="chat__b chat__b--in chat__b--card">прайс · pdf</p>
+            <p class="chat__inp">повідомлення…</p>
+          </div>
+          <span class="mk__demo">demo</span>
+        </div>
+      </div>
+    </div>
   </div>
-
-  <ul class="srv__list" data-services>
-    <li class="srv">
-      <button class="srv__btn" type="button" aria-expanded="true" aria-controls="srv-1">
-        <span class="srv__num">01</span>
-        <span class="srv__name">smm</span>
-        <span class="srv__sign" aria-hidden="true"></span>
-      </button>
-      <div class="srv__panel" id="srv-1">
-        <div class="srv__panel-in">
-          <div class="srv__body">
-            <p class="srv__desc">щоденна присутність, яку помічають: стратегія, рубрики, зйомки, тексти й публікації. закриває задачу «нас не пам’ятають» — коли продукт добрий, але дізнаються про нього востаннє.</p>
-            <ul class="srv__tags"><li>стратегія</li><li>контент-план</li><li>зйомки й монтаж</li><li>ведення</li></ul>
-          </div>
-          <div class="srv__vis"><img src="assets/images/smm-phone.webp" alt="" width="769" height="941" loading="lazy" decoding="async"></div>
-        </div>
-      </div>
-    </li>
-
-    <li class="srv">
-      <button class="srv__btn" type="button" aria-expanded="true" aria-controls="srv-2">
-        <span class="srv__num">02</span>
-        <span class="srv__name">meta ads</span>
-        <span class="srv__sign" aria-hidden="true"></span>
-      </button>
-      <div class="srv__panel" id="srv-2">
-        <div class="srv__panel-in">
-          <div class="srv__body">
-            <p class="srv__desc">реклама в instagram і facebook на заявки, а не на покази. закриває задачу «клієнти потрібні вже цього місяця»: гіпотези, креативи, тести й відсікання того, що не окупається.</p>
-            <ul class="srv__tags"><li>аудиторії</li><li>креативи</li><li>тести</li><li>оптимізація</li></ul>
-          </div>
-          <div class="srv__vis"><img src="assets/images/hero-dart.webp" alt="" width="1100" height="941" loading="lazy" decoding="async"></div>
-        </div>
-      </div>
-    </li>
-
-    <li class="srv">
-      <button class="srv__btn" type="button" aria-expanded="true" aria-controls="srv-3">
-        <span class="srv__num">03</span>
-        <span class="srv__name">google ads</span>
-        <span class="srv__sign" aria-hidden="true"></span>
-      </button>
-      <div class="srv__panel" id="srv-3">
-        <div class="srv__panel-in">
-          <div class="srv__body">
-            <p class="srv__desc">показуємось тим, хто вже шукає ваш продукт. закриває задачу «попит є, але купують в інших»: пошукові кампанії, мінус-слова, чесна аналітика по конверсіях.</p>
-            <ul class="srv__tags"><li>пошук</li><li>ремаркетинг</li><li>аналітика</li></ul>
-          </div>
-          <div class="srv__vis"><img src="assets/images/web-arch.webp" alt="" width="769" height="941" loading="lazy" decoding="async"></div>
-        </div>
-      </div>
-    </li>
-
-    <li class="srv">
-      <button class="srv__btn" type="button" aria-expanded="true" aria-controls="srv-4">
-        <span class="srv__num">04</span>
-        <span class="srv__name">сайти</span>
-        <span class="srv__sign" aria-hidden="true"></span>
-      </button>
-      <div class="srv__panel" id="srv-4">
-        <div class="srv__panel-in">
-          <div class="srv__body">
-            <p class="srv__desc">лендінг або сайт, який не гальмує рекламу: швидкий, зрозумілий, з однією дією на екран. закриває задачу «трафік є, а заявок мало».</p>
-            <ul class="srv__tags"><li>структура</li><li>дизайн</li><li>верстка</li><li>швидкість</li></ul>
-          </div>
-          <div class="srv__vis"><img src="assets/images/hero-main.webp" alt="" width="1500" height="1000" loading="lazy" decoding="async"></div>
-        </div>
-      </div>
-    </li>
-
-    <li class="srv">
-      <button class="srv__btn" type="button" aria-expanded="true" aria-controls="srv-5">
-        <span class="srv__num">05</span>
-        <span class="srv__name">чат-боти</span>
-        <span class="srv__sign" aria-hidden="true"></span>
-      </button>
-      <div class="srv__panel" id="srv-5">
-        <div class="srv__panel-in">
-          <div class="srv__body">
-            <p class="srv__desc">автоматизація перших дотиків: бот відповідає вночі, збирає контакт, записує на послугу й передає менеджеру уже теплого клієнта. закриває задачу «відповідаємо за пів дня — і клієнт іде».</p>
-            <ul class="srv__tags"><li>telegram</li><li>instagram direct</li><li>сценарії</li><li>інтеграції</li></ul>
-          </div>
-          <div class="srv__vis"><img src="assets/images/cta-start.webp" alt="" width="869" height="682" loading="lazy" decoding="async"></div>
-        </div>
-      </div>
-    </li>
-  </ul>
 
   <p class="srv__hint">натисніть напрям, щоб побачити деталі</p>
 </section>
 
-<!-- ============ 04 · ЯК ПРАЦЮЄМО ============ -->
-<section class="proc" id="process" data-theme="light">
-  <div class="proc__head">
-    <p class="label">(03) як працюємо</p>
-    <h2 class="h2 reveal">чотири кроки,<br>без ритуалів</h2>
+<!-- ═══════════ КЕЙС 03 · СТРІЧКА КРЕАТИВІВ ═══════════ -->
+<section class="case3" data-theme="dark">
+  <header class="case3__hd">
+    <p class="label">кейс 03 — послуги b2c</p>
+    <h2 class="h2 reveal">ms west</h2>
+    <p class="case3__lead reveal">серія вертикальних креативів під reels і stories. одна ідея — десять кадрувань.</p>
+  </header>
+
+  <div class="case3__rail" data-rail>
+    <div class="case3__row" data-rail-row>
+      <figure class="reel"><div class="mk mk--bare"><div class="scr scr--ad scr--ad-6"><p class="ad__top">reels 01</p><p class="ad__big">твій<br>конкурент<br><b>уже тут</b></p></div><span class="mk__demo">demo</span></div></figure>
+      <figure class="reel reel--pink"><div class="mk mk--bare"><div class="scr scr--ad scr--ad-7"><p class="ad__top">reels 02</p><p class="ad__big">3 сек<br><b>і скрол</b></p><p class="ad__bot">як утримати →</p></div><span class="mk__demo">demo</span></div></figure>
+      <figure class="reel"><div class="mk mk--bare"><div class="scr scr--ad scr--ad-8"><p class="ad__top">stories</p><p class="ad__big">ціна<br>в директ?<br><b>ні.</b></p></div><span class="mk__demo">demo</span></div></figure>
+      <figure class="reel"><div class="mk mk--bare"><div class="scr scr--ad scr--ad-9"><p class="ad__top">reels 04</p><p class="ad__big">до /<br><b>після</b></p><p class="ad__bot">монтаж · sodo</p></div><span class="mk__demo">demo</span></div></figure>
+      <figure class="reel reel--pink"><div class="mk mk--bare"><div class="scr scr--ad scr--ad-10"><p class="ad__top">reels 05</p><p class="ad__big">знімаємо<br><b>за 1 день</b></p></div><span class="mk__demo">demo</span></div></figure>
+      <figure class="reel"><div class="mk mk--bare"><div class="scr scr--ad scr--ad-11"><p class="ad__top">stories</p><p class="ad__big">свайп<br><b>угору</b></p></div><span class="mk__demo">demo</span></div></figure>
+    </div>
   </div>
 
-  <div class="proc__body">
-    <ol class="proc__list">
-      <li class="proc__step reveal">
-        <span class="proc__num">01</span>
-        <h3>занурення</h3>
-        <p>питаємо про продукт, ціни, маржу й сезонність. дивимось, звідки клієнти приходять зараз і де губляться.</p>
-      </li>
-      <li class="proc__step reveal">
-        <span class="proc__num">02</span>
-        <h3>план</h3>
-        <p>фіксуємо, що робимо перші 4–6 тижнів, які канали вмикаємо, який бюджет і на які цифри дивимось.</p>
-      </li>
-      <li class="proc__step reveal">
-        <span class="proc__num">03</span>
-        <h3>запуск</h3>
-        <p>зйомки, креативи, кампанії, сторінки, бот. усе з одного джерела, щоб реклама й контент не суперечили одне одному.</p>
-      </li>
-      <li class="proc__step reveal">
-        <span class="proc__num">04</span>
-        <h3>аналіз і наступні рішення</h3>
-        <p>раз на тиждень — короткий звіт: що спрацювало, що вимикаємо, що пробуємо далі. без презентацій на 40 слайдів.</p>
-      </li>
-    </ol>
-
-    <figure class="proc__vis reveal">
-      <img src="assets/images/process-stairs.webp" alt="Чорні сходи з рожевою підсвіткою — метафора етапів роботи" width="900" height="705" loading="lazy" decoding="async">
-      <figcaption>фірмовий об’єкт · етапи</figcaption>
-    </figure>
+  <div class="case3__txt">
+    <dl class="rows reveal">
+      <div><dt>задача</dt><dd>зібрати впізнаваний візуал і стабільний потік звернень із соцмереж.</dd></div>
+      <div><dt>що зробили</dt><dd>серія reels у форматі «до / після», єдина типографічна система для креативів, підсилення найкращих публікацій рекламою.</dd></div>
+      <div><dt>результат</dt><dd class="empty">— звернень · — охоплення · — бюджет</dd></div>
+    </dl>
   </div>
 </section>
 
-<!-- ============ 05 · ПРО АГЕНЦІЮ ============ -->
+<!-- ═══════════ БРЕНД-БЛОК ═══════════ -->
 <section class="about" id="about" data-theme="dark">
-  <div class="about__grid">
-    <div class="about__copy">
-      <p class="label label--pink">(04) про нас</p>
-      <h2 class="h2 reveal">нас небагато&nbsp;—<br>і це навмисно</h2>
-      <p class="about__lead reveal">sodo — невелика команда, яка веде обмежену кількість проєктів одночасно. ви говорите з тими, хто справді робить роботу, а не з менеджером між вами й виконавцем.</p>
-      <p class="about__txt reveal">ми любимо різкий візуал і не любимо порожніх обіцянок. якщо бачимо, що рекламою задачу не вирішити, скажемо це до старту, а не наприкінці місяця.</p>
+  <div class="about__in">
+    <h2 class="about__h reveal">нас небагато —<br>і це навмисно</h2>
+    <div class="about__col">
+      <p class="reveal">sodo — невелика команда, яка веде обмежену кількість проєктів одночасно. ви говорите з тими, хто справді робить роботу.</p>
+      <p class="reveal">любимо різкий візуал і не любимо порожніх обіцянок. якщо бачимо, що рекламою задачу не вирішити — скажемо це до старту.</p>
       <ul class="about__facts reveal">
-        <li><span>база</span> познань, польща</li>
-        <li><span>працюємо</span> онлайн, з клієнтами звідусіль</li>
-        <li><span>мови</span> українська, польська, англійська</li>
+        <li><i>база</i> познань, польща</li>
+        <li><i>працюємо</i> онлайн, звідусіль</li>
+        <li><i>мови</i> ua · pl · en</li>
       </ul>
     </div>
-
-    <div class="about__team">
-      <figure class="ph ph--1"><div class="ph__box"><span>фото команди</span></div><figcaption>замінити · ч/б, вертикаль 3:4</figcaption></figure>
-      <figure class="ph ph--2"><div class="ph__box"><span>backstage зі зйомки</span></div><figcaption>замінити на реальне фото</figcaption></figure>
-      <figure class="ph ph--3">
-        <img src="assets/images/content-camera.webp" alt="Камера в руці — зйомки контенту" width="769" height="941" loading="lazy" decoding="async">
-        <figcaption>фірмовий об’єкт · можна лишити</figcaption>
-      </figure>
-    </div>
   </div>
 </section>
 
-<!-- ============ 06 · КОНТАКТ ============ -->
-<section class="contact" id="contact" data-theme="pink">
-  <div class="contact__panel" data-pink-panel>
-    <div class="contact__in">
+<!-- ═══════════ ФІНАЛЬНА СЦЕНА ═══════════ -->
+<section class="fin" id="contact" data-fin data-theme="pink">
+  <div class="fin__pin">
+    <div class="fin__panel" data-fin-panel></div>
 
-      <div class="contact__left">
-        <p class="label">(05) контакт</p>
-        <h2 class="contact__title">
-          <span class="line"><span class="line__in">тепер про</span></span>
-          <span class="line"><span class="line__in">ваш проєкт</span></span>
-        </h2>
-        <p class="contact__lead">напишіть коротко про бізнес і задачу. відповімо, з чого варто почати саме вам — навіть якщо не працюватимемо разом.</p>
-        <ul class="contact__links">
-          <li><a href="https://t.me/sodoagency" target="_blank" rel="noopener" data-track="telegram_click">telegram · @sodoagency</a></li>
-          <li><a href="https://instagram.com/sodo.agency" target="_blank" rel="noopener" data-track="instagram_click">instagram · @sodo.agency</a></li>
-          <li><a href="mailto:hello@sodo.agency" data-track="email_click">hello@sodo.agency</a></li>
-        </ul>
-      </div>
+    <div class="fin__type" data-fin-type>
+      <p class="fin__line"><span>тепер</span></p>
+      <p class="fin__line"><span>про ваш</span></p>
+      <p class="fin__line"><span>проєкт</span></p>
+    </div>
 
+    <div class="fin__card" data-fin-card>
       <form class="form" novalidate data-form>
         <div class="field">
           <label for="f-name">ім’я</label>
           <input id="f-name" name="name" type="text" autocomplete="name" required aria-describedby="e-name">
           <p class="field__err" id="e-name" hidden>вкажіть, як до вас звертатись</p>
         </div>
-
         <div class="field">
-          <label for="f-contact">контакт для зв’язку</label>
+          <label for="f-contact">контакт</label>
           <input id="f-contact" name="contact" type="text" placeholder="telegram, instagram або email" required aria-describedby="e-contact">
-          <p class="field__err" id="e-contact" hidden>залиште спосіб зв’язку — telegram, instagram або email</p>
+          <p class="field__err" id="e-contact" hidden>залиште спосіб зв’язку</p>
         </div>
-
         <div class="field">
           <label for="f-task">коротко про задачу</label>
-          <textarea id="f-task" name="task" rows="3" required aria-describedby="e-task"></textarea>
-          <p class="field__err" id="e-task" hidden>кілька слів про бізнес і задачу — цього досить</p>
+          <textarea id="f-task" name="task" rows="2" required aria-describedby="e-task"></textarea>
+          <p class="field__err" id="e-task" hidden>кілька слів про бізнес і задачу</p>
         </div>
-
-        <button class="btn btn--dark" type="submit" data-track="form_submit">надіслати</button>
+        <button class="btn btn--dark" type="submit" data-track="form_submit">
+          <span>надіслати</span>
+          <svg viewBox="0 0 26 14" aria-hidden="true"><path d="M1 7h23M18 1l6 6-6 6"/></svg>
+        </button>
         <p class="form__status" data-form-status role="status" aria-live="polite"></p>
       </form>
 
+      <ul class="fin__links">
+        <li><a href="https://t.me/sodoagency" target="_blank" rel="noopener" data-track="telegram_click">telegram · @sodoagency</a></li>
+        <li><a href="https://instagram.com/sodo.agency" target="_blank" rel="noopener" data-track="instagram_click">instagram · @sodo.agency</a></li>
+        <li><a href="mailto:hello@sodo.agency" data-track="email_click">hello@sodo.agency</a></li>
+      </ul>
     </div>
   </div>
 </section>
 
 </main>
 
-<footer class="ftr" data-theme="dark">
+<footer class="ftr" data-theme="pink">
   <div class="ftr__in">
-    <div class="ftr__mark"><img src="assets/images/logo-sodo.webp" alt="SODO" width="1200" height="283" loading="lazy" decoding="async"></div>
-    <div class="ftr__cols">
-      <div>
-        <p class="label">сторінка</p>
-        <a href="#works">роботи</a>
-        <a href="#services">послуги</a>
-        <a href="#process">як працюємо</a>
-        <a href="#about">про нас</a>
-      </div>
-      <div>
-        <p class="label">зв’язок</p>
-        <a href="https://t.me/sodoagency" target="_blank" rel="noopener">telegram</a>
-        <a href="https://instagram.com/sodo.agency" target="_blank" rel="noopener">instagram</a>
-        <a href="mailto:hello@sodo.agency">hello@sodo.agency</a>
-      </div>
-      <div>
-        <p class="label">рік</p>
-        <a href="#top">2026 · на початок ↑</a>
-      </div>
-    </div>
-  </div>
-  <div class="ftr__bottom">
     <p class="label">© 2026 sodo · digital-агенція</p>
-    <p class="label">сайт зроблено в sodo</p>
+    <p class="label">познань · працюємо звідусіль</p>
+    <a class="label" href="#top">на початок ↑</a>
   </div>
 </footer>
 
