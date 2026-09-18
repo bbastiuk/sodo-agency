@@ -138,7 +138,7 @@
     var panel = $('[data-panel="' + name + '"]');
     if (!panel) return;
 
-    lastFocus = trigger || document.activeElement;
+    lastFocus = (trigger && trigger.closest && trigger.closest('.mobile-menu')) ? menuButton : (trigger || document.activeElement);
 
     if (menu && menu.classList.contains('is-open')) {
       menu.classList.remove('is-open');
