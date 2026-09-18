@@ -272,3 +272,10 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
   .hero__bottom{margin-top:12px;gap:10px}
   .button{min-height:44px}
 }
+
+.no-js .signal-loader{display:none!important}
+.no-js .site-header,
+.no-js .hero__object,
+.no-js .hero__kicker,
+.no-js .hero__bottom{opacity:1!important;transform:none!important;filter:none!important}
+.no-js .hero__line i{transform:none!important}
