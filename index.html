@@ -16,7 +16,7 @@
   <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -70,28 +70,24 @@
       </div>
 
       <div class="hero__frame">
-        <div class="hero__object" id="heroObject" aria-hidden="true">
-          <div class="crt-shadow"></div>
-          <div class="crt">
-            <div class="crt__body">
-              <div class="crt__screen-wrap">
-                <div class="crt__screen" id="crtScreen">
-                  <div class="crt__noise"></div>
-                  <div class="crt__scan"></div>
-                  <div class="crt__vignette"></div>
-                  <div class="crt__signal" id="crtSignal">
-                    <span class="crt__micro" id="crtChannel">CH 09 / LIVE</span>
-                    <strong id="crtMessage">SODO</strong>
-                    <span class="crt__sub" id="crtSub">SIGNAL FOUND</span>
-                  </div>
-                </div>
-              </div>
-              <div class="crt__controls">
-                <span></span><span></span><span></span>
-                <b></b>
+        <div class="hero__object" id="heroObject">
+          <div class="tv-photo-wrap">
+            <img
+              class="tv-photo"
+              src="https://images.unsplash.com/photo-1594434885674-0a15708152bf?auto=format&fit=crop&fm=webp&q=86&w=1400"
+              alt="Старий CRT-телевізор у темній кімнаті"
+              fetchpriority="high"
+              decoding="async">
+            <div class="tv-screen-overlay" id="crtScreen" aria-hidden="true">
+              <div class="tv-screen-noise"></div>
+              <div class="tv-screen-scanlines"></div>
+              <div class="tv-screen-content" id="crtSignal">
+                <span class="crt__micro" id="crtChannel">CH 09 / LIVE</span>
+                <strong id="crtMessage">SODO</strong>
+                <span class="crt__sub" id="crtSub">SIGNAL FOUND</span>
               </div>
             </div>
-            <div class="crt__base"></div>
+            <div class="tv-pink-spill" aria-hidden="true"></div>
           </div>
           <div class="object-caption">
             <span>SODO SIGNAL / 01</span>
