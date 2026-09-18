@@ -295,6 +295,43 @@
     pulse();
   }
 
+
+  function setupCrtTune() {
+    var button = $('#crtTune');
+    var crt = $('.crt');
+    var channel = $('#crtChannel');
+    var message = $('#crtMessage');
+    var sub = $('#crtSub');
+    if (!button || !crt || !channel || !message || !sub) return;
+
+    var signals = [
+      { ch: 'CH 09 / LIVE', main: 'SODO', sub: 'SIGNAL FOUND' },
+      { ch: 'CH 12 / ATTENTION', main: 'NOTICE', sub: 'CUT THROUGH NOISE' },
+      { ch: 'CH 21 / SYSTEM', main: 'DIGITAL', sub: 'STRATEGY / CREATIVE / TECH' },
+      { ch: 'CH 33 / ACTION', main: 'MOVE', sub: 'MAKE PEOPLE ACT' }
+    ];
+    var index = 0;
+
+    button.addEventListener('click', function () {
+      index = (index + 1) % signals.length;
+      var next = signals[index];
+
+      crt.classList.remove('is-tuning');
+      void crt.offsetWidth;
+      crt.classList.add('is-tuning');
+
+      setTimeout(function () {
+        channel.textContent = next.ch;
+        message.textContent = next.main;
+        sub.textContent = next.sub;
+      }, reduced ? 0 : 110);
+
+      setTimeout(function () {
+        crt.classList.remove('is-tuning');
+      }, reduced ? 0 : 420);
+    });
+  }
+
   function setupBrandReset() {
     var brand = $('.brand');
     if (!brand) return;
@@ -341,6 +378,7 @@
   setupServicesPreview();
   setupMagnetic();
   setupAmbientSignal();
+  setupCrtTune();
   setupBrandReset();
   setupForm();
 })();
