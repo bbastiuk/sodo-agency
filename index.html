@@ -26,7 +26,7 @@
       <span>00:00:01</span>
     </div>
     <div class="signal-loader__core">
-      <div class="signal-loader__mark" aria-hidden="true">SODO</div>
+      <div class="signal-loader__mark" aria-hidden="true" data-text="SODO">SODO</div>
       <p class="signal-loader__status" id="loaderStatus">SEARCHING FOR SIGNAL</p>
       <div class="signal-loader__bar"><span id="loaderBar"></span></div>
     </div>
@@ -76,10 +76,10 @@
                   <div class="crt__noise"></div>
                   <div class="crt__scan"></div>
                   <div class="crt__vignette"></div>
-                  <div class="crt__signal">
-                    <span class="crt__micro">CH 09 / LIVE</span>
-                    <strong>SODO</strong>
-                    <span class="crt__sub">SIGNAL FOUND</span>
+                  <div class="crt__signal" id="crtSignal">
+                    <span class="crt__micro" id="crtChannel">CH 09 / LIVE</span>
+                    <strong id="crtMessage">SODO</strong>
+                    <span class="crt__sub" id="crtSub">SIGNAL FOUND</span>
                   </div>
                 </div>
               </div>
@@ -90,7 +90,10 @@
             </div>
             <div class="crt__base"></div>
           </div>
-          <div class="object-caption">SODO SIGNAL / 01</div>
+          <div class="object-caption">
+            <span>SODO SIGNAL / 01</span>
+            <button class="crt-tune" id="crtTune" type="button" aria-label="Перемкнути сигнал">TUNE SIGNAL ↻</button>
+          </div>
         </div>
 
         <div class="hero__copy">
