@@ -696,7 +696,10 @@ body.is-done .hero__w--2{animation:wordIn 1.35s var(--e) .16s both}
   .fig--hero img{inset:12% 19%;width:62%;height:76%}
   .fig--hero .fig__soft{filter:blur(12px) contrast(1.1);opacity:.56}
   .fig--hero .fig__far{filter:blur(18px) contrast(1.1);opacity:.17}
-  .hero__note{grid-row:1;max-width:none;font-size:12px;text-align:left}
+  /* На телефоні герой має тримати одне: фігуру, заголовок і дію.
+     Абзаци текстом його перевантажували, а те саме повідомлення
+     несе секція «Хто ми» одразу під ним. */
+  .hero__note{display:none}
   .hero .circle{grid-row:2;justify-self:end;align-self:end;margin-bottom:16px}
   .hero__t{grid-row:3;padding-bottom:16px}
   /* Кеглі рахуються з реальної ширини гліфів Inter 800:
