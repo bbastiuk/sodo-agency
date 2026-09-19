@@ -227,7 +227,7 @@ body.is-menu .mn__nav a:nth-child(4){transition-delay:.3s}
 }
 
 .fig__far{
-  opacity:.22;filter:blur(34px) contrast(1.2);
+  opacity:.16;filter:blur(38px) contrast(1.1);
   transform:translate3d(calc(var(--pp-x,0px) * .14),calc(var(--pp-y,0px) * .14),0) scale(1.12);
 }
 /* Мʼякий план ховається рівно там, де відкривається різкий: маска в
@@ -236,7 +236,7 @@ body.is-menu .mn__nav a:nth-child(4){transition-delay:.3s}
    При --mr:0 (спокій, і секція «Підхід») градіус вироджується
    і шар лишається суцільним. */
 .fig__soft{
-  opacity:.8;filter:blur(15px) contrast(1.25);
+  opacity:.56;filter:blur(19px) contrast(1.08);
   transform:translate3d(calc(var(--pp-x,0px) * .46),calc(var(--pp-y,0px) * .46),0);
   -webkit-mask-image:radial-gradient(circle var(--mr,0px) at var(--mx) var(--my),
     transparent 0%,transparent 38%,rgba(0,0,0,.54) 68%,rgba(0,0,0,.9) 88%,#000 100%);
@@ -248,7 +248,7 @@ body.is-menu .mn__nav a:nth-child(4){transition-delay:.3s}
 /* У спокої радіус нульовий: доки на фігуру не дивляться, різкого
    в ній немає нічого. Фокус з’являється тільки від руху курсора. */
 .fig__sharp{
-  opacity:.8;filter:blur(2px) contrast(1.3);
+  opacity:.62;filter:blur(3px) contrast(1.15);
   transform:translate3d(var(--pp-x,0px),var(--pp-y,0px),0) scale(1.015);
   -webkit-mask-image:radial-gradient(circle var(--mr,0px) at var(--mx) var(--my),
     #000 0%,#000 38%,rgba(0,0,0,.46) 68%,rgba(0,0,0,.1) 88%,transparent 100%);
@@ -693,9 +693,9 @@ body.is-done .hero__w--2{animation:wordIn 1.35s var(--e) .16s both}
   /* Запас рахується від радіуса розмиття: найсильніший шар — 16px,
      розтікається приблизно на 48px, тому кадр відступає від краю
      екрана на 13%. Інакше блюр обрізало б вікном браузера. */
-  .fig--hero img{inset:12% 17%;width:66%;height:76%}
-  .fig--hero .fig__soft{filter:blur(10px) contrast(1.26);opacity:.8}
-  .fig--hero .fig__far{filter:blur(16px) contrast(1.2);opacity:.24}
+  .fig--hero img{inset:12% 19%;width:62%;height:76%}
+  .fig--hero .fig__soft{filter:blur(12px) contrast(1.1);opacity:.56}
+  .fig--hero .fig__far{filter:blur(18px) contrast(1.1);opacity:.17}
   .hero__note{grid-row:1;max-width:none;font-size:12px;text-align:left}
   .hero .circle{grid-row:2;justify-self:end;align-self:end;margin-bottom:16px}
   .hero__t{grid-row:3;padding-bottom:16px}
