@@ -248,7 +248,9 @@ body.is-menu .mn__nav a:nth-child(4){transition-delay:.3s}
 /* У спокої радіус нульовий: доки на фігуру не дивляться, різкого
    в ній немає нічого. Фокус з’являється тільки від руху курсора. */
 .fig__sharp{
-  opacity:.62;filter:blur(3px) contrast(1.15);
+  /* У фокусі кадр на ~20% видиміший і різкіший за розмитий план.
+     Ч/б не змінюється: силует і так чорний з альфою. */
+  opacity:.79;filter:blur(2.75px) contrast(1.15);
   transform:translate3d(var(--pp-x,0px),var(--pp-y,0px),0) scale(1.015);
   -webkit-mask-image:radial-gradient(circle var(--mr,0px) at var(--mx) var(--my),
     #000 0%,#000 38%,rgba(0,0,0,.46) 68%,rgba(0,0,0,.1) 88%,transparent 100%);
