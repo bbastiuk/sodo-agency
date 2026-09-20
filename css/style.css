@@ -187,18 +187,32 @@ body.is-menu .mn__nav a:nth-child(4){transition-delay:.3s}
 .mn__links{display:flex;gap:24px;font:500 13px/1 var(--mono)}
 .mn__links a{border-bottom:1.5px solid var(--pink);padding-bottom:5px}
 
-/* ============ РОЖЕВИЙ КРУГ — головна дія ============ */
+/* ============ РОЖЕВИЙ КРУГ — головна дія ============
+   Був завеликий і читався як пляма без ролі. Тепер це щільний
+   штемпель: менший діаметр, тісний набір, стрілка окремим рядком
+   і мʼякий підйом тінню — щоб диск лежав на площині, а не був
+   у неї вклеєний. Рожевий на екрані трапляється лише тут. */
 
 .circle{
-  display:grid;place-items:center;text-align:center;
-  width:clamp(118px,11.6vw,168px);aspect-ratio:1;border-radius:50%;
+  display:grid;place-items:center;align-content:center;
+  gap:clamp(4px,.5vh,7px);text-align:center;
+  width:clamp(102px,9vw,136px);aspect-ratio:1;border-radius:50%;
   background:var(--pink);color:var(--ink);
-  font:700 clamp(10px,.82vw,12px)/1.35 var(--mono);
-  letter-spacing:.1em;text-transform:uppercase;
-  transition:transform .45s var(--e),background-color .3s;
+  font:700 clamp(8.5px,.68vw,10.5px)/1.45 var(--mono);
+  letter-spacing:.11em;text-transform:uppercase;
+  box-shadow:0 16px 36px -18px rgba(201,83,111,.6);
+  transition:transform .45s var(--e),box-shadow .45s var(--e),background-color .3s;
 }
-.circle:hover{transform:scale(1.06);background:var(--ink);color:var(--paper)}
-.circle--big{width:clamp(140px,15vw,220px)}
+.circle i{
+  font-style:normal;font-size:1.25em;line-height:1;
+  transition:transform .4s var(--e);
+}
+.circle:hover{
+  transform:translateY(-2px) scale(1.04);
+  box-shadow:0 22px 44px -18px rgba(201,83,111,.7);
+}
+.circle:hover i{transform:translateX(3px)}
+.circle--big{width:clamp(126px,12.4vw,180px)}
 
 /* ============ ФІГУРА ЗА СКЛОМ ============
    Три плани одного силуету. Дальній майже розчинений і трохи більший,
@@ -298,61 +312,57 @@ body.is-menu .mn__nav a:nth-child(4){transition-delay:.3s}
   grid-column:2;grid-row:1;align-self:start;justify-self:end;z-index:3;
 }
 
-/* ── заголовок як композиція ──
-   Фраза сама грає те, про що сайт: «Вас» — лише контур, ледь є;
-   «мають» — півтон; «помічати» — повна вага. Порожнє → видиме.
-   Розміри близькі, тому це читається як одне речення, а не як
-   три різні написи. */
+/* ── заголовок ──
+   Одна фарба і дві ваги. Раніше було три різні прийоми — рожевий
+   контур, сірий і чорний — і фраза читалась як три експерименти,
+   а не як одне висловлювання. Тепер ієрархію тримає кегль і вага,
+   а рожевий лишається рівно в одному місці на екрані: у дії. */
 .hero__t{
   grid-column:1 / -1;grid-row:3;z-index:2;min-width:0;
-  font-weight:800;text-transform:uppercase;
-  line-height:.86;letter-spacing:-.05em;
-  margin-left:-.05em;
-  padding-bottom:clamp(14px,3vh,32px);
+  text-transform:uppercase;
+  line-height:.9;letter-spacing:-.045em;
+  margin-left:-.045em;
+  padding-bottom:clamp(12px,2.4vh,26px);
 }
 .hero__w{display:block}
 
 .hero__w--1{
-  font-size:clamp(36px,8.2vw,146px);
-  display:flex;flex-wrap:wrap;gap:0 .22em;
+  font-weight:300;
+  font-size:clamp(30px,6.2vw,110px);
+  letter-spacing:-.03em;
+  color:var(--ink);
 }
-.hero__w--1 b{
-  font-weight:800;
-  color:transparent;
-  -webkit-text-stroke:.021em var(--pink-deep);
-}
-.hero__w--1 i{font-style:normal;color:rgba(11,11,12,.34)}
-
 .hero__w--2{
+  font-weight:800;
   font-size:clamp(50px,12.4vw,222px);
-  padding-left:clamp(14px,3.4vw,74px);
-  margin-top:clamp(-8px,-.7vh,-2px);
+  letter-spacing:-.055em;
+  margin-top:clamp(-10px,-.9vh,-3px);
 }
 
-/* поява: кожен рядок наводиться на різкість, головний — найповільніше */
+/* поява: рядки наводяться на різкість, головний — найповільніше */
 body:not(.is-done) .hero__w{opacity:0}
 body.is-done .hero__w{animation:wordIn .95s var(--e) both}
-body.is-done .hero__w--2{animation:wordIn 1.35s var(--e) .16s both}
+body.is-done .hero__w--2{animation:wordIn 1.35s var(--e) .14s both}
 @keyframes wordIn{
-  0%{opacity:0;transform:translateY(.14em);filter:blur(18px)}
+  0%{opacity:0;transform:translateY(.12em);filter:blur(16px)}
   55%{opacity:1}
   100%{opacity:1;transform:none;filter:blur(0)}
 }
 
+/* ── мітки ──
+   Були окремим блоком біля нижнього краю й читались як зайвий текст.
+   Тепер це підпис під заголовком: один рядок, тонка лінія зверху,
+   приглушений тон. Опори бренду коментують висловлювання, а не
+   змагаються з ним. */
 .hero__strip{
   grid-column:1 / -1;grid-row:4;z-index:2;
-  display:flex;flex-wrap:wrap;gap:0 clamp(14px,2.6vw,40px);
-  margin:0 calc(var(--gut) * -1);
-  padding:clamp(11px,1.6vh,16px) var(--gut);
+  padding-top:clamp(10px,1.5vh,15px);
   border-top:1px solid var(--ink-thin);
-  font:600 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;
-  color:var(--ink-soft);
+  font:500 clamp(9.5px,.78vw,12px)/1 var(--mono);
+  letter-spacing:.16em;text-transform:uppercase;white-space:nowrap;
+  color:rgba(11,11,12,.42);
 }
-.hero__strip li{position:relative;padding-left:15px}
-.hero__strip li::before{
-  content:"";position:absolute;left:0;top:50%;width:6px;height:6px;
-  margin-top:-3px;border-radius:50%;background:var(--pink);
-}
+.hero__strip i{font-style:normal;opacity:.4;margin:0 .35em}
 
 /* ============ 02 · ХТО МИ ============ */
 
@@ -679,40 +689,41 @@ body.is-done .hero__w--2{animation:wordIn 1.35s var(--e) .16s both}
   :root{--gut:18px}
 
 
+  /* Мобільна компоновка: фігура — верхній якір, під нею одразу
+     блок висловлювання, круг лежить на стику й звʼязує обидві зони.
+     Нічого не висить окремо біля краю екрана. */
   .hero{
     grid-template-columns:minmax(0,1fr);
-    grid-template-rows:auto 1fr auto auto;
-    padding-top:calc(var(--hd) + 14px);
+    grid-template-rows:1fr auto auto;
+    padding:calc(var(--hd) + 10px) var(--gut) 20px;
   }
-  /* На телефоні бокс фігури низький і широкий, тому та сама еліптична
-     маска не встигала згаснути до верхнього краю — лишалася пряма
-     межа. Тут вона помітно менша за бокс і гасне всередині нього. */
-  /* Знімок вертикальний (0.745) і має власний запас під розмиття,
-     тому бокс просто більший за видиму фігуру. Маски немає. */
-  .fig--hero{
-    left:50%;top:6%;height:74%;width:100vw;transform:translateX(-50%);
-  }
-  /* Запас рахується від радіуса розмиття: найсильніший шар — 16px,
-     розтікається приблизно на 48px, тому кадр відступає від краю
-     екрана на 13%. Інакше блюр обрізало б вікном браузера. */
-  .fig--hero img{inset:12% 19%;width:62%;height:76%}
-  .fig--hero .fig__soft{filter:blur(12px) contrast(1.1);opacity:.56}
-  .fig--hero .fig__far{filter:blur(18px) contrast(1.1);opacity:.17}
-  /* На телефоні герой має тримати одне: фігуру, заголовок і дію.
-     Абзаци текстом його перевантажували, а те саме повідомлення
-     несе секція «Хто ми» одразу під ним. */
   .hero__note{display:none}
-  .hero .circle{grid-row:2;justify-self:end;align-self:end;margin-bottom:16px}
-  .hero__t{grid-row:3;padding-bottom:16px}
-  /* Кеглі рахуються з реальної ширини гліфів Inter 800:
-     «Вас мають» = 6.01 ширини на 1px кегля, «помічати» = 5.18.
-     Звідси стелі 15.1vw і 17.5vw — беремо трохи нижче, щоб рядки
-     стояли до самого поля, але не зрізались. */
-  .hero__w--1{font-size:14vw;gap:0 .18em}
-  .hero__w--2{font-size:16.6vw;padding-left:0;margin-top:-1px}
-  .hero__strip{grid-row:4;gap:0 14px;font-size:10px;letter-spacing:.1em}
-  .hero__strip li{padding-left:12px}
-  .hero__strip li::before{width:5px;height:5px;margin-top:-2.5px}
+
+  /* Фігура більша й вище. Ширину обмежує запас під розліт блюру:
+     18px розтікається приблизно на 54px, тому кадр відступає від
+     краю екрана на 14.5%. */
+  .fig--hero{
+    left:50%;top:1%;height:78%;width:100vw;transform:translateX(-50%);
+  }
+  .fig--hero img{inset:10% 14.7%;width:70.6%;height:80%}
+  .fig--hero .fig__soft{filter:blur(10px) contrast(1.1);opacity:.58}
+  /* дальній план ще й масштабований 1.12 — запас рахується від нього */
+  .fig--hero .fig__far{filter:blur(13px) contrast(1.1);opacity:.18}
+
+  /* grid-column обовʼязково: десктопне правило ставить кругу колонку 2,
+     і без скидання grid створює другу колонку, яка тисне заголовок. */
+  .hero .circle{
+    grid-column:1;grid-row:1;justify-self:end;align-self:end;
+    margin:0 1vw -20px 0;position:relative;z-index:4;
+  }
+  .hero__t{grid-row:2;padding-bottom:12px}
+
+  /* Кеглі з реальної ширини гліфів Inter: «помічати» — 5.18 ширини
+     на 1px кегля, тому 16.6vw ставить рядок до самого поля, не ріжучи. */
+  .hero__w--1{font-size:11.5vw}
+  .hero__w--2{font-size:16.6vw;margin-top:-2px}
+
+  .hero__strip{grid-row:3;letter-spacing:.13em}
 
   .who{display:block;padding-top:clamp(44px,8vh,72px)}
   .who__t{font-size:clamp(22px,7vw,34px);margin:14px 0 22px}
