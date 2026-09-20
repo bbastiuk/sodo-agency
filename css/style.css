@@ -135,6 +135,13 @@ body.is-hide .hd{transform:translateY(-100%)}
 body.is-menu .hd,body.is-ondark .hd{color:var(--paper)}
 body.is-menu .hd{transform:none}
 
+/* Вордмарк — єдиний кольоровий елемент шапки. Рожевий тут не декор,
+   а підпис: далі той самий тон веде перший рядок заголовка й кнопку.
+   Над світлим беремо глибокий (контраст 3.7:1 — вордмарк читається),
+   над чорним — світлий фірмовий, там він сам по собі яскравий. */
+.hd__brand{color:var(--pink-deep);transition:color .35s}
+body.is-menu .hd__brand,body.is-ondark .hd__brand{color:var(--pink)}
+
 .hd__nav{
   margin-left:auto;display:flex;gap:clamp(12px,1.6vw,26px);
   font:600 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;
@@ -188,31 +195,46 @@ body.is-menu .mn__nav a:nth-child(4){transition-delay:.3s}
 .mn__links a{border-bottom:1.5px solid var(--pink);padding-bottom:5px}
 
 /* ============ РОЖЕВИЙ КРУГ — головна дія ============
-   Був завеликий і читався як пляма без ролі. Тепер це щільний
-   штемпель: менший діаметр, тісний набір, стрілка окремим рядком
-   і мʼякий підйом тінню — щоб диск лежав на площині, а не був
-   у неї вклеєний. Рожевий на екрані трапляється лише тут. */
+   Напис усередині був 8.5px і читався як дрібний шум на великій
+   плямі: диск привертав увагу, а сказати йому не було чого. Тепер
+   навпаки — диск трохи більший, кегль виріс у півтора раза, стрілка
+   взята в окреслене кільце й стала окремим знаком «далі».
+   На ховері диск не просто масштабується, а перевертається в чорне:
+   це та сама наводка на різкість, що й на фігурі, тільки миттєва. */
 
 .circle{
   display:grid;place-items:center;align-content:center;
-  gap:clamp(4px,.5vh,7px);text-align:center;
-  width:clamp(102px,9vw,136px);aspect-ratio:1;border-radius:50%;
+  gap:clamp(7px,.9vh,12px);text-align:center;
+  width:clamp(132px,11.6vw,172px);aspect-ratio:1;border-radius:50%;
   background:var(--pink);color:var(--ink);
-  font:700 clamp(8.5px,.68vw,10.5px)/1.45 var(--mono);
-  letter-spacing:.11em;text-transform:uppercase;
-  box-shadow:0 16px 36px -18px rgba(201,83,111,.6);
-  transition:transform .45s var(--e),box-shadow .45s var(--e),background-color .3s;
+  font:700 clamp(10.5px,.84vw,13px)/1.3 var(--mono);
+  letter-spacing:.06em;text-transform:uppercase;
+  box-shadow:0 18px 40px -20px rgba(201,83,111,.65);
+  transition:transform .45s var(--e),box-shadow .45s var(--e),
+             background-color .35s,color .35s;
 }
-.circle i{
-  font-style:normal;font-size:1.25em;line-height:1;
+.circle__a{
+  display:grid;place-items:center;
+  width:1.95em;height:1.95em;border-radius:50%;
+  border:1.5px solid currentColor;
+  font-style:normal;font-size:1.05em;line-height:1;
   transition:transform .4s var(--e);
 }
 .circle:hover{
-  transform:translateY(-2px) scale(1.04);
-  box-shadow:0 22px 44px -18px rgba(201,83,111,.7);
+  transform:translateY(-3px) scale(1.04);
+  background:var(--ink);color:var(--pink);
+  box-shadow:0 26px 52px -20px rgba(11,11,12,.5);
 }
-.circle:hover i{transform:translateX(3px)}
-.circle--big{width:clamp(126px,12.4vw,180px)}
+.circle:hover .circle__a{transform:translateX(4px)}
+
+.circle--big{
+  width:clamp(150px,14.6vw,206px);
+  font-size:clamp(11.5px,.95vw,14.5px);
+}
+/* На чорній площині перевертання в чорне нічого не дає — там диск
+   світлішає. */
+.talk .circle:hover{background:var(--paper);color:var(--ink);
+  box-shadow:0 26px 52px -20px rgba(242,241,238,.32)}
 
 /* ============ ФІГУРА ЗА СКЛОМ ============
    Три плани одного силуету. Дальній майже розчинений і трохи більший,
@@ -235,13 +257,13 @@ body.is-menu .mn__nav a:nth-child(4){transition-delay:.3s}
   position:absolute;left:50%;top:42%;
   width:118%;aspect-ratio:1;transform:translate(-50%,-50%);
   background:radial-gradient(circle,
-    rgba(11,11,12,.09) 0%,
-    rgba(11,11,12,.045) 38%,
+    rgba(11,11,12,.07) 0%,
+    rgba(11,11,12,.035) 38%,
     rgba(11,11,12,0) 68%);
 }
 
 .fig__far{
-  opacity:.16;filter:blur(38px) contrast(1.1);
+  opacity:.11;filter:blur(38px) contrast(1.1);
   transform:translate3d(calc(var(--pp-x,0px) * .14),calc(var(--pp-y,0px) * .14),0) scale(1.12);
 }
 /* Мʼякий план ховається рівно там, де відкривається різкий: маска в
@@ -250,7 +272,7 @@ body.is-menu .mn__nav a:nth-child(4){transition-delay:.3s}
    При --mr:0 (спокій, і секція «Підхід») градіус вироджується
    і шар лишається суцільним. */
 .fig__soft{
-  opacity:.56;filter:blur(19px) contrast(1.08);
+  opacity:.44;filter:blur(17px) contrast(1.08);
   transform:translate3d(calc(var(--pp-x,0px) * .46),calc(var(--pp-y,0px) * .46),0);
   -webkit-mask-image:radial-gradient(circle var(--mr,0px) at var(--mx) var(--my),
     transparent 0%,transparent 38%,rgba(0,0,0,.54) 68%,rgba(0,0,0,.9) 88%,#000 100%);
@@ -262,9 +284,11 @@ body.is-menu .mn__nav a:nth-child(4){transition-delay:.3s}
 /* У спокої радіус нульовий: доки на фігуру не дивляться, різкого
    в ній немає нічого. Фокус з’являється тільки від руху курсора. */
 .fig__sharp{
-  /* У фокусі кадр на ~20% видиміший і різкіший за розмитий план.
-     Ч/б не змінюється: силует і так чорний з альфою. */
-  opacity:.79;filter:blur(2.75px) contrast(1.15);
+  /* Збільшена фігура показала, що обидва стани лежали надто близько:
+     у спокої це була сіра маса, у фокусі — трохи менш сіра маса.
+     Тепер розмиті плани світліші, а різкий — щільніший і майже без
+     блюру, тож вікно наводки справді відкриває людину, а не пляму. */
+  opacity:.88;filter:blur(1.5px) contrast(1.22);
   transform:translate3d(var(--pp-x,0px),var(--pp-y,0px),0) scale(1.015);
   -webkit-mask-image:radial-gradient(circle var(--mr,0px) at var(--mx) var(--my),
     #000 0%,#000 38%,rgba(0,0,0,.46) 68%,rgba(0,0,0,.1) 88%,transparent 100%);
@@ -280,31 +304,36 @@ body.is-menu .mn__nav a:nth-child(4){transition-delay:.3s}
   grid-template-columns:minmax(0,1fr) auto;
   grid-template-rows:auto 1fr auto auto;
   column-gap:clamp(16px,3vw,48px);
-  padding:calc(var(--hd) + clamp(18px,4.4vh,54px)) var(--gut) 0;
+  padding:calc(var(--hd) + clamp(14px,3.2vh,38px)) var(--gut) clamp(16px,2.6vh,30px);
 }
 
-/* Фігура стоїть праворуч від центру й розчиняється донизу — саме в тій
-   зоні лягає заголовок. Без цього згасання темна маса зʼїдала б текст. */
+/* Фігура була завелика в боксі, але сиділа низько: над нею лишалась
+   майже третина екрана порожньою, а сама постать провалювалась за
+   середину. Піднята й збільшена — тепер вона займає верхній план,
+   а заголовок стоїть на ній, а не поруч із нею. */
 .fig--hero{
-  /* трохи нижче: кінчики пальців мають лишатись у кадрі — без них
-     силует знову перестає читатись */
-  /* Фото обрізане щільно по постаті, тож бокс менший за той, що був
-     під SVG із полями у viewBox — інакше фігура займає весь кадр
-     і під розмиттям читається як маса, а не як портрет. */
-  left:50%;top:0;height:100%;width:min(74vw,940px);
-  transform:translateX(-32%);
+  left:50%;top:-3%;height:104%;width:min(80vw,1040px);
+  transform:translateX(-33%);
   z-index:0;
   /* Маски немає: силует згасає вже в самому PNG, а радіальна маска
      на прямокутному боксі однаково не давала нуля біля країв. */
 }
+/* Висота — те, що реально масштабує постать: знімок вертикальний
+   (0.745), тож у боксі він упирається у висоту, а з боків лишається
+   поле, якого вистачає під розліт блюру. */
+.fig--hero img{inset:5% 10%;width:80%;height:74%}
 
+/* ── пояснення ──
+   Один абзац замість двох: людина має за секунду зрозуміти, що це
+   агенція повного циклу, а не один канал. Тон приглушений — рожевий
+   у героєві тепер несе інше навантаження (вордмарк, перший рядок
+   заголовка, кнопка), і третій рожевий текст ламав би цей ланцюг. */
 .hero__note{
-  grid-column:1;grid-row:1 / 3;align-self:start;z-index:2;
-  display:flex;flex-direction:column;gap:12px;
-  max-width:36ch;
-  font:500 clamp(12.5px,.92vw,15px)/1.5 var(--mono);
-  letter-spacing:.02em;text-align:justify;
-  color:var(--pink-deep);
+  grid-column:1;grid-row:1;align-self:start;z-index:2;
+  max-width:46ch;
+  font:500 clamp(12.5px,.92vw,15px)/1.6 var(--mono);
+  letter-spacing:.015em;
+  color:var(--ink-soft);
 }
 .hero__note b{color:var(--ink);font-weight:700}
 
@@ -313,31 +342,35 @@ body.is-menu .mn__nav a:nth-child(4){transition-delay:.3s}
 }
 
 /* ── заголовок ──
-   Одна фарба і дві ваги. Раніше було три різні прийоми — рожевий
-   контур, сірий і чорний — і фраза читалась як три експерименти,
-   а не як одне висловлювання. Тепер ієрархію тримає кегль і вага,
-   а рожевий лишається рівно в одному місці на екрані: у дії. */
+   Фраза розпадалась, бо кожен рядок був оформлений своїм прийомом.
+   Тепер прийом один на обидва: та сама вага 800, той самий трекінг,
+   той самий лівий край. Різниця лишилась рівно в одному — тон.
+   Рожевий ставить питання, чорний відповідає.
+
+   Кеглі не довільні: у Inter 800 uppercase «ВАС МАЮТЬ» дає 6.01
+   ширини на 1px кегля, «ПОМІЧАТИ» — 5.18. Відношення 1.16 закладене
+   в самі коефіцієнти (10.55vw і 12.25vw), тому рядки виходять на
+   спільний правий край і складаються в прямокутник, а не в драбинку. */
 .hero__t{
   grid-column:1 / -1;grid-row:3;z-index:2;min-width:0;
-  text-transform:uppercase;
-  line-height:.9;letter-spacing:-.045em;
-  margin-left:-.045em;
-  padding-bottom:clamp(12px,2.4vh,26px);
+  font-weight:800;text-transform:uppercase;
+  line-height:.82;
+  padding-bottom:clamp(12px,2.2vh,24px);
 }
-.hero__w{display:block}
+/* Трекінг і відступ живуть на самих рядках, а не на <h1>. Це не
+   косметика: em всередині h1 рахується від ЙОГО кегля (браузерні
+   2em = 28px), тому -.05em на заголовку давало фіксовані -1.4px на
+   обидва рядки замість пропорційних. Рядки виходили ширшими за
+   розрахунок, і на 320px «ВАС МАЮТЬ» переносився на два рядки,
+   ламаючи весь блок. На спані em рахується від власного кегля. */
+.hero__w{display:block;margin-left:-.048em;letter-spacing:-.05em}
 
-.hero__w--1{
-  font-weight:300;
-  font-size:clamp(30px,6.2vw,110px);
-  letter-spacing:-.03em;
-  color:var(--ink);
-}
-.hero__w--2{
-  font-weight:800;
-  font-size:clamp(50px,12.4vw,222px);
-  letter-spacing:-.055em;
-  margin-top:clamp(-10px,-.9vh,-3px);
-}
+/* Ширина на 1px кегля при цьому трекінгу, заміряна в Inter 800:
+   «ВАС МАЮТЬ» — 6.013, «ПОМІЧАТИ» — 5.182. Відношення 1.1604 і
+   сидить у коефіцієнтах (10.55 / 12.24), тому обидва рядки
+   закінчуються на одній вертикалі. */
+.hero__w--1{font-size:clamp(44px,10.55vw,188px);color:var(--pink-deep)}
+.hero__w--2{font-size:clamp(51.1px,12.24vw,218.2px);color:var(--ink)}
 
 /* поява: рядки наводяться на різкість, головний — найповільніше */
 body:not(.is-done) .hero__w{opacity:0}
@@ -349,20 +382,40 @@ body.is-done .hero__w--2{animation:wordIn 1.35s var(--e) .14s both}
   100%{opacity:1;transform:none;filter:blur(0)}
 }
 
-/* ── мітки ──
-   Були окремим блоком біля нижнього краю й читались як зайвий текст.
-   Тепер це підпис під заголовком: один рядок, тонка лінія зверху,
-   приглушений тон. Опори бренду коментують висловлювання, а не
-   змагаються з ним. */
-.hero__strip{
+/* решта екрана збирається слідом за заголовком, знизу вгору за
+   змістом: спершу хто ми, потім дія, потім напрями */
+body:not(.is-done) .hero__note,
+body:not(.is-done) .hero .circle,
+body:not(.is-done) .hero__serv{opacity:0}
+body.is-done .hero__note{animation:heroIn .85s var(--e) .3s both}
+body.is-done .hero__serv{animation:heroIn .85s var(--e) .5s both}
+/* кругу — тільки прозорість: transform у fill:both перебив би
+   підйом на ховері, бо анімація сильніша за перехід */
+body.is-done .hero .circle{animation:heroFade .85s var(--e) .62s both}
+@keyframes heroIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes heroFade{from{opacity:0}to{opacity:1}}
+
+/* ── напрями роботи ──
+   Було чотири абстракції («Помітність · Увага · Результат · Система»),
+   які нічого не повідомляли. Тепер це перелік того, що замовляють,
+   набраний як індекс: суцільна лінія зверху, крапка фірмового тону
+   перед кожним пунктом, рівний крок. */
+.hero__serv{
   grid-column:1 / -1;grid-row:4;z-index:2;
-  padding-top:clamp(10px,1.5vh,15px);
-  border-top:1px solid var(--ink-thin);
-  font:500 clamp(9.5px,.78vw,12px)/1 var(--mono);
-  letter-spacing:.16em;text-transform:uppercase;white-space:nowrap;
-  color:rgba(11,11,12,.42);
+  display:flex;flex-wrap:wrap;align-items:center;
+  gap:clamp(9px,1.2vh,13px) clamp(16px,2.4vw,40px);
+  padding-top:clamp(11px,1.6vh,18px);
+  border-top:1.5px solid var(--ink);
+  font:600 clamp(10px,.8vw,12.5px)/1 var(--mono);
+  letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-soft);
 }
-.hero__strip i{font-style:normal;opacity:.4;margin:0 .35em}
+.hero__serv li{position:relative;padding-left:14px}
+.hero__serv li::before{
+  content:"";position:absolute;left:0;top:50%;
+  width:5px;height:5px;margin-top:-2.5px;border-radius:50%;
+  background:var(--pink-deep);
+}
 
 /* ============ 02 · ХТО МИ ============ */
 
@@ -631,7 +684,7 @@ body.is-done .hero__w--2{animation:wordIn 1.35s var(--e) .14s both}
   padding:clamp(18px,3vh,32px) var(--gut) clamp(22px,3.6vh,38px);
   border-top:1px solid rgba(242,241,238,.16);
 }
-.mark--ft{width:clamp(44px,3.4vw,58px)}
+.mark--ft{width:clamp(44px,3.4vw,58px);color:var(--pink)}
 .ft__c{margin-left:auto;font:500 10px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:rgba(242,241,238,.45)}
 .ft__nav{display:flex;gap:clamp(11px,1.8vw,22px);font:600 10px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase}
 .ft__nav a:hover{color:var(--pink)}
@@ -664,7 +717,8 @@ body.is-done .hero__w--2{animation:wordIn 1.35s var(--e) .14s both}
   .who .lab{grid-column:1 / 13}
   .way .lab,.way__t,.way__steps,.way__note{grid-column:1 / 13}
   .way__steps{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:clamp(16px,3vh,28px)}
-  .fig--hero{width:min(74vw,620px)}
+  .fig--hero{width:min(84vw,680px)}
+  .hero__note{max-width:38ch}
 }
 
 @media (max-width:900px){
@@ -689,41 +743,65 @@ body.is-done .hero__w--2{animation:wordIn 1.35s var(--e) .14s both}
   :root{--gut:18px}
 
 
-  /* Мобільна компоновка: фігура — верхній якір, під нею одразу
-     блок висловлювання, круг лежить на стику й звʼязує обидві зони.
-     Нічого не висить окремо біля краю екрана. */
+  /* Мобільна компоновка: фігура — верхній план на всю ширину, під нею
+     пара «пояснення + дія» в один рядок, далі заголовок і напрями.
+     Раніше круг стояв у тій самій клітинці, що й заголовок, і сідав
+     просто на слово «МАЮТЬ» — тепер у нього власна колонка. */
   .hero{
-    grid-template-columns:minmax(0,1fr);
-    grid-template-rows:1fr auto auto;
-    padding:calc(var(--hd) + 10px) var(--gut) 20px;
+    grid-template-columns:minmax(0,1fr) auto;
+    grid-template-rows:1fr auto auto auto;
+    column-gap:16px;
+    padding:calc(var(--hd) + 6px) var(--gut) 22px;
   }
-  .hero__note{display:none}
 
-  /* Фігура більша й вище. Ширину обмежує запас під розліт блюру:
-     18px розтікається приблизно на 54px, тому кадр відступає від
-     краю екрана на 14.5%. */
+  /* Кадр ширший за екран і підтягнутий угору: постать має починатись
+     одразу під шапкою, інакше вгорі знову відкривається порожнеча.
+     Вихід за 100vw безпечний — .hero має overflow:hidden. */
+  /* Бокс свідомо ширший за екран: так знімок упирається у ВИСОТУ, а не
+     в ширину, і заповнює верхній план без провалу під собою. Те, що
+     виходить за 100vw, — прозоре поле обабіч постаті; .hero його
+     обрізає. Поле 13% лишається запасом під розліт блюру. */
   .fig--hero{
-    left:50%;top:1%;height:78%;width:100vw;transform:translateX(-50%);
+    left:50%;top:-2%;height:74%;width:130vw;transform:translateX(-50%);
   }
-  .fig--hero img{inset:10% 14.7%;width:70.6%;height:80%}
+  .fig--hero img{inset:1% 13%;width:74%;height:95%}
+  /* радіуси менші за десктопні: на вузькому боксі запас під розліт
+     блюру рахується від тих самих 13% поля */
   .fig--hero .fig__soft{filter:blur(10px) contrast(1.1);opacity:.58}
-  /* дальній план ще й масштабований 1.12 — запас рахується від нього */
   .fig--hero .fig__far{filter:blur(13px) contrast(1.1);opacity:.18}
 
-  /* grid-column обовʼязково: десктопне правило ставить кругу колонку 2,
-     і без скидання grid створює другу колонку, яка тисне заголовок. */
-  .hero .circle{
-    grid-column:1;grid-row:1;justify-self:end;align-self:end;
-    margin:0 1vw -20px 0;position:relative;z-index:4;
+  .hero__note{
+    grid-column:1;grid-row:2;align-self:end;
+    max-width:none;font-size:11.5px;line-height:1.55;
+    padding-bottom:3px;
   }
-  .hero__t{grid-row:2;padding-bottom:12px}
+  .hero .circle{
+    grid-column:2;grid-row:2;align-self:end;justify-self:end;
+    width:clamp(98px,27vw,118px);
+    font-size:9.5px;letter-spacing:.04em;
+    gap:6px;
+  }
 
-  /* Кеглі з реальної ширини гліфів Inter: «помічати» — 5.18 ширини
-     на 1px кегля, тому 16.6vw ставить рядок до самого поля, не ріжучи. */
-  .hero__w--1{font-size:11.5vw}
-  .hero__w--2{font-size:16.6vw;margin-top:-2px}
+  .hero__t{grid-column:1 / -1;grid-row:3;padding:15px 0 11px}
+  /* ті самі 6.01 / 5.18: на 390px з полями 18px стеля — 15.1 і 17.5vw,
+     беремо трохи нижче, щоб рядки стояли до поля, але не зрізались */
+  /* Стеля рахується від найвужчого екрана: на 320px з полями 18px
+     доступно 284px, тобто 284/6.013 = 47.2px = 14.76vw. Беремо 14.6,
+     щоб лишався запас і рядок не міг перенестись. */
+  .hero__w--1{font-size:14.6vw}
+  .hero__w--2{font-size:16.94vw}
 
-  .hero__strip{grid-row:3;letter-spacing:.13em}
+  /* Шість пунктів у вільному переносі давали 5 + 1: «Консультації»
+     звисали самотнім рядком. Жорстка сітка 3x2 робить із переліку
+     рівний блок. */
+  .hero__serv{
+    grid-column:1 / -1;grid-row:4;
+    display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:10px 8px;
+    font-size:9.5px;letter-spacing:.08em;
+  }
+  .hero__serv li{padding-left:11px}
+  .hero__serv li::before{width:4px;height:4px;margin-top:-2px}
 
   .who{display:block;padding-top:clamp(44px,8vh,72px)}
   .who__t{font-size:clamp(22px,7vw,34px);margin:14px 0 22px}
@@ -770,7 +848,7 @@ body.is-done .hero__w--2{animation:wordIn 1.35s var(--e) .14s both}
   .rv{opacity:1;filter:none;transform:none}
   .rv[data-rv="mask"] img,.rv[data-rv="mask"] .shot__void{clip-path:none}
   .grain{animation:none;opacity:.24}
-  .hero__w{animation:none;opacity:1}
+  .hero__w,.hero__note,.hero .circle,.hero__serv{animation:none;opacity:1;transform:none}
   /* Фокус від курсора лишається: це дія користувача, як і скрол,
      а не самовільний рух. Знімається тільки те, що рухається саме —
      паралакс (JS не задає --pp-*, тож він і так нульовий) та

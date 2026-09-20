@@ -25,7 +25,8 @@
 <noscript><style>
   .load{display:none}
   .rv,.rv *{opacity:1!important;filter:none!important;transform:none!important;clip-path:none!important}
-  .hero__w{opacity:1!important;filter:none!important;transform:none!important}
+  .hero__w,.hero__note,.hero .circle,.hero__serv{
+    opacity:1!important;filter:none!important;transform:none!important}
   .fig__sharp{-webkit-mask-image:none!important;mask-image:none!important}
 </style></noscript>
 </head>
@@ -93,15 +94,15 @@
     <img class="fig__sharp" src="assets/figures/figure.png" alt="" width="848" height="1138">
   </div>
 
-  <div class="hero__note">
-    <p>Агенція, яку наймають, щоб бізнес перестали проминати.</p>
-    <p>Стратегія, реклама, контент і сайти — <b>зібрані в одну систему</b>,
-       а не куплені окремо.</p>
-  </div>
+  <p class="hero__note">
+    Агенція повного циклу: стратегія, реклама, контент і сайти
+    працюють як <b>одна система</b> — щоб вас знаходили,
+    впізнавали й обирали.
+  </p>
 
   <a class="circle" href="#talk">
-    <span>Обговорити<br>проєкт</span>
-    <i aria-hidden="true">→</i>
+    <span class="circle__t">Обговорімо<br>проєкт</span>
+    <i class="circle__a" aria-hidden="true">→</i>
   </a>
 
   <h1 class="hero__t" id="heroT">
@@ -109,9 +110,10 @@
     <span class="hero__w hero__w--2">помічати</span>
   </h1>
 
-  <p class="hero__strip" aria-hidden="true">
-    Помітність <i>·</i> Увага <i>·</i> Результат <i>·</i> Система
-  </p>
+  <ul class="hero__serv" aria-label="Напрями роботи">
+    <li>SMM</li><li>Таргет</li><li>Сайти</li>
+    <li>SEO</li><li>Чат-боти</li><li>Консультації</li>
+  </ul>
 </section>
 
 <!-- ═══════════ 02 · ХТО МИ ═══════════ -->
@@ -260,7 +262,8 @@
   </h2>
 
   <a class="circle circle--big" href="https://t.me/sodoagency" target="_blank" rel="noopener">
-    <span>Почати<br>проєкт</span>
+    <span class="circle__t">Почати<br>проєкт</span>
+    <i class="circle__a" aria-hidden="true">→</i>
   </a>
 
   <div class="talk__ch">
