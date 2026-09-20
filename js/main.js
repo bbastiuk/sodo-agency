@@ -5,9 +5,9 @@
 
    1. лінза     — обличчя різкішає там, куди йде курсор
    2. поява     — блоки наводяться при вході в кадр
-   3. прев’ю    — предмет із брендової бібліотеки їде за курсором
-   4. тон шапки — вона перевдягається над світлими площинами
-   5. меню, стрічка, порожні слоти, дрібниці
+   3. тон шапки — вона перевдягається над світлими площинами
+   4. маршрут   — лінія «як ми працюємо» росте від прокрутки
+   5. меню, картки без кадру, дрібниці
 
    Без бібліотек. Усе, що рухається, знімається одним медіазапитом.
    ============================================================ */
@@ -281,69 +281,29 @@ function menu() {
 }
 
 /* ────────────────────────────────────────────
-   6. ПРЕВʼЮ ПОСЛУГ
+   6. КАДРИ РОБІТ
 
-   Кожен рядок тягне свій предмет із брендової бібліотеки.
-   Тільки для миші: на дотику предмет нікуди вести.
-   ──────────────────────────────────────────── */
-
-function peek() {
-  const sec  = $('.serv');
-  const box  = $('#peek');
-  const img  = $('#peekImg');
-  const rows = $$('.sv__r button');
-  if (!sec || !box || !img || !rows.length) return;
-  if (!FINE.matches || calm()) return;
-
-  let x = 0, y = 0, raf = 0;
-  const paint = () => {
-    raf = 0;
-    box.style.setProperty('--px', x + 'px');
-    box.style.setProperty('--py', y + 'px');
-  };
-
-  rows.forEach(b => {
-    b.addEventListener('pointerenter', () => {
-      const src = b.dataset.img;
-      if (src && img.getAttribute('src') !== src) img.src = src;
-      sec.classList.add('is-peek');
-    });
-  });
-
-  sec.addEventListener('pointermove', e => {
-    const r = sec.getBoundingClientRect();
-    x = e.clientX - r.left;
-    y = e.clientY - r.top;
-    if (!raf) raf = requestAnimationFrame(paint);
-  }, { passive: true });
-
-  sec.addEventListener('pointerleave', () => sec.classList.remove('is-peek'));
-}
-
-/* ────────────────────────────────────────────
-   7. СТРІЧКА
-   ──────────────────────────────────────────── */
-
-function marquee() {
-  const t = $('#runT');
-  const one = t?.firstElementChild;
-  if (!one) return;
-  const need = Math.max(2, Math.ceil(innerWidth / Math.max(one.offsetWidth, 1)) + 1);
-  for (let i = t.children.length; i < need * 2; i++) t.appendChild(one.cloneNode(true));
-}
-
-/* ────────────────────────────────────────────
-   8. СЛОТИ ЗНІМКІВ
-
-   Кадрів проєктів може ще не бути на диску. Тоді слот не показує
-   биту картинку — він стає чорною плашкою в тій самій системі.
+   Кадру може ще не бути на диску. Тоді картка не показує ні биту
+   картинку, ні порожню плашку — вона стає суто типографічним
+   записом. Краще чесний рядок, ніж діра у портфоліо.
    ──────────────────────────────────────────── */
 
 function shots() {
-  $$('.shot').forEach(fig => {
-    const img = $('img', fig);
+  const list = $('.cases');
+  const cards = $$('.case');
+
+  // якщо кадру нема в ЖОДНОЇ роботи, сітка з половинок лишила б
+  // праворуч порожні половини — тоді весь блок стає індексом
+  const retune = () => {
+    if (!list) return;
+    list.classList.toggle('is-index',
+      cards.every(c => c.classList.contains('is-noshot')));
+  };
+
+  cards.forEach(card => {
+    const img = $('img', card);
     if (!img) return;
-    const fail = () => fig.classList.add('is-void');
+    const fail = () => { card.classList.add('is-noshot'); retune(); };
 
     if (img.complete) {
       if (!img.naturalWidth) fail();
@@ -352,20 +312,46 @@ function shots() {
       img.addEventListener('load', () => { if (!img.naturalWidth) fail(); }, { once: true });
     }
   });
+  retune();
 }
 
 /* ────────────────────────────────────────────
-   9. ІНДЕКС ПОСЛУГ НА ДОТИК
+   7. МАРШРУТ «ЯК МИ ПРАЦЮЄМО»
+
+   Лінія між кроками заповнюється від прокрутки, кроки загоряються,
+   коли вона їх минає. Секція НЕ прилипає й нічого не затримує:
+   прогрес рахується від того, де блок стоїть у вікні, тож швидка
+   прокрутка просто швидше заповнює маршрут, а не змушує чекати.
    ──────────────────────────────────────────── */
 
-function services() {
-  $$('.sv__r button').forEach(b => {
-    b.addEventListener('click', () => {
-      const row = b.closest('.sv__r');
-      const now = row.classList.toggle('is-open');
-      b.setAttribute('aria-expanded', String(now));
-    });
-  });
+function road() {
+  const road = $('#road');
+  if (!road) return;
+  const steps = $$('.road__s', road);
+
+  const light = p => {
+    road.style.setProperty('--road', p.toFixed(3));
+    // крок загоряється, коли лінія дійшла до його середини
+    steps.forEach((el, i) => el.classList.toggle('is-on', p >= (i + 0.5) / steps.length));
+  };
+
+  if (calm()) { light(1); return; }
+
+  let ticking = false;
+  const step = () => {
+    ticking = false;
+    const r = road.getBoundingClientRect();
+    // маршрут починає рости, щойно блок входить знизу, і завершується,
+    // коли його низ піднімається до середини екрана
+    const from = innerHeight * .92;
+    const to   = innerHeight * .45;
+    light(clamp((from - r.top) / Math.max(r.height + from - to, 1), 0, 1));
+  };
+  const ask = () => { if (!ticking) { ticking = true; requestAnimationFrame(step); } };
+
+  addEventListener('scroll', ask, { passive: true });
+  addEventListener('resize', ask);
+  step();
 }
 
 /* ────────────────────────────────────────────
@@ -376,19 +362,11 @@ reveals();
 header();
 menu();
 lens();
-peek();
 shots();
-services();
-marquee();
+road();
 
 const yr = $('#yr');
 if (yr) yr.textContent = String(new Date().getFullYear());
-
-let rz;
-addEventListener('resize', () => {
-  clearTimeout(rz);
-  rz = setTimeout(marquee, 220);
-});
 
 /* Шрифти дисплейні (font-display:block), тож чекаємо — але не
    нескінченно і не довірливо. Якщо цей ланцюжок впаде, шар
