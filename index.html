@@ -20,13 +20,16 @@
 <link rel="preload" href="assets/fonts/mono-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" as="image" href="assets/figures/figure.png">
 <link rel="stylesheet" href="assets/fonts/fonts.css">
-<link rel="stylesheet" href="css/style.css?v=4">
+<link rel="stylesheet" href="css/style.css?v=5">
 
 <noscript><style>
   .load{display:none}
   .rv,.rv *{opacity:1!important;filter:none!important;transform:none!important;clip-path:none!important}
   .hero__w,.hero__note,.hero .circle,.hero__serv{
     opacity:1!important;filter:none!important;transform:none!important}
+  .hero__oval path{stroke-dashoffset:0!important}
+  .road__draw{stroke-dashoffset:0!important}
+  .road__s > *{opacity:1!important}
   .fig__sharp{-webkit-mask-image:none!important;mask-image:none!important}
 </style></noscript>
 </head>
@@ -51,9 +54,9 @@
   </a>
 
   <nav class="hd__nav" aria-label="Основна навігація">
-    <a href="#work">Роботи</a>
     <a href="#serv">Послуги</a>
-    <a href="#about">Як працюємо</a>
+    <a href="#about">Процес</a>
+    <a href="#look">Instagram</a>
   </nav>
 
   <button class="hd__menu" id="menuBtn" type="button" aria-expanded="false" aria-controls="menu">
@@ -65,9 +68,9 @@
 <!-- ═══════════ ПОВНОЕКРАННЕ МЕНЮ ═══════════ -->
 <div class="mn" id="menu" hidden>
   <nav class="mn__nav" aria-label="Меню">
-    <a href="#work"><i>01</i><span>Роботи</span></a>
-    <a href="#serv"><i>02</i><span>Послуги</span></a>
-    <a href="#about"><i>03</i><span>Як працюємо</span></a>
+    <a href="#serv"><i>01</i><span>Послуги</span></a>
+    <a href="#about"><i>02</i><span>Процес</span></a>
+    <a href="#look"><i>03</i><span>Instagram</span></a>
     <a href="#talk"><i>04</i><span>Контакт</span></a>
   </nav>
   <div class="mn__foot">
@@ -83,8 +86,9 @@
 <span id="top"></span>
 
 <!-- ═══════════ 01 · ПЕРШИЙ ЕКРАН ═══════════
-     Світле тло, під ним — фігура за матовим склом у сильному розмитті.
-     Наводиш курсор — на цьому місці вона стає різкішою. -->
+     Фігура за матовим склом проявляється під курсором, а на телефоні
+     сама. Слово «ПОМІЧАТИ» обведене від руки — той самий жест уваги,
+     тільки типографічний. -->
 <section class="hero" aria-labelledby="heroT">
 
   <div class="fig fig--hero" id="fig" aria-hidden="true">
@@ -94,15 +98,21 @@
     <img class="fig__sharp" src="assets/figures/figure.png" alt="" width="848" height="1138">
   </div>
 
-  <p class="hero__note">Digital-агенція: беремо проєкт від задачі до запуску й тримаємо результат.</p>
+  <p class="hero__note">Соцмережі, реклама й сайти для вашого бізнесу</p>
 
   <h1 class="hero__t" id="heroT">
     <span class="hero__w hero__w--1">Вас мають</span>
-    <span class="hero__w hero__w--2">помічати</span>
+    <span class="hero__w hero__w--2"><span class="hero__key">помічати<!--
+      --><svg class="hero__oval" viewBox="0 0 600 200" preserveAspectRatio="none"
+              aria-hidden="true" focusable="false">
+        <path d="M596 104C596 156 464 196 298 195C132 194 4 152 5 98
+                                C6 44 136 5 302 6C468 7 597 48 596 102
+                                C595 130 574 150 540 166"/>
+      </svg></span></span>
   </h1>
 
   <a class="circle" href="#talk">
-    <span class="circle__t">Обговорімо<br>проєкт<i class="circle__a" aria-hidden="true">→</i></span>
+    <span class="circle__t">Обговорімо проєкт<i class="circle__a" aria-hidden="true">→</i></span>
   </a>
 
   <ul class="hero__serv" aria-label="Напрями роботи">
@@ -111,131 +121,147 @@
   </ul>
 </section>
 
-<!-- ═══════════ 02 · ВИБРАНІ РОБОТИ ═══════════
-     Кейс — кадр, назва й один рядок про те, що зробили. Якщо кадру
-     на диску немає, картка стає суто типографічною (.is-noshot), а не
-     порожньою плашкою: краще чесний текстовий запис, ніж діра. -->
-<section class="work" id="work" aria-labelledby="workT">
-  <header class="sh">
-    <h2 class="lab" id="workT">Вибрані роботи</h2>
-  </header>
-
-  <ol class="cases">
-    <li class="case">
-      <figure class="case__shot rv" data-rv="mask">
-        <img src="assets/cases/umi.webp" alt="Сайт доставки UMI"
-             loading="lazy" decoding="async" width="1600" height="1000">
-      </figure>
-      <div class="case__bar">
-        <h3 class="case__n"><i>01</i>UMI</h3>
-        <p class="case__k">Ресторан і доставка · Познань</p>
-        <p class="case__d">Сайт із меню, кошиком і доставкою — і трафік, який до нього веде.</p>
-        <a class="case__l" href="https://umieat.com/" target="_blank" rel="noopener">umieat.com <i aria-hidden="true">↗</i></a>
-      </div>
-    </li>
-
-    <li class="case">
-      <figure class="case__shot rv" data-rv="mask">
-        <img src="assets/cases/street.webp" alt="Сайт Street Barbershop"
-             loading="lazy" decoding="async" width="1600" height="1000">
-      </figure>
-      <div class="case__bar">
-        <h3 class="case__n"><i>02</i>Street Barbershop</h3>
-        <p class="case__k">Барбершоп · Познань</p>
-        <p class="case__d">Сайт двома мовами із записом онлайн.</p>
-      </div>
-    </li>
-
-    <li class="case">
-      <figure class="case__shot rv" data-rv="mask">
-        <img src="assets/cases/razeb.webp" alt="Візуальна система Razeb Studio"
-             loading="lazy" decoding="async" width="1600" height="1000">
-      </figure>
-      <div class="case__bar">
-        <h3 class="case__n"><i>03</i>Razeb Studio</h3>
-        <p class="case__k">Студія звукозапису</p>
-        <p class="case__d">Візуальна мова студії й контент для соцмереж.</p>
-        <a class="case__l" href="https://www.instagram.com/razebstudio/" target="_blank" rel="noopener">instagram <i aria-hidden="true">↗</i></a>
-      </div>
-    </li>
-  </ol>
-
-  <a class="more" href="https://www.instagram.com/sodo.agency/" target="_blank" rel="noopener">
-    <span class="more__k">Свіжі роботи викладаємо щотижня</span>
-    <span class="more__v">Більше робіт в Instagram</span>
-    <i class="more__a" aria-hidden="true">→</i>
-  </a>
-</section>
-
-<!-- ═══════════ 03 · ПОСЛУГИ ═══════════
-     Той самий перелік і в тому самому порядку, що й у героєві.
-     Нічого не ховається за наведенням: на телефоні сторінка та сама. -->
+<!-- ═══════════ 02 · ПОСЛУГИ ═══════════
+     Одна сцена замість списку з шести абзаців. Назви доступні всі
+     одразу, сцена змінюється в стабільному контейнері — сторінка під
+     час перемикання не стрибає. -->
 <section class="serv" id="serv" aria-labelledby="servT">
   <header class="sh">
     <h2 class="lab" id="servT">Послуги</h2>
   </header>
 
-  <ul class="sv">
-    <li class="sv__r rv" data-rv="up"><span class="sv__n">01</span>
-      <h3 class="sv__name">SMM</h3>
-      <p class="sv__d">Ведемо сторінки: рубрики, тексти, відповіді підписникам.</p></li>
-    <li class="sv__r rv" data-rv="up"><span class="sv__n">02</span>
-      <h3 class="sv__name">Таргет</h3>
-      <p class="sv__d">Реклама в Meta і Google: від тестів до масштабування.</p></li>
-    <li class="sv__r rv" data-rv="up"><span class="sv__n">03</span>
-      <h3 class="sv__name">Сайти</h3>
-      <p class="sv__d">Лендинги й магазини: швидкі, зрозумілі, з аналітикою.</p></li>
-    <li class="sv__r rv" data-rv="up"><span class="sv__n">04</span>
-      <h3 class="sv__name">SEO</h3>
-      <p class="sv__d">Щоб вас знаходили в пошуку й на картах.</p></li>
-    <li class="sv__r rv" data-rv="up"><span class="sv__n">05</span>
-      <h3 class="sv__name">Чат-боти</h3>
-      <p class="sv__d">Заявки й відповіді без ручної роботи.</p></li>
-    <li class="sv__r rv" data-rv="up"><span class="sv__n">06</span>
-      <h3 class="sv__name">Консультації</h3>
-      <p class="sv__d">Розбір ситуації й план, якщо робите самі.</p></li>
-  </ul>
+  <div class="sw" id="sw">
+    <ul class="sw__tabs" role="tablist" aria-label="Напрями роботи">
+      <li role="presentation"><button class="sw__tab is-on" type="button" role="tab"
+        id="tab01" aria-controls="scene01" aria-selected="true" tabindex="0">
+        <i>01</i><span>SMM</span></button></li>
+      <li role="presentation"><button class="sw__tab" type="button" role="tab"
+        id="tab02" aria-controls="scene02" aria-selected="false" tabindex="-1">
+        <i>02</i><span>Таргет</span></button></li>
+      <li role="presentation"><button class="sw__tab" type="button" role="tab"
+        id="tab03" aria-controls="scene03" aria-selected="false" tabindex="-1">
+        <i>03</i><span>Сайти</span></button></li>
+      <li role="presentation"><button class="sw__tab" type="button" role="tab"
+        id="tab04" aria-controls="scene04" aria-selected="false" tabindex="-1">
+        <i>04</i><span>SEO</span></button></li>
+      <li role="presentation"><button class="sw__tab" type="button" role="tab"
+        id="tab05" aria-controls="scene05" aria-selected="false" tabindex="-1">
+        <i>05</i><span>Чат-боти</span></button></li>
+      <li role="presentation"><button class="sw__tab" type="button" role="tab"
+        id="tab06" aria-controls="scene06" aria-selected="false" tabindex="-1">
+        <i>06</i><span>Консультації</span></button></li>
+    </ul>
+
+    <div class="sw__stage">
+      <figure class="scene is-on" id="scene01" role="tabpanel" aria-labelledby="tab01">
+        <span class="scene__no" aria-hidden="true">01</span>
+        <img src="assets/images/smm-phone.webp" alt="" width="780" height="950"
+             loading="lazy" decoding="async">
+        <figcaption class="scene__cap">Ведемо сторінки: рубрики, зйомка, тексти й відповіді підписникам.</figcaption>
+      </figure>
+      <figure class="scene" id="scene02" role="tabpanel" aria-labelledby="tab02" hidden>
+        <span class="scene__no" aria-hidden="true">02</span>
+        <img src="assets/images/hero-dart.webp" alt="" width="780" height="950"
+             loading="lazy" decoding="async">
+        <figcaption class="scene__cap">Реклама в Meta і Google — від тестів до аудиторій, які купують.</figcaption>
+      </figure>
+      <figure class="scene" id="scene03" role="tabpanel" aria-labelledby="tab03" hidden>
+        <span class="scene__no" aria-hidden="true">03</span>
+        <img src="assets/images/web-arch.webp" alt="" width="780" height="950"
+             loading="lazy" decoding="async">
+        <figcaption class="scene__cap">Лендинги й магазини: швидкі, зрозумілі, готові приймати заявки.</figcaption>
+      </figure>
+      <figure class="scene" id="scene04" role="tabpanel" aria-labelledby="tab04" hidden>
+        <span class="scene__no" aria-hidden="true">04</span>
+        <img src="assets/images/hero-main.webp" alt="" width="780" height="950"
+             loading="lazy" decoding="async">
+        <figcaption class="scene__cap">Робимо так, щоб бізнес знаходили в пошуку й на картах.</figcaption>
+      </figure>
+      <figure class="scene" id="scene05" role="tabpanel" aria-labelledby="tab05" hidden>
+        <span class="scene__no" aria-hidden="true">05</span>
+        <img src="assets/images/manifesto-loop.webp" alt="" width="780" height="950"
+             loading="lazy" decoding="async">
+        <figcaption class="scene__cap">Заявки, відповіді й нагадування працюють без ручної роботи.</figcaption>
+      </figure>
+      <figure class="scene" id="scene06" role="tabpanel" aria-labelledby="tab06" hidden>
+        <span class="scene__no" aria-hidden="true">06</span>
+        <img src="assets/images/process-stairs.webp" alt="" width="780" height="950"
+             loading="lazy" decoding="async">
+        <figcaption class="scene__cap">Розбираємо ситуацію й складаємо план, якщо робите самі.</figcaption>
+      </figure>
+    </div>
+  </div>
 </section>
 
-<!-- ═══════════ 04 · ЯК МИ ПРАЦЮЄМО ═══════════
-     Маршрут із чотирьох кроків. Лінія між ними заповнюється від
-     прокрутки, але секція не прилипає й нічого не затримує:
-     прокручуєш швидко — маршрут просто заповнюється швидше. -->
+<!-- ═══════════ 03 · ЯК МИ ПРАЦЮЄМО ═══════════
+     Лінія домальовується від прокрутки й веде через чотири етапи.
+     Секція не прилипає: прогрес рахується від її положення у вікні,
+     тож швидка прокрутка просто швидше веде лінію. -->
 <section class="way" id="about" aria-labelledby="wayT">
   <header class="sh">
     <h2 class="lab" id="wayT">Як ми працюємо</h2>
   </header>
 
-  <ol class="road" id="road">
-    <span class="road__rail" aria-hidden="true"><i class="road__fill"></i></span>
-    <li class="road__s"><i class="road__n">01</i>
-      <h3>Знайомимось</h3>
-      <p>Розуміємо бізнес, задачу й цілі.</p></li>
-    <li class="road__s"><i class="road__n">02</i>
-      <h3>Аналізуємо</h3>
-      <p>Аудиторія, конкуренти й те, що вже працює.</p></li>
-    <li class="road__s"><i class="road__n">03</i>
-      <h3>Пропонуємо рішення</h3>
-      <p>Що саме робити і в якому порядку.</p></li>
-    <li class="road__s"><i class="road__n">04</i>
-      <h3>Запускаємо й покращуємо</h3>
-      <p>Працюємо і звіряємось із результатом.</p></li>
-  </ol>
+  <div class="road" id="road">
+    <svg class="road__line road__line--wide" viewBox="0 0 1000 300"
+         preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      <path class="road__track" d="M0 58H140L250 205H390L500 58H640L750 205"/>
+      <path class="road__draw"  d="M0 58H140L250 205H390L500 58H640L750 205"/>
+    </svg>
+    <svg class="road__line road__line--tall" viewBox="0 0 100 1000"
+         preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      <path class="road__track" d="M18 125V300L72 375V550L18 625V800L72 875"/>
+      <path class="road__draw"  d="M18 125V300L72 375V550L18 625V800L72 875"/>
+    </svg>
+
+    <ol class="road__steps">
+      <li class="road__s"><i class="road__n">01</i>
+        <h3>Знайомимось</h3>
+        <p>Розбираємось у вашому бізнесі й задачі.</p></li>
+      <li class="road__s"><i class="road__n">02</i>
+        <h3>Знаходимо рішення</h3>
+        <p>Визначаємо напрям і план роботи.</p></li>
+      <li class="road__s"><i class="road__n">03</i>
+        <h3>Створюємо</h3>
+        <p>Готуємо й запускаємо все потрібне.</p></li>
+      <li class="road__s"><i class="road__n">04</i>
+        <h3>Покращуємо</h3>
+        <p>Аналізуємо результат і вносимо зміни.</p></li>
+    </ol>
+  </div>
 </section>
 
-<!-- ═══════════ 05 · КОНТАКТ ═══════════
-     Один голосний заклик — написати. Instagram тут тихий рядок:
-     за роботами туди веде окремий перехід у блоці робіт. -->
+<!-- ═══════════ 04 · ПЕРЕХІД В INSTAGRAM ═══════════
+     Стос кадрів замість переліку кейсів: блок показує рівень, а не
+     переказує його словами. На миші кадри розходяться, на дотику
+     композиція вже розкладена. -->
+<section class="look" id="look" aria-labelledby="lookT">
+  <a class="look__in" href="https://www.instagram.com/sodo.agency/"
+     target="_blank" rel="noopener" aria-describedby="lookH">
+    <div class="look__txt">
+      <h2 class="look__t" id="lookT">Подивіться,<br>що ми робимо</h2>
+      <p class="look__h" id="lookH">@sodo.agency<i class="look__a" aria-hidden="true">→</i></p>
+    </div>
+
+    <div class="look__stack rv" data-rv="up" aria-hidden="true">
+      <span class="look__c look__c--1"><img src="assets/images/content-camera.webp" alt=""
+            width="780" height="927" loading="lazy" decoding="async"></span>
+      <span class="look__c look__c--2"><img src="assets/images/branding-head.webp" alt=""
+            width="690" height="1129" loading="lazy" decoding="async"></span>
+      <span class="look__c look__c--3"><img src="assets/images/cta-start.webp" alt=""
+            width="860" height="686" loading="lazy" decoding="async"></span>
+    </div>
+
+  </a>
+</section>
+
+<!-- ═══════════ 05 · КОНТАКТ ═══════════ -->
 <section class="talk" id="talk" aria-labelledby="talkT">
-  <h2 class="talk__t" id="talkT">Розкажіть про задачу</h2>
-  <p class="talk__s">Опишіть її в трьох реченнях — відповідаємо протягом доби.</p>
+  <h2 class="talk__t" id="talkT">Що створимо разом?</h2>
 
   <a class="circle circle--big" href="https://t.me/sodoagency" target="_blank" rel="noopener">
-    <span class="circle__t">Написати<br>нам<i class="circle__a" aria-hidden="true">→</i></span>
+    <span class="circle__t">Написати нам<i class="circle__a" aria-hidden="true">→</i></span>
   </a>
-
-  <p class="talk__alt">або подивіться роботи в
-    <a href="https://www.instagram.com/sodo.agency/" target="_blank" rel="noopener">Instagram</a></p>
 </section>
 
 </main>
@@ -249,6 +275,6 @@
   </nav>
 </footer>
 
-<script src="js/main.js?v=4" defer></script>
+<script src="js/main.js?v=5" defer></script>
 </body>
 </html>

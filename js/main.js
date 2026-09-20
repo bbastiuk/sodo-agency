@@ -3,11 +3,13 @@
 
    Уся інтерактивність служить одному: приховане стає видимим.
 
+   Одна ідея веде все: приховане стає видимим.
+
    1. лінза     — обличчя різкішає там, куди йде курсор
    2. поява     — блоки наводяться при вході в кадр
-   3. тон шапки — вона перевдягається над світлими площинами
-   4. маршрут   — лінія «як ми працюємо» росте від прокрутки
-   5. меню, картки без кадру, дрібниці
+   3. послуги   — сцена відкриває, що саме ми робимо
+   4. маршрут   — лінія веде через етапи співпраці
+   5. тон шапки, меню, дрібниці
 
    Без бібліотек. Усе, що рухається, знімається одним медіазапитом.
    ============================================================ */
@@ -281,47 +283,100 @@ function menu() {
 }
 
 /* ────────────────────────────────────────────
-   6. КАДРИ РОБІТ
+   6. ДОВЖИНА ЛІНІЙ, ЯКІ МАЛЮЮТЬСЯ
 
-   Кадру може ще не бути на диску. Тоді картка не показує ні биту
-   картинку, ні порожню плашку — вона стає суто типографічним
-   записом. Краще чесний рядок, ніж діра у портфоліо.
+   Овал навколо слова й лінія маршруту домальовуються через
+   stroke-dashoffset. Обидві криві розтягнуті preserveAspectRatio="none"
+   і мають non-scaling-stroke, тому штрих рахується в екранних
+   пікселях, а не в координатах viewBox — getTotalLength() тут
+   бреше майже вдвічі. Міряємо реальну екранну довжину: беремо точки
+   вздовж шляху, переганяємо їх матрицею у координати екрана й
+   сумуємо відстані.
    ──────────────────────────────────────────── */
 
-function shots() {
-  const list = $('.cases');
-  const cards = $$('.case');
+function screenLength(path, steps = 240) {
+  const m = path.getScreenCTM();
+  const L = path.getTotalLength();
+  if (!m || !L) return L;
+  let sum = 0, px = 0, py = 0;
+  for (let i = 0; i <= steps; i++) {
+    const p = path.getPointAtLength(L * i / steps);
+    const x = m.a * p.x + m.c * p.y + m.e;
+    const y = m.b * p.x + m.d * p.y + m.f;
+    if (i) sum += Math.hypot(x - px, y - py);
+    px = x; py = y;
+  }
+  return sum;
+}
 
-  // якщо кадру нема в ЖОДНОЇ роботи, сітка з половинок лишила б
-  // праворуч порожні половини — тоді весь блок стає індексом
-  const retune = () => {
-    if (!list) return;
-    list.classList.toggle('is-index',
-      cards.every(c => c.classList.contains('is-noshot')));
-  };
+function strokes() {
+  const paths = $$('.hero__oval path, .road__draw');
+  if (!paths.length) return;
 
-  cards.forEach(card => {
-    const img = $('img', card);
-    if (!img) return;
-    const fail = () => { card.classList.add('is-noshot'); retune(); };
-
-    if (img.complete) {
-      if (!img.naturalWidth) fail();
-    } else {
-      img.addEventListener('error', fail, { once: true });
-      img.addEventListener('load', () => { if (!img.naturalWidth) fail(); }, { once: true });
-    }
+  const measure = () => paths.forEach(el => {
+    const len = screenLength(el);
+    if (len > 0) el.style.setProperty('--len', len.toFixed(1) + 'px');
   });
-  retune();
+
+  measure();
+  let rz;
+  addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(measure, 220); });
+  return measure;
 }
 
 /* ────────────────────────────────────────────
-   7. МАРШРУТ «ЯК МИ ПРАЦЮЄМО»
+   7. ПОСЛУГИ: СЦЕНА З ПЕРЕМИКАННЯМ
 
-   Лінія між кроками заповнюється від прокрутки, кроки загоряються,
-   коли вона їх минає. Секція НЕ прилипає й нічого не затримує:
-   прогрес рахується від того, де блок стоїть у вікні, тож швидка
-   прокрутка просто швидше заповнює маршрут, а не змушує чекати.
+   Шість назв доступні одразу, сцена змінюється в контейнері сталого
+   розміру. Дія одна й та сама на всіх пристроях — натискання;
+   наведення лишається тільки підсвіткою в CSS, щоб курсор, який
+   просто проходить повз список, нічого не перемикав.
+   ──────────────────────────────────────────── */
+
+function tabs() {
+  const box = $('#sw');
+  if (!box) return;
+  const btns  = $$('.sw__tab', box);
+  const panes = $$('.scene', box);
+  if (btns.length !== panes.length || !btns.length) return;
+
+  // hidden потрібен лише доки немає JS: далі видимістю керує CSS,
+  // бо display:none не дає сцені плавно зʼявитись
+  panes.forEach(el => el.removeAttribute('hidden'));
+
+  let cur = 0;
+  const show = i => {
+    if (i === cur) return;
+    cur = i;
+    btns.forEach((b, k) => {
+      const on = k === i;
+      b.classList.toggle('is-on', on);
+      b.setAttribute('aria-selected', String(on));
+      b.tabIndex = on ? 0 : -1;
+    });
+    panes.forEach((el, k) => el.classList.toggle('is-on', k === i));
+  };
+
+  btns.forEach((b, i) => b.addEventListener('click', () => show(i)));
+
+  // стрілки водять по списку, як і належить вкладкам
+  box.addEventListener('keydown', e => {
+    const d = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
+    if (!d) return;
+    e.preventDefault();
+    const n = (cur + d + btns.length) % btns.length;
+    show(n);
+    btns[n].focus();
+  });
+}
+
+/* ────────────────────────────────────────────
+   8. МАРШРУТ «ЯК МИ ПРАЦЮЄМО»
+
+   Лінія домальовується від прокрутки, етап отримує акцент, коли вона
+   до нього доходить. Секція НЕ прилипає й нічого не затримує: прогрес
+   рахується від її положення у вікні, тож швидка прокрутка просто
+   швидше веде лінію. Поза кадром рахунок зупиняється.
    ──────────────────────────────────────────── */
 
 function road() {
@@ -331,26 +386,30 @@ function road() {
 
   const light = p => {
     road.style.setProperty('--road', p.toFixed(3));
-    // крок загоряється, коли лінія дійшла до його середини
-    steps.forEach((el, i) => el.classList.toggle('is-on', p >= (i + 0.5) / steps.length));
+    steps.forEach((el, i) => el.classList.toggle('is-on', p >= (i + .55) / steps.length));
   };
 
   if (calm()) { light(1); return; }
 
-  let ticking = false;
+  let ticking = false, visible = true;
   const step = () => {
     ticking = false;
+    if (!visible) return;
     const r = road.getBoundingClientRect();
-    // маршрут починає рости, щойно блок входить знизу, і завершується,
-    // коли його низ піднімається до середини екрана
-    const from = innerHeight * .92;
-    const to   = innerHeight * .45;
+    const from = innerHeight * .9, to = innerHeight * .4;
     light(clamp((from - r.top) / Math.max(r.height + from - to, 1), 0, 1));
   };
   const ask = () => { if (!ticking) { ticking = true; requestAnimationFrame(step); } };
 
   addEventListener('scroll', ask, { passive: true });
   addEventListener('resize', ask);
+
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(([e]) => {
+      visible = e.isIntersecting;
+      if (visible) ask();
+    }, { rootMargin: '25% 0px' }).observe(road);
+  }
   step();
 }
 
@@ -362,7 +421,8 @@ reveals();
 header();
 menu();
 lens();
-shots();
+tabs();
+const remeasure = strokes();
 road();
 
 const yr = $('#yr');
@@ -376,7 +436,12 @@ const ready = document.fonts?.ready
   ? Promise.race([document.fonts.ready, wait(900)]).catch(() => {})
   : Promise.resolve();
 
-ready.then(boot).catch(() => {
+ready.then(() => {
+  // шрифт уже стоїть, ширина слова остаточна — переміряємо овал,
+  // інакше він почав би малюватись від довжини запасного шрифту
+  remeasure?.();
+  return boot();
+}).catch(() => {
   body.classList.remove('is-loading');
   body.classList.add('is-done');
   $('#load')?.remove();
