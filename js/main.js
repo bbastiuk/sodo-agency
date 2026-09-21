@@ -6,14 +6,14 @@
    Одна ідея веде все: приховане стає видимим.
 
    1. лінза     — обличчя різкішає там, куди йде курсор
-   2. дихання   — головне слово заголовка повільно йде в рожевий і назад
+   2. маркер    — рожеве підкреслення під головним словом, один раз
    3. поява     — блоки піднімаються при вході в кадр
-   4. послуги   — сцена відкриває, що саме ми робимо
+   4. послуги   — картка послуги змінюється разом із табом
    5. кейси     — галерея гортається пальцем і стрілками
-   6. маршрут   — лінія веде через цикл SODO
-   7. кроки     — вертикальний прогрес від «привіт» до запуску
-   8. цифри     — статистика набігає від нуля
-   9. питання   — відповідь розкривається на дотик
+   6. цикл      — лінія веде через чотири кроки
+   7. цифри     — статистика набігає від нуля
+   8. питання   — відповідь розкривається на дотик
+   9. липка дія — зʼявляється після героя, зникає біля форми
   10. форма, мови, тон шапки, меню, дрібниці
 
    Без бібліотек. Усе, що рухається, знімається одним медіазапитом.
@@ -294,47 +294,6 @@ function menu() {
 }
 
 /* ────────────────────────────────────────────
-   6. ДОВЖИНА ЛІНІЙ, ЯКІ МАЛЮЮТЬСЯ
-
-   Лінія маршруту домальовується через stroke-dashoffset. Крива
-   розтягнута preserveAspectRatio="none" і має non-scaling-stroke,
-   тому штрих рахується в екранних пікселях, а не в координатах
-   viewBox — getTotalLength() тут бреше. Міряємо реальну екранну
-   довжину: беремо точки вздовж шляху, переганяємо їх матрицею у
-   координати екрана й сумуємо відстані.
-   ──────────────────────────────────────────── */
-
-function screenLength(path, steps = 240) {
-  const m = path.getScreenCTM();
-  const L = path.getTotalLength();
-  if (!m || !L) return L;
-  let sum = 0, px = 0, py = 0;
-  for (let i = 0; i <= steps; i++) {
-    const p = path.getPointAtLength(L * i / steps);
-    const x = m.a * p.x + m.c * p.y + m.e;
-    const y = m.b * p.x + m.d * p.y + m.f;
-    if (i) sum += Math.hypot(x - px, y - py);
-    px = x; py = y;
-  }
-  return sum;
-}
-
-function strokes() {
-  const paths = $$('.road__draw');
-  if (!paths.length) return;
-
-  const measure = () => paths.forEach(el => {
-    const len = screenLength(el);
-    if (len > 0) el.style.setProperty('--len', len.toFixed(1) + 'px');
-  });
-
-  measure();
-  let rz;
-  addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(measure, 220); });
-  return measure;
-}
-
-/* ────────────────────────────────────────────
    ПЕРШИЙ ЕКРАН: ПОСАДКА СИЛУЕТУ
 
    Перший екран тепер чистий: логотип, візуал, висловлювання, дія.
@@ -389,25 +348,16 @@ function heroFit() {
 }
 
 /* ────────────────────────────────────────────
-   ДИХАННЯ ГОЛОВНОГО СЛОВА
+   МАРКЕР ПІД ГОЛОВНИМ СЛОВОМ
 
-   «ПОМІЧАТИ» повільно йде з чорного у фірмовий рожевий і назад, по
-   колу. Сама анімація живе в CSS — тут лише вимикач: поки перший
-   екран у кадрі, вона грає, щойно він пішов — стає. Інакше телефон
-   перемальовував би слово всі кілька хвилин, поки людина читає
-   решту сторінки.
-
-   Рухається тільки колір: ні кегль, ні положення, ні ширина не
-   змінюються, тож нічого не смикається. При зменшеному русі слово
-   просто стоїть рожевим.
+   Рожеве підкреслення під «ПОМІЧАТИ» малюється рівно один раз після
+   завантаження, за 600 мс, і більше нічого не робить. Сама анімація
+   живе в CSS — тут лише вмикач. Рухається тільки transform: ширина,
+   кегль і положення слова не змінюються.
    ──────────────────────────────────────────── */
 
-function heroBreath() {
-  const hero = $('.hero');
-  if (!hero || calm() || !('IntersectionObserver' in window)) return;
-  new IntersectionObserver(([e]) => {
-    body.classList.toggle('hero-away', !e.isIntersecting);
-  }, { threshold: 0 }).observe(hero);
+function heroLit() {
+  body.classList.add('is-lit');
 }
 
 /* ────────────────────────────────────────────
@@ -495,91 +445,6 @@ function counts() {
 }
 
 /* ────────────────────────────────────────────
-   ПʼЯТЬ КРОКІВ: ВЕРТИКАЛЬНИЙ ПРОГРЕС
-
-   Рейка заповнюється від прокрутки, поточний крок стає активним,
-   пройдені лишаються позначеними, наступні — тихішими. Висоту рейки
-   міряємо від центра першого квадрата до центра останнього, а не
-   «до низу списку»: інакше вона вилазила б під останній абзац.
-   ──────────────────────────────────────────── */
-
-function steps() {
-  const list = $('#steps');
-  if (!list) return;
-  const items = $$('.step', list);
-  if (!items.length) return;
-
-  /* offsetTop тут не годиться: кожен .step сам позиціонований, тож
-     квадрат міряється від власного кроку і різниця завжди виходить
-     нульовою. Беремо екранні прямокутники. */
-  const rail = () => {
-    const a = $('.step__n', items[0]);
-    const b = $('.step__n', items[items.length - 1]);
-    if (!a || !b) return;
-    const box = list.getBoundingClientRect();
-    const ra = a.getBoundingClientRect(), rb = b.getBoundingClientRect();
-    list.style.setProperty('--rail-top', (ra.top - box.top + ra.height / 2 - 1).toFixed(1) + 'px');
-    list.style.setProperty('--rail', (rb.top - ra.top).toFixed(1) + 'px');
-  };
-
-  const light = p => {
-    list.style.setProperty('--go', p.toFixed(3));
-    const cur = Math.min(Math.floor(p * items.length), items.length - 1);
-    items.forEach((el, i) => {
-      el.classList.toggle('is-done', i < cur);
-      el.classList.toggle('is-on', i === cur && p > 0.02);
-    });
-  };
-
-  rail();
-  let rz;
-  addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(rail, 160); });
-
-  if (calm()) { light(1); return; }
-
-  let ticking = false, visible = true;
-  const step = () => {
-    ticking = false;
-    if (!visible) return;
-    const r = list.getBoundingClientRect();
-    const from = innerHeight * 0.85, to = innerHeight * 0.35;
-    light(clamp((from - r.top) / Math.max(r.height + from - to, 1), 0, 1));
-  };
-  const ask = () => { if (!ticking) { ticking = true; requestAnimationFrame(step); } };
-
-  addEventListener('scroll', ask, { passive: true });
-  addEventListener('resize', ask);
-  if ('IntersectionObserver' in window) {
-    new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) ask(); },
-      { rootMargin: '25% 0px' }).observe(list);
-  }
-  step();
-}
-
-/* ────────────────────────────────────────────
-   ВИДІЛЕННЯ В РЕЗУЛЬТАТІ
-
-   У блоці «Результат» голосно звучить лише сама цифра або ключова
-   фраза, решта абзацу лишається звичайною. Що саме виділяти, сказано
-   в data-hl; текст при цьому не переписується — ми лише обгортаємо
-   вже наявний шматок.
-   ──────────────────────────────────────────── */
-
-function marks() {
-  $$('[data-hl]').forEach(el => {
-    const hl = el.dataset.hl;
-    const txt = el.textContent;
-    const i = txt.indexOf(hl);
-    if (i < 0) return;
-    const b = document.createElement('span');
-    b.className = 'case__hl';
-    b.textContent = hl;
-    el.textContent = '';
-    el.append(txt.slice(0, i), b, txt.slice(i + hl.length));
-  });
-}
-
-/* ────────────────────────────────────────────
    КЕЙСИ: ГОРИЗОНТАЛЬНА ГАЛЕРЕЯ
 
    Гортання пальцем працює саме собою — це звичайна горизонтальна
@@ -650,41 +515,41 @@ function gallery() {
 function tabs() {
   const box = $('#sw');
   if (!box) return;
-  const btns = $$('.sw__tab', box);
-  const caps = $$('.sw__cap', box);
-  const arts = $$('.scene', box);
-  if (btns.length !== caps.length || !btns.length) return;
-
-  const say = $('.sw__say', box);
-  // висота блоку опису йде за активним текстом: під коротким описом не
-  // лишається порожнечі, під довгим нічого не обрізається
-  const fitSay = () => {
-    if (say && caps[cur]) say.style.setProperty('--say', caps[cur].scrollHeight + 'px');
-  };
+  const btns  = $$('.sw__tab', box);
+  const cards = $$('.svc', box);
+  const wrap  = $('#swBox');
+  if (btns.length !== cards.length || !btns.length) return;
 
   let cur = 0;
+
+  /* Картки лежать стосом в одній комірці сітки, тож сама по собі
+     висота блоку дорівнювала б найвищій — під короткою послугою
+     лишалась би порожнеча. Тому висоту веде активна картка. */
+  const fit = () => {
+    if (wrap) wrap.style.setProperty('--box', cards[cur].offsetHeight + 'px');
+  };
+
   const show = i => {
     if (i === cur) return;
     cur = i;
-    fitSay();
     btns.forEach((b, k) => {
       const on = k === i;
       b.classList.toggle('is-on', on);
       b.setAttribute('aria-selected', String(on));
       b.tabIndex = on ? 0 : -1;
     });
-    // опис і кадр перемикаються разом; черговість виходу й входу
-    // задана в CSS, тому два описи ніколи не стоять в одному місці
-    caps.forEach((el, k) => el.classList.toggle('is-on', k === i));
-    arts.forEach((el, k) => el.classList.toggle('is-on', k === i));
+    // спершу гасне попередня картка, тільки потім проступає нова —
+    // черговість задана в CSS, тож дві ніколи не стоять разом
+    cards.forEach((el, k) => el.classList.toggle('is-on', k === i));
+    fit();
   };
 
   btns.forEach((b, i) => b.addEventListener('click', () => show(i)));
 
-  fitSay();
+  fit();
   let rz;
-  addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(fitSay, 140); });
-  document.fonts?.ready.then(fitSay).catch(() => {});
+  addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(fit, 140); });
+  document.fonts?.ready.then(fit).catch(() => {});
 
   // стрілки водять по списку, як і належить вкладкам
   box.addEventListener('keydown', e => {
@@ -698,46 +563,81 @@ function tabs() {
 }
 
 /* ────────────────────────────────────────────
-   8. МАРШРУТ «ЯК МИ ПРАЦЮЄМО»
+   ЦИКЛ SODO: ЛІНІЯ ЗА ПРОКРУТКОЮ
 
-   Лінія домальовується від прокрутки, етап отримує акцент, коли вона
-   до нього доходить. Секція НЕ прилипає й нічого не затримує: прогрес
-   рахується від її положення у вікні, тож швидка прокрутка просто
-   швидше веде лінію. Поза кадром рахунок зупиняється.
+   Пунктир попереду, суцільна рожева позаду — і це єдине, що показує
+   прогрес: жоден крок не вицвітає, четвертий читається так само, як
+   перший. Рейку міряємо від центра першої точки до центра останньої,
+   інакше вона вилазила б під текст останнього кроку.
    ──────────────────────────────────────────── */
 
 function road() {
-  const road = $('#road');
-  if (!road) return;
-  const steps = $$('.road__s', road);
+  const list = $('#road');
+  if (!list) return;
+  const dots = $$('.road__n', list);
+  if (!dots.length) return;
 
-  const light = p => {
-    road.style.setProperty('--road', p.toFixed(3));
-    steps.forEach((el, i) => el.classList.toggle('is-on', p >= (i + .55) / steps.length));
+  const rail = () => {
+    const box = list.getBoundingClientRect();
+    const a = dots[0].getBoundingClientRect();
+    const b = dots[dots.length - 1].getBoundingClientRect();
+    list.style.setProperty('--rail-top', (a.top - box.top + a.height / 2 - 1).toFixed(1) + 'px');
+    list.style.setProperty('--rail', (b.top - a.top).toFixed(1) + 'px');
   };
 
-  if (calm()) { light(1); return; }
+  rail();
+  let rz;
+  addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(rail, 160); });
+  document.fonts?.ready.then(rail).catch(() => {});
+
+  if (calm()) { list.style.setProperty('--road', '1'); return; }
 
   let ticking = false, visible = true;
   const step = () => {
     ticking = false;
     if (!visible) return;
-    const r = road.getBoundingClientRect();
-    const from = innerHeight * .9, to = innerHeight * .4;
-    light(clamp((from - r.top) / Math.max(r.height + from - to, 1), 0, 1));
+    const r = list.getBoundingClientRect();
+    const from = innerHeight * 0.85, to = innerHeight * 0.4;
+    list.style.setProperty('--road',
+      clamp((from - r.top) / Math.max(r.height + from - to, 1), 0, 1).toFixed(3));
   };
   const ask = () => { if (!ticking) { ticking = true; requestAnimationFrame(step); } };
 
   addEventListener('scroll', ask, { passive: true });
   addEventListener('resize', ask);
-
   if ('IntersectionObserver' in window) {
-    new IntersectionObserver(([e]) => {
-      visible = e.isIntersecting;
-      if (visible) ask();
-    }, { rootMargin: '25% 0px' }).observe(road);
+    new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) ask(); },
+      { rootMargin: '25% 0px' }).observe(list);
   }
   step();
+}
+
+/* ────────────────────────────────────────────
+   ЛИПКА ДІЯ НА ТЕЛЕФОНІ
+
+   Зʼявляється, коли перший екран із кнопкою вже пішов, і ховається,
+   щойно в кадрі сама форма або підвал: дві однакові дії поруч тільки
+   заважають. На широкому екрані її немає взагалі — це CSS.
+   ──────────────────────────────────────────── */
+
+function dock() {
+  const el = $('#dock');
+  const hero = $('.hero');
+  if (!el || !hero || !('IntersectionObserver' in window)) return;
+  el.hidden = false;
+
+  let past = false;
+  const near = new Set();
+  const sync = () => body.classList.toggle('dock-on', past && !near.size);
+
+  new IntersectionObserver(([e]) => { past = !e.isIntersecting; sync(); },
+    { threshold: 0 }).observe(hero);
+
+  const watch = new IntersectionObserver(es => {
+    es.forEach(e => e.isIntersecting ? near.add(e.target) : near.delete(e.target));
+    sync();
+  }, { threshold: 0 });
+  [$('#form'), $('.ft')].forEach(t => t && watch.observe(t));
 }
 
 /* ────────────────────────────────────────────
@@ -924,9 +824,7 @@ async function langs() {
         const v = d.strings[el.dataset.i18nAria];
         if (v) el.setAttribute('aria-label', v);
       });
-      // переклад стер обгортки — накладаємо їх заново
-      marks();
-      sentences();
+      sentences();   // переклад стер обгортки — ділимо речення заново
     }
     document.documentElement.lang = code;
     try { localStorage.setItem(LANG_KEY, code); } catch { /* ok */ }
@@ -964,12 +862,10 @@ header();
 menu();
 lens();
 tabs();
-const remeasure = strokes();
 const refit = heroFit();
 road();
-steps();
 gallery();
-marks();
+dock();
 sentences();
 counts();
 faq();
@@ -993,12 +889,11 @@ const ready = document.fonts?.ready
   : Promise.resolve();
 
 ready.then(() => {
-  remeasure?.();
-  refit?.();          // шрифт став на місце — міряємо смугу під опис
+  refit?.();          // шрифт став на місце — міряємо смугу під силует
   return boot();
 }).then(() => {
   refit?.();
-  heroBreath();
+  heroLit();          // маркер під словом малюється один раз
 }).catch(() => {
   body.classList.remove('is-loading');
   body.classList.add('is-done');

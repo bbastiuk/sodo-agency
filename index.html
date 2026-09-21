@@ -22,18 +22,16 @@
 <link rel="preload" href="assets/fonts/Pixelify-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" as="image" href="assets/figures/figure.png">
 <link rel="stylesheet" href="assets/fonts/fonts.css">
-<link rel="stylesheet" href="css/style.css?v=9">
+<link rel="stylesheet" href="css/style.css?v=10">
 
 <noscript><style>
   .load{display:none}
   .rv{opacity:1!important;transform:none!important}
   .hero__w,.hero__foot{opacity:1!important;transform:none!important}
-  .hero__word{color:#FA9BB6}
+  .hero__mark{transform:scaleX(1)!important}
   .qa__a{display:block!important;height:auto!important}
-  .road__draw{stroke-dashoffset:0!important}
-  .road__s > *{opacity:1!important}
-  .step__b{opacity:1!important}
-  .steps::after{transform:scaleY(1)!important}
+  .road::after{transform:scaleY(1)!important}
+  .svc.is-on .fold__i{opacity:1!important;translate:0 0!important}
   .fig__sharp{-webkit-mask-image:none!important;mask-image:none!important}
 </style></noscript>
 </head>
@@ -102,18 +100,21 @@
 
   <h1 class="hero__t" id="heroT">
     <span class="hero__w hero__w--1" data-i18n="hero.w1">Вас мають</span>
-    <span class="hero__w hero__w--2"><span class="hero__word" data-i18n="hero.w2">помічати</span></span>
+    <span class="hero__w hero__w--2"><span class="hero__key"><!--
+      --><span class="hero__word" data-i18n="hero.w2">помічати</span><!--
+      --><span class="hero__mark" aria-hidden="true"></span></span></span>
   </h1>
 
   <div class="hero__foot">
-    <a class="lead" href="#form"><span data-i18n="hero.cta">Обговоримо проект</span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.5 12h14M12.8 5.7 19 12l-6.2 6.3"/></svg></a>
+    <p class="hero__lead" id="heroLead" data-i18n="hero.lead">Digital-агенція. Тестуємо, змінюємо, посилюємо, поки реклама й контент не почнуть приносити гроші.</p>
+    <a class="btn btn--ink" href="#form" data-i18n="hero.cta">Обговоримо проект</a>
   </div>
 </section>
+
 
 <!-- ═══════════ 02 · ПОСЛУГИ ═══════════ -->
 <section class="serv" id="serv" aria-labelledby="servT">
   <header class="sh">
-    <p class="sh__over" data-i18n="hero.lead">Digital-агенція. Тестуємо, змінюємо, посилюємо, поки реклама й контент не почнуть приносити гроші.</p>
     <h2 class="sh__t" data-i18n="serv.title" id="servT">Все, щоб вас знайшли й купили</h2>
     <p class="sh__i" data-i18n="serv.sub">Беремо окремо або під ключ.</p>
   </header>
@@ -121,166 +122,111 @@
   <div class="sw" id="sw">
     <ul class="sw__tabs" role="tablist" aria-label="Напрями роботи">
       <li role="presentation"><button class="sw__tab is-on" type="button"
-        role="tab" id="tab0" aria-controls="cap0" aria-selected="true"
-        tabindex="0" data-i18n="serv.name0">SMM</button></li>
+        role="tab" id="tab0" aria-controls="svc0" aria-selected="true"
+        tabindex="0" data-i18n="serv.n0">Instagram</button></li>
       <li role="presentation"><button class="sw__tab" type="button"
-        role="tab" id="tab1" aria-controls="cap1" aria-selected="false"
-        tabindex="-1" data-i18n="serv.name1">Таргет</button></li>
+        role="tab" id="tab1" aria-controls="svc1" aria-selected="false"
+        tabindex="-1" data-i18n="serv.n1">TikTok</button></li>
       <li role="presentation"><button class="sw__tab" type="button"
-        role="tab" id="tab2" aria-controls="cap2" aria-selected="false"
-        tabindex="-1" data-i18n="serv.name2">Сайти</button></li>
+        role="tab" id="tab2" aria-controls="svc2" aria-selected="false"
+        tabindex="-1" data-i18n="serv.n2">Таргет</button></li>
       <li role="presentation"><button class="sw__tab" type="button"
-        role="tab" id="tab3" aria-controls="cap3" aria-selected="false"
-        tabindex="-1" data-i18n="serv.name3">Чат-боти</button></li>
+        role="tab" id="tab3" aria-controls="svc3" aria-selected="false"
+        tabindex="-1" data-i18n="serv.n3">Сайти</button></li>
       <li role="presentation"><button class="sw__tab" type="button"
-        role="tab" id="tab4" aria-controls="cap4" aria-selected="false"
-        tabindex="-1" data-i18n="serv.name4">Консультації</button></li>
+        role="tab" id="tab4" aria-controls="svc4" aria-selected="false"
+        tabindex="-1" data-i18n="serv.n4">Чат-боти</button></li>
+      <li role="presentation"><button class="sw__tab" type="button"
+        role="tab" id="tab5" aria-controls="svc5" aria-selected="false"
+        tabindex="-1" data-i18n="serv.n5">Консультації</button></li>
     </ul>
 
-    <!-- спершу текст: що це за напрям -->
-    <div class="sw__say">
-      <p class="sw__cap is-on" id="cap0" role="tabpanel" aria-labelledby="tab0" data-i18n="serv.desc0">Контент, який зупиняє скрол і продає. Створюємо систему, яка працює на заявки.</p>
-      <p class="sw__cap" id="cap1" role="tabpanel" aria-labelledby="tab1" data-i18n="serv.desc1">Крутимо рекламу, доки вона не окупиться. Не спрацювала, значить міняємо. Спрацювала — посилюємо.</p>
-      <p class="sw__cap" id="cap2" role="tabpanel" aria-labelledby="tab2" data-i18n="serv.desc2">Гарні та зручні, а головне, що збирають заявки. Від першого екрана до кнопки «Купити».</p>
-      <p class="sw__cap" id="cap3" role="tabpanel" aria-labelledby="tab3" data-i18n="serv.desc3">Відповідають клієнтам, поки ви спите, і не гублять жодної заявки.</p>
-      <p class="sw__cap" id="cap4" role="tabpanel" aria-labelledby="tab4" data-i18n="serv.desc4">Погляд збоку на ваш маркетинг: що працює, що зливає бюджет, що робити далі.</p>
+    <div class="sw__box" id="swBox">
+      <article class="svc is-on" id="svc0" role="tabpanel" aria-labelledby="tab0">
+        <span class="svc__tab" aria-hidden="true"></span>
+        <div class="svc__head">
+          <h3 class="svc__n" data-i18n="serv.n0">Instagram</h3>
+          <p class="svc__pr" data-i18n="serv.pr0">Ціна від $550</p>
+        </div>
+        <p class="svc__d" data-i18n="serv.d0">Контент, який зупиняє скрол і продає. Створюємо систему, яка працює на заявки.</p>
+        <ul class="fold__list">
+          <li class="fold__i"><i class="fold__n">[01]</i><b data-i18n="serv.t0_0">Стратегія</b> <span data-i18n="serv.x0_0">— що і навіщо публікуємо, будуємо план</span></li>
+          <li class="fold__i"><i class="fold__n">[02]</i><b data-i18n="serv.t0_1">Контент</b> <span data-i18n="serv.x0_1">— монтаж, сценарії, дизайн</span></li>
+          <li class="fold__i"><i class="fold__n">[03]</i><b data-i18n="serv.t0_2">Публікація</b> <span data-i18n="serv.x0_2">— ми тримаємо ритм, а ти не думаєш про це</span></li>
+          <li class="fold__i"><i class="fold__n">[04]</i><b data-i18n="serv.t0_3">Ідеї</b> <span data-i18n="serv.x0_3">— такі, щоб зупинити скрол</span></li>
+          <li class="fold__i"><i class="fold__n">[05]</i><b data-i18n="serv.t0_4">Аналітика</b> <span data-i18n="serv.x0_4">— бачимо цифри, приймаємо рішення</span></li>
+        </ul>
+      </article>
+      <article class="svc" id="svc1" role="tabpanel" aria-labelledby="tab1">
+        <span class="svc__tab" aria-hidden="true"></span>
+        <div class="svc__head">
+          <h3 class="svc__n" data-i18n="serv.n1">TikTok</h3>
+          <p class="svc__pr" data-i18n="serv.pr1">Ціна від $500</p>
+        </div>
+        <ul class="fold__list">
+          <li class="fold__i"><i class="fold__n">[01]</i><b data-i18n="serv.t1_0">Стратегія</b> <span data-i18n="serv.x1_0">— що і навіщо публікуємо</span></li>
+          <li class="fold__i"><i class="fold__n">[02]</i><b data-i18n="serv.t1_1">Контент</b> <span data-i18n="serv.x1_1">— зйомки під ключ</span></li>
+          <li class="fold__i"><i class="fold__n">[03]</i><b data-i18n="serv.t1_2">Рубрикатор</b> <span data-i18n="serv.x1_2">— шукаємо працюючі звʼязки</span></li>
+          <li class="fold__i"><i class="fold__n">[04]</i><b data-i18n="serv.t1_3">Ідеї</b> <span data-i18n="serv.x1_3">— такі, щоб зупинити скрол</span></li>
+          <li class="fold__i"><i class="fold__n">[05]</i><b data-i18n="serv.t1_4">Аналітика</b> <span data-i18n="serv.x1_4">— бачимо цифри, приймаємо рішення</span></li>
+        </ul>
+      </article>
+      <article class="svc" id="svc2" role="tabpanel" aria-labelledby="tab2">
+        <span class="svc__tab" aria-hidden="true"></span>
+        <div class="svc__head">
+          <h3 class="svc__n" data-i18n="serv.n2">Таргет</h3>
+          <p class="svc__pr" data-i18n="serv.pr2">Ціна від $350</p>
+        </div>
+        <p class="svc__d" data-i18n="serv.d2">Крутимо рекламу, доки вона не окупиться. Не спрацювала, значить міняємо. Спрацювала — посилюємо.</p>
+        <ul class="fold__list">
+          <li class="fold__i"><i class="fold__n">[01]</i><b data-i18n="serv.t2_0">Аналіз</b> <span data-i18n="serv.x2_0">— розбираємо вашу нішу</span></li>
+          <li class="fold__i"><i class="fold__n">[02]</i><b data-i18n="serv.t2_1">Рекламна стратегія</b> <span data-i18n="serv.x2_1">— складаємо гіпотези</span></li>
+          <li class="fold__i"><i class="fold__n">[03]</i><b data-i18n="serv.t2_2">Креативи</b> <span data-i18n="serv.x2_2">— реалізація рекламного банера під ключ</span></li>
+          <li class="fold__i"><i class="fold__n">[04]</i><b data-i18n="serv.t2_3">Запуск</b> <span data-i18n="serv.x2_3">— тестування і оптимізація</span></li>
+          <li class="fold__i"><i class="fold__n">[05]</i><b data-i18n="serv.t2_4">Аналітика</b> <span data-i18n="serv.x2_4">— щоденна звітність і місячний підсумок</span></li>
+        </ul>
+      </article>
+      <article class="svc" id="svc3" role="tabpanel" aria-labelledby="tab3">
+        <span class="svc__tab" aria-hidden="true"></span>
+        <div class="svc__head">
+          <h3 class="svc__n" data-i18n="serv.n3">Сайти</h3>
+          <p class="svc__pr" data-i18n="serv.pr3">Ціна від $350</p>
+        </div>
+        <p class="svc__d" data-i18n="serv.d3">Гарні та зручні, а головне, що збирають заявки. Від першого екрана до кнопки «Купити».</p>
+        <ul class="fold__list">
+          <li class="fold__i"><i class="fold__n">[01]</i><b data-i18n="serv.t3_0">Ідея</b> <span data-i18n="serv.x3_0">— куди хочеться зайти</span></li>
+          <li class="fold__i"><i class="fold__n">[02]</i><b data-i18n="serv.t3_1">Структура</b> <span data-i18n="serv.x3_1">— клієнт розуміє, що замовити і як</span></li>
+          <li class="fold__i"><i class="fold__n">[03]</i><b data-i18n="serv.t3_2">Запуск</b> <span data-i18n="serv.x3_2">— отримуєш готовий сайт</span></li>
+        </ul>
+      </article>
+      <article class="svc svc--plain" id="svc4" role="tabpanel" aria-labelledby="tab4">
+        <span class="svc__tab" aria-hidden="true"></span>
+        <div class="svc__head">
+          <h3 class="svc__n" data-i18n="serv.n4">Чат-боти</h3>
+          <p class="svc__pr" data-i18n="serv.pr4">За запитом</p>
+        </div>
+        <p class="svc__d" data-i18n="serv.d4">Відповідають клієнтам, поки ви спите, і не гублять жодної заявки.</p>
+      </article>
+      <article class="svc svc--plain" id="svc5" role="tabpanel" aria-labelledby="tab5">
+        <span class="svc__tab" aria-hidden="true"></span>
+        <div class="svc__head">
+          <h3 class="svc__n" data-i18n="serv.n5">Консультації</h3>
+          <p class="svc__pr" data-i18n="serv.pr5">За запитом</p>
+        </div>
+        <p class="svc__d" data-i18n="serv.d5">Погляд збоку на ваш маркетинг: що працює, що зливає бюджет, що робити далі.</p>
+      </article>
     </div>
 
-    <!-- потім дія -->
+    <p class="sw__add" data-i18n="serv.add">Додатково: зйомка під ключ — за запитом</p>
+    <p class="sw__fine" data-i18n="serv.fine">Ціни від. Остаточна вартість після брифу. Пакет підганяємо під ваш бюджет і нішу</p>
+
     <div class="sw__foot">
       <p class="sw__note" data-i18n="serv.note">Формат підбираємо під ваш запит.</p>
       <a class="lead" href="#form"><span data-i18n="serv.cta">Не знаєте, що саме вам треба? Розкажемо</span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.5 12h14M12.8 5.7 19 12l-6.2 6.3"/></svg></a>
     </div>
-
-    <!-- і аж потім кадр -->
-    <div class="sw__stage" aria-hidden="true">
-      <div class="scene is-on" data-i="0">
-        <svg viewBox="0 0 400 260" preserveAspectRatio="xMidYMid meet" focusable="false">
-          <rect class="sc-win" x="18" y="20" width="364" height="222" rx="10"/>
-          <path class="sc-l" d="M18 52h364"/>
-          <circle class="sc-dim" cx="36" cy="36" r="3.6"/>
-          <circle class="sc-dim" cx="50" cy="36" r="3.6"/>
-          <circle class="sc-dim" cx="64" cy="36" r="3.6"/>
-          <rect class="sc-pink" x="326" y="30" width="38" height="12" rx="6"/>
-          <rect class="sc-win" x="36" y="70" width="104" height="152" rx="6"/>
-          <rect class="sc-fill" x="44" y="78" width="88" height="86" rx="4"/>
-          <circle class="sc-pink" cx="88" cy="121" r="20"/>
-          <rect class="sc-dim" x="44" y="176" width="70" height="6" rx="3"/>
-          <rect class="sc-dim" x="44" y="190" width="48" height="6" rx="3"/>
-          <rect class="sc-win" x="148" y="70" width="104" height="152" rx="6"/>
-          <rect class="sc-pink" x="156" y="78" width="88" height="86" rx="4"/>
-          <circle class="sc-face" cx="200" cy="121" r="16"/>
-          <path class="sc-l" d="M194 113l14 8-14 8z"/>
-          <rect class="sc-dim" x="156" y="176" width="70" height="6" rx="3"/>
-          <rect class="sc-dim" x="156" y="190" width="56" height="6" rx="3"/>
-          <rect class="sc-win" x="260" y="70" width="104" height="152" rx="6"/>
-          <rect class="sc-fill" x="268" y="78" width="88" height="86" rx="4"/>
-          <path class="sc-pink" d="M268 164l30-38 20 24 14-16 24 30z"/>
-          <rect class="sc-dim" x="268" y="176" width="62" height="6" rx="3"/>
-          <rect class="sc-dim" x="268" y="190" width="44" height="6" rx="3"/>
-          <path class="sc-cur" d="M228 150v22l6-6 3.2 7 4.2-1.9-3.1-6.6 7.1-.5z"/>
-        </svg>
-      </div>
-      <div class="scene" data-i="1">
-        <svg viewBox="0 0 400 260" preserveAspectRatio="xMidYMid meet" focusable="false">
-          <rect class="sc-win" x="18" y="20" width="364" height="222" rx="10"/>
-          <path class="sc-l" d="M18 52h364"/>
-          <circle class="sc-dim" cx="36" cy="36" r="3.6"/>
-          <circle class="sc-dim" cx="50" cy="36" r="3.6"/>
-          <circle class="sc-dim" cx="64" cy="36" r="3.6"/>
-          <rect class="sc-win" x="36" y="68" width="114" height="156" rx="6"/>
-          <rect class="sc-fill" x="44" y="76" width="98" height="76" rx="4"/>
-          <circle class="sc-pink" cx="93" cy="114" r="24"/>
-          <rect class="sc-dim" x="44" y="162" width="82" height="7" rx="3.5"/>
-          <rect class="sc-dim" x="44" y="175" width="58" height="7" rx="3.5"/>
-          <rect class="sc-pink" x="44" y="192" width="98" height="24" rx="12"/>
-          <path class="sc-l sc-l--thin" d="M170 148h194"/>
-          <rect class="sc-fill" x="176" y="112" width="24" height="36" rx="3"/>
-          <rect class="sc-fill" x="208" y="98" width="24" height="50" rx="3"/>
-          <rect class="sc-fill" x="240" y="118" width="24" height="30" rx="3"/>
-          <rect class="sc-fill" x="272" y="88" width="24" height="60" rx="3"/>
-          <rect class="sc-fill" x="304" y="104" width="24" height="44" rx="3"/>
-          <rect class="sc-pink" x="336" y="72" width="24" height="76" rx="3"/>
-          <rect class="sc-l" x="170" y="166" width="194" height="18" rx="4"/>
-          <rect class="sc-l" x="194" y="190" width="146" height="18" rx="4"/>
-          <rect class="sc-pink" x="224" y="214" width="86" height="18" rx="4"/>
-        </svg>
-      </div>
-      <div class="scene" data-i="2">
-        <svg viewBox="0 0 400 260" preserveAspectRatio="xMidYMid meet" focusable="false">
-          <rect class="sc-win" x="18" y="20" width="364" height="222" rx="10"/>
-          <path class="sc-l" d="M18 54h364"/>
-          <circle class="sc-dim" cx="36" cy="37" r="3.6"/>
-          <circle class="sc-dim" cx="50" cy="37" r="3.6"/>
-          <circle class="sc-dim" cx="64" cy="37" r="3.6"/>
-          <rect class="sc-fill" x="84" y="29" width="180" height="16" rx="8"/>
-          <rect class="sc-dim" x="300" y="34" width="22" height="6" rx="3"/>
-          <rect class="sc-dim" x="330" y="34" width="22" height="6" rx="3"/>
-          <rect class="sc-fill" x="250" y="72" width="112" height="154" rx="6"/>
-          <circle class="sc-dim" cx="306" cy="122" r="28"/>
-          <path class="sc-dim" d="M261 226c0-27 20-46 45-46s45 19 45 46z"/>
-          <rect class="sc-dim" x="42" y="80" width="108" height="12" rx="6"/>
-          <rect class="sc-pink" x="42" y="100" width="156" height="26" rx="4"/>
-          <rect class="sc-dim" x="42" y="146" width="80" height="8" rx="4"/>
-          <path class="sc-l" d="M42 165h80"/>
-          <rect class="sc-l" x="42" y="188" width="58" height="38" rx="4"/>
-          <rect class="sc-l" x="108" y="188" width="58" height="38" rx="4"/>
-          <rect class="sc-l" x="174" y="188" width="58" height="38" rx="4"/>
-        </svg>
-      </div>
-      <div class="scene" data-i="3">
-        <svg viewBox="0 0 400 260" preserveAspectRatio="xMidYMid meet" focusable="false">
-          <rect class="sc-win" x="40" y="20" width="320" height="222" rx="10"/>
-          <path class="sc-l" d="M40 52h320"/>
-          <circle class="sc-dim" cx="58" cy="36" r="3.6"/>
-          <circle class="sc-dim" cx="72" cy="36" r="3.6"/>
-          <circle class="sc-dim" cx="86" cy="36" r="3.6"/>
-          <rect class="sc-dim" x="176" y="33" width="48" height="6" rx="3"/>
-          <rect class="sc-fill" x="56" y="66" width="152" height="40" rx="15"/>
-          <rect class="sc-dim" x="72" y="79" width="106" height="6" rx="3"/>
-          <rect class="sc-dim" x="72" y="90" width="74" height="6" rx="3"/>
-          <rect class="sc-pink" x="182" y="116" width="162" height="36" rx="15"/>
-          <rect class="sc-face" x="198" y="127" width="116" height="6" rx="3"/>
-          <rect class="sc-face" x="198" y="138" width="78" height="6" rx="3"/>
-          <rect class="sc-fill" x="56" y="162" width="176" height="44" rx="15"/>
-          <rect class="sc-dim" x="72" y="174" width="136" height="6" rx="3"/>
-          <rect class="sc-dim" x="72" y="185" width="102" height="6" rx="3"/>
-          <rect class="sc-l" x="56" y="216" width="248" height="24" rx="12"/>
-          <rect class="sc-dim" x="70" y="225" width="78" height="6" rx="3"/>
-          <circle class="sc-pink" cx="330" cy="228" r="13"/>
-          <path class="sc-l" d="M325 228h9m-3.5-3.5 3.5 3.5-3.5 3.5"/>
-        </svg>
-      </div>
-      <div class="scene" data-i="4">
-        <svg viewBox="0 0 400 260" preserveAspectRatio="xMidYMid meet" focusable="false">
-          <rect class="sc-win" x="74" y="30" width="112" height="98" rx="5" transform="rotate(-6 130 79)"/>
-          <rect class="sc-dim" x="88" y="48" width="74" height="7" rx="3.5" transform="rotate(-6 130 79)"/>
-          <rect class="sc-dim" x="88" y="62" width="58" height="7" rx="3.5" transform="rotate(-6 130 79)"/>
-          <rect class="sc-dim" x="88" y="76" width="68" height="7" rx="3.5" transform="rotate(-6 130 79)"/>
-          <path class="sc-win" d="M24 96a8 8 0 0 1 8-8h50l13-15h97a8 8 0 0 1 8 8v130a8 8 0 0 1-8 8H32a8 8 0 0 1-8-8z"/>
-          <path class="sc-fill" d="M24 120h176v99a8 8 0 0 1-8 8H32a8 8 0 0 1-8-8z"/>
-          <path class="sc-l" d="M24 120h176"/>
-          <rect class="sc-pink" x="44" y="140" width="52" height="10" rx="5"/>
-          <rect class="sc-dim" x="44" y="162" width="118" height="8" rx="4"/>
-          <rect class="sc-dim" x="44" y="180" width="94" height="8" rx="4"/>
-          <rect class="sc-win" x="226" y="44" width="150" height="182" rx="6"/>
-          <rect class="sc-dim" x="244" y="62" width="76" height="8" rx="4"/>
-          <rect class="sc-pink" x="244" y="88" width="16" height="16" rx="3"/>
-          <path class="sc-l" d="M247.5 96l3.5 3.5 6-7"/>
-          <rect class="sc-dim" x="270" y="92" width="88" height="7" rx="3.5"/>
-          <rect class="sc-pink" x="244" y="118" width="16" height="16" rx="3"/>
-          <path class="sc-l" d="M247.5 126l3.5 3.5 6-7"/>
-          <rect class="sc-dim" x="270" y="122" width="70" height="7" rx="3.5"/>
-          <rect class="sc-l" x="244" y="148" width="16" height="16" rx="3"/>
-          <rect class="sc-dim" x="270" y="152" width="82" height="7" rx="3.5"/>
-          <rect class="sc-l" x="244" y="178" width="16" height="16" rx="3"/>
-          <rect class="sc-dim" x="270" y="182" width="60" height="7" rx="3.5"/>
-          <path class="sc-cur" d="M196 196v22l6-6 3.2 7 4.2-1.9-3.1-6.6 7.1-.5z"/>
-        </svg>
-      </div>
-    </div>
   </div>
 </section>
+
 
 <!-- ═══════════ 03 · ЦИКЛ SODO ═══════════ -->
 <section class="cycle" id="cycle" aria-labelledby="cycleT">
@@ -291,36 +237,32 @@
 
   <p class="cycle__p" data-i18n="cycle.text">Кожен місяць у плані це заплановані тести з чітким критерієм успіху. Що працює, масштабуємо. Що ні, швидко прибираємо й пробуємо інакше. Ви завжди бачите, що ми тестуємо і навіщо.</p>
 
-  <div class="road" id="road">
-    <svg class="road__line road__line--wide" viewBox="0 0 1000 300"
-         preserveAspectRatio="none" aria-hidden="true" focusable="false">
-      <path class="road__track" d="M0 58H140L250 205H390L500 58H640L750 205"/>
-      <path class="road__draw" d="M0 58H140L250 205H390L500 58H640L750 205"/>
-    </svg>
-    <svg class="road__line road__line--tall" viewBox="0 0 40 1000"
-         preserveAspectRatio="none" aria-hidden="true" focusable="false">
-      <path class="road__track" d="M14 125V875"/>
-      <path class="road__draw" d="M14 125V875"/>
-    </svg>
-
-    <ol class="road__steps">
-      <li class="road__s"><i class="road__n">01</i>
-        <h3 data-i18n="cycle.h0">Гіпотеза</h3>
-        <p data-i18n="cycle.p0">Що саме й чому спрацює для вашого бізнесу.</p></li>
-      <li class="road__s"><i class="road__n">02</i>
-        <h3 data-i18n="cycle.h1">Тест</h3>
-        <p data-i18n="cycle.p1">Запускаємо на невеликому бюджеті.</p></li>
-      <li class="road__s"><i class="road__n">03</i>
-        <h3 data-i18n="cycle.h2">Висновок</h3>
-        <p data-i18n="cycle.p2">Дивимось на цифри, а не на відчуття.</p></li>
-      <li class="road__s"><i class="road__n">04</i>
-        <h3 data-i18n="cycle.h3">Масштаб</h3>
-        <p data-i18n="cycle.p3">Те, що зайшло, підсилюємо.</p></li>
-    </ol>
-  </div>
+  <ol class="road rv" id="road">
+      <li class="road__s"><i class="road__n">1</i>
+        <div class="road__b">
+          <h3 data-i18n="cycle.h0">Гіпотеза</h3>
+          <p data-i18n="cycle.p0">Що саме й чому спрацює для вашого бізнесу.</p>
+        </div></li>
+      <li class="road__s"><i class="road__n">2</i>
+        <div class="road__b">
+          <h3 data-i18n="cycle.h1">Тест</h3>
+          <p data-i18n="cycle.p1">Запускаємо на невеликому бюджеті.</p>
+        </div></li>
+      <li class="road__s"><i class="road__n">3</i>
+        <div class="road__b">
+          <h3 data-i18n="cycle.h2">Висновок</h3>
+          <p data-i18n="cycle.p2">Дивимось на цифри, а не на відчуття.</p>
+        </div></li>
+      <li class="road__s"><i class="road__n">4</i>
+        <div class="road__b">
+          <h3 data-i18n="cycle.h3">Масштаб</h3>
+          <p data-i18n="cycle.p3">Те, що зайшло, підсилюємо.</p>
+        </div></li>
+  </ol>
 
   <p class="cycle__a" data-i18n="cycle.accent">Ми навіть пакети послуг підганяємо під ваш результат.</p>
 </section>
+
 
 <!-- ═══════════ 04 · ОДИН НА НІШУ + ЦИФРИ ═══════════ -->
 <section class="one" aria-labelledby="oneT">
@@ -330,7 +272,7 @@
     <p class="one__s"><span class="hl" data-i18n="one.small">Ваше місце ще вільне? Перевіримо за 5 хвилин.</span></p>
   </div>
 
-  <ul class="nums">
+  <ul class="nums rv">
       <li><b data-i18n="one.n0" data-count>30+</b>
         <span data-i18n="one.c0">ніш, з якими ми працювали</span></li>
       <li><b data-i18n="one.n1" data-count>3 роки 2 міс</b>
@@ -339,6 +281,7 @@
         <span data-i18n="one.c2">запущених проєктів</span></li>
   </ul>
 </section>
+
 
 <!-- ═══════════ 05 · КЕЙСИ ═══════════ -->
 <section class="cases" id="cases" aria-labelledby="casesT">
@@ -352,69 +295,65 @@
       <li class="case">
         <span class="case__tab"><i class="case__no">01</i></span>
         <div class="case__card">
-        <h3 class="case__n" data-i18n="case.n0">Комʼюніті</h3>
-        <p class="case__c" data-i18n="case.c0">Познань</p>
-        <div class="case__row">
-          <span class="case__k">Було</span>
-          <p class="case__v" data-i18n="case.b0">Старт з нуля, жодних соцмереж, бренд без образу, обмежений бюджет.</p>
-        </div>
-        <div class="case__row case__row--res">
-          <div class="case__res">
-            <span class="case__k">Результат</span>
-            <p class="case__v" data-i18n="case.r0" data-hl="$1,20">Заявка по $1,20 в перший місяць роботи. За рік імʼя почало працювати саме на себе, і половина квитків розходилась органічно.</p>
+          <h3 class="case__n" data-i18n="case.n0">Комʼюніті</h3>
+          <p class="case__c" data-i18n="case.c0">Познань</p>
+          <p class="case__key" data-i18n="case.k0">$1,20</p>
+          <div class="case__row">
+            <span class="case__k">Було</span>
+            <p class="case__v" data-i18n="case.b0">Старт з нуля, жодних соцмереж, бренд без образу, обмежений бюджет.</p>
           </div>
-        </div>
+          <div class="case__row case__row--res">
+            <span class="case__k">Результат</span>
+            <p class="case__v" data-i18n="case.r0">Заявка по $1,20 в перший місяць роботи. За рік імʼя почало працювати саме на себе, і половина квитків розходилась органічно.</p>
+          </div>
         </div>
       </li>
       <li class="case">
         <span class="case__tab"><i class="case__no">02</i></span>
         <div class="case__card">
-        <h3 class="case__n" data-i18n="case.n1">Легалізація</h3>
-        <p class="case__c" data-i18n="case.c1">Познань</p>
-        <div class="case__row">
-          <span class="case__k">Було</span>
-          <p class="case__v" data-i18n="case.b1">Старт з нуля, без бази клієнтів.</p>
-        </div>
-        <div class="case__row case__row--res">
-          <div class="case__res">
-            <span class="case__k">Результат</span>
-            <p class="case__v" data-i18n="case.r1" data-hl="$3,90">Заявка по $3,90 вже на другий місяць роботи.</p>
+          <h3 class="case__n" data-i18n="case.n1">Легалізація</h3>
+          <p class="case__c" data-i18n="case.c1">Познань</p>
+          <p class="case__key" data-i18n="case.k1">$3,90</p>
+          <div class="case__row">
+            <span class="case__k">Було</span>
+            <p class="case__v" data-i18n="case.b1">Старт з нуля, без бази клієнтів.</p>
           </div>
-        </div>
+          <div class="case__row case__row--res">
+            <span class="case__k">Результат</span>
+            <p class="case__v" data-i18n="case.r1">Заявка по $3,90 вже на другий місяць роботи.</p>
+          </div>
         </div>
       </li>
       <li class="case">
         <span class="case__tab"><i class="case__no">03</i></span>
         <div class="case__card">
-        <h3 class="case__n" data-i18n="case.n2">Працевлаштування</h3>
-        <p class="case__c" data-i18n="case.c2">Німеччина</p>
-        <div class="case__row">
-          <span class="case__k">Було</span>
-          <p class="case__v" data-i18n="case.b2">Неякісні заявки й блокування рекламного кабінету.</p>
-        </div>
-        <div class="case__row case__row--res">
-          <div class="case__res">
-            <span class="case__k">Результат</span>
-            <p class="case__v" data-i18n="case.r2" data-hl="€3">Стабільно працюючий кабінет і заявка по €3.</p>
+          <h3 class="case__n" data-i18n="case.n2">Працевлаштування</h3>
+          <p class="case__c" data-i18n="case.c2">Німеччина</p>
+          <p class="case__key" data-i18n="case.k2">€3</p>
+          <div class="case__row">
+            <span class="case__k">Було</span>
+            <p class="case__v" data-i18n="case.b2">Неякісні заявки й блокування рекламного кабінету.</p>
           </div>
-        </div>
+          <div class="case__row case__row--res">
+            <span class="case__k">Результат</span>
+            <p class="case__v" data-i18n="case.r2">Стабільно працюючий кабінет і заявка по €3.</p>
+          </div>
         </div>
       </li>
       <li class="case">
         <span class="case__tab"><i class="case__no">04</i></span>
         <div class="case__card">
-        <h3 class="case__n" data-i18n="case.n3">Студія краси</h3>
-        <p class="case__c" data-i18n="case.c3">Познань</p>
-        <div class="case__row">
-          <span class="case__k">Було</span>
-          <p class="case__v" data-i18n="case.b3">Жодних соцмереж, бренд без образу.</p>
-        </div>
-        <div class="case__row case__row--res">
-          <div class="case__res">
-            <span class="case__k">Результат</span>
-            <p class="case__v" data-i18n="case.r3" data-hl="знають всі">Про студію знають всі, а сміливі ідеї впізнають з першого погляду.</p>
+          <h3 class="case__n" data-i18n="case.n3">Студія краси</h3>
+          <p class="case__c" data-i18n="case.c3">Познань</p>
+          <p class="case__key" data-i18n="case.k3">Знають всі</p>
+          <div class="case__row">
+            <span class="case__k">Було</span>
+            <p class="case__v" data-i18n="case.b3">Жодних соцмереж, бренд без образу.</p>
           </div>
-        </div>
+          <div class="case__row case__row--res">
+            <span class="case__k">Результат</span>
+            <p class="case__v" data-i18n="case.r3">Про студію знають всі, а сміливі ідеї впізнають з першого погляду.</p>
+          </div>
         </div>
       </li>
     </ol>
@@ -434,34 +373,31 @@
      ><span data-i18n="cases.cta">Дивитись кейси в Instagram</span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M9.6 7H17v7.4"/></svg></a>
 </section>
 
+
 <!-- ═══════════ 06 · ЯК ПРАЦЮЄМО ═══════════ -->
 <section class="how" id="how" aria-labelledby="howT">
   <header class="sh">
     <h2 class="sh__t" data-i18n="how.title" id="howT">5 кроків від «привіт» до запуску</h2>
   </header>
-  <ol class="steps" id="steps">
+  <ol class="steps rv" id="steps">
     <li class="step"><i class="step__n">01</i>
-      <div class="step__b">
       <h3 data-i18n="how.h0">Дзвінок</h3>
-      <p data-i18n="how.p0">Розкажіть, що болить і чого хочете.</p></div></li>
+      <p data-i18n="how.p0">Розкажіть, що болить і чого хочете.</p></li>
     <li class="step"><i class="step__n">02</i>
-      <div class="step__b">
       <h3 data-i18n="how.h1">Пропозиція</h3>
-      <p data-i18n="how.p1">Індивідуальна під ваш запит, а не з прайсу.</p></div></li>
+      <p data-i18n="how.p1">Індивідуальна під ваш запит, а не з прайсу.</p></li>
     <li class="step"><i class="step__n">03</i>
-      <div class="step__b">
       <h3 data-i18n="how.h2">Бриф</h3>
-      <p data-i18n="how.p2">Вивчаємо бізнес, аудиторію, конкурентів.</p></div></li>
+      <p data-i18n="how.p2">Вивчаємо бізнес, аудиторію, конкурентів.</p></li>
     <li class="step"><i class="step__n">04</i>
-      <div class="step__b">
       <h3 data-i18n="how.h3">Стратегія</h3>
-      <p data-i18n="how.p3">Чіткий план, що, де й навіщо робимо.</p></div></li>
+      <p data-i18n="how.p3">Чіткий план, що, де й навіщо робимо.</p></li>
     <li class="step"><i class="step__n">05</i>
-      <div class="step__b">
       <h3 data-i18n="how.h4">Запуск</h3>
-      <p data-i18n="how.p4">Стартуємо й одразу тримаємо руку на пульсі.</p></div></li>
+      <p data-i18n="how.p4">Стартуємо й одразу тримаємо руку на пульсі.</p></li>
   </ol>
 </section>
+
 
 <!-- ═══════════ 07 · ФОРМА ═══════════ -->
 <section class="form" id="form" aria-labelledby="formT">
@@ -473,24 +409,24 @@
   <form class="fm" id="fm" novalidate>
     <div class="fm__grid">
       <p class="fld">
-        <label for="f_name"><span data-i18n="form.f_name">Імʼя</span> <span aria-hidden="true">*</span></label>
+        <label for="f_name"><span data-i18n="form.name">Імʼя</span> <span class="fld__req" aria-hidden="true">*</span></label>
         <input id="f_name" name="name" type="text" required>
       </p>
       <p class="fld">
-        <label for="f_tg"><span data-i18n="form.f_tg">Телефон / Telegram</span> <span aria-hidden="true">*</span></label>
+        <label for="f_tg"><span data-i18n="form.tg">Телефон / Telegram</span> <span class="fld__req" aria-hidden="true">*</span></label>
         <input id="f_tg" name="tg" type="text" required>
       </p>
-      <p class="fld">
-        <label for="f_biz"><span data-i18n="form.f_biz">Назва бізнесу</span></label>
+      <p class="fld fld--opt">
+        <label for="f_biz"><span data-i18n="form.biz">Назва бізнесу</span> <span class="fld__opt" data-i18n="form.opt">необовʼязково</span></label>
         <input id="f_biz" name="biz" type="text">
       </p>
-      <p class="fld">
-        <label for="f_city"><span data-i18n="form.f_city">Місто й ніша</span></label>
+      <p class="fld fld--opt">
+        <label for="f_city"><span data-i18n="form.city">Місто й ніша</span> <span class="fld__opt" data-i18n="form.opt">необовʼязково</span></label>
         <input id="f_city" name="city" type="text">
       </p>
-      <p class="fld">
-        <label for="f_task"><span data-i18n="form.f_task">Що хочете вирішити?</span> <span aria-hidden="true">*</span></label>
-        <textarea id="f_task" name="task" rows="3" required></textarea>
+      <p class="fld fld--opt">
+        <label for="f_task"><span data-i18n="form.task">Що хочете вирішити?</span> <span class="fld__opt" data-i18n="form.opt">необовʼязково</span></label>
+        <textarea id="f_task" name="task" rows="3"></textarea>
       </p>
     </div>
 
@@ -508,161 +444,182 @@
   </div>
 </section>
 
+
 <!-- ═══════════ 08 · ПИТАННЯ Й ВІДПОВІДІ ═══════════ -->
 <section class="faq" id="faq" aria-labelledby="faqT">
   <header class="sh">
     <h2 class="sh__t" data-i18n="faq.title" id="faqT">Питання, які ви хотіли поставити</h2>
   </header>
 
-  <ul class="qa__list" id="qaList">
-    <li class="qa">
-      <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa0"
-        id="qb0" data-i18n="faq.q0">Ви гарантуєте результат?</button>
-      <div class="qa__a" id="qa0" role="region" aria-labelledby="qb0" hidden>
-        <p data-i18n="faq.a0">Ні, і скажемо чому. Маркетинг приводить до вас людей, які зацікавились. Але купують вони вже в вас: багато залежить від продажів, сервісу, ціни й продукту. Хто гарантує результат, той або не розуміє, як все працює, або продає казку. Ми гарантуємо те, що залежить від нас: тести, швидкі зміни, прозорі цифри. Якщо щось не працює, першими скажемо чому, навіть коли проблема не в рекламі.</p>
-      </div>
-    </li>
-    <li class="qa">
-      <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa1"
-        id="qb1" data-i18n="faq.q1">Скільки це коштує?</button>
-      <div class="qa__a" id="qa1" role="region" aria-labelledby="qb1" hidden>
-        <p data-i18n="faq.a1">Ціни ми не вказуємо, бо кожен проєкт індивідуальний. Наша задача знайти рішення, яке виправдає себе саме для вас. Якщо повний пакет вам не під силу, підберемо формат, який підійде. Фінальну суму озвучуємо один раз і без прихованих платежів.</p>
-      </div>
-    </li>
-    <li class="qa">
-      <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa2"
-        id="qb2" data-i18n="faq.q2">Який мінімальний бюджет на рекламу?</button>
-      <div class="qa__a" id="qa2" role="region" aria-labelledby="qb2" hidden>
-        <p data-i18n="faq.a2">Рекомендуємо від $10 на день. Скільки потрібно саме вам, порахуємо разом після заявки. Рекламний бюджет ви платите окремо від наших послуг, напряму в рекламний кабінет.</p>
-      </div>
-    </li>
-    <li class="qa">
-      <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa3"
-        id="qb3" data-i18n="faq.q3">Що я отримаю за перший місяць?</button>
-      <div class="qa__a" id="qa3" role="region" aria-labelledby="qb3" hidden>
-        <p data-i18n="faq.a3">Залежить від пакету, який ви оберете. Візуальні зміни видно вже за перший місяць. На дзвінку скажемо, чого чекати саме вам.</p>
-      </div>
-    </li>
-    <li class="qa">
-      <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa4"
-        id="qb4" data-i18n="faq.q4">Хто працюватиме з моїм проєктом?</button>
-      <div class="qa__a" id="qa4" role="region" aria-labelledby="qb4" hidden>
-        <p data-i18n="faq.a4">Спеціаліст, який відповідає за вашу зону: SMM, таргет, сайт чи чат-бот.</p>
-      </div>
-    </li>
-    <li class="qa">
-      <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa5"
-        id="qb5" data-i18n="faq.q5">Кому належать акаунти, кампанії та контент?</button>
-      <div class="qa__a" id="qa5" role="region" aria-labelledby="qb5" hidden>
-        <p data-i18n="faq.a5">Вам. Авторські права переходять до вас, а контент і кампанії залишаються з вами, навіть якщо ми більше не працюємо разом.</p>
-      </div>
-    </li>
-    <li class="qa">
-      <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa6"
-        id="qb6" data-i18n="faq.q6">Чим ви відрізняєтесь від інших агенцій?</button>
-      <div class="qa__a" id="qa6" role="region" aria-labelledby="qb6" hidden>
-        <p data-i18n="faq.a6">У нас зібрані спеціалісти у своїх напрямах. І ми гнучкі: спробували, не спрацювало, змінили, посилили. Навіть пакети послуг підганяємо під ваш результат.</p>
-      </div>
-    </li>
-    <li class="qa">
-      <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa7"
-        id="qb7" data-i18n="faq.q7">Чи не візьмете ви мого конкурента?</button>
-      <div class="qa__a" id="qa7" role="region" aria-labelledby="qb7" hidden>
-        <p data-i18n="faq.a7">Ні. Це прописано в договорі. Ми не ведемо двох бізнесів однієї ніші в одному місті.</p>
-      </div>
-    </li>
-    <li class="qa">
-      <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa8"
-        id="qb8" data-i18n="faq.q8">Чи можна взяти тільки таргет або тільки SMM?</button>
-      <div class="qa__a" id="qa8" role="region" aria-labelledby="qb8" hidden>
-        <p data-i18n="faq.a8">Так. Можна окремо, можна все під ключ.</p>
-      </div>
-    </li>
-    <li class="qa">
-      <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa9"
-        id="qb9" data-i18n="faq.q9">Як розірвати співпрацю?</button>
-      <div class="qa__a" id="qa9" role="region" aria-labelledby="qb9" hidden>
-        <p data-i18n="faq.a9">Повідомте нас за 14 днів. Ви отримаєте все, що було зроблено за час співпраці.</p>
-      </div>
-    </li>
-    <li class="qa qa--more">
-      <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa10"
-        id="qb10" data-i18n="faq.q10">Як я зрозумію, що це працює?</button>
-      <div class="qa__a" id="qa10" role="region" aria-labelledby="qb10" hidden>
-        <p data-i18n="faq.a10">Звіти надсилаємо щодня або щомісяця, залежно від послуги. З таргетом щоденні звіти обовʼязкові.</p>
-      </div>
-    </li>
-    <li class="qa qa--more">
-      <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa11"
-        id="qb11" data-i18n="faq.q11">Чи бувають приховані платежі?</button>
-      <div class="qa__a" id="qa11" role="region" aria-labelledby="qb11" hidden>
-        <p data-i18n="faq.a11">Ні. Фінальну суму озвучуємо одразу.</p>
-      </div>
-    </li>
-    <li class="qa qa--more">
-      <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa12"
-        id="qb12" data-i18n="faq.q12">Як часто ми будемо на звʼязку?</button>
-      <div class="qa__a" id="qa12" role="region" aria-labelledby="qb12" hidden>
-        <p data-i18n="faq.a12">Працюємо з понеділка по пʼятницю, з 10:00 до 18:00. Але не зможемо не відповісти на мем у суботу ввечері 😄</p>
-      </div>
-    </li>
-    <li class="qa qa--more">
-      <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa13"
-        id="qb13" data-i18n="faq.q13">Чи можу я погоджувати контент?</button>
-      <div class="qa__a" id="qa13" role="region" aria-labelledby="qb13" hidden>
-        <p data-i18n="faq.a13">Звісно. Ми враховуємо ваші побажання, а якщо зробили інакше, пояснюємо чому.</p>
-      </div>
-    </li>
-    <li class="qa qa--more">
-      <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa14"
-        id="qb14" data-i18n="faq.q14">Що від мене потрібно на старті?</button>
-      <div class="qa__a" id="qa14" role="region" aria-labelledby="qb14" hidden>
-        <p data-i18n="faq.a14">Відповісти на наші запитання, щоб ми швидко й ефективно влилися в проєкт, а ви витратили мінімум часу.</p>
-      </div>
-    </li>
-    <li class="qa qa--more">
-      <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa15"
-        id="qb15" data-i18n="faq.q15">Скільки часу це забирає в мене?</button>
-      <div class="qa__a" id="qa15" role="region" aria-labelledby="qb15" hidden>
-        <p data-i18n="faq.a15">Небагато. Ми беремо на себе все, від ідеї до запуску. Вам потрібно відповісти на наші запитання, погодити контент і рекламні рішення. Решту робимо ми.</p>
-      </div>
-    </li>
-    <li class="qa qa--more">
-      <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa16"
-        id="qb16" data-i18n="faq.q16">Чи є договір?</button>
-      <div class="qa__a" id="qa16" role="region" aria-labelledby="qb16" hidden>
-        <p data-i18n="faq.a16">Так. Мінімальний термін співпраці: 1 місяць.</p>
-      </div>
-    </li>
-    <li class="qa qa--more">
-      <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa17"
-        id="qb17" data-i18n="faq.q17">З якими нішами ви не працюєте?</button>
-      <div class="qa__a" id="qa17" role="region" aria-labelledby="qb17" hidden>
-        <p data-i18n="faq.a17">Не беремо проєкти з обіцянками «швидких грошей», сірими схемами та продукти, які не проходять модерацію рекламних кабінетів. І не беремо другого клієнта в ніші й місті. Якщо ми не віримо в продукт, скажемо про це прямо. Все інше обговоримо на дзвінку.</p>
-      </div>
-    </li>
-    <li class="qa qa--more">
-      <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa18"
-        id="qb18" data-i18n="faq.q18">Чи працюєте ви за межами Польщі?</button>
-      <div class="qa__a" id="qa18" role="region" aria-labelledby="qb18" hidden>
-        <p data-i18n="faq.a18">Так, працюємо по всій Європі.</p>
-      </div>
-    </li>
-    <li class="qa qa--more">
-      <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa19"
-        id="qb19" data-i18n="faq.q19">У мене вже є сайт і підрядник. Це проблема?</button>
-      <div class="qa__a" id="qa19" role="region" aria-labelledby="qb19" hidden>
-        <p data-i18n="faq.a19">Ні, супер! Ми любимо нові знайомства й впевнені, що знайдемо спільну мову.</p>
-      </div>
-    </li>
-    <li class="qa qa--more">
-      <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa20"
-        id="qb20" data-i18n="faq.q20">Чи входять зйомки й монтаж у SMM?</button>
-      <div class="qa__a" id="qa20" role="region" aria-labelledby="qb20" hidden>
-        <p data-i18n="faq.a20">Так, входять. Є й індивідуальні рішення.</p>
-      </div>
-    </li>
-  </ul>
+  <div class="qa__all" id="qaList">
+    <div class="qa__g">
+      <h3 class="qa__gt" data-i18n="faq.g0">Гроші</h3>
+      <ul class="qa__list">
+      <li class="qa">
+        <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa0"
+          id="qb0" data-i18n="faq.q0">Скільки це коштує?</button>
+        <div class="qa__a" id="qa0" role="region" aria-labelledby="qb0" hidden>
+          <p data-i18n="faq.a0">У секції послуг указані ціни «від»: Instagram від $550, TikTok від $500, таргет і сайти від $350, чат-боти й консультації за запитом. Остаточну суму називаємо після брифу: вона залежить від обсягу й ніші. Якщо повний пакет вам не під силу, підберемо формат, який підійде. Фінальну суму озвучуємо один раз і без прихованих платежів.</p>
+        </div>
+      </li>
+      <li class="qa">
+        <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa1"
+          id="qb1" data-i18n="faq.q1">Який мінімальний бюджет на рекламу?</button>
+        <div class="qa__a" id="qa1" role="region" aria-labelledby="qb1" hidden>
+          <p data-i18n="faq.a1">Рекомендуємо від $10 на день. Скільки потрібно саме вам, порахуємо разом після заявки. Рекламний бюджет ви платите окремо від наших послуг, напряму в рекламний кабінет.</p>
+        </div>
+      </li>
+      <li class="qa qa--more">
+        <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa2"
+          id="qb2" data-i18n="faq.q2">Чи бувають приховані платежі?</button>
+        <div class="qa__a" id="qa2" role="region" aria-labelledby="qb2" hidden>
+          <p data-i18n="faq.a2">Ні. Фінальну суму озвучуємо одразу.</p>
+        </div>
+      </li>
+      </ul>
+    </div>
+    <div class="qa__g">
+      <h3 class="qa__gt" data-i18n="faq.g1">Процес</h3>
+      <ul class="qa__list">
+      <li class="qa">
+        <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa3"
+          id="qb3" data-i18n="faq.q3">Ви гарантуєте результат?</button>
+        <div class="qa__a" id="qa3" role="region" aria-labelledby="qb3" hidden>
+          <p data-i18n="faq.a3">Ні, і скажемо чому. Маркетинг приводить до вас людей, які зацікавились. Але купують вони вже в вас: багато залежить від продажів, сервісу, ціни й продукту. Хто гарантує результат, той або не розуміє, як все працює, або продає казку. Ми гарантуємо те, що залежить від нас: тести, швидкі зміни, прозорі цифри. Якщо щось не працює, першими скажемо чому, навіть коли проблема не в рекламі.</p>
+        </div>
+      </li>
+      <li class="qa">
+        <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa4"
+          id="qb4" data-i18n="faq.q4">Що я отримаю за перший місяць?</button>
+        <div class="qa__a" id="qa4" role="region" aria-labelledby="qb4" hidden>
+          <p data-i18n="faq.a4">Залежить від пакету, який ви оберете. Візуальні зміни видно вже за перший місяць. На дзвінку скажемо, чого чекати саме вам.</p>
+        </div>
+      </li>
+      <li class="qa qa--more">
+        <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa5"
+          id="qb5" data-i18n="faq.q5">Як я зрозумію, що це працює?</button>
+        <div class="qa__a" id="qa5" role="region" aria-labelledby="qb5" hidden>
+          <p data-i18n="faq.a5">Звіти надсилаємо щодня або щомісяця, залежно від послуги. З таргетом щоденні звіти обовʼязкові.</p>
+        </div>
+      </li>
+      <li class="qa qa--more">
+        <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa6"
+          id="qb6" data-i18n="faq.q6">Чи можу я погоджувати контент?</button>
+        <div class="qa__a" id="qa6" role="region" aria-labelledby="qb6" hidden>
+          <p data-i18n="faq.a6">Звісно. Ми враховуємо ваші побажання, а якщо зробили інакше, пояснюємо чому.</p>
+        </div>
+      </li>
+      <li class="qa qa--more">
+        <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa7"
+          id="qb7" data-i18n="faq.q7">Що від мене потрібно на старті?</button>
+        <div class="qa__a" id="qa7" role="region" aria-labelledby="qb7" hidden>
+          <p data-i18n="faq.a7">Відповісти на наші запитання, щоб ми швидко й ефективно влилися в проєкт, а ви витратили мінімум часу.</p>
+        </div>
+      </li>
+      </ul>
+    </div>
+    <div class="qa__g">
+      <h3 class="qa__gt" data-i18n="faq.g2">Договір і доступи</h3>
+      <ul class="qa__list">
+      <li class="qa">
+        <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa8"
+          id="qb8" data-i18n="faq.q8">Чи не візьмете ви мого конкурента?</button>
+        <div class="qa__a" id="qa8" role="region" aria-labelledby="qb8" hidden>
+          <p data-i18n="faq.a8">Ні. Це прописано в договорі. Ми не ведемо двох бізнесів однієї ніші в одному місті.</p>
+        </div>
+      </li>
+      <li class="qa">
+        <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa9"
+          id="qb9" data-i18n="faq.q9">Чи є договір?</button>
+        <div class="qa__a" id="qa9" role="region" aria-labelledby="qb9" hidden>
+          <p data-i18n="faq.a9">Так. Мінімальний термін співпраці: 1 місяць.</p>
+        </div>
+      </li>
+      <li class="qa qa--more">
+        <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa10"
+          id="qb10" data-i18n="faq.q10">Кому належать акаунти, кампанії та контент?</button>
+        <div class="qa__a" id="qa10" role="region" aria-labelledby="qb10" hidden>
+          <p data-i18n="faq.a10">Вам. Авторські права переходять до вас, а контент і кампанії залишаються з вами, навіть якщо ми більше не працюємо разом.</p>
+        </div>
+      </li>
+      <li class="qa qa--more">
+        <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa11"
+          id="qb11" data-i18n="faq.q11">Як розірвати співпрацю?</button>
+        <div class="qa__a" id="qa11" role="region" aria-labelledby="qb11" hidden>
+          <p data-i18n="faq.a11">Повідомте нас за 14 днів. Ви отримаєте все, що було зроблено за час співпраці.</p>
+        </div>
+      </li>
+      </ul>
+    </div>
+    <div class="qa__g">
+      <h3 class="qa__gt" data-i18n="faq.g3">Формат співпраці</h3>
+      <ul class="qa__list">
+      <li class="qa">
+        <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa12"
+          id="qb12" data-i18n="faq.q12">Чи можна взяти тільки таргет або тільки SMM?</button>
+        <div class="qa__a" id="qa12" role="region" aria-labelledby="qb12" hidden>
+          <p data-i18n="faq.a12">Так. Можна окремо, можна все під ключ.</p>
+        </div>
+      </li>
+      <li class="qa">
+        <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa13"
+          id="qb13" data-i18n="faq.q13">Чим ви відрізняєтесь від інших агенцій?</button>
+        <div class="qa__a" id="qa13" role="region" aria-labelledby="qb13" hidden>
+          <p data-i18n="faq.a13">У нас зібрані спеціалісти у своїх напрямах. І ми гнучкі: спробували, не спрацювало, змінили, посилили. Навіть пакети послуг підганяємо під ваш результат.</p>
+        </div>
+      </li>
+      <li class="qa qa--more">
+        <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa14"
+          id="qb14" data-i18n="faq.q14">Хто працюватиме з моїм проєктом?</button>
+        <div class="qa__a" id="qa14" role="region" aria-labelledby="qb14" hidden>
+          <p data-i18n="faq.a14">Спеціаліст, який відповідає за вашу зону: SMM, таргет, сайт чи чат-бот.</p>
+        </div>
+      </li>
+      <li class="qa qa--more">
+        <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa15"
+          id="qb15" data-i18n="faq.q15">Як часто ми будемо на звʼязку?</button>
+        <div class="qa__a" id="qa15" role="region" aria-labelledby="qb15" hidden>
+          <p data-i18n="faq.a15">Працюємо з понеділка по пʼятницю, з 10:00 до 18:00. Але не зможемо не відповісти на мем у суботу ввечері 😄</p>
+        </div>
+      </li>
+      <li class="qa qa--more">
+        <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa16"
+          id="qb16" data-i18n="faq.q16">Скільки часу це забирає в мене?</button>
+        <div class="qa__a" id="qa16" role="region" aria-labelledby="qb16" hidden>
+          <p data-i18n="faq.a16">Небагато. Ми беремо на себе все, від ідеї до запуску. Вам потрібно відповісти на наші запитання, погодити контент і рекламні рішення. Решту робимо ми.</p>
+        </div>
+      </li>
+      <li class="qa qa--more">
+        <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa17"
+          id="qb17" data-i18n="faq.q17">З якими нішами ви не працюєте?</button>
+        <div class="qa__a" id="qa17" role="region" aria-labelledby="qb17" hidden>
+          <p data-i18n="faq.a17">Не беремо проєкти з обіцянками «швидких грошей», сірими схемами та продукти, які не проходять модерацію рекламних кабінетів. І не беремо другого клієнта в ніші й місті. Якщо ми не віримо в продукт, скажемо про це прямо. Все інше обговоримо на дзвінку.</p>
+        </div>
+      </li>
+      <li class="qa qa--more">
+        <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa18"
+          id="qb18" data-i18n="faq.q18">Чи працюєте ви за межами Польщі?</button>
+        <div class="qa__a" id="qa18" role="region" aria-labelledby="qb18" hidden>
+          <p data-i18n="faq.a18">Так, працюємо по всій Європі.</p>
+        </div>
+      </li>
+      <li class="qa qa--more">
+        <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa19"
+          id="qb19" data-i18n="faq.q19">У мене вже є сайт і підрядник. Це проблема?</button>
+        <div class="qa__a" id="qa19" role="region" aria-labelledby="qb19" hidden>
+          <p data-i18n="faq.a19">Ні, супер! Ми любимо нові знайомства й впевнені, що знайдемо спільну мову.</p>
+        </div>
+      </li>
+      <li class="qa qa--more">
+        <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa20"
+          id="qb20" data-i18n="faq.q20">Чи входять зйомки й монтаж у SMM?</button>
+        <div class="qa__a" id="qa20" role="region" aria-labelledby="qb20" hidden>
+          <p data-i18n="faq.a20">Так, входять. Є й індивідуальні рішення.</p>
+        </div>
+      </li>
+      </ul>
+    </div>
+  </div>
 
   <button class="lead lead--btn" type="button" id="qaMore"
     data-more="Показати ще" data-less="Згорнути"
@@ -671,6 +628,11 @@
 </section>
 
 </main>
+
+<!-- липка дія: ховається, щойно форма зʼявляється в кадрі -->
+<div class="dock" id="dock" hidden>
+  <a class="btn btn--ink" href="#form" data-i18n="hero.cta">Обговоримо проект</a>
+</div>
 
 <footer class="ft">
   <span class="mark mark--ft" aria-hidden="true"></span>
@@ -681,6 +643,6 @@
   </nav>
 </footer>
 
-<script src="js/main.js?v=9" defer></script>
+<script src="js/main.js?v=10" defer></script>
 </body>
 </html>
