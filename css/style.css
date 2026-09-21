@@ -1,63 +1,63 @@
 /* ============================================================
    SODO — ВИДИМІСТЬ
 
-   Світла основа, фактура, графіт і фірмовий рожевий.
-   Прийом, який тримає все: РОЗФОКУС → РІЗКІСТЬ.
-   Фігура на першому екрані різкішає під поглядом, головне слово
-   заголовка один раз проходить крізь смугу фокуса.
+   Світла тепла основа, чорний і один фірмовий рожевий.
+   Мова сайту — clean editorial × digital desktop: тонкі лінії
+   інтерфейсу, вікна, папки, стоси файлів, виділення тексту,
+   курсор. Але 80% — це типографіка, композиція й повітря, і
+   тільки 20% — ці деталі.
+
+   ── колір ─────────────────────────────────────────────────
+   Рожевий на сайті РІВНО ОДИН: #FA9BB6. Ніяких «майже таких
+   самих» відтінків. Прозорість цього ж кольору — можна.
+
+   Його сила — у заливці: на рожевому тлі темний текст дає 7.1:1,
+   на темних площинах сам рожевий дає 9.3:1. Слабкість — дрібний
+   рожевий текст на молоці (1.78:1), тому дрібні написи на
+   світлому набрані чорним, а рожевий там працює заливкою,
+   виділенням, лінією та великим акцентом.
 
    ── типографіка ───────────────────────────────────────────
-   Benzin — дисплейна гарнітура: заголовки й короткі акценти.
-   Inter  — основний текст і всі елементи керування.
-
-   Три факти про Benzin, з яких зроблена вся розкладка:
-   1. усі чотири файли приходять із usWeightClass 400, тому вага
-      прописана в @font-face явно — інакше браузер вважав би їх
-      однаковими й малював синтетичний жирний;
-   2. lineGap = 377/1000 em. Рядковий бокс майже на 38% вищий за
-      кегль, тож міжрядкову відстань задаємо самі, інакше рядки
-      або злипаються, або розлітаються;
-   3. великі літери широкі (П = 1.01 em у ExtraBold). Відʼємний
-      трекінг на них діє вдвічі сильніше, ніж на вузькому гротеску,
-      тому ніде глибше -.02em.
-
-   Вага 800 лишилась тільки за головним словом героя й окремими
-   результатами. Усе решта — 500 і 400.
+   Montserrat — H1/H2 капсом, кнопки, великі цифри.
+   Onest      — увесь основний текст і H3.
+   Pixelify   — службова мова інтерфейсу: номери, мітки, лічильники.
    ============================================================ */
 
 :root{
   --paper:#F2F1EE;
   --paper-2:#E9E7E2;
+  --card:#FFFFFF;
 
-  /* Текст графітовий, не чорний: на фактурному молоці чистий чорний
-     дає зайву різкість країв. 13.7:1 — запас великий навіть після
-     того, як зерно приглушує тло. */
-  --ink:#242424;
-  --ink-2:#606060;        /* другорядний текст: суцільний колір, 5.6:1.
-                             Прозорість цілих абзаців не вмикаємо — вона
-                             зʼїдає контраст разом із фактурою. */
-  --line:#D6D3CE;         /* тонкі лінії */
-  --line-2:#C2BFB9;       /* рамки елементів керування */
-  --night:#1B1B1D;        /* темні площини: форма, підвал, меню */
+  --ink:#141416;
+  --ink-2:#5E5E62;
+  --line:#DDDAD5;
+  --line-2:#C4C1BB;
 
-  /* Фірмовий рожевий. На темному 8.5:1 і працює як є, на молочному
-     тлі — 1.78:1, тобто дрібним текстом там не читається. Для написів
-     на світлому взятий той самий тон (H 343°), тільки темніший. */
-  --pink:#FA9BB6;         /* заливки, темні площини, головний акцент */
-  --pink-deep:#D92659;    /* той самий тон для тексту на світлому, 4.25:1 */
+  --night:#0E0E10;
+  --night-2:#191A1C;
+  --on-night:#A6A4A0;
+  --night-line:rgba(242,241,238,.14);
+
+  /* ЄДИНИЙ фірмовий рожевий. Не міняти, не освітлювати, не темнити. */
+  --pink:#FA9BB6;
+  --pink-8:rgba(250,155,182,.08);
+  --pink-16:rgba(250,155,182,.16);
+  --pink-28:rgba(250,155,182,.28);
 
   --logo:url("../assets/icons/sodo-wordmark.svg");
   --logo-ar:4.2418;
 
-  --display:"Benzin","Inter",system-ui,-apple-system,sans-serif;
-  --text:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --mono:"Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --display:"Montserrat",system-ui,-apple-system,sans-serif;
+  --text:"Onest",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --ui:"Pixelify","Onest",ui-monospace,monospace;
 
   --gut:clamp(18px,3.4vw,56px);
   --hd:clamp(56px,6.4vh,72px);
 
-  --e:cubic-bezier(.16,.84,.26,1);
-  --e-io:cubic-bezier(.62,.03,.2,1);
+  /* Одна мова руху на весь сайт. Нічого, крім цих трьох кривих. */
+  --e:cubic-bezier(.22,.61,.36,1);      /* вихід: усе, що зʼявляється */
+  --e-io:cubic-bezier(.65,.05,.25,1);   /* вхід-вихід: розкриття, маски */
+  --e-soft:cubic-bezier(.4,0,.2,1);     /* дрібні стани інтерфейсу */
 
   --mx:54%; --my:42%;
 }
@@ -73,7 +73,7 @@ body{
   font-family:var(--text);
   font-weight:400;
   font-size:clamp(15px,1vw,17px);
-  line-height:1.55;
+  line-height:1.6;
   color:var(--ink);
   background:var(--paper);
   overflow-x:hidden;
@@ -87,34 +87,31 @@ img{display:block;max-width:100%;height:auto}
 button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
 a{color:inherit;text-decoration:none}
 
+/* Виділення тексту — теж фірмове. Той самий рожевий, темний текст. */
 ::selection{background:var(--pink);color:var(--ink)}
-:focus-visible{outline:2px solid var(--pink-deep);outline-offset:3px}
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.form :focus-visible,.faq :focus-visible,.ft :focus-visible,.mn :focus-visible{outline-color:var(--pink)}
 
 .vh{position:absolute;width:1px;height:1px;margin:-1px;padding:0;
   overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
 
-/* Посилання для клавіатури. Воно ховається не лише зсувом: на iOS
-   гумове перетягування вгору піднімає вікно й показує все, що стоїть
-   над нульовою лінією, — саме так чорна плашка й виглядала під час
-   прокрутки. Тепер вона ще й прозора, вирізана і не ловить дотик,
-   тож показати її може тільки клавіатурний фокус. */
+/* Посилання для клавіатури. Ховається не лише зсувом: на iOS гумове
+   перетягування вгору показує все, що стоїть над нульовою лінією. */
 .skip{
   position:fixed;left:var(--gut);top:12px;z-index:1200;
   padding:12px 18px;background:var(--night);color:var(--paper);
-  font-weight:600;font-size:13px;letter-spacing:-.01em;
+  font-family:var(--ui);font-weight:500;font-size:13px;
   opacity:0;pointer-events:none;clip-path:inset(50%);
   transform:translateY(-140%);
 }
-.skip:focus-visible{
-  opacity:1;pointer-events:auto;clip-path:none;transform:none;
-}
+.skip:focus-visible{opacity:1;pointer-events:auto;clip-path:none;transform:none}
 
 [id]{scroll-margin-top:calc(var(--hd) + 14px)}
 
-/* зерно на весь сайт: без нього розмиті плани фігури виглядають як плями */
+/* Зерно на весь сайт: без нього розмиті плани фігури — просто плями. */
 .grain{
   position:fixed;inset:-50%;z-index:900;pointer-events:none;
-  opacity:.3;mix-blend-mode:multiply;
+  opacity:.28;mix-blend-mode:multiply;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
   animation:grain 6s steps(6) infinite;
 }
@@ -131,17 +128,26 @@ a{color:inherit;text-decoration:none}
   mask:var(--logo) no-repeat center/contain;
 }
 
+/* Виділення як у текстовому редакторі: рожева заливка, темний текст.
+   Прийом точковий — два місця на весь сайт, не більше. */
+.hl{
+  background:var(--pink);color:var(--ink);
+  padding:.08em .26em;margin:0 -.08em;
+  -webkit-box-decoration-break:clone;box-decoration-break:clone;
+}
+
 /* ============ ЗАВАНТАЖЕННЯ ============ */
 
 .load{position:fixed;inset:0;z-index:1100;display:grid;place-items:center;background:var(--paper)}
 .load__w{
-  font:500 clamp(30px,6.4vw,84px)/1.1 var(--display);
-  letter-spacing:-.005em;text-transform:uppercase;
-  filter:blur(20px);opacity:0;will-change:filter,opacity;
+  font-family:var(--ui);font-weight:500;
+  font-size:clamp(26px,5.2vw,64px);line-height:1.1;
+  letter-spacing:.02em;text-transform:uppercase;
+  opacity:0;
 }
 .load__bar{
   position:absolute;left:var(--gut);right:var(--gut);bottom:clamp(24px,6vh,54px);
-  height:2px;background:var(--pink);transform:scaleX(0);transform-origin:left;
+  height:3px;background:var(--pink);transform:scaleX(0);transform-origin:left;
 }
 body.is-done .load{opacity:0;visibility:hidden;transition:opacity .45s var(--e),visibility 0s .45s}
 
@@ -151,43 +157,47 @@ body.is-done .load{opacity:0;visibility:hidden;transition:opacity .45s var(--e),
   position:fixed;left:0;right:0;top:0;z-index:700;height:var(--hd);
   display:flex;align-items:center;gap:clamp(12px,2.4vw,32px);
   padding:0 var(--gut);color:var(--ink);
-  transition:transform .45s var(--e),color .35s;
+  transition:transform .45s var(--e),color .35s var(--e-soft);
 }
-/* Під шапкою проходить і світлий, і темний зміст. Без підкладки
-   вордмарк і пункти меню зливались із тим, що під ними, — тепер під
-   шапкою лежить розтяжка в колір поточного блоку. */
+/* Скло. Не по всьому сайту — рівно там, де під шапку заходить зміст:
+   інакше вордмарк і пункти меню змішуються з тим, що під ними. */
 .hd::before{
-  content:"";position:absolute;inset:-1px 0 auto;height:calc(var(--hd) + 18px);
-  z-index:-1;pointer-events:none;opacity:0;
-  background:linear-gradient(var(--paper) 45%,rgba(242,241,238,0));
-  transition:opacity .35s var(--e);
+  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  opacity:0;
+  background:rgba(242,241,238,.72);
+  -webkit-backdrop-filter:blur(14px) saturate(1.3);
+          backdrop-filter:blur(14px) saturate(1.3);
+  border-bottom:1px solid rgba(20,20,22,.07);
+  transition:opacity .35s var(--e-soft);
 }
 body.is-scrolled .hd::before{opacity:1}
-body.is-ondark .hd::before{background:linear-gradient(var(--night) 45%,rgba(27,27,29,0))}
+body.is-ondark .hd::before{
+  background:rgba(14,14,16,.62);border-bottom-color:var(--night-line);
+}
 body.is-menu .hd::before{opacity:0}
 body.is-hide .hd{transform:translateY(-100%)}
 body.is-menu .hd,body.is-ondark .hd{color:var(--paper)}
 body.is-menu .hd{transform:none}
 
-.hd__brand{color:var(--pink-deep);transition:color .35s}
+/* Вордмарк на світлому — чорний, на темному — рожевий. Рожевий на
+   молоці дав би 1.78:1, а це логотип, а не декорація. */
+.hd__brand{color:var(--ink);transition:color .35s var(--e-soft)}
 body.is-menu .hd__brand,body.is-ondark .hd__brand{color:var(--pink)}
 
 .hd__nav{
   margin-left:auto;display:flex;gap:clamp(14px,1.8vw,30px);
   font-weight:500;font-size:clamp(13px,1vw,15px);
 }
-.hd__nav a{position:relative;padding:7px 0}
+.hd__nav a{position:relative;padding:8px 0}
 .hd__nav a::after{
-  content:"";position:absolute;left:0;right:0;bottom:0;height:1.5px;
-  background:currentColor;transform:scaleX(0);transform-origin:right;
+  content:"";position:absolute;left:0;right:0;bottom:2px;height:2px;
+  background:var(--pink);transform:scaleX(0);transform-origin:right;
   transition:transform .4s var(--e);
 }
 .hd__nav a:hover::after,.hd__nav a:focus-visible::after{transform:scaleX(1);transform-origin:left}
 
-.hd__menu{
-  display:none;margin-left:auto;align-items:center;gap:10px;
-  font-weight:500;font-size:14px;
-}
+.hd__menu{display:none;margin-left:auto;align-items:center;gap:10px;
+  font-weight:500;font-size:14px}
 .hd__menu-i{display:block;width:20px}
 .hd__menu-i i{display:block;height:1.5px;background:currentColor;transition:transform .4s var(--e)}
 .hd__menu-i i+i{margin-top:6px}
@@ -207,49 +217,46 @@ body.is-menu .mn{clip-path:inset(0 0 0 0)}
 .mn__nav{display:flex;flex-direction:column}
 .mn__nav a{
   display:flex;align-items:baseline;gap:clamp(14px,3vw,30px);
-  padding:clamp(10px,1.8vh,18px) 0;border-bottom:1px solid rgba(242,241,238,.16);
-  font:500 clamp(30px,7vw,68px)/1.16 var(--display);
-  letter-spacing:-.01em;text-transform:uppercase;
-  opacity:0;transform:translateY(20px);
+  padding:clamp(10px,1.8vh,18px) 0;border-bottom:1px solid var(--night-line);
+  font-family:var(--display);font-weight:800;
+  font-size:clamp(28px,6.6vw,64px);line-height:1.1;
+  letter-spacing:-.02em;text-transform:uppercase;
+  opacity:0;transform:translateY(18px);
   transition:opacity .5s var(--e),transform .6s var(--e),color .3s;
 }
 body.is-menu .mn__nav a{opacity:1;transform:none}
-body.is-menu .mn__nav a:nth-child(1){transition-delay:.12s}
-body.is-menu .mn__nav a:nth-child(2){transition-delay:.18s}
-body.is-menu .mn__nav a:nth-child(3){transition-delay:.24s}
-body.is-menu .mn__nav a:nth-child(4){transition-delay:.3s}
-.mn__nav a i{font:500 11px/1 var(--mono);font-style:normal;color:var(--pink)}
+body.is-menu .mn__nav a:nth-child(1){transition-delay:.1s}
+body.is-menu .mn__nav a:nth-child(2){transition-delay:.16s}
+body.is-menu .mn__nav a:nth-child(3){transition-delay:.22s}
+body.is-menu .mn__nav a:nth-child(4){transition-delay:.28s}
+.mn__nav a i{font-family:var(--ui);font-weight:400;font-size:13px;font-style:normal;color:var(--pink)}
 .mn__nav a:hover{color:var(--pink)}
 .mn__foot{margin-top:clamp(24px,5vh,50px)}
-.mn__lab{font:500 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--pink);margin-bottom:12px}
+.mn__lab{font-family:var(--ui);font-weight:400;font-size:12px;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--pink);margin-bottom:12px}
 .mn__links{display:flex;gap:24px;font-weight:500;font-size:15px}
-.mn__links a{border-bottom:1.5px solid var(--pink);padding-bottom:5px}
-/* Перемикач мов зʼявляється лише тоді, коли готова більш ніж одна
-   мова — JS додає його сам. */
+.mn__links a{border-bottom:2px solid var(--pink);padding-bottom:5px}
 .mn__langs{display:flex;gap:6px;margin-top:clamp(18px,2.6vh,28px)}
 .mn__langs button{
-  padding:.5em .9em;border-radius:999px;
-  border:1.5px solid rgba(242,241,238,.24);
-  font-weight:500;font-size:12px;letter-spacing:.06em;
-  color:rgba(242,241,238,.62);transition:color .3s,border-color .3s,background-color .3s;
+  padding:.5em .9em;border-radius:999px;border:1.5px solid var(--night-line);
+  font-family:var(--ui);font-size:12px;letter-spacing:.06em;color:var(--on-night);
+  transition:color .3s,border-color .3s,background-color .3s;
 }
-.mn__langs button.is-on{background:var(--pink);border-color:var(--pink);color:var(--night)}
+.mn__langs button.is-on{background:var(--pink);border-color:var(--pink);color:var(--ink)}
 .mn__langs button:hover{color:var(--paper);border-color:var(--paper)}
 
 /* ============ ФІГУРА ЗА СКЛОМ ============
-   Три плани одного силуету. Дальній майже розчинений, середній тримає
-   форму, ближній відкривається лише у вікні під курсором. Плани
-   рухаються з різною амплітудою — звідси глибина. */
+   Три плани одного силуету: дальній майже розчинений, середній тримає
+   форму, ближній відкривається лише у вікні під курсором. */
 
 .fig{position:absolute;pointer-events:none;overflow:hidden}
 .fig img{
   position:absolute;inset:17% 12%;width:76%;height:66%;
-  object-fit:contain;object-position:center;
-  will-change:transform;
+  object-fit:contain;object-position:center;will-change:transform;
 }
 .fig__halo{
-  position:absolute;left:50%;top:42%;
-  width:118%;aspect-ratio:1;transform:translate(-50%,-50%);
+  position:absolute;left:50%;top:42%;width:118%;aspect-ratio:1;
+  transform:translate(-50%,-50%);
   background:radial-gradient(circle,
     rgba(11,11,12,.07) 0%,rgba(11,11,12,.035) 38%,rgba(11,11,12,0) 68%);
 }
@@ -257,9 +264,9 @@ body.is-menu .mn__nav a:nth-child(4){transition-delay:.3s}
   opacity:.11;filter:blur(38px) contrast(1.1);
   transform:translate3d(calc(var(--pp-x,0px) * .14),calc(var(--pp-y,0px) * .14),0) scale(1.12);
 }
-/* Мʼякий план ховається рівно там, де відкривається різкий: маска в
-   нього обернена. Інакше шари складались і в зоні фокуса щільність
-   зростала — на рівній масі це читалось як темна пляма, а не наводка. */
+/* Маска мʼякого плану обернена до маски різкого: інакше шари
+   складались і в зоні фокуса зростала щільність — це читалось як
+   темна пляма, а не наводка. */
 .fig__soft{
   opacity:.44;filter:blur(17px) contrast(1.08);
   transform:translate3d(calc(var(--pp-x,0px) * .46),calc(var(--pp-y,0px) * .46),0);
@@ -268,9 +275,6 @@ body.is-menu .mn__nav a:nth-child(4){transition-delay:.3s}
   mask-image:radial-gradient(circle var(--mr,0px) at var(--mx) var(--my),
     transparent 0%,transparent 38%,rgba(0,0,0,.54) 68%,rgba(0,0,0,.9) 88%,#000 100%);
 }
-/* У спокої радіус нульовий: доки на фігуру не дивляться, різкого в ній
-   немає нічого. Фокус зʼявляється від руху курсора, а на дотику —
-   від власного обходу. */
 .fig__sharp{
   opacity:.88;filter:blur(1.5px) contrast(1.22);
   transform:translate3d(var(--pp-x,0px),var(--pp-y,0px),0) scale(1.015);
@@ -280,280 +284,250 @@ body.is-menu .mn__nav a:nth-child(4){transition-delay:.3s}
     #000 0%,#000 38%,rgba(0,0,0,.46) 68%,rgba(0,0,0,.1) 88%,transparent 100%);
 }
 
-/* ============ 01 · ПЕРШИЙ ЕКРАН ============ */
+/* ============ 01 · ПЕРШИЙ ЕКРАН ============
+   Найчистіша частина сайту. Логотип, меню, візуал, висловлювання,
+   дія. Жодних папок, курсорів і пояснювальних абзаців тут немає —
+   екран тримають масштаб і композиція. */
 
 .hero{
   position:relative;min-height:100svh;overflow:hidden;
-  display:grid;grid-template-rows:auto minmax(0,1fr) auto auto;
-  padding:calc(var(--hd) + clamp(12px,2.4vh,30px)) var(--gut) clamp(28px,5vh,60px);
+  display:grid;grid-template-rows:minmax(0,1fr) auto auto;
+  padding:calc(var(--hd) + clamp(14px,3vh,36px)) var(--gut) clamp(28px,5vh,60px);
 }
-
-/* Бокс ширший за видиму постать: filter:blur() розтікається за межі
-   елемента, а overflow:hidden на .fig обрізав би його прямою лінією.
-   --fig-top і --fig-h рахує JS: він міряє, де реально закінчується
-   верхній опис і де починається заголовок, і ставить силует рівно в
-   цю смугу. Через це постать не залазить на текст ні на 360, ні на
-   430, ні коли браузер згортає свої панелі. */
+/* --fig-top і --fig-h рахує JS від реальної вільної смуги над
+   заголовком: так силует не залежить від того, скільки місця
+   лишили панелі браузера. */
 .fig--hero{
   left:50%;top:var(--fig-top,-3%);height:var(--fig-h,104%);
-  width:min(80vw,1040px);
-  transform:translateX(-33%);
-  z-index:0;
+  width:min(80vw,1040px);transform:translateX(-33%);z-index:0;
 }
 .fig--hero img{inset:5% 10%;width:80%;height:74%}
 
-/* Верхній опис живе у власній зоні під шапкою й нічим не перекритий. */
-.hero__lead{
-  grid-row:1;z-index:2;max-width:40ch;
-  padding-bottom:clamp(10px,1.8vh,20px);
-  font-size:clamp(14px,1.02vw,17.5px);line-height:1.5;
-  color:var(--ink-2);
-}
-
 .hero__t{
-  grid-row:3;z-index:2;min-width:0;
+  grid-row:2;z-index:2;min-width:0;
   text-transform:uppercase;
-  padding-bottom:clamp(22px,3.6vh,44px);
+  padding-bottom:clamp(22px,3.6vh,46px);
 }
-.hero__w{display:block;font-family:var(--display)}
+.hero__w{display:block;font-family:var(--display);letter-spacing:-.02em}
 .hero__w--1{
-  font-weight:500;font-size:clamp(24px,5.4vw,96px);
-  line-height:1.12;letter-spacing:-.01em;color:var(--ink);
+  font-weight:800;font-size:clamp(24px,7.2vw,116px);
+  line-height:1.02;color:var(--ink);
 }
 .hero__w--2{
-  font-weight:800;font-size:clamp(38px,9.4vw,168px);
-  line-height:1.06;letter-spacing:-.018em;color:var(--pink);
-  margin-top:clamp(2px,.7vh,12px);
+  font-weight:900;font-size:clamp(40px,11.4vw,210px);
+  line-height:.98;margin-top:clamp(2px,.8vh,14px);
 }
 
-/* ── прохід фокуса по слову ──
-   Знизу лежить готовий стан: рожеве, різке. Зверху — та сама копія
-   графітом і з дуже легким розмиттям. Маска знімає верхню копію
-   зліва направо мʼякою вертикальною смугою, тож зміна відбувається
-   всередині самих букв: ні рамки, ні променя, ні плями поверх тексту
-   немає. Ширина, положення й кегль не рухаються — анімується лише
-   позиція маски.
-
-   Градієнт утричі ширший за слово: при mask-position 100% межа
-   стоїть біля лівого краю (верхня копія ціла), при 0% — далеко за
-   правим (копії немає). Текстова тінь тим самим кольором ущільнює
-   край розмитої копії, інакше крізь нього просвічував би рожевий. */
-.hero__key{position:relative;display:inline-block;max-width:100%}
-.hero__word{display:block}
-.hero__veil{
-  position:absolute;left:0;top:0;width:100%;
-  color:var(--ink);pointer-events:none;
-  filter:blur(.02em);
-  text-shadow:0 0 .028em currentColor,0 0 .028em currentColor;
-  -webkit-mask-image:linear-gradient(90deg,transparent 0 63%,rgba(0,0,0,.5) 67.5%,#000 72% 100%);
-          mask-image:linear-gradient(90deg,transparent 0 63%,rgba(0,0,0,.5) 67.5%,#000 72% 100%);
-  -webkit-mask-size:300% 100%;        mask-size:300% 100%;
-  -webkit-mask-repeat:no-repeat;      mask-repeat:no-repeat;
-  -webkit-mask-position:100% 0;       mask-position:100% 0;
-}
-.hero__key.is-lit .hero__veil{animation:focusPass 1s var(--e-io) forwards}
-@keyframes focusPass{
-  to{-webkit-mask-position:0% 0;mask-position:0% 0}
+/* Дихання кольором: чорний → фірмовий рожевий → чорний, по колу,
+   повний цикл 5.2 с. Це не блимання — уся крива мʼяка, і жодна
+   геометрія не рухається, змінюється тільки колір. Поза кадром
+   анімація стоїть, щоб не гріти телефон даремно. */
+.hero__word{display:block;color:var(--ink);will-change:color}
+body.is-done .hero__word{animation:breathe 5.2s var(--e-soft) 1.1s infinite}
+body.hero-away .hero__word{animation-play-state:paused}
+@keyframes breathe{
+  0%,100%{color:var(--ink)}
+  46%,54%{color:var(--pink)}
 }
 
 .hero__foot{
-  grid-row:4;z-index:2;
+  grid-row:3;z-index:2;
   display:flex;flex-wrap:wrap;align-items:center;
   gap:clamp(14px,2.4vh,26px) clamp(20px,3.4vw,52px);
 }
 
-/* поява: рядки піднімаються й проявляються, без залишкового розмиття */
 body:not(.is-done) .hero__w{opacity:0}
-body.is-done .hero__w{animation:wordIn .8s var(--e) both}
-body.is-done .hero__w--2{animation-duration:.95s;animation-delay:.1s}
-@keyframes wordIn{
-  from{opacity:0;transform:translateY(.09em)}
+body.is-done .hero__w{animation:riseIn .85s var(--e) both}
+body.is-done .hero__w--2{animation-delay:.12s}
+@keyframes riseIn{
+  from{opacity:0;transform:translateY(.1em)}
   to{opacity:1;transform:none}
 }
-body:not(.is-done) .hero__lead,
 body:not(.is-done) .hero__foot{opacity:0}
-body.is-done .hero__lead{animation:heroIn .7s var(--e) .24s both}
-body.is-done .hero__foot{animation:heroIn .7s var(--e) .52s both}
-@keyframes heroIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+body.is-done .hero__foot{animation:riseIn .8s var(--e) .5s both}
 
 /* ============ ПОСИЛАННЯ-ДІЯ ============
-   Один рух на весь сайт: підкреслення тримає рядок, стрілка
-   відходить. Набрано Inter — це елемент керування, а не заголовок. */
+   Один рух на весь сайт: під рядком лежить тонка чорна лінія, поверх
+   неї при наведенні проїжджає рожева. Текст лишається чорним —
+   рожевий тут працює лінією, а не кеглем. */
 
 .lead{
   position:relative;align-self:start;justify-self:start;
   display:inline-flex;align-items:center;gap:.5em;
-  padding:.66em 0 .54em;
-  min-height:46px;box-sizing:border-box;
-  font-family:var(--text);font-weight:600;
-  font-size:clamp(15px,1.12vw,18px);letter-spacing:-.005em;
+  padding:.66em 0 .58em;min-height:46px;box-sizing:border-box;
+  font-family:var(--display);font-weight:700;
+  font-size:clamp(14px,1.05vw,17px);letter-spacing:-.01em;
   color:var(--ink);text-align:left;
-  transition:color .35s var(--e),gap .4s var(--e);
+  transition:gap .4s var(--e);
 }
+.lead::before,.lead::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:2px;
+}
+.lead::before{background:currentColor;opacity:.22}
 .lead::after{
-  content:"";position:absolute;left:0;right:0;bottom:0;height:1.8px;
-  background:currentColor;
+  background:var(--pink);transform:scaleX(0);transform-origin:left;
+  transition:transform .45s var(--e);
 }
+.lead:hover::after,.lead:focus-visible::after{transform:scaleX(1)}
+.lead:hover{gap:.72em}
 .lead .ico{
   width:1.05em;height:1.05em;flex:none;
   fill:none;stroke:currentColor;stroke-width:2;
   stroke-linecap:round;stroke-linejoin:round;
   transition:transform .4s var(--e);
 }
-.lead:hover{color:var(--pink-deep);gap:.7em}
 .lead:hover .ico{transform:translateX(3px)}
 .lead--btn{cursor:pointer}
+/* На темних площинах лінія спокою світла, рожева лишається рожевою. */
+.form .lead,.faq .lead{color:var(--paper)}
+.form .lead::before,.faq .lead::before{background:var(--paper);opacity:.3}
 
-/* ============ ЗАГОЛОВКИ СЕКЦІЙ ============
-   Benzin Medium замість ExtraBold, трекінг майже нульовий,
-   міжрядкова 1.16. Жирне лишилось тільки там, де воно щось значить. */
+/* ============ ЗАГОЛОВКИ СЕКЦІЙ ============ */
 
 .lab{
-  font:500 11px/1 var(--mono);letter-spacing:.14em;
-  text-transform:uppercase;color:var(--ink-2);
-  margin-bottom:clamp(10px,1.6vh,18px);
+  font-family:var(--ui);font-weight:400;font-size:13px;line-height:1;
+  letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);
+  margin-bottom:clamp(12px,1.8vh,20px);
 }
 
 .sh{
   position:relative;z-index:5;
-  padding:clamp(58px,9.5vh,124px) var(--gut) clamp(22px,3.4vh,40px);
-  max-width:min(100%,1100px);
+  padding:clamp(60px,10vh,132px) var(--gut) clamp(24px,3.6vh,44px);
+  max-width:min(100%,1180px);
+}
+/* Абзац, який раніше стояв у героєві. Він переїхав сюди й відкриває
+   розповідь про те, що ми робимо, — саме на своєму місці. */
+.sh__over{
+  max-width:32ch;margin-bottom:clamp(22px,3.4vh,40px);
+  font-size:clamp(17px,1.62vw,25px);line-height:1.45;
+  letter-spacing:-.01em;color:var(--ink);
 }
 .sh__t{
-  font-family:var(--display);font-weight:500;
-  font-size:clamp(25px,3.1vw,50px);
-  line-height:1.16;letter-spacing:-.008em;
+  font-family:var(--display);font-weight:800;text-transform:uppercase;
+  font-size:clamp(24px,7vw,64px);line-height:1.06;letter-spacing:-.02em;
   max-width:20ch;
 }
 .sh__i{
-  margin-top:clamp(12px,1.8vh,20px);max-width:52ch;
-  font-size:clamp(14.5px,1.05vw,18px);line-height:1.55;
-  color:var(--ink-2);
+  margin-top:clamp(14px,2vh,22px);max-width:50ch;
+  font-size:clamp(14.5px,1.05vw,18px);line-height:1.6;color:var(--ink-2);
 }
 
-/* ============ 02 · ПОСЛУГИ ============ */
+/* ============ 02 · ПОСЛУГИ ============
+   Порядок читання: назви → що це таке → дія → і тільки потім кадр.
+   Спершу людина розуміє, про що мова, і аж потім дивиться картинку. */
 
-.serv{padding-bottom:clamp(24px,4vh,56px)}
+.serv{padding-bottom:clamp(28px,4.4vh,60px)}
 .sw{padding:0 var(--gut)}
 
 .sw__tabs{
   display:flex;flex-wrap:wrap;
   gap:clamp(7px,.9vh,10px) clamp(8px,1vw,14px);
-  margin-bottom:clamp(22px,3.4vh,42px);
+  margin-bottom:clamp(24px,3.6vh,40px);
 }
 .sw__tabs li{display:flex}
 .sw__tab{
-  flex:1 1 auto;
-  display:inline-flex;align-items:center;justify-content:center;
-  min-height:46px;padding:.5em 1.15em;
-  border-radius:999px;border:1.5px solid var(--line-2);
-  font-family:var(--text);font-weight:500;
-  font-size:clamp(14px,1.05vw,16.5px);letter-spacing:-.005em;
+  flex:1 1 auto;display:inline-flex;align-items:center;justify-content:center;
+  min-height:46px;padding:.5em 1.15em;border-radius:999px;
+  border:1.5px solid var(--line-2);
+  font-weight:500;font-size:clamp(14px,1.05vw,16.5px);
   color:var(--ink-2);
-  transition:color .3s var(--e),border-color .3s var(--e),
-             background-color .3s var(--e);
+  transition:color .3s var(--e-soft),border-color .3s var(--e-soft),
+             background-color .3s var(--e-soft);
 }
-/* Активний — рожева заливка з темним текстом: 7.1:1, читається
-   навіть крізь зерно. */
-.sw__tab.is-on{
-  background:var(--pink);border-color:var(--pink);
-  color:var(--ink);font-weight:600;
-}
+/* Активний — рожева заливка з темним текстом: 7.1:1. */
+.sw__tab.is-on{background:var(--pink);border-color:var(--pink);color:var(--ink);font-weight:600}
 @media (hover:hover) and (pointer:fine){
   .sw__tab:hover{color:var(--ink);border-color:var(--ink)}
   .sw__tab.is-on:hover{color:var(--ink)}
 }
 
-/* Смуга сталої висоти: сцени в ній абсолютні, тому перемикання не
-   рухає сторінку ні на піксель. Сцена й опис лежать в одній панелі,
-   тож опис завжди належить тому, що намальовано над ним. */
-.sw__stage{position:relative;width:100%;height:clamp(330px,46vh,470px)}
+/* Описи лежать стосом в одній комірці сітки, тому висота блоку
+   дорівнює найдовшому з них і при перемиканні нічого не стрибає.
+   Спершу зникає попередній, тільки потім зʼявляється новий — два
+   описи ніколи не стоять в одному місці одночасно. */
+/* Висоту блоку веде JS від реальної висоти активного опису. Сітка з
+   найвищим описом тримала б сталу висоту, але під коротким текстом
+   лишалась би пів-екрана порожнечі; max-height «на око» — або обрізає,
+   або відкриває ривком. */
+.sw__say{position:relative;overflow:hidden;
+  height:var(--say,auto);margin-bottom:clamp(20px,3vh,32px);
+  transition:height .3s var(--e-io)}
+.sw__cap{
+  position:absolute;left:0;top:0;width:100%;max-width:44ch;
+  font-size:clamp(15px,1.12vw,19px);line-height:1.6;color:var(--ink);
+  opacity:0;visibility:hidden;transform:translateY(6px);
+  transition:opacity .17s var(--e-soft) 0s,transform .17s var(--e-soft) 0s,
+             visibility 0s linear .17s;
+}
+.sw__cap.is-on{
+  opacity:1;visibility:visible;transform:none;
+  transition:opacity .3s var(--e) .17s,transform .38s var(--e) .17s,
+             visibility 0s linear 0s;
+}
+
+.sw__foot{
+  display:flex;flex-wrap:wrap;align-items:center;
+  gap:clamp(12px,2vh,20px) clamp(20px,3vw,44px);
+  margin-bottom:clamp(30px,4.6vh,58px);
+}
+.sw__note{font-size:clamp(13.5px,.98vw,16.5px);line-height:1.55;color:var(--ink-2)}
+
+.sw__stage{display:grid;width:100%;height:clamp(250px,38vh,400px)}
 .scene{
-  position:absolute;inset:0;
-  display:grid;grid-template-rows:minmax(0,1fr) auto;
-  gap:clamp(16px,2.4vh,28px);
-  opacity:0;visibility:hidden;
-  /* Спершу зникає попередній опис, тільки потім зʼявляється новий:
-     вихід іде без затримки, вхід — після нього. Тому два описи ніколи
-     не стоять в одному місці одночасно. При швидких натисканнях
-     переходи перериваються самі, бо це звичайні transition. */
-  transition:opacity .17s var(--e) 0s,visibility 0s linear .17s;
+  grid-area:1 / 1;min-width:0;min-height:0;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;visibility:hidden;transform:scale(.985);
+  transition:opacity .2s var(--e-soft) 0s,transform .2s var(--e-soft) 0s,
+             visibility 0s linear .2s;
 }
 .scene.is-on{
-  opacity:1;visibility:visible;
-  transition:opacity .28s var(--e) .17s,visibility 0s linear 0s;
+  opacity:1;visibility:visible;transform:none;
+  transition:opacity .34s var(--e) .17s,transform .46s var(--e) .17s,
+             visibility 0s linear 0s;
 }
-.scene[hidden]{display:none}
+.scene svg{width:100%;height:100%;display:block}
+/* На широкому екрані кадр стоїть по лівому краю текстової колонки, а
+   не посеред порожнечі — так він належить тому, що написано вище. */
+@media (min-width:901px){
+  .scene{justify-content:flex-start}
+  .scene svg{max-width:min(100%,780px)}
+}
 
-.scene__art{
-  min-height:0;display:flex;align-items:center;justify-content:center;
-}
-.scene__art svg{width:100%;height:100%;display:block}
-.sc-card{fill:var(--paper);stroke:var(--ink);stroke-width:1.25;
+/* ── мова кадрів послуг ──
+   Одна дизайн-система на пʼять сцен: тонкі вікна інтерфейсу, папери,
+   рожевий як заливка головного елемента, піксельний курсор там, де
+   йдеться про дію. Композиції різні, словник однаковий. */
+.sc-win{fill:var(--card);stroke:var(--ink);stroke-width:1.2;
   stroke-linejoin:round;vector-effect:non-scaling-stroke}
-.sc-face{fill:var(--paper)}
+.sc-face{fill:var(--card)}
 .sc-fill{fill:var(--paper-2)}
 .sc-dim{fill:var(--line)}
 .sc-pink{fill:var(--pink)}
-.sc-l{
-  fill:none;stroke:var(--ink);stroke-width:1.25;
-  stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke;
-}
+.sc-ink{fill:var(--ink)}
+.sc-l{fill:none;stroke:var(--ink);stroke-width:1.2;
+  stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
 .sc-l--thin{stroke:var(--line-2);stroke-width:1}
-.sc-l--pink{stroke:var(--pink-deep);stroke-width:1.6}
 .sc-l--dash{stroke:var(--line-2);stroke-width:1;stroke-dasharray:4 4}
-
-.scene__cap{
-  max-width:46ch;
-  font-size:clamp(14.5px,1.02vw,17.5px);line-height:1.55;
-  color:var(--ink-2);
-}
-.sw__foot{
-  display:flex;flex-wrap:wrap;align-items:center;
-  gap:clamp(14px,2.2vh,24px) clamp(20px,3vw,44px);
-  margin-top:clamp(26px,4vh,48px);
-}
-.sw__note{
-  font-size:clamp(13.5px,.98vw,16.5px);line-height:1.5;color:var(--ink-2);
-}
-
-/* На широкому екрані опис стає поруч зі сценою, а не під нею через
-   пів-екрана порожнечі: так видно, що підпис належить саме цьому
-   малюнку. Сцена лишається в тій самій смузі сталої висоти. */
-@media (min-width:901px){
-  .scene{
-    grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);
-    grid-template-rows:minmax(0,1fr);
-    gap:clamp(28px,4vw,72px);align-items:center;
-  }
-  .scene__art{grid-column:2;grid-row:1}
-  .scene__cap{grid-column:1;grid-row:1;max-width:32ch}
-}
+.sc-cur{fill:var(--ink);stroke:var(--card);stroke-width:1.4;
+  stroke-linejoin:round;vector-effect:non-scaling-stroke}
 
 /* ============ 03 · ЦИКЛ SODO ============ */
 
-.cycle{padding-bottom:clamp(54px,8.5vh,110px)}
+.cycle{padding-bottom:clamp(56px,9vh,116px)}
 .cycle__p{
-  padding:0 var(--gut);max-width:62ch;
-  margin-bottom:clamp(34px,5.2vh,68px);
-  font-size:clamp(14.5px,1.05vw,18px);line-height:1.6;color:var(--ink-2);
+  padding:0 var(--gut);max-width:60ch;
+  margin-bottom:clamp(36px,5.4vh,72px);
+  font-size:clamp(15px,1.06vw,18px);line-height:1.65;color:var(--ink-2);
 }
 .cycle__a{
-  margin:clamp(36px,5.6vh,72px) var(--gut) 0;max-width:30ch;
-  font-family:var(--display);font-weight:500;
-  font-size:clamp(18px,1.9vw,32px);
-  line-height:1.24;letter-spacing:-.008em;color:var(--ink);
+  margin:clamp(38px,5.8vh,76px) var(--gut) 0;max-width:26ch;
+  font-family:var(--display);font-weight:800;text-transform:uppercase;
+  font-size:clamp(17px,2vw,32px);line-height:1.18;letter-spacing:-.02em;
 }
 
-/* Маршрут. Лінія домальовується від прокрутки, етап отримує акцент,
-   коли вона до нього доходить. */
-.road{
-  position:relative;padding:0 var(--gut);
-  height:clamp(310px,32vw,430px);
-}
-/* Ширину задаємо явно. У <svg> є власна пропорція з viewBox, тому при
-   width:auto браузер рахує ширину з висоти і просто ігнорує right —
-   лінія вилазила за вікно й давала горизонтальну прокрутку. */
+.road{position:relative;padding:0 var(--gut);height:clamp(320px,32vw,440px)}
+/* Ширину задаємо явно: у <svg> є власна пропорція з viewBox, тому при
+   width:auto браузер рахує ширину з висоти й ігнорує right. */
 .road__line{
   position:absolute;left:var(--gut);top:0;
   width:calc(100% - 2 * var(--gut));height:100%;
@@ -561,7 +535,7 @@ body.is-done .hero__foot{animation:heroIn .7s var(--e) .52s both}
 }
 .road__line--tall{display:none}
 .road__track,.road__draw{
-  fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;
+  fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
   vector-effect:non-scaling-stroke;
 }
 .road__track{stroke:var(--line)}
@@ -569,7 +543,7 @@ body.is-done .hero__foot{animation:heroIn .7s var(--e) .52s both}
    non-scaling-stroke рахує штрих у координатах екрана, а
    getTotalLength() — у координатах viewBox, які тут розтягнуті. */
 .road__draw{
-  stroke:var(--pink-deep);
+  stroke:var(--pink);stroke-width:2.5;
   stroke-dasharray:var(--len,2000px);
   stroke-dashoffset:calc(var(--len,2000px) * (1 - var(--road,0)));
   transition:stroke-dashoffset .3s linear;
@@ -577,14 +551,10 @@ body.is-done .hero__foot{animation:heroIn .7s var(--e) .52s both}
 .road__steps{position:absolute;left:var(--gut);right:var(--gut);top:0;bottom:0}
 
 /* Розкладка по ламаній — тільки для широких екранів; вона живе у
-   власному медіазапиті, бо правила з :nth-child важчі за клас і
-   скинути їх нижче не вийшло б. Координати збігаються з вузлами
-   кривої: x = 0/25/50/75% ширини, y = 58 і 205 із viewBox 0..300. */
+   власному медіазапиті, бо правила з :nth-child важчі за клас. */
 @media (min-width:901px){
-  .road__s{
-    position:absolute;width:25%;
-    padding:clamp(26px,3.6vh,38px) clamp(16px,2.4vw,42px) 0 0;
-  }
+  .road__s{position:absolute;width:25%;
+    padding:clamp(26px,3.6vh,38px) clamp(16px,2.4vw,42px) 0 0}
   .road__s:nth-child(1){left:0;   top:19.3%}
   .road__s:nth-child(2){left:25%; top:68.3%}
   .road__s:nth-child(3){left:50%; top:19.3%}
@@ -593,443 +563,420 @@ body.is-done .hero__foot{animation:heroIn .7s var(--e) .52s both}
 
 /* Приглушення висить на ВМІСТІ кроку, а не на самому кроці: інакше
    його успадкують псевдоелементи, зокрема вузол. */
-.road__s > *{opacity:.42;transition:opacity .5s var(--e)}
+.road__s > *{opacity:.4;transition:opacity .5s var(--e)}
 .road__s.is-on > *{opacity:1}
 .road__s::before{
   content:"";position:absolute;left:0;top:0;
-  width:13px;height:13px;border-radius:50%;
+  width:14px;height:14px;border-radius:50%;
   transform:translate(-50%,-50%);
-  background:var(--paper);border:1.5px solid var(--line-2);
+  background:var(--paper);border:2px solid var(--line-2);
   transition:background-color .45s var(--e),border-color .45s var(--e),
              transform .45s var(--e);
 }
 .road__s.is-on::before{
-  background:var(--pink-deep);border-color:var(--pink-deep);
-  transform:translate(-50%,-50%) scale(1.2);
+  background:var(--pink);border-color:var(--ink);
+  transform:translate(-50%,-50%) scale(1.25);
 }
 .road__n{
   display:block;margin-bottom:12px;
-  font:500 11px/1 var(--mono);font-style:normal;letter-spacing:.12em;
-  color:var(--ink-2);transition:color .45s var(--e);
+  font-family:var(--ui);font-weight:500;font-size:15px;line-height:1;
+  font-style:normal;letter-spacing:.04em;color:var(--ink-2);
+  transition:color .45s var(--e);
 }
-.road__s.is-on .road__n{color:var(--pink-deep)}
-.road__s h3{
-  font-family:var(--display);font-weight:500;
-  font-size:clamp(17px,1.4vw,25px);line-height:1.2;letter-spacing:-.005em;
-}
-.road__s p{
-  margin-top:10px;max-width:26ch;
-  font-size:clamp(13.5px,.95vw,16.5px);line-height:1.5;color:var(--ink-2);
-}
+.road__s.is-on .road__n{color:var(--ink)}
+.road__s h3{font-weight:600;font-size:clamp(17px,1.4vw,25px);line-height:1.25;letter-spacing:-.01em}
+.road__s p{margin-top:10px;max-width:26ch;
+  font-size:clamp(13.5px,.95vw,16.5px);line-height:1.55;color:var(--ink-2)}
 
-/* ============ 04 · ОДИН НА НІШУ + ЦИФРИ ============
-   Спокійна текстова композиція з повітрям. Важких рамок немає:
-   секцію тримає одна тонка лінія зверху й великі поля. */
+/* ============ 04 · ОДИН НА НІШУ + ЦИФРИ ============ */
 
 .one{
-  padding:clamp(58px,9vh,116px) var(--gut) clamp(58px,9vh,116px);
-  display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,1fr);
-  gap:clamp(36px,5vw,96px);align-items:start;
+  padding:clamp(60px,9.5vh,124px) var(--gut);
+  display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);
+  gap:clamp(40px,5.5vw,104px);align-items:start;
   border-top:1px solid var(--line);
 }
 .one__t{
-  font-family:var(--display);font-weight:500;
-  font-size:clamp(24px,2.9vw,46px);
-  line-height:1.18;letter-spacing:-.008em;max-width:15ch;
+  font-family:var(--display);font-weight:800;text-transform:uppercase;
+  font-size:clamp(23px,4.6vw,52px);line-height:1.1;letter-spacing:-.02em;
 }
+/* Кожне речення — окремий inline-block, тому рядок ламається тільки
+   між ними, а не посеред фрази. «Один на нішу.» і «Один на місто.»
+   або стоять поруч, або одне під одним — третього не буває. */
+.one__t span{display:inline-block}
 .one__p{
-  margin-top:clamp(16px,2.4vh,28px);max-width:44ch;
-  font-size:clamp(14.5px,1.05vw,18px);line-height:1.6;color:var(--ink-2);
+  margin-top:clamp(18px,2.6vh,30px);max-width:42ch;
+  font-size:clamp(15px,1.06vw,18px);line-height:1.65;color:var(--ink-2);
 }
-.one__s{
-  margin-top:clamp(16px,2.2vh,24px);
-  font-weight:600;font-size:clamp(13.5px,.98vw,16px);color:var(--pink-deep);
-}
+.one__s{margin-top:clamp(20px,2.8vh,30px);font-weight:500;
+  font-size:clamp(14px,1vw,17px);line-height:1.9}
 
-/* Цифри — окремі акценти з легкими підписами, без плашок і рамок. */
-.nums{display:grid;gap:clamp(24px,3.6vh,44px)}
-.nums li{display:grid;gap:6px}
+.nums{display:grid;gap:clamp(26px,3.8vh,46px)}
+.nums li{display:grid;gap:8px;padding-top:clamp(14px,2vh,20px);
+  border-top:2px solid var(--pink)}
 .nums b{
-  font-family:var(--display);font-weight:800;
-  font-size:clamp(30px,3.5vw,56px);
-  line-height:1;letter-spacing:-.022em;color:var(--ink);
+  font-family:var(--display);font-weight:900;
+  font-size:clamp(32px,3.8vw,60px);line-height:1;letter-spacing:-.03em;
+  font-variant-numeric:tabular-nums;
 }
-.nums span{
-  font-size:clamp(13px,.95vw,16px);line-height:1.45;
-  max-width:22ch;color:var(--ink-2);
-}
+.nums span{font-size:clamp(13px,.95vw,16px);line-height:1.5;max-width:22ch;color:var(--ink-2)}
 
 /* ============ 05 · КЕЙСИ ============
-   Горизонтальна галерея. Один кейс займає майже всю ширину, край
-   наступного видно — звідси зрозуміло, що їх можна гортати.
-   Картка показує весь свій текст: ніякого обрізання й власної
-   вертикальної прокрутки в ній немає. */
+   Картка — папка з документом: язичок із номером, сам аркуш і стос
+   під ним. Гортається пальцем, стрілками й клавіатурою. */
 
-.cases{padding-bottom:clamp(52px,8vh,110px)}
-
+.cases{padding-bottom:clamp(56px,8.5vh,116px)}
 .gal{position:relative}
 .gal__track{
   display:flex;align-items:stretch;
-  gap:clamp(14px,2vw,28px);
-  padding:2px var(--gut) 6px;
+  gap:clamp(16px,2.2vw,32px);
+  padding:32px var(--gut) 14px;
   overflow-x:auto;overscroll-behavior-x:contain;
-  scroll-snap-type:x mandatory;
-  scroll-padding-inline:var(--gut);
-  -webkit-overflow-scrolling:touch;
-  scrollbar-width:none;
+  scroll-snap-type:x mandatory;scroll-padding-inline:var(--gut);
+  -webkit-overflow-scrolling:touch;scrollbar-width:none;
 }
 .gal__track::-webkit-scrollbar{display:none}
 
 .case{
-  flex:0 0 auto;
-  width:calc(50% - clamp(14px,2vw,28px) / 2);
+  position:relative;flex:0 0 auto;
+  width:calc(50% - clamp(16px,2.2vw,32px) / 2);
   scroll-snap-align:start;
+}
+/* Стос під аркушем. Псевдоелемент іде в DOM раніше за картку, тому
+   лягає під неї без жодних zʼїжджань zʼіндексів. */
+.case::before{
+  content:"";position:absolute;left:16px;right:-10px;top:10px;bottom:-10px;
+  background:var(--paper-2);border:1px solid var(--line);border-radius:12px;
+  transition:transform .5s var(--e);
+}
+.case__tab{
+  position:absolute;left:0;top:-27px;height:28px;
+  display:flex;align-items:center;padding:0 16px;
+  background:var(--card);border:1px solid var(--line);border-bottom:0;
+  border-radius:10px 10px 0 0;
+}
+.case__no{font-family:var(--ui);font-weight:500;font-size:14px;
+  font-style:normal;letter-spacing:.04em;color:var(--ink-2)}
+.case__card{
+  position:relative;height:100%;
   display:flex;flex-direction:column;
-  padding:clamp(22px,3vh,34px) clamp(20px,2.2vw,34px) clamp(22px,3vh,34px);
-  background:var(--paper-2);border:1px solid var(--line);border-radius:8px;
+  padding:clamp(22px,3vh,32px) clamp(20px,2.2vw,32px);
+  background:var(--card);border:1px solid var(--line);
+  border-radius:0 12px 12px 12px;
+  transition:transform .5s var(--e);
+}
+@media (hover:hover) and (pointer:fine){
+  .case:hover::before{transform:translate(5px,5px) rotate(.6deg)}
+  .case:hover .case__card{transform:translateY(-3px)}
 }
 .case__n{
-  font-family:var(--display);font-weight:500;
-  font-size:clamp(21px,2.1vw,34px);
-  line-height:1.14;letter-spacing:-.008em;text-transform:uppercase;
+  font-family:var(--display);font-weight:800;text-transform:uppercase;
+  font-size:clamp(19px,5vw,30px);line-height:1.08;letter-spacing:-.02em;
+  overflow-wrap:break-word;
 }
-.case__c{
-  margin-top:9px;
-  font:500 11px/1.3 var(--mono);letter-spacing:.12em;
-  text-transform:uppercase;color:var(--pink-deep);
-}
+.case__c{margin-top:10px;font-family:var(--ui);font-weight:400;font-size:13px;
+  letter-spacing:.04em;text-transform:uppercase;color:var(--ink-2)}
 .case__row{margin-top:clamp(18px,2.6vh,26px)}
-.case__k{
-  display:block;margin-bottom:7px;
-  font:500 10.5px/1.4 var(--mono);letter-spacing:.1em;
-  text-transform:uppercase;color:var(--ink-2);
-}
-/* Картка стоїть на темнішій площині, ніж сторінка, тому другорядний
-   текст у ній на крок темніший: заміряно на живому фоні разом із
-   зерном — 4.53:1 при --ink-2 проти 5.3:1 ось так. */
-.case__v{
-  font-size:clamp(14px,1vw,17px);line-height:1.55;color:#575757;
-}
-/* Результат — єдине місце картки, яке звучить голосно. Виділена в
-   ньому лише сама цифра чи ключова фраза, решта абзацу набрана
-   звичайно. */
-.case__row--res{
-  margin-top:auto;padding-top:clamp(18px,2.6vh,26px);
-}
+.case__k{display:block;margin-bottom:8px;
+  font-family:var(--ui);font-weight:400;font-size:12.5px;line-height:1;
+  letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
+.case__v{font-size:clamp(14px,1vw,17px);line-height:1.6;color:var(--ink-2)}
+/* Результат — єдине місце картки, яке звучить голосно: суцільна
+   рожева заливка, темний текст, 7.1:1. Виділена в ньому лише сама
+   цифра, решта абзацу набрана звичайно. */
+.case__row--res{margin-top:auto;padding-top:clamp(20px,2.8vh,28px)}
 .case__res{
-  padding:clamp(14px,2vh,20px) clamp(14px,1.6vw,20px);
-  background:rgba(250,155,182,.22);border-radius:6px;
+  padding:clamp(16px,2.2vh,22px) clamp(16px,1.8vw,22px);
+  background:var(--pink);border-radius:10px;color:var(--ink);
 }
-.case__row--res .case__k{color:var(--pink-deep);margin-bottom:8px}
-.case__row--res .case__v{color:var(--ink);font-weight:400}
-.case__hl{
-  font-family:var(--display);font-weight:800;
-  font-size:1.1em;letter-spacing:-.01em;color:var(--ink);
-}
+.case__row--res .case__k{color:var(--ink);opacity:.72}
+.case__row--res .case__v{color:var(--ink)}
+.case__hl{font-family:var(--display);font-weight:900;font-size:1.12em;
+  letter-spacing:-.02em;font-variant-numeric:tabular-nums}
 
 .gal__bar{
   display:flex;align-items:center;gap:clamp(10px,1.4vw,16px);
   margin:clamp(20px,3vh,32px) var(--gut) 0;
 }
 .gal__b{
-  width:48px;height:48px;flex:none;
-  display:grid;place-items:center;border-radius:50%;
-  border:1.5px solid var(--line-2);color:var(--ink);
-  transition:border-color .3s var(--e),color .3s var(--e),opacity .3s;
+  width:48px;height:48px;flex:none;display:grid;place-items:center;
+  border-radius:50%;border:1.5px solid var(--line-2);color:var(--ink);
+  transition:border-color .3s var(--e-soft),background-color .3s var(--e-soft),opacity .3s;
 }
 .gal__b svg{width:20px;height:20px;fill:none;stroke:currentColor;
   stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.gal__b:hover{border-color:var(--ink)}
-.gal__b[disabled]{opacity:.32;cursor:default}
-.gal__b[disabled]:hover{border-color:var(--line-2)}
-.gal__c{
-  font:500 13px/1 var(--mono);letter-spacing:.12em;color:var(--ink-2);
-}
-.cases > .lead{margin:clamp(24px,3.6vh,40px) var(--gut) 0}
+.gal__b:hover{border-color:var(--pink);background:var(--pink)}
+.gal__b[disabled]{opacity:.3;cursor:default}
+.gal__b[disabled]:hover{border-color:var(--line-2);background:none}
+.gal__c{font-family:var(--ui);font-weight:400;font-size:15px;
+  letter-spacing:.06em;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.cases > .lead{margin:clamp(26px,3.8vh,42px) var(--gut) 0}
 
 /* ============ 06 · ЯК ПРАЦЮЄМО ============
-   Компактна послідовність: номер веде, назва тримає, пояснення
-   коротке. Жирних рисок під кожним кроком немає. */
+   Вертикальний прогрес: рейка зліва, номер у квадраті, активний крок
+   підсвічується, пройдені лишаються позначеними. */
 
-.how{padding-bottom:clamp(52px,8vh,110px)}
+.how{padding-bottom:clamp(56px,8.5vh,116px)}
 .steps{
-  display:grid;grid-template-columns:repeat(5,minmax(0,1fr));
-  gap:clamp(18px,2.2vw,36px);
-  padding:0 var(--gut);
+  position:relative;padding:0 var(--gut);
+  display:grid;gap:0;
 }
-.step{padding-top:clamp(14px,2.2vh,22px);border-top:1px solid var(--line)}
-.step i{
-  display:block;margin-bottom:clamp(10px,1.6vh,16px);
-  font-family:var(--display);font-weight:800;font-style:normal;
-  font-size:clamp(20px,1.9vw,30px);line-height:1;letter-spacing:-.02em;
-  color:var(--pink-deep);
+/* рейка */
+.steps::before,.steps::after{
+  content:"";position:absolute;left:calc(var(--gut) + 21px);
+  top:var(--rail-top,22px);height:var(--rail,calc(100% - 44px));width:2px;
 }
+.steps::before{background:var(--line)}
+.steps::after{
+  background:var(--pink);transform-origin:top;
+  transform:scaleY(var(--go,0));
+  transition:transform .35s linear;
+}
+.step{
+  position:relative;
+  display:grid;grid-template-columns:44px minmax(0,1fr);
+  gap:0 clamp(18px,2.4vw,34px);
+  padding:0 0 clamp(26px,4vh,44px);
+}
+.step:last-child{padding-bottom:0}
+/* Квадрат стоїть НАД рейкою і перекриває її, тож лінія читається як
+   відрізки між кроками, а не як смуга, що проходить крізь номер. */
+.step__n{
+  position:relative;z-index:1;
+  grid-column:1;align-self:start;
+  width:44px;height:44px;display:grid;place-items:center;
+  border-radius:10px;background:var(--paper);
+  border:2px solid var(--line-2);
+  font-family:var(--ui);font-weight:500;font-size:15px;font-style:normal;
+  color:var(--ink-2);
+  transition:background-color .45s var(--e),border-color .45s var(--e),
+             color .45s var(--e);
+}
+.step.is-on .step__n{background:var(--pink);border-color:var(--ink);color:var(--ink)}
+.step.is-done .step__n{background:var(--pink-28);border-color:var(--pink);color:var(--ink)}
+.step__b{grid-column:2;padding-top:2px;opacity:.5;transition:opacity .5s var(--e)}
+.step.is-on .step__b,.step.is-done .step__b{opacity:1}
 .step h3{
-  font-family:var(--display);font-weight:500;
-  font-size:clamp(16px,1.26vw,22px);line-height:1.2;letter-spacing:-.005em;
+  font-weight:600;font-size:clamp(17px,1.5vw,26px);line-height:1.2;letter-spacing:-.012em;
+  transition:color .45s var(--e);
 }
 .step p{
-  margin-top:9px;
-  font-size:clamp(13px,.92vw,15.5px);line-height:1.5;color:var(--ink-2);
+  margin-top:8px;max-width:46ch;
+  font-size:clamp(14px,.98vw,17px);line-height:1.6;color:var(--ink-2);
 }
 
 /* ============ 07 · ФОРМА ============ */
 
-.form{
-  background:var(--night);color:var(--paper);
-  padding-bottom:clamp(58px,9vh,120px);
-}
+.form{background:var(--night);color:var(--paper);padding-bottom:clamp(60px,9.5vh,124px)}
 .form .sh__t{color:var(--paper)}
-.form .sh__i{color:#AEACA7}
+.form .sh__i{color:var(--on-night)}
 
 .fm{padding:0 var(--gut)}
 .fm__grid{
   display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:clamp(20px,2.6vw,38px);
-  max-width:900px;
+  gap:clamp(22px,2.8vw,40px);max-width:920px;
 }
 .fld:last-of-type{grid-column:1 / -1}
-.fld label{
-  display:block;margin-bottom:10px;
-  font-weight:500;font-size:clamp(13px,.95vw,15px);color:#B6B4AF;
-}
+.fld label{display:block;margin-bottom:10px;font-weight:500;
+  font-size:clamp(13px,.95vw,15px);color:var(--on-night)}
 .fld label span[aria-hidden]{color:var(--pink)}
 .fld input,.fld textarea{
-  width:100%;display:block;
-  padding:.78em 0;
+  width:100%;display:block;padding:.8em 0;
   font:inherit;font-size:clamp(15px,1.05vw,18px);
   color:var(--paper);background:none;
-  border:0;border-bottom:1.5px solid rgba(242,241,238,.3);
-  border-radius:0;
-  transition:border-color .3s var(--e);
+  border:0;border-bottom:1.5px solid var(--night-line);border-radius:0;
+  transition:border-color .3s var(--e-soft);
 }
 .fld textarea{resize:vertical;min-height:2.8em;line-height:1.5}
 .fld input:focus,.fld textarea:focus{outline:none;border-bottom-color:var(--pink)}
 .fld.is-bad input,.fld.is-bad textarea{border-bottom-color:var(--pink)}
 
-.fm__foot{
-  display:flex;flex-wrap:wrap;align-items:center;
-  gap:clamp(16px,2.4vh,26px) clamp(20px,3vw,44px);
-  margin-top:clamp(30px,4.6vh,56px);
-}
+.fm__foot{display:flex;flex-wrap:wrap;align-items:center;
+  gap:clamp(16px,2.4vh,26px) clamp(20px,3vw,44px);margin-top:clamp(32px,4.8vh,58px)}
 .btn{
   display:inline-flex;align-items:center;justify-content:center;
-  min-height:54px;padding:0 clamp(26px,3vw,46px);
-  border-radius:999px;background:var(--pink);color:var(--night);
-  font-family:var(--text);font-weight:600;
-  font-size:clamp(15px,1.1vw,18px);letter-spacing:-.005em;
-  transition:background-color .3s var(--e),transform .35s var(--e);
+  min-height:56px;padding:0 clamp(28px,3.2vw,48px);border-radius:999px;
+  background:var(--pink);color:var(--ink);
+  font-family:var(--display);font-weight:700;
+  font-size:clamp(14px,1.05vw,17px);letter-spacing:-.01em;
+  transition:transform .35s var(--e),box-shadow .35s var(--e);
 }
-.btn:hover{background:var(--paper);transform:translateY(-2px)}
-.fm__u{
-  max-width:40ch;
-  font-size:clamp(12.5px,.9vw,15px);line-height:1.5;color:#98968F;
-}
-.fm__err{
-  margin-top:clamp(16px,2.2vh,24px);
-  font-weight:500;font-size:clamp(13.5px,.95vw,16px);color:var(--pink);
-}
-.fm__ok{
-  padding:0 var(--gut);
-  font-size:clamp(15.5px,1.2vw,21px);line-height:1.5;
-}
-.fm__ok a{
-  display:inline-flex;align-items:center;gap:.4em;
-  color:var(--pink);border-bottom:2px solid currentColor;padding-bottom:2px;
-}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(250,155,182,.22)}
+.fm__u{max-width:38ch;font-size:clamp(12.5px,.9vw,15px);line-height:1.55;color:#807E7A}
+.fm__err{margin-top:clamp(16px,2.2vh,24px);font-weight:500;
+  font-size:clamp(13.5px,.95vw,16px);color:var(--pink)}
+.fm__ok{padding:0 var(--gut);font-size:clamp(16px,1.25vw,22px);line-height:1.55}
+.fm__ok a{display:inline-flex;align-items:center;gap:.4em;color:var(--pink);
+  border-bottom:2px solid currentColor;padding-bottom:2px}
 .fm__ok .ico{width:.8em;height:.8em;fill:none;stroke:currentColor;
   stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 
 /* ============ 08 · ПИТАННЯ Й ВІДПОВІДІ ============
-   Питання набрані Inter, а не дисплейним жирним: це довгі речення й
-   водночас кнопки. Кегль менший, міжрядкова більша, знак розкриття
-   винесений у власне коло. */
+   Темна секція. Жодних карток і сірих боксів навколо питань — рядки
+   на всю ширину, тонкі розділювачі, плюс праворуч, багато повітря. */
 
-.faq{padding-bottom:clamp(58px,9vh,120px)}
-.qa__list{padding:0 var(--gut);border-top:1px solid var(--line)}
-.qa{border-bottom:1px solid var(--line)}
+.faq{background:var(--night);color:var(--paper);padding-bottom:clamp(64px,10vh,136px)}
+.faq .sh{padding-top:clamp(70px,11vh,150px)}
+.faq .sh__t{color:var(--paper)}
+
+.qa__list{padding:0 var(--gut);border-top:1px solid var(--night-line)}
+.qa{border-bottom:1px solid var(--night-line)}
 .qa--more{display:none}
 .qa__list.is-open .qa--more{display:block}
 
 .qa__q{
-  position:relative;display:block;width:100%;
-  padding:clamp(18px,2.6vh,26px) clamp(52px,5vw,70px) clamp(18px,2.6vh,26px) 0;
-  text-align:left;
-  font-family:var(--text);font-weight:600;
-  font-size:clamp(15.5px,1.15vw,19px);
-  line-height:1.42;letter-spacing:-.005em;color:var(--ink);
-  transition:color .3s var(--e);
+  position:relative;display:block;width:100%;text-align:left;
+  padding:clamp(20px,3vh,30px) clamp(50px,5vw,80px) clamp(20px,3vh,30px) 0;
+  font-weight:500;font-size:clamp(15.5px,1.2vw,20px);
+  line-height:1.45;letter-spacing:-.008em;color:var(--paper);
+  transition:color .3s var(--e-soft);
 }
-.qa__q::before{
-  content:"";position:absolute;right:0;top:50%;
-  width:38px;height:38px;margin-top:-19px;border-radius:50%;
-  border:1.5px solid var(--line-2);
-  transition:border-color .3s var(--e),background-color .3s var(--e);
+/* Плюс, який стає мінусом: вертикальна риска доїжджає до горизонталі
+   й зливається з нею. Позиція фіксована по вертикалі — на довгих
+   питаннях у два-три рядки знак лишається на першому рядку й ніколи
+   не налазить на текст. */
+.qa__q::before,.qa__q::after{
+  content:"";position:absolute;right:0;background:currentColor;
+  transition:transform .42s var(--e-io);
 }
-.qa__q::after{
-  content:"";position:absolute;right:11px;top:50%;
-  width:16px;height:16px;margin-top:-8px;
-  background:
-    linear-gradient(currentColor,currentColor) center/16px 1.6px no-repeat,
-    linear-gradient(currentColor,currentColor) center/1.6px 16px no-repeat;
-  transition:transform .4s var(--e),background-size .4s var(--e);
-}
-.qa__q[aria-expanded="true"]{color:var(--pink-deep)}
-.qa__q[aria-expanded="true"]::before{border-color:var(--pink-deep)}
-.qa__q[aria-expanded="true"]::after{transform:rotate(90deg);
-  background:linear-gradient(currentColor,currentColor) center/16px 1.6px no-repeat}
-.qa__q:hover{color:var(--pink-deep)}
-.qa__q:hover::before{border-color:var(--pink-deep)}
+.qa__q::before{top:calc(clamp(20px,3vh,30px) + .72em);width:19px;height:1.6px}
+.qa__q::after{top:calc(clamp(20px,3vh,30px) + .72em - 8.7px);right:8.7px;width:1.6px;height:19px}
+.qa__q[aria-expanded="true"]{color:var(--pink)}
+.qa__q[aria-expanded="true"]::after{transform:rotate(90deg)}
+@media (hover:hover) and (pointer:fine){.qa__q:hover{color:var(--pink)}}
 
-/* Висота анімується від реальної висоти вмісту, яку міряє JS —
-   max-height «на око» або обрізає довгі відповіді, або відкриває їх
-   ривком після невидимого запасу. */
+/* Висоту міряє JS від реального вмісту: max-height «на око» або
+   обрізає довгі відповіді, або відкриває їх ривком. */
 .qa__a{overflow:hidden;height:0;transition:height .42s var(--e-io)}
 .qa__a[hidden]{display:none}
 .qa__a p{
-  max-width:68ch;
-  padding:0 clamp(52px,5vw,70px) clamp(20px,2.8vh,30px) 0;
-  font-size:clamp(14.5px,1.02vw,17.5px);line-height:1.62;color:var(--ink-2);
+  max-width:66ch;padding:0 clamp(50px,5vw,80px) clamp(22px,3vh,32px) 0;
+  font-size:clamp(14.5px,1.02vw,17.5px);line-height:1.68;color:var(--on-night);
 }
-.faq > .lead{margin:clamp(24px,3.6vh,42px) var(--gut) 0}
+.faq > .lead{margin:clamp(26px,3.8vh,44px) var(--gut) 0;font-family:var(--ui);
+  font-weight:500;font-size:15px;letter-spacing:.04em;text-transform:uppercase}
 
 /* ============ ПІДВАЛ ============ */
 
 .ft{
   background:var(--night);color:var(--paper);
   display:flex;align-items:center;gap:clamp(12px,2.6vw,34px);
-  padding:clamp(20px,3vh,34px) var(--gut) clamp(24px,3.6vh,40px);
-  border-top:1px solid rgba(242,241,238,.16);
+  padding:clamp(22px,3.2vh,36px) var(--gut) clamp(26px,3.8vh,42px);
+  border-top:1px solid var(--night-line);
 }
 .mark--ft{width:clamp(44px,3.4vw,58px);color:var(--pink)}
-.ft__c{margin-left:auto;font:500 10.5px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#87857F}
-.ft__nav{display:flex;gap:clamp(12px,1.8vw,24px);font-weight:500;font-size:13px}
+.ft__c{margin-left:auto;font-family:var(--ui);font-size:12.5px;
+  letter-spacing:.06em;text-transform:uppercase;color:#7A7874}
+.ft__nav{display:flex;gap:clamp(12px,1.8vw,24px);font-weight:500;font-size:14px}
 .ft__nav a{transition:color .3s}
 .ft__nav a:hover{color:var(--pink)}
 
 /* ============ ПОЯВА ПРИ СКРОЛІ ============
-   Тільки прозорість і невеликий підйом. Розмиття прибране: при
-   звичайній швидкості прокрутки людина доходила до тексту раніше,
-   ніж той встигав навестись, і читала розмите. */
+   Тільки прозорість і невеликий підйом. Ніякого залишкового
+   розмиття: при звичайній швидкості прокрутки людина доходила до
+   тексту раніше, ніж той встигав навестись. */
 
 .rv{opacity:0;transform:translateY(16px);
   transition:opacity .55s var(--e),transform .65s var(--e)}
 .rv.is-in{opacity:1;transform:none}
-.step:nth-child(2){transition-delay:.05s}
-.step:nth-child(3){transition-delay:.1s}
-.step:nth-child(4){transition-delay:.15s}
-.step:nth-child(5){transition-delay:.2s}
 
 /* ============================================================
    АДАПТИВ
    ============================================================ */
 
+@media (max-width:1100px){
+  .one{grid-template-columns:minmax(0,1fr);gap:clamp(34px,5vh,52px)}
+  .nums{grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(18px,2.4vw,30px)}
+}
+
 @media (max-width:1024px){
   .fig--hero{width:min(84vw,680px)}
-  .steps{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:clamp(24px,3.6vh,36px)}
 }
 
 @media (max-width:900px){
   .hd__nav{display:none}
   .hd__menu{display:flex}
 
-  .road{height:clamp(450px,64vh,580px);padding-left:calc(var(--gut) + 78px)}
+  /* Маршрут стає прямою вертикаллю: жодних вигинів, лише рейка,
+     вузли на ній і той самий ефект домальовування від прокрутки. */
+  .road{height:clamp(450px,64vh,580px);padding-left:calc(var(--gut) + 56px)}
   .road__line--wide{display:none}
-  .road__line--tall{
-    display:block;left:var(--gut);right:auto;width:58px;top:0;height:100%;
-  }
+  .road__line--tall{display:block;left:var(--gut);right:auto;width:40px;top:0;height:100%}
   .road__steps{
-    position:absolute;inset:0;left:calc(var(--gut) + 78px);right:var(--gut);
+    position:absolute;inset:0;left:calc(var(--gut) + 56px);right:var(--gut);
     display:grid;grid-template-rows:repeat(4,minmax(0,1fr));
   }
-  .road__s{
-    position:relative;width:auto;padding:0;
-    display:flex;flex-direction:column;justify-content:center;
-  }
-  /* Вузли сидять на самій кривій. У viewBox 0..100 вона гойдається
-     між x=18 і x=72; на смузі 58px це 10.4px і 41.8px від поля. */
-  .road__s::before{top:50%;left:calc(-78px + 10.4px)}
-  .road__s:nth-child(even)::before{left:calc(-78px + 41.8px)}
-  .road__s:nth-child(even){padding-left:18px}
+  .road__s{position:relative;width:auto;padding:0;
+    display:flex;flex-direction:column;justify-content:center}
+  /* Вузол сидить рівно на рейці: у viewBox 0..40 вона стоїть на x=14,
+     смуга теж 40px завширшки, тож масштаб один до одного. */
+  .road__s::before{top:50%;left:calc(-56px + 14px)}
   .road__s p{max-width:none}
 
-  .one{grid-template-columns:minmax(0,1fr);gap:clamp(34px,5vh,52px)}
-  .nums{grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(18px,2.4vw,30px)}
   .fm__grid{grid-template-columns:minmax(0,1fr)}
 }
 
-/* Від цієї ширини в галереї один кейс на екран, край наступного
-   підказує, що можна гортати. */
 @media (max-width:760px){
   .case{width:90%}
 }
 
-/* ── телефон: окремий кадр ── */
+/* ── телефон ── */
 @media (max-width:620px){
   :root{--gut:18px}
 
-  .hero{padding:calc(var(--hd) + 10px) var(--gut) clamp(26px,4.4vh,42px)}
-
-  /* Бокс свідомо ширший за екран: так знімок упирається у ВИСОТУ, а
-     не в ширину. Верх і висоту ставить JS від реально виміряної
-     вільної смуги між описом і заголовком. */
+  .hero{padding:calc(var(--hd) + 12px) var(--gut) clamp(26px,4.4vh,42px)}
   .fig--hero{
     left:50%;transform:translateX(-50%);width:120vw;
-    top:var(--fig-top,26%);height:var(--fig-h,46%);
+    top:var(--fig-top,18%);height:var(--fig-h,52%);
   }
   .fig--hero img{inset:0 13%;width:74%;height:100%}
   .fig--hero .fig__soft{filter:blur(10px) contrast(1.1);opacity:.58}
   .fig--hero .fig__far{filter:blur(13px) contrast(1.1);opacity:.18}
 
-  .hero__lead{font-size:14px;line-height:1.5;max-width:36ch}
-  /* На 360px із полями 18px доступно 324px. «ПОМІЧАТИ» при трекінгу
-     -.018em — 7.296 ширини на 1px кегля, тож 9.4vw лишає слову поле
-     з обох боків, а не втискає його в край. */
-  .hero__t{padding-bottom:clamp(20px,3.2vh,30px)}
-  .hero__w--1{font-size:5.9vw}
-  .hero__w--2{font-size:9.6vw}
+  /* На 360px із полями 18px доступно 324px. «ПОМІЧАТИ» у Montserrat
+     Black при трекінгу -.02em — 5.884 ширини на 1px кегля, тож 11.4vw
+     лишає слову поле з обох боків. */
+  .hero__t{padding-bottom:clamp(20px,3.2vh,32px)}
+  .hero__w--1{font-size:7.4vw}
+  .hero__w--2{font-size:11.6vw}
 
-  .sh{padding-top:clamp(50px,7.5vh,72px)}
-  .sh__t{font-size:clamp(23px,6.4vw,30px);line-height:1.16;max-width:none}
+  .sh{padding-top:clamp(54px,8vh,78px)}
+  .sh__over{font-size:17px;max-width:none}
+  .sh__t{font-size:clamp(23px,7.4vw,34px);max-width:none}
 
   /* Упорядкована сітка перемикачів: smm / таргет, сайти / чат-боти,
-     консультації на всю ширину. Висота однакова, зона натискання 50px. */
-  .sw__tabs{
-    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
-    gap:9px;margin-bottom:clamp(18px,2.8vh,28px);
-  }
+     консультації на всю ширину. */
+  .sw__tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:9px;margin-bottom:clamp(20px,3vh,30px)}
   .sw__tabs li:nth-child(5){grid-column:1 / -1}
   .sw__tab{width:100%;min-height:50px;padding:.5em .7em;font-size:15px}
-
-  .sw__stage{height:clamp(300px,50vh,400px)}
-  .scene{gap:16px}
-  .scene__cap{font-size:14.5px;max-width:none}
-  .sw__foot{margin-top:clamp(24px,3.4vh,34px)}
+  .sw__cap{max-width:none;font-size:15.5px}
+  .sw__stage{height:clamp(215px,30vh,290px)}
 
   .cycle__p{font-size:15px}
-  .road{height:clamp(460px,66vh,560px);padding-left:calc(var(--gut) + 68px)}
-  .road__line--tall{width:50px}
-  .road__steps{left:calc(var(--gut) + 68px)}
-  .road__s::before{left:calc(-68px + 9px)}
-  .road__s:nth-child(even)::before{left:calc(-68px + 36px)}
-  .road__s:nth-child(even){padding-left:16px}
+  .road{height:clamp(440px,62vh,540px);padding-left:calc(var(--gut) + 50px)}
+  .road__line--tall{width:36px}
+  .road__steps{left:calc(var(--gut) + 50px)}
+  .road__s::before{left:calc(-50px + 12.6px)}
   .road__s h3{font-size:clamp(17px,5vw,21px)}
   .road__s p{font-size:14px}
-  .cycle__a{font-size:clamp(18px,5.4vw,25px)}
+  .cycle__a{font-size:clamp(17px,5.6vw,25px)}
 
   .nums{grid-template-columns:minmax(0,1fr);gap:24px}
-  .nums b{font-size:clamp(28px,8.4vw,40px)}
+  .nums b{font-size:clamp(30px,9vw,44px)}
   .nums span{max-width:28ch}
 
-  .case__n{font-size:clamp(20px,5.8vw,26px)}
-  .gal__bar{justify-content:flex-start}
+  .case__n{font-size:clamp(19px,5.4vw,26px)}
+  .gal__track{padding-top:30px}
 
-  .steps{grid-template-columns:minmax(0,1fr);gap:22px}
-  .step i{font-size:22px}
+  .steps::before,.steps::after{left:calc(var(--gut) + 19px)}
+  .step{grid-template-columns:40px minmax(0,1fr);gap:0 16px;padding-bottom:26px}
+  .step__n{width:40px;height:40px;font-size:14px}
+  .step h3{font-size:clamp(17px,5vw,21px)}
 
-  .qa__q{font-size:clamp(15.5px,4.4vw,18px);padding-right:46px}
-  .qa__q::before{width:34px;height:34px;margin-top:-17px}
-  .qa__q::after{right:9px}
+  .qa__q{font-size:16px;padding-right:46px}
+  .qa__q::before{width:17px}
+  .qa__q::after{right:7.7px;height:17px;top:calc(clamp(20px,3vh,30px) + .72em - 7.7px)}
   .qa__a p{padding-right:46px;font-size:15px}
 
   .ft{flex-wrap:wrap;gap:14px}
@@ -1038,8 +985,8 @@ body.is-done .hero__foot{animation:heroIn .7s var(--e) .52s both}
 }
 
 /* ============ ЗМЕНШЕНИЙ РУХ ============
-   Усе показане в завершеному стані: слово вже рожеве й різке,
-   маршрут пройдений, сцена видима, текст ніде не розмитий. */
+   Усе показане в завершеному читабельному стані: слово стоїть
+   рожевим, маршрут пройдений, кроки позначені, сцена видима. */
 
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
@@ -1048,14 +995,16 @@ body.is-done .hero__foot{animation:heroIn .7s var(--e) .52s both}
     transition-duration:.01ms!important;
   }
   .rv{opacity:1;transform:none}
-  .grain{animation:none;opacity:.22}
-  .hero__w,.hero__lead,.hero__foot{animation:none;opacity:1;transform:none}
-  .hero__veil{display:none}
+  .grain{animation:none;opacity:.2}
+  .hero__w,.hero__foot{animation:none;opacity:1;transform:none}
+  .hero__word{animation:none!important;color:var(--pink)}
   .road__draw{stroke-dashoffset:0}
   .road__s > *{opacity:1}
-  .road__s::before{background:var(--pink-deep);border-color:var(--pink-deep)}
-  .road__n{color:var(--pink-deep)}
-  /* Фокус від курсора лишається: це дія користувача, як і скрол. */
+  .road__s::before{background:var(--pink);border-color:var(--ink)}
+  .road__n{color:var(--ink)}
+  .steps::after{transform:scaleY(1)}
+  .step__b{opacity:1}
+  .step__n{background:var(--pink-28);border-color:var(--pink);color:var(--ink)}
   .fig__far{filter:blur(48px) contrast(1.2)}
   .fig__soft{filter:blur(26px) contrast(1.3)}
 }

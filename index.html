@@ -16,21 +16,24 @@
 <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
 
-<link rel="preload" href="assets/fonts/Benzin-ExtraBold.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/Benzin-Medium.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/inter-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/Montserrat-900-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/Montserrat-800-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/Onest-400-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/Pixelify-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" as="image" href="assets/figures/figure.png">
 <link rel="stylesheet" href="assets/fonts/fonts.css">
-<link rel="stylesheet" href="css/style.css?v=8">
+<link rel="stylesheet" href="css/style.css?v=9">
 
 <noscript><style>
   .load{display:none}
   .rv{opacity:1!important;transform:none!important}
-  .hero__w,.lead,.hero__lead,.hero__foot{opacity:1!important;transform:none!important}
-  .hero__veil{display:none}
+  .hero__w,.hero__foot{opacity:1!important;transform:none!important}
+  .hero__word{color:#FA9BB6}
   .qa__a{display:block!important;height:auto!important}
   .road__draw{stroke-dashoffset:0!important}
   .road__s > *{opacity:1!important}
+  .step__b{opacity:1!important}
+  .steps::after{transform:scaleY(1)!important}
   .fig__sharp{-webkit-mask-image:none!important;mask-image:none!important}
 </style></noscript>
 </head>
@@ -97,13 +100,9 @@
     <img class="fig__sharp" src="assets/figures/figure.png" alt="" width="848" height="1138">
   </div>
 
-  <p class="hero__lead" id="heroLead" data-i18n="hero.lead">Digital-агенція. Тестуємо, змінюємо, посилюємо, поки реклама й контент не почнуть приносити гроші.</p>
-
   <h1 class="hero__t" id="heroT">
     <span class="hero__w hero__w--1" data-i18n="hero.w1">Вас мають</span>
-    <span class="hero__w hero__w--2"><span class="hero__key" id="heroKey"><!--
-      --><span class="hero__word" data-i18n="hero.w2">помічати</span><!--
-      --><span class="hero__veil" data-i18n="hero.w2" aria-hidden="true">помічати</span></span></span>
+    <span class="hero__w hero__w--2"><span class="hero__word" data-i18n="hero.w2">помічати</span></span>
   </h1>
 
   <div class="hero__foot">
@@ -114,164 +113,171 @@
 <!-- ═══════════ 02 · ПОСЛУГИ ═══════════ -->
 <section class="serv" id="serv" aria-labelledby="servT">
   <header class="sh">
+    <p class="sh__over" data-i18n="hero.lead">Digital-агенція. Тестуємо, змінюємо, посилюємо, поки реклама й контент не почнуть приносити гроші.</p>
     <h2 class="sh__t" data-i18n="serv.title" id="servT">Все, щоб вас знайшли й купили</h2>
     <p class="sh__i" data-i18n="serv.sub">Беремо окремо або під ключ.</p>
   </header>
 
   <div class="sw" id="sw">
     <ul class="sw__tabs" role="tablist" aria-label="Напрями роботи">
-        <li role="presentation"><button class="sw__tab is-on" type="button"
-          role="tab" id="tab0" aria-controls="scene0" aria-selected="true"
-          tabindex="0" data-i18n="serv.name0">SMM</button></li>
-        <li role="presentation"><button class="sw__tab" type="button"
-          role="tab" id="tab1" aria-controls="scene1" aria-selected="false"
-          tabindex="-1" data-i18n="serv.name1">Таргет</button></li>
-        <li role="presentation"><button class="sw__tab" type="button"
-          role="tab" id="tab2" aria-controls="scene2" aria-selected="false"
-          tabindex="-1" data-i18n="serv.name2">Сайти</button></li>
-        <li role="presentation"><button class="sw__tab" type="button"
-          role="tab" id="tab3" aria-controls="scene3" aria-selected="false"
-          tabindex="-1" data-i18n="serv.name3">Чат-боти</button></li>
-        <li role="presentation"><button class="sw__tab" type="button"
-          role="tab" id="tab4" aria-controls="scene4" aria-selected="false"
-          tabindex="-1" data-i18n="serv.name4">Консультації</button></li>
+      <li role="presentation"><button class="sw__tab is-on" type="button"
+        role="tab" id="tab0" aria-controls="cap0" aria-selected="true"
+        tabindex="0" data-i18n="serv.name0">SMM</button></li>
+      <li role="presentation"><button class="sw__tab" type="button"
+        role="tab" id="tab1" aria-controls="cap1" aria-selected="false"
+        tabindex="-1" data-i18n="serv.name1">Таргет</button></li>
+      <li role="presentation"><button class="sw__tab" type="button"
+        role="tab" id="tab2" aria-controls="cap2" aria-selected="false"
+        tabindex="-1" data-i18n="serv.name2">Сайти</button></li>
+      <li role="presentation"><button class="sw__tab" type="button"
+        role="tab" id="tab3" aria-controls="cap3" aria-selected="false"
+        tabindex="-1" data-i18n="serv.name3">Чат-боти</button></li>
+      <li role="presentation"><button class="sw__tab" type="button"
+        role="tab" id="tab4" aria-controls="cap4" aria-selected="false"
+        tabindex="-1" data-i18n="serv.name4">Консультації</button></li>
     </ul>
 
-    <div class="sw__stage">
-        <figure class="scene is-on" id="scene0" role="tabpanel" aria-labelledby="tab0">
-          <div class="scene__art" aria-hidden="true">
-            <svg viewBox="0 0 400 260" preserveAspectRatio="xMidYMid meet" focusable="false">
-              <circle class="sc-card" cx="30" cy="26" r="13"/>
-              <rect class="sc-dim" x="52" y="18" width="74" height="8" rx="4"/>
-              <rect class="sc-dim" x="52" y="32" width="46" height="6" rx="3" opacity=".6"/>
-              <rect class="sc-card" x="40" y="70" width="96" height="132" rx="6"/>
-              <rect class="sc-fill" x="48" y="78" width="80" height="74" rx="3"/>
-              <circle class="sc-pink" cx="88" cy="115" r="19"/>
-              <rect class="sc-dim" x="48" y="162" width="66" height="7" rx="3.5"/>
-              <rect class="sc-dim" x="48" y="176" width="44" height="7" rx="3.5" opacity=".6"/>
-              <rect class="sc-card" x="152" y="54" width="96" height="162" rx="6"/>
-              <rect class="sc-pink" x="160" y="62" width="80" height="94" rx="3"/>
-              <circle class="sc-face" cx="200" cy="109" r="17"/>
-              <path class="sc-l" d="M193 101l16 8-16 8z"/>
-              <rect class="sc-dim" x="160" y="168" width="66" height="7" rx="3.5"/>
-              <rect class="sc-dim" x="160" y="182" width="52" height="7" rx="3.5" opacity=".6"/>
-              <rect class="sc-dim" x="160" y="196" width="34" height="7" rx="3.5" opacity=".6"/>
-              <rect class="sc-card" x="264" y="70" width="96" height="132" rx="6"/>
-              <rect class="sc-fill" x="272" y="78" width="80" height="74" rx="3"/>
-              <path class="sc-pink" d="M272 152l30-40 22 28 14-16 14 28z"/>
-              <rect class="sc-dim" x="272" y="162" width="58" height="7" rx="3.5"/>
-              <rect class="sc-dim" x="272" y="176" width="40" height="7" rx="3.5" opacity=".6"/>
-              <path class="sc-l sc-l--pink" d="M44 240 118 231 192 235 266 219 356 208"/>
-              <circle class="sc-pink" cx="356" cy="208" r="5"/>
-            </svg>
-          </div>
-          <figcaption class="scene__cap" data-i18n="serv.desc0">Контент, який зупиняє скрол і продає. Створюємо систему, яка працює на заявки.</figcaption>
-        </figure>
-        <figure class="scene" id="scene1" role="tabpanel" aria-labelledby="tab1" hidden>
-          <div class="scene__art" aria-hidden="true">
-            <svg viewBox="0 0 400 260" preserveAspectRatio="xMidYMid meet" focusable="false">
-              <rect class="sc-card" x="24" y="40" width="124" height="180" rx="6"/>
-              <rect class="sc-fill" x="32" y="48" width="108" height="84" rx="3"/>
-              <circle class="sc-pink" cx="86" cy="86" r="26"/>
-              <rect class="sc-dim" x="32" y="144" width="92" height="8" rx="4"/>
-              <rect class="sc-dim" x="32" y="160" width="66" height="8" rx="4" opacity=".6"/>
-              <rect class="sc-pink" x="32" y="182" width="108" height="26" rx="13"/>
-              <path class="sc-l sc-l--dash" d="M148 130H178"/>
-              <rect class="sc-l" x="186" y="58" width="186" height="34" rx="4"/>
-              <path class="sc-l" d="M279 92v18m0 0-6-6m6 6 6-6"/>
-              <rect class="sc-l" x="214" y="116" width="130" height="34" rx="4"/>
-              <path class="sc-l" d="M279 150v18m0 0-6-6m6 6 6-6"/>
-              <rect class="sc-pink" x="240" y="174" width="78" height="34" rx="4"/>
-              <path class="sc-l sc-l--pink" d="M279 208v14"/>
-              <circle class="sc-pink" cx="279" cy="232" r="9"/>
-            </svg>
-          </div>
-          <figcaption class="scene__cap" data-i18n="serv.desc1">Крутимо рекламу, доки вона не окупиться. Не спрацювала, значить міняємо. Спрацювала — посилюємо.</figcaption>
-        </figure>
-        <figure class="scene" id="scene2" role="tabpanel" aria-labelledby="tab2" hidden>
-          <div class="scene__art" aria-hidden="true">
-            <svg viewBox="0 0 400 260" preserveAspectRatio="xMidYMid meet" focusable="false">
-              <rect class="sc-card" x="24" y="22" width="352" height="216" rx="8"/>
-              <path class="sc-l" d="M24 56h352"/>
-              <circle class="sc-dim" cx="42" cy="39" r="4"/>
-              <circle class="sc-dim" cx="56" cy="39" r="4"/>
-              <circle class="sc-dim" cx="70" cy="39" r="4"/>
-              <rect class="sc-fill" x="88" y="31" width="180" height="16" rx="8"/>
-              <rect class="sc-dim" x="300" y="36" width="20" height="5" rx="2.5"/>
-              <rect class="sc-dim" x="326" y="36" width="20" height="5" rx="2.5"/>
-              <rect class="sc-fill" x="246" y="68" width="110" height="154" rx="6"/>
-              <circle class="sc-dim" cx="301" cy="116" r="27"/>
-              <path class="sc-dim" d="M257 222c0-26 20-44 44-44s44 18 44 44z"/>
-              <rect class="sc-dim" x="48" y="78" width="104" height="11" rx="5.5"/>
-              <rect class="sc-pink" x="48" y="97" width="152" height="24" rx="4"/>
-              <rect class="sc-dim" x="48" y="138" width="78" height="8" rx="4"/>
-              <path class="sc-l" d="M48 156h78"/>
-              <rect class="sc-l" x="48" y="182" width="56" height="40" rx="4"/>
-              <rect class="sc-l" x="111" y="182" width="56" height="40" rx="4"/>
-              <rect class="sc-l" x="174" y="182" width="56" height="40" rx="4"/>
-            </svg>
-          </div>
-          <figcaption class="scene__cap" data-i18n="serv.desc2">Гарні та зручні, а головне, що збирають заявки. Від першого екрана до кнопки «Купити».</figcaption>
-        </figure>
-        <figure class="scene" id="scene3" role="tabpanel" aria-labelledby="tab3" hidden>
-          <div class="scene__art" aria-hidden="true">
-            <svg viewBox="0 0 400 260" preserveAspectRatio="xMidYMid meet" focusable="false">
-              <rect class="sc-fill" x="20" y="28" width="210" height="44" rx="18"/>
-              <rect class="sc-dim" x="38" y="42" width="150" height="6" rx="3"/>
-              <rect class="sc-dim" x="38" y="56" width="104" height="6" rx="3" opacity=".6"/>
-              <rect class="sc-pink" x="136" y="86" width="244" height="40" rx="18"/>
-              <rect class="sc-face" x="156" y="98" width="180" height="6" rx="3"/>
-              <rect class="sc-face" x="156" y="110" width="120" height="6" rx="3" opacity=".7"/>
-              <rect class="sc-fill" x="20" y="140" width="250" height="54" rx="18"/>
-              <rect class="sc-dim" x="38" y="152" width="190" height="6" rx="3"/>
-              <rect class="sc-dim" x="38" y="164" width="160" height="6" rx="3" opacity=".7"/>
-              <rect class="sc-dim" x="38" y="176" width="96" height="6" rx="3" opacity=".5"/>
-              <rect class="sc-fill" x="20" y="208" width="74" height="32" rx="16"/>
-              <circle class="sc-dim" cx="38" cy="224" r="4"/>
-              <circle class="sc-dim" cx="56" cy="224" r="4"/>
-              <circle class="sc-dim" cx="74" cy="224" r="4"/>
-              <rect class="sc-l" x="196" y="210" width="84" height="28" rx="14"/>
-              <rect class="sc-dim" x="212" y="221" width="52" height="6" rx="3"/>
-              <rect class="sc-l" x="290" y="210" width="92" height="28" rx="14"/>
-              <rect class="sc-dim" x="306" y="221" width="60" height="6" rx="3"/>
-            </svg>
-          </div>
-          <figcaption class="scene__cap" data-i18n="serv.desc3">Відповідають клієнтам, поки ви спите, і не гублять жодної заявки.</figcaption>
-        </figure>
-        <figure class="scene" id="scene4" role="tabpanel" aria-labelledby="tab4" hidden>
-          <div class="scene__art" aria-hidden="true">
-            <svg viewBox="0 0 400 260" preserveAspectRatio="xMidYMid meet" focusable="false">
-              <rect class="sc-card" x="30" y="24" width="200" height="212" rx="6"/>
-              <path class="sc-l sc-l--thin" d="M62 24v212"/>
-              <rect class="sc-dim" x="76" y="42" width="112" height="9" rx="4.5"/>
-              <rect class="sc-pink" x="76" y="70" width="16" height="16" rx="3"/>
-              <path class="sc-l" d="M79.5 78l3.5 3.5 6-7"/>
-              <rect class="sc-dim" x="102" y="73" width="100" height="7" rx="3.5"/>
-              <rect class="sc-pink" x="76" y="102" width="16" height="16" rx="3"/>
-              <path class="sc-l" d="M79.5 110l3.5 3.5 6-7"/>
-              <rect class="sc-dim" x="102" y="105" width="82" height="7" rx="3.5"/>
-              <rect class="sc-l" x="76" y="134" width="16" height="16" rx="3"/>
-              <rect class="sc-dim" x="102" y="137" width="94" height="7" rx="3.5" opacity=".65"/>
-              <rect class="sc-l" x="76" y="166" width="16" height="16" rx="3"/>
-              <rect class="sc-dim" x="102" y="169" width="70" height="7" rx="3.5" opacity=".65"/>
-              <rect class="sc-l" x="76" y="198" width="16" height="16" rx="3"/>
-              <rect class="sc-dim" x="102" y="201" width="88" height="7" rx="3.5" opacity=".65"/>
-              <rect class="sc-card" x="252" y="70" width="118" height="120" rx="6"/>
-              <rect class="sc-dim" x="264" y="84" width="54" height="7" rx="3.5"/>
-              <path class="sc-l sc-l--dash" d="M264 118h94"/>
-              <rect class="sc-fill" x="264" y="140" width="20" height="36" rx="2"/>
-              <rect class="sc-fill" x="290" y="126" width="20" height="50" rx="2"/>
-              <rect class="sc-fill" x="316" y="146" width="20" height="30" rx="2"/>
-              <rect class="sc-pink" x="342" y="106" width="20" height="70" rx="2"/>
-            </svg>
-          </div>
-          <figcaption class="scene__cap" data-i18n="serv.desc4">Погляд збоку на ваш маркетинг: що працює, що зливає бюджет, що робити далі.</figcaption>
-        </figure>
+    <!-- спершу текст: що це за напрям -->
+    <div class="sw__say">
+      <p class="sw__cap is-on" id="cap0" role="tabpanel" aria-labelledby="tab0" data-i18n="serv.desc0">Контент, який зупиняє скрол і продає. Створюємо систему, яка працює на заявки.</p>
+      <p class="sw__cap" id="cap1" role="tabpanel" aria-labelledby="tab1" data-i18n="serv.desc1">Крутимо рекламу, доки вона не окупиться. Не спрацювала, значить міняємо. Спрацювала — посилюємо.</p>
+      <p class="sw__cap" id="cap2" role="tabpanel" aria-labelledby="tab2" data-i18n="serv.desc2">Гарні та зручні, а головне, що збирають заявки. Від першого екрана до кнопки «Купити».</p>
+      <p class="sw__cap" id="cap3" role="tabpanel" aria-labelledby="tab3" data-i18n="serv.desc3">Відповідають клієнтам, поки ви спите, і не гублять жодної заявки.</p>
+      <p class="sw__cap" id="cap4" role="tabpanel" aria-labelledby="tab4" data-i18n="serv.desc4">Погляд збоку на ваш маркетинг: що працює, що зливає бюджет, що робити далі.</p>
     </div>
 
+    <!-- потім дія -->
     <div class="sw__foot">
       <p class="sw__note" data-i18n="serv.note">Формат підбираємо під ваш запит.</p>
       <a class="lead" href="#form"><span data-i18n="serv.cta">Не знаєте, що саме вам треба? Розкажемо</span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.5 12h14M12.8 5.7 19 12l-6.2 6.3"/></svg></a>
+    </div>
+
+    <!-- і аж потім кадр -->
+    <div class="sw__stage" aria-hidden="true">
+      <div class="scene is-on" data-i="0">
+        <svg viewBox="0 0 400 260" preserveAspectRatio="xMidYMid meet" focusable="false">
+          <rect class="sc-win" x="18" y="20" width="364" height="222" rx="10"/>
+          <path class="sc-l" d="M18 52h364"/>
+          <circle class="sc-dim" cx="36" cy="36" r="3.6"/>
+          <circle class="sc-dim" cx="50" cy="36" r="3.6"/>
+          <circle class="sc-dim" cx="64" cy="36" r="3.6"/>
+          <rect class="sc-pink" x="326" y="30" width="38" height="12" rx="6"/>
+          <rect class="sc-win" x="36" y="70" width="104" height="152" rx="6"/>
+          <rect class="sc-fill" x="44" y="78" width="88" height="86" rx="4"/>
+          <circle class="sc-pink" cx="88" cy="121" r="20"/>
+          <rect class="sc-dim" x="44" y="176" width="70" height="6" rx="3"/>
+          <rect class="sc-dim" x="44" y="190" width="48" height="6" rx="3"/>
+          <rect class="sc-win" x="148" y="70" width="104" height="152" rx="6"/>
+          <rect class="sc-pink" x="156" y="78" width="88" height="86" rx="4"/>
+          <circle class="sc-face" cx="200" cy="121" r="16"/>
+          <path class="sc-l" d="M194 113l14 8-14 8z"/>
+          <rect class="sc-dim" x="156" y="176" width="70" height="6" rx="3"/>
+          <rect class="sc-dim" x="156" y="190" width="56" height="6" rx="3"/>
+          <rect class="sc-win" x="260" y="70" width="104" height="152" rx="6"/>
+          <rect class="sc-fill" x="268" y="78" width="88" height="86" rx="4"/>
+          <path class="sc-pink" d="M268 164l30-38 20 24 14-16 24 30z"/>
+          <rect class="sc-dim" x="268" y="176" width="62" height="6" rx="3"/>
+          <rect class="sc-dim" x="268" y="190" width="44" height="6" rx="3"/>
+          <path class="sc-cur" d="M228 150v22l6-6 3.2 7 4.2-1.9-3.1-6.6 7.1-.5z"/>
+        </svg>
+      </div>
+      <div class="scene" data-i="1">
+        <svg viewBox="0 0 400 260" preserveAspectRatio="xMidYMid meet" focusable="false">
+          <rect class="sc-win" x="18" y="20" width="364" height="222" rx="10"/>
+          <path class="sc-l" d="M18 52h364"/>
+          <circle class="sc-dim" cx="36" cy="36" r="3.6"/>
+          <circle class="sc-dim" cx="50" cy="36" r="3.6"/>
+          <circle class="sc-dim" cx="64" cy="36" r="3.6"/>
+          <rect class="sc-win" x="36" y="68" width="114" height="156" rx="6"/>
+          <rect class="sc-fill" x="44" y="76" width="98" height="76" rx="4"/>
+          <circle class="sc-pink" cx="93" cy="114" r="24"/>
+          <rect class="sc-dim" x="44" y="162" width="82" height="7" rx="3.5"/>
+          <rect class="sc-dim" x="44" y="175" width="58" height="7" rx="3.5"/>
+          <rect class="sc-pink" x="44" y="192" width="98" height="24" rx="12"/>
+          <path class="sc-l sc-l--thin" d="M170 148h194"/>
+          <rect class="sc-fill" x="176" y="112" width="24" height="36" rx="3"/>
+          <rect class="sc-fill" x="208" y="98" width="24" height="50" rx="3"/>
+          <rect class="sc-fill" x="240" y="118" width="24" height="30" rx="3"/>
+          <rect class="sc-fill" x="272" y="88" width="24" height="60" rx="3"/>
+          <rect class="sc-fill" x="304" y="104" width="24" height="44" rx="3"/>
+          <rect class="sc-pink" x="336" y="72" width="24" height="76" rx="3"/>
+          <rect class="sc-l" x="170" y="166" width="194" height="18" rx="4"/>
+          <rect class="sc-l" x="194" y="190" width="146" height="18" rx="4"/>
+          <rect class="sc-pink" x="224" y="214" width="86" height="18" rx="4"/>
+        </svg>
+      </div>
+      <div class="scene" data-i="2">
+        <svg viewBox="0 0 400 260" preserveAspectRatio="xMidYMid meet" focusable="false">
+          <rect class="sc-win" x="18" y="20" width="364" height="222" rx="10"/>
+          <path class="sc-l" d="M18 54h364"/>
+          <circle class="sc-dim" cx="36" cy="37" r="3.6"/>
+          <circle class="sc-dim" cx="50" cy="37" r="3.6"/>
+          <circle class="sc-dim" cx="64" cy="37" r="3.6"/>
+          <rect class="sc-fill" x="84" y="29" width="180" height="16" rx="8"/>
+          <rect class="sc-dim" x="300" y="34" width="22" height="6" rx="3"/>
+          <rect class="sc-dim" x="330" y="34" width="22" height="6" rx="3"/>
+          <rect class="sc-fill" x="250" y="72" width="112" height="154" rx="6"/>
+          <circle class="sc-dim" cx="306" cy="122" r="28"/>
+          <path class="sc-dim" d="M261 226c0-27 20-46 45-46s45 19 45 46z"/>
+          <rect class="sc-dim" x="42" y="80" width="108" height="12" rx="6"/>
+          <rect class="sc-pink" x="42" y="100" width="156" height="26" rx="4"/>
+          <rect class="sc-dim" x="42" y="146" width="80" height="8" rx="4"/>
+          <path class="sc-l" d="M42 165h80"/>
+          <rect class="sc-l" x="42" y="188" width="58" height="38" rx="4"/>
+          <rect class="sc-l" x="108" y="188" width="58" height="38" rx="4"/>
+          <rect class="sc-l" x="174" y="188" width="58" height="38" rx="4"/>
+        </svg>
+      </div>
+      <div class="scene" data-i="3">
+        <svg viewBox="0 0 400 260" preserveAspectRatio="xMidYMid meet" focusable="false">
+          <rect class="sc-win" x="40" y="20" width="320" height="222" rx="10"/>
+          <path class="sc-l" d="M40 52h320"/>
+          <circle class="sc-dim" cx="58" cy="36" r="3.6"/>
+          <circle class="sc-dim" cx="72" cy="36" r="3.6"/>
+          <circle class="sc-dim" cx="86" cy="36" r="3.6"/>
+          <rect class="sc-dim" x="176" y="33" width="48" height="6" rx="3"/>
+          <rect class="sc-fill" x="56" y="66" width="152" height="40" rx="15"/>
+          <rect class="sc-dim" x="72" y="79" width="106" height="6" rx="3"/>
+          <rect class="sc-dim" x="72" y="90" width="74" height="6" rx="3"/>
+          <rect class="sc-pink" x="182" y="116" width="162" height="36" rx="15"/>
+          <rect class="sc-face" x="198" y="127" width="116" height="6" rx="3"/>
+          <rect class="sc-face" x="198" y="138" width="78" height="6" rx="3"/>
+          <rect class="sc-fill" x="56" y="162" width="176" height="44" rx="15"/>
+          <rect class="sc-dim" x="72" y="174" width="136" height="6" rx="3"/>
+          <rect class="sc-dim" x="72" y="185" width="102" height="6" rx="3"/>
+          <rect class="sc-l" x="56" y="216" width="248" height="24" rx="12"/>
+          <rect class="sc-dim" x="70" y="225" width="78" height="6" rx="3"/>
+          <circle class="sc-pink" cx="330" cy="228" r="13"/>
+          <path class="sc-l" d="M325 228h9m-3.5-3.5 3.5 3.5-3.5 3.5"/>
+        </svg>
+      </div>
+      <div class="scene" data-i="4">
+        <svg viewBox="0 0 400 260" preserveAspectRatio="xMidYMid meet" focusable="false">
+          <rect class="sc-win" x="74" y="30" width="112" height="98" rx="5" transform="rotate(-6 130 79)"/>
+          <rect class="sc-dim" x="88" y="48" width="74" height="7" rx="3.5" transform="rotate(-6 130 79)"/>
+          <rect class="sc-dim" x="88" y="62" width="58" height="7" rx="3.5" transform="rotate(-6 130 79)"/>
+          <rect class="sc-dim" x="88" y="76" width="68" height="7" rx="3.5" transform="rotate(-6 130 79)"/>
+          <path class="sc-win" d="M24 96a8 8 0 0 1 8-8h50l13-15h97a8 8 0 0 1 8 8v130a8 8 0 0 1-8 8H32a8 8 0 0 1-8-8z"/>
+          <path class="sc-fill" d="M24 120h176v99a8 8 0 0 1-8 8H32a8 8 0 0 1-8-8z"/>
+          <path class="sc-l" d="M24 120h176"/>
+          <rect class="sc-pink" x="44" y="140" width="52" height="10" rx="5"/>
+          <rect class="sc-dim" x="44" y="162" width="118" height="8" rx="4"/>
+          <rect class="sc-dim" x="44" y="180" width="94" height="8" rx="4"/>
+          <rect class="sc-win" x="226" y="44" width="150" height="182" rx="6"/>
+          <rect class="sc-dim" x="244" y="62" width="76" height="8" rx="4"/>
+          <rect class="sc-pink" x="244" y="88" width="16" height="16" rx="3"/>
+          <path class="sc-l" d="M247.5 96l3.5 3.5 6-7"/>
+          <rect class="sc-dim" x="270" y="92" width="88" height="7" rx="3.5"/>
+          <rect class="sc-pink" x="244" y="118" width="16" height="16" rx="3"/>
+          <path class="sc-l" d="M247.5 126l3.5 3.5 6-7"/>
+          <rect class="sc-dim" x="270" y="122" width="70" height="7" rx="3.5"/>
+          <rect class="sc-l" x="244" y="148" width="16" height="16" rx="3"/>
+          <rect class="sc-dim" x="270" y="152" width="82" height="7" rx="3.5"/>
+          <rect class="sc-l" x="244" y="178" width="16" height="16" rx="3"/>
+          <rect class="sc-dim" x="270" y="182" width="60" height="7" rx="3.5"/>
+          <path class="sc-cur" d="M196 196v22l6-6 3.2 7 4.2-1.9-3.1-6.6 7.1-.5z"/>
+        </svg>
+      </div>
     </div>
   </div>
 </section>
@@ -291,10 +297,10 @@
       <path class="road__track" d="M0 58H140L250 205H390L500 58H640L750 205"/>
       <path class="road__draw" d="M0 58H140L250 205H390L500 58H640L750 205"/>
     </svg>
-    <svg class="road__line road__line--tall" viewBox="0 0 100 1000"
+    <svg class="road__line road__line--tall" viewBox="0 0 40 1000"
          preserveAspectRatio="none" aria-hidden="true" focusable="false">
-      <path class="road__track" d="M18 125V300L72 375V550L18 625V800L72 875"/>
-      <path class="road__draw" d="M18 125V300L72 375V550L18 625V800L72 875"/>
+      <path class="road__track" d="M14 125V875"/>
+      <path class="road__draw" d="M14 125V875"/>
     </svg>
 
     <ol class="road__steps">
@@ -321,15 +327,15 @@
   <div class="one__say">
     <h2 class="one__t" data-i18n="one.title" id="oneT">Один на нішу. Один на місто.</h2>
     <p class="one__p" data-i18n="one.text">Ми не ведемо двох конкурентів поруч. Тому всі наші ідеї, тести й результати працюють тільки на вас, а не на сусіда через дорогу.</p>
-    <p class="one__s" data-i18n="one.small">Ваше місце ще вільне? Перевіримо за 5 хвилин.</p>
+    <p class="one__s"><span class="hl" data-i18n="one.small">Ваше місце ще вільне? Перевіримо за 5 хвилин.</span></p>
   </div>
 
   <ul class="nums">
-      <li><b data-i18n="one.n0">30+</b>
+      <li><b data-i18n="one.n0" data-count>30+</b>
         <span data-i18n="one.c0">ніш, з якими ми працювали</span></li>
-      <li><b data-i18n="one.n1">3 роки 2 міс</b>
+      <li><b data-i18n="one.n1" data-count>3 роки 2 міс</b>
         <span data-i18n="one.c1">з одним клієнтом і досі разом</span></li>
-      <li><b data-i18n="one.n2">52</b>
+      <li><b data-i18n="one.n2" data-count>52</b>
         <span data-i18n="one.c2">запущених проєктів</span></li>
   </ul>
 </section>
@@ -344,6 +350,8 @@
   <div class="gal rv" id="gal">
     <ol class="gal__track" id="galTrack">
       <li class="case">
+        <span class="case__tab"><i class="case__no">01</i></span>
+        <div class="case__card">
         <h3 class="case__n" data-i18n="case.n0">Комʼюніті</h3>
         <p class="case__c" data-i18n="case.c0">Познань</p>
         <div class="case__row">
@@ -356,8 +364,11 @@
             <p class="case__v" data-i18n="case.r0" data-hl="$1,20">Заявка по $1,20 в перший місяць роботи. За рік імʼя почало працювати саме на себе, і половина квитків розходилась органічно.</p>
           </div>
         </div>
+        </div>
       </li>
       <li class="case">
+        <span class="case__tab"><i class="case__no">02</i></span>
+        <div class="case__card">
         <h3 class="case__n" data-i18n="case.n1">Легалізація</h3>
         <p class="case__c" data-i18n="case.c1">Познань</p>
         <div class="case__row">
@@ -370,8 +381,11 @@
             <p class="case__v" data-i18n="case.r1" data-hl="$3,90">Заявка по $3,90 вже на другий місяць роботи.</p>
           </div>
         </div>
+        </div>
       </li>
       <li class="case">
+        <span class="case__tab"><i class="case__no">03</i></span>
+        <div class="case__card">
         <h3 class="case__n" data-i18n="case.n2">Працевлаштування</h3>
         <p class="case__c" data-i18n="case.c2">Німеччина</p>
         <div class="case__row">
@@ -384,8 +398,11 @@
             <p class="case__v" data-i18n="case.r2" data-hl="€3">Стабільно працюючий кабінет і заявка по €3.</p>
           </div>
         </div>
+        </div>
       </li>
       <li class="case">
+        <span class="case__tab"><i class="case__no">04</i></span>
+        <div class="case__card">
         <h3 class="case__n" data-i18n="case.n3">Студія краси</h3>
         <p class="case__c" data-i18n="case.c3">Познань</p>
         <div class="case__row">
@@ -397,6 +414,7 @@
             <span class="case__k">Результат</span>
             <p class="case__v" data-i18n="case.r3" data-hl="знають всі">Про студію знають всі, а сміливі ідеї впізнають з першого погляду.</p>
           </div>
+        </div>
         </div>
       </li>
     </ol>
@@ -421,22 +439,27 @@
   <header class="sh">
     <h2 class="sh__t" data-i18n="how.title" id="howT">5 кроків від «привіт» до запуску</h2>
   </header>
-  <ol class="steps">
-    <li class="step rv" data-rv="up"><i>01</i>
+  <ol class="steps" id="steps">
+    <li class="step"><i class="step__n">01</i>
+      <div class="step__b">
       <h3 data-i18n="how.h0">Дзвінок</h3>
-      <p data-i18n="how.p0">Розкажіть, що болить і чого хочете.</p></li>
-    <li class="step rv" data-rv="up"><i>02</i>
+      <p data-i18n="how.p0">Розкажіть, що болить і чого хочете.</p></div></li>
+    <li class="step"><i class="step__n">02</i>
+      <div class="step__b">
       <h3 data-i18n="how.h1">Пропозиція</h3>
-      <p data-i18n="how.p1">Індивідуальна під ваш запит, а не з прайсу.</p></li>
-    <li class="step rv" data-rv="up"><i>03</i>
+      <p data-i18n="how.p1">Індивідуальна під ваш запит, а не з прайсу.</p></div></li>
+    <li class="step"><i class="step__n">03</i>
+      <div class="step__b">
       <h3 data-i18n="how.h2">Бриф</h3>
-      <p data-i18n="how.p2">Вивчаємо бізнес, аудиторію, конкурентів.</p></li>
-    <li class="step rv" data-rv="up"><i>04</i>
+      <p data-i18n="how.p2">Вивчаємо бізнес, аудиторію, конкурентів.</p></div></li>
+    <li class="step"><i class="step__n">04</i>
+      <div class="step__b">
       <h3 data-i18n="how.h3">Стратегія</h3>
-      <p data-i18n="how.p3">Чіткий план, що, де й навіщо робимо.</p></li>
-    <li class="step rv" data-rv="up"><i>05</i>
+      <p data-i18n="how.p3">Чіткий план, що, де й навіщо робимо.</p></div></li>
+    <li class="step"><i class="step__n">05</i>
+      <div class="step__b">
       <h3 data-i18n="how.h4">Запуск</h3>
-      <p data-i18n="how.p4">Стартуємо й одразу тримаємо руку на пульсі.</p></li>
+      <p data-i18n="how.p4">Стартуємо й одразу тримаємо руку на пульсі.</p></div></li>
   </ol>
 </section>
 
@@ -658,6 +681,6 @@
   </nav>
 </footer>
 
-<script src="js/main.js?v=8" defer></script>
+<script src="js/main.js?v=9" defer></script>
 </body>
 </html>

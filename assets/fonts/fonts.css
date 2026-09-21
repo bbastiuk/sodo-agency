@@ -1,64 +1,115 @@
 /* ============================================================
    SODO — типографічна система (self-hosted, без CDN)
 
-   Benzin     — основна. Геометричний гротеск із повною кирилицею
-                (212 гліфів, увесь український алфавіт). Заголовки,
-                навігація, підписи.
-   Mono       — JetBrains Mono. Тільки службові мітки й номери.
-   Inter      — запасна під Benzin і для рідкісних символів, яких
-                у Benzin немає (стрілки малюємо SVG, не текстом).
+   Montserrat     — заголовки H1/H2 капсом, кнопки, великі цифри.
+                    Black 900 — головне слово героя, ExtraBold 800 —
+                    решта заголовків, Bold 700 — елементи керування.
+   Onest          — увесь основний текст, підзаголовки H3, поля форми.
+   Pixelify Sans  — службова мова інтерфейсу: номери кроків, мітки
+                    «Було / Результат», лічильники, екран завантаження.
 
-   Підмножини: latin + cyrillic (укр. і/ї/є/ґ включно).
+   Підмножини latin + cyrillic узяті прямо з Google Fonts і лежать
+   поруч: жодного зовнішнього запиту під час завантаження сторінки.
+
+   Pixelify Sans у released-версії не має великих кириличних І, О і П
+   (U+0406, U+041E, U+041F) — у самій гарнітурі їх просто немає в
+   cmap. У піксельному малюнку вони збігаються з латинськими I, O, P,
+   тому файли тут перезібрані з доданими цими трьома відповідностями.
+   Без цього «ПОКАЗАТИ ЩЕ» і «Цикл SODO» вивалювались би в запасний
+   шрифт посеред слова.
    ============================================================ */
 
+/* ── Montserrat ─────────────────────────────────────────── */
+
 @font-face {
-  font-family: "Benzin";
-  src: url("Benzin-Regular.woff2") format("woff2");
+  font-family: "Montserrat";
+  src: url("Montserrat-700-cyrillic.woff2") format("woff2");
+  font-weight: 700; font-style: normal; font-display: swap;
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: "Montserrat";
+  src: url("Montserrat-700-latin.woff2") format("woff2");
+  font-weight: 700; font-style: normal; font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("Montserrat-800-cyrillic.woff2") format("woff2");
+  font-weight: 800; font-style: normal; font-display: swap;
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: "Montserrat";
+  src: url("Montserrat-800-latin.woff2") format("woff2");
+  font-weight: 800; font-style: normal; font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("Montserrat-900-cyrillic.woff2") format("woff2");
+  font-weight: 900; font-style: normal; font-display: swap;
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: "Montserrat";
+  src: url("Montserrat-900-latin.woff2") format("woff2");
+  font-weight: 900; font-style: normal; font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* ── Onest ──────────────────────────────────────────────── */
+
+@font-face {
+  font-family: "Onest";
+  src: url("Onest-400-cyrillic.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: "Onest";
+  src: url("Onest-400-latin.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Onest";
+  src: url("Onest-500-cyrillic.woff2") format("woff2");
+  font-weight: 500; font-style: normal; font-display: swap;
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: "Onest";
+  src: url("Onest-500-latin.woff2") format("woff2");
+  font-weight: 500; font-style: normal; font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Onest";
+  src: url("Onest-600-cyrillic.woff2") format("woff2");
+  font-weight: 600; font-style: normal; font-display: swap;
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: "Onest";
+  src: url("Onest-600-latin.woff2") format("woff2");
+  font-weight: 600; font-style: normal; font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* ── Pixelify Sans ──────────────────────────────────────── */
+
+@font-face {
+  font-family: "Pixelify";
+  src: url("Pixelify-400.woff2") format("woff2");
   font-weight: 400; font-style: normal; font-display: swap;
 }
 @font-face {
-  font-family: "Benzin";
-  src: url("Benzin-Medium.woff2") format("woff2");
+  font-family: "Pixelify";
+  src: url("Pixelify-500.woff2") format("woff2");
   font-weight: 500; font-style: normal; font-display: swap;
-}
-@font-face {
-  font-family: "Benzin";
-  src: url("Benzin-Bold.woff2") format("woff2");
-  font-weight: 700; font-style: normal; font-display: block;
-}
-/* Усі накреслення Benzin приходять із usWeightClass 400, тому вага
-   задається тут явно — інакше браузер вважав би їх однаковими і
-   підмінював синтетичним жирним. */
-@font-face {
-  font-family: "Benzin";
-  src: url("Benzin-ExtraBold.woff2") format("woff2");
-  font-weight: 800; font-style: normal; font-display: block;
-}
-
-@font-face {
-  font-family: "Mono";
-  src: url("mono-cyrillic.woff2") format("woff2");
-  font-weight: 400 700; font-style: normal; font-display: swap;
-  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
-}
-
-@font-face {
-  font-family: "Mono";
-  src: url("mono-latin.woff2") format("woff2");
-  font-weight: 400 700; font-style: normal; font-display: swap;
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-@font-face {
-  font-family: "Inter";
-  src: url("inter-cyrillic.woff2") format("woff2");
-  font-weight: 300 800; font-style: normal; font-display: swap;
-  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
-}
-
-@font-face {
-  font-family: "Inter";
-  src: url("inter-latin.woff2") format("woff2");
-  font-weight: 300 800; font-style: normal; font-display: swap;
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }

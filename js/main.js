@@ -6,13 +6,15 @@
    Одна ідея веде все: приховане стає видимим.
 
    1. лінза     — обличчя різкішає там, куди йде курсор
-   2. фокус     — головне слово заголовка раз проходить крізь смугу
+   2. дихання   — головне слово заголовка повільно йде в рожевий і назад
    3. поява     — блоки піднімаються при вході в кадр
    4. послуги   — сцена відкриває, що саме ми робимо
    5. кейси     — галерея гортається пальцем і стрілками
    6. маршрут   — лінія веде через цикл SODO
-   7. питання   — відповідь розкривається на дотик
-   8. форма, мови, тон шапки, меню, дрібниці
+   7. кроки     — вертикальний прогрес від «привіт» до запуску
+   8. цифри     — статистика набігає від нуля
+   9. питання   — відповідь розкривається на дотик
+  10. форма, мови, тон шапки, меню, дрібниці
 
    Без бібліотек. Усе, що рухається, знімається одним медіазапитом.
    ============================================================ */
@@ -335,20 +337,19 @@ function strokes() {
 /* ────────────────────────────────────────────
    ПЕРШИЙ ЕКРАН: ПОСАДКА СИЛУЕТУ
 
-   Верхній опис має власну смугу під шапкою, і силует не має права на
-   неї заходити. Точну межу видно лише після того, як шрифт став на
-   місце: «Digital-агенція…» на 360px лягає в три рядки, на 430 — у
-   два. Тому не підбираємо відсотки, а міряємо, де реально кінчається
-   опис і де починається заголовок, і ставимо постать рівно в цю
-   смугу. Міряємо через offsetTop/offsetHeight — ці величини не
-   залежать від transform, тож поява заголовка не збиває розрахунок.
+   Перший екран тепер чистий: логотип, візуал, висловлювання, дія.
+   Силует займає всю вільну смугу між шапкою і заголовком, і межу цієї
+   смуги ми не підбираємо відсотками, а міряємо — кегль заголовка
+   плаває від ширини вікна, а висота самого вікна ще й змінюється,
+   коли браузер згортає свої панелі. Міряємо через offsetTop —
+   ця величина не залежить від transform, тож поява заголовка не
+   збиває розрахунок.
    ──────────────────────────────────────────── */
 
 function heroFit() {
   const hero = $('.hero');
-  const lead = $('#heroLead');
   const h1   = $('#heroT');
-  if (!hero || !lead || !h1) return () => {};
+  if (!hero || !h1) return () => {};
 
   const phone = matchMedia('(max-width: 620px)');
   let lastTop = -1, lastH = -1;
@@ -362,11 +363,11 @@ function heroFit() {
     }
     if (!hero.offsetHeight) return;
 
-    const top  = lead.offsetTop + lead.offsetHeight + 14;
+    const top  = parseFloat(getComputedStyle(hero).paddingTop) || 0;
     const room = h1.offsetTop - top;
     // невеликий захід під заголовок: композиція лишається шаруватою,
     // але жодна літера не лягає на обличчя
-    const over = Math.min(h1.offsetHeight * 0.2, 56);
+    const over = Math.min(h1.offsetHeight * 0.18, 52);
     const h    = Math.max(room + over, 180);
 
     // Панелі браузера на телефоні згортаються й розгортаються під час
@@ -388,32 +389,152 @@ function heroFit() {
 }
 
 /* ────────────────────────────────────────────
-   ПРОХІД ФОКУСА ПО СЛОВУ
+   ДИХАННЯ ГОЛОВНОГО СЛОВА
 
-   Знизу лежить готовий стан: рожеве, різке. Зверху — та сама копія
-   графітом і з легким розмиттям, яку маска знімає зліва направо
-   мʼякою вертикальною смугою. Рамки, променя чи плями поверх тексту
-   немає: зміна відбувається всередині самих букв, а розміри й
-   положення не рухаються взагалі — анімується лише позиція маски.
+   «ПОМІЧАТИ» повільно йде з чорного у фірмовий рожевий і назад, по
+   колу. Сама анімація живе в CSS — тут лише вимикач: поки перший
+   екран у кадрі, вона грає, щойно він пішов — стає. Інакше телефон
+   перемальовував би слово всі кілька хвилин, поки людина читає
+   решту сторінки.
 
-   Запускається один раз, коли заголовок уперше входить у кадр. Від
-   наведення не залежить, назад не відкочується, і при зменшеному русі
-   слово просто одразу стоїть у фінальному вигляді.
+   Рухається тільки колір: ні кегль, ні положення, ні ширина не
+   змінюються, тож нічого не смикається. При зменшеному русі слово
+   просто стоїть рожевим.
    ──────────────────────────────────────────── */
 
-function focusPass() {
-  const key = $('#heroKey');
-  if (!key) return;
+function heroBreath() {
+  const hero = $('.hero');
+  if (!hero || calm() || !('IntersectionObserver' in window)) return;
+  new IntersectionObserver(([e]) => {
+    body.classList.toggle('hero-away', !e.isIntersecting);
+  }, { threshold: 0 }).observe(hero);
+}
 
-  const go = () => key.classList.add('is-lit');
-  if (calm() || !('IntersectionObserver' in window)) { go(); return; }
+/* ────────────────────────────────────────────
+   ЗАГОЛОВОК, ЯКИЙ ЛАМАЄТЬСЯ ТІЛЬКИ МІЖ РЕЧЕННЯМИ
 
-  const io = new IntersectionObserver(([e]) => {
+   «Один на нішу. Один на місто.» — дві окремі фрази, і перенос має
+   право стояти лише між ними. Кожне речення стає inline-block, тож
+   рядок або вміщує обидва, або кладе їх одне під одним; розірвати
+   фразу посередині браузер уже не може. Текст не змінюється — ми
+   тільки обгортаємо те, що вже стоїть.
+   ──────────────────────────────────────────── */
+
+function sentences() {
+  $$('.one__t').forEach(el => {
+    const src = el.dataset.src || (el.dataset.src = el.textContent.trim());
+    const parts = src.split('. ').map((t, i, all) => i < all.length - 1 ? t + '.' : t);
+    el.textContent = '';
+    parts.forEach((t, i) => {
+      const sp = document.createElement('span');
+      sp.textContent = t;
+      el.append(sp);
+      if (i < parts.length - 1) el.append(' ');
+    });
+  });
+}
+
+/* ────────────────────────────────────────────
+   ЦИФРИ ДОСВІДУ: НАБІГАННЯ ВІД НУЛЯ
+
+   Шаблонів немає: беремо текст, який уже стоїть, знаходимо в ньому
+   всі числа й ведемо кожне від нуля до його ж значення. Тому «30+»,
+   «3 роки 2 міс» і «52» оживають однаково, а сам текст лишається
+   недоторканим — у кінці ми повертаємо рівно вихідний рядок.
+   Запускається раз, коли цифра вперше входить у кадр.
+   ──────────────────────────────────────────── */
+
+function counts() {
+  const items = $$('[data-count]');
+  if (!items.length) return;
+
+  const run = el => {
+    const src = el.dataset.src || (el.dataset.src = el.textContent);
+    const nums = (src.match(/\d+/g) || []).map(Number);
+    if (!nums.length) return;
+
+    const D = 1250, t0 = performance.now();
+    const ease = t => 1 - Math.pow(1 - t, 3);
+    const frame = now => {
+      const k = Math.min((now - t0) / D, 1);
+      let i = 0;
+      el.textContent = src.replace(/\d+/g, () => String(Math.round(nums[i++] * ease(k))));
+      if (k < 1) requestAnimationFrame(frame);
+      else el.textContent = src;
+    };
+    el.textContent = src.replace(/\d+/g, '0');
+    requestAnimationFrame(frame);
+  };
+
+  if (calm() || !('IntersectionObserver' in window)) return;
+  const io = new IntersectionObserver(es => es.forEach(e => {
     if (!e.isIntersecting) return;
-    io.disconnect();
-    setTimeout(go, 420);   // спершу рядок сам стає на місце
-  }, { threshold: 0.35 });
-  io.observe(key);
+    io.unobserve(e.target);
+    run(e.target);
+  }), { threshold: 0.4 });
+  items.forEach(el => io.observe(el));
+}
+
+/* ────────────────────────────────────────────
+   ПʼЯТЬ КРОКІВ: ВЕРТИКАЛЬНИЙ ПРОГРЕС
+
+   Рейка заповнюється від прокрутки, поточний крок стає активним,
+   пройдені лишаються позначеними, наступні — тихішими. Висоту рейки
+   міряємо від центра першого квадрата до центра останнього, а не
+   «до низу списку»: інакше вона вилазила б під останній абзац.
+   ──────────────────────────────────────────── */
+
+function steps() {
+  const list = $('#steps');
+  if (!list) return;
+  const items = $$('.step', list);
+  if (!items.length) return;
+
+  /* offsetTop тут не годиться: кожен .step сам позиціонований, тож
+     квадрат міряється від власного кроку і різниця завжди виходить
+     нульовою. Беремо екранні прямокутники. */
+  const rail = () => {
+    const a = $('.step__n', items[0]);
+    const b = $('.step__n', items[items.length - 1]);
+    if (!a || !b) return;
+    const box = list.getBoundingClientRect();
+    const ra = a.getBoundingClientRect(), rb = b.getBoundingClientRect();
+    list.style.setProperty('--rail-top', (ra.top - box.top + ra.height / 2 - 1).toFixed(1) + 'px');
+    list.style.setProperty('--rail', (rb.top - ra.top).toFixed(1) + 'px');
+  };
+
+  const light = p => {
+    list.style.setProperty('--go', p.toFixed(3));
+    const cur = Math.min(Math.floor(p * items.length), items.length - 1);
+    items.forEach((el, i) => {
+      el.classList.toggle('is-done', i < cur);
+      el.classList.toggle('is-on', i === cur && p > 0.02);
+    });
+  };
+
+  rail();
+  let rz;
+  addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(rail, 160); });
+
+  if (calm()) { light(1); return; }
+
+  let ticking = false, visible = true;
+  const step = () => {
+    ticking = false;
+    if (!visible) return;
+    const r = list.getBoundingClientRect();
+    const from = innerHeight * 0.85, to = innerHeight * 0.35;
+    light(clamp((from - r.top) / Math.max(r.height + from - to, 1), 0, 1));
+  };
+  const ask = () => { if (!ticking) { ticking = true; requestAnimationFrame(step); } };
+
+  addEventListener('scroll', ask, { passive: true });
+  addEventListener('resize', ask);
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) ask(); },
+      { rootMargin: '25% 0px' }).observe(list);
+  }
+  step();
 }
 
 /* ────────────────────────────────────────────
@@ -510,28 +631,41 @@ function gallery() {
 function tabs() {
   const box = $('#sw');
   if (!box) return;
-  const btns  = $$('.sw__tab', box);
-  const panes = $$('.scene', box);
-  if (btns.length !== panes.length || !btns.length) return;
+  const btns = $$('.sw__tab', box);
+  const caps = $$('.sw__cap', box);
+  const arts = $$('.scene', box);
+  if (btns.length !== caps.length || !btns.length) return;
 
-  // hidden потрібен лише доки немає JS: далі видимістю керує CSS,
-  // бо display:none не дає сцені плавно зʼявитись
-  panes.forEach(el => el.removeAttribute('hidden'));
+  const say = $('.sw__say', box);
+  // висота блоку опису йде за активним текстом: під коротким описом не
+  // лишається порожнечі, під довгим нічого не обрізається
+  const fitSay = () => {
+    if (say && caps[cur]) say.style.setProperty('--say', caps[cur].scrollHeight + 'px');
+  };
 
   let cur = 0;
   const show = i => {
     if (i === cur) return;
     cur = i;
+    fitSay();
     btns.forEach((b, k) => {
       const on = k === i;
       b.classList.toggle('is-on', on);
       b.setAttribute('aria-selected', String(on));
       b.tabIndex = on ? 0 : -1;
     });
-    panes.forEach((el, k) => el.classList.toggle('is-on', k === i));
+    // опис і кадр перемикаються разом; черговість виходу й входу
+    // задана в CSS, тому два описи ніколи не стоять в одному місці
+    caps.forEach((el, k) => el.classList.toggle('is-on', k === i));
+    arts.forEach((el, k) => el.classList.toggle('is-on', k === i));
   };
 
   btns.forEach((b, i) => b.addEventListener('click', () => show(i)));
+
+  fitSay();
+  let rz;
+  addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(fitSay, 140); });
+  document.fonts?.ready.then(fitSay).catch(() => {});
 
   // стрілки водять по списку, як і належить вкладкам
   box.addEventListener('keydown', e => {
@@ -771,7 +905,9 @@ async function langs() {
         const v = d.strings[el.dataset.i18nAria];
         if (v) el.setAttribute('aria-label', v);
       });
-      marks();   // переклад стер обгортку — накладаємо виділення заново
+      // переклад стер обгортки — накладаємо їх заново
+      marks();
+      sentences();
     }
     document.documentElement.lang = code;
     try { localStorage.setItem(LANG_KEY, code); } catch { /* ok */ }
@@ -812,8 +948,11 @@ tabs();
 const remeasure = strokes();
 const refit = heroFit();
 road();
+steps();
 gallery();
 marks();
+sentences();
+counts();
 faq();
 form();
 langs();
@@ -840,7 +979,7 @@ ready.then(() => {
   return boot();
 }).then(() => {
   refit?.();
-  focusPass();
+  heroBreath();
 }).catch(() => {
   body.classList.remove('is-loading');
   body.classList.add('is-done');
