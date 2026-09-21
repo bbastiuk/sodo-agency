@@ -970,125 +970,202 @@ function form() {
    13. МОВИ
 
    Українська лежить прямо в розмітці — її не треба тягнути й вона
-   бачиться пошуком. Інші мови живуть у lang/<code>.json і
-   підставляються в [data-i18n]. READY перелічує мови, у яких
-   переклад уже заповнений: доки там одна мова, перемикач не
-   показується взагалі, щоб ніхто не натиснув на порожнечу.
+   бачиться пошуком. Польська живе в lang/pl.json і підставляється
+   в [data-i18n] та родичів.
+
+   Мову вибираємо в такому порядку:
+     1. ?lang= у адресі — явна воля, її ж і запамʼятовуємо;
+     2. збережений раніше вибір;
+     3. мітка в utm — щоб польська кампанія одразу привела на
+        польську версію;
+     4. мова браузера;
+     5. українська.
+
+   Автовизначення навмисно не зберігаємо: інакше людина, яка один
+   раз прийшла з польського оголошення, назавжди лишилась би на
+   польській, навіть якщо їй зручніше українською.
    ──────────────────────────────────────────── */
 
-const READY = ['uk'];
-const LANG_NAME = { uk: 'UA', pl: 'PL', en: 'EN' };
+const READY = ['uk', 'pl'];
 const LANG_KEY = 'sodo:lang';
 
-async function langs() {
-  const pick = () => {
-    const q = new URLSearchParams(location.search).get('lang');
-    if (q && READY.includes(q)) return q;
-    try {
-      const s = localStorage.getItem(LANG_KEY);
-      if (s && READY.includes(s)) return s;
-    } catch { /* приватний режим */ }
-    return 'uk';
-  };
+/* Мітка в utm — окремий токен, а не підрядок: «pl» усередині
+   «display» чи «plumber» не має нікуди нас відправляти. */
+const UTM = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+const PL_TAG = /^(pl|pol|poland|polska|polski|polskie|polska_pl)$/;
 
-  const apply = async code => {
-    if (code !== 'uk') {
-      const r = await fetch(`lang/${code}.json`, { cache: 'no-cache' });
-      const d = await r.json();
-      if (!d.ready) return;
-      $$('[data-i18n]').forEach(el => {
-        const v = d.strings[el.dataset.i18n];
-        if (v) el.textContent = v;
-      });
-      // підписи, що живуть в атрибутах, а не в тексті вузла
-      $$('[data-i18n-more]').forEach(el => {
-        const m = d.strings[el.dataset.i18nMore], l = d.strings[el.dataset.i18nLess];
-        if (m) el.dataset.more = m;
-        if (l) el.dataset.less = l;
-        const lab = $('span', el);
-        if (lab && m && el.getAttribute('aria-expanded') !== 'true') lab.textContent = m;
-      });
-      // підписи, які читає лише зчитувач екрана
-      $$('[data-i18n-aria]').forEach(el => {
-        const v = d.strings[el.dataset.i18nAria];
-        if (v) el.setAttribute('aria-label', v);
-      });
-      sentences();   // переклад стер обгортки — ділимо речення заново
+function fromUtm(q) {
+  for (const key of UTM) {
+    const v = q.get(key);
+    if (v && v.toLowerCase().split(/[^a-z0-9]+/).some(t => PL_TAG.test(t))) return 'pl';
+  }
+  return null;
+}
+
+function fromBrowser() {
+  const list = navigator.languages || [navigator.language || ''];
+  for (const raw of list) {
+    const c = String(raw).toLowerCase();
+    if (c.startsWith('pl')) return 'pl';
+    if (c.startsWith('uk')) return 'uk';
+  }
+  return null;
+}
+
+/* Перекладені рядки можуть нести **жирне** — у кейсах це суми.
+   Складаємо вузли руками, а не через innerHTML: у JSON може бути
+   що завгодно, і воно ніколи не має стати розміткою. */
+function render(el, str) {
+  el.textContent = '';
+  str.split('**').forEach((part, i) => {
+    if (!part) return;
+    if (i % 2) {
+      const b = document.createElement('b');
+      b.textContent = part;
+      el.append(b);
+    } else {
+      el.append(document.createTextNode(part));
     }
-    document.documentElement.lang = code;
-    try { localStorage.setItem(LANG_KEY, code); } catch { /* ok */ }
-  };
-
-  const cur = pick();
-  if (cur !== 'uk') { try { await apply(cur); } catch { /* лишаємось на uk */ } }
-
-  if (READY.length < 2) return;
-  const box = $('.mn__foot');
-  if (!box) return;
-  const nav = document.createElement('p');
-  nav.className = 'mn__langs';
-  READY.forEach(code => {
-    const b = document.createElement('button');
-    b.type = 'button';
-    b.textContent = LANG_NAME[code] || code.toUpperCase();
-    b.className = code === document.documentElement.lang ? 'is-on' : '';
-    b.addEventListener('click', () => {
-      const u = new URL(location.href);
-      u.searchParams.set('lang', code);
-      location.href = u.toString();
-    });
-    nav.appendChild(b);
   });
-  box.appendChild(nav);
+}
+
+function markLang(code) {
+  const box = $('#lang');
+  if (!box) return;
+  $$('.hd__lang-b', box).forEach(a => {
+    const on = a.dataset.lang === code;
+    a.classList.toggle('is-on', on);
+    a.setAttribute('aria-current', on ? 'true' : 'false');
+    // решту параметрів адреси (ті ж utm) переносимо з собою
+    const u = new URL(location.href);
+    u.searchParams.set('lang', a.dataset.lang);
+    u.hash = '';
+    a.href = u.pathname + u.search;
+  });
+}
+
+async function langs() {
+  const q = new URLSearchParams(location.search);
+
+  let code = null, stick = false;
+  const asked = q.get('lang');
+  if (asked && READY.includes(asked)) { code = asked; stick = true; }
+
+  if (!code) {
+    try {
+      const saved = localStorage.getItem(LANG_KEY);
+      if (saved && READY.includes(saved)) code = saved;
+    } catch { /* приватний режим */ }
+  }
+  if (!code) code = fromUtm(q) || fromBrowser() || 'uk';
+
+  document.documentElement.lang = code;
+  markLang(code);
+  if (stick) { try { localStorage.setItem(LANG_KEY, code); } catch { /* ok */ } }
+
+  if (code === 'uk') return;
+
+  let d;
+  try {
+    const opt = { cache: 'no-cache' };
+    if (AbortSignal.timeout) opt.signal = AbortSignal.timeout(1500);
+    const r = await fetch(`lang/${code}.json`, opt);
+    d = await r.json();
+  } catch {
+    // переклад не приїхав — лишаємось українською, сайт цілий
+    document.documentElement.lang = 'uk';
+    markLang('uk');
+    return;
+  }
+  if (!d || !d.ready) { document.documentElement.lang = 'uk'; markLang('uk'); return; }
+
+  const S = d.strings || {};
+  const get = k => S[k];
+
+  $$('[data-i18n]').forEach(el => { const v = get(el.dataset.i18n); if (v) render(el, v); });
+  $$('[data-i18n-aria]').forEach(el => { const v = get(el.dataset.i18nAria); if (v) el.setAttribute('aria-label', v); });
+  $$('[data-i18n-ph]').forEach(el => { const v = get(el.dataset.i18nPh); if (v) el.placeholder = v; });
+
+  // підписи, що живуть в атрибутах, а не в тексті вузла
+  $$('[data-i18n-more]').forEach(el => {
+    const m = get(el.dataset.i18nMore), l = get(el.dataset.i18nLess);
+    if (m) el.dataset.more = m;
+    if (l) el.dataset.less = l;
+    const lab = $('span', el);
+    if (lab && m && el.getAttribute('aria-expanded') !== 'true') lab.textContent = m;
+  });
+  $$('[data-i18n-open]').forEach(el => {
+    const o = get(el.dataset.i18nOpen), c = get(el.dataset.i18nClose);
+    if (o) { el.dataset.open = o; el.textContent = o; }
+    if (c) el.dataset.close = c;
+  });
+
+  if (get('doc.title')) document.title = get('doc.title');
+  const meta = $('meta[name="description"]');
+  if (meta && get('doc.desc')) meta.content = get('doc.desc');
+
+  markLang(code);
 }
 
 /* ────────────────────────────────────────────
    СТАРТ
    ──────────────────────────────────────────── */
 
-reveals();
-header();
-menu();
-lens();
-tabs();
-const refit = heroFit();
-road();
-steps();
-gallery();
-dock();
-sentences();
-counts();
-breathe();
-faq();
-form();
-langs();
+let refit = null;
 
-/* Посилання для клавіатури не має лишатись у фокусі після переходу:
-   інакше воно висить угорі весь час, поки людина читає сторінку. */
-const skip = $('.skip');
-skip?.addEventListener('click', () => setTimeout(() => skip.blur(), 0));
+function start() {
+  reveals();
+  header();
+  menu();
+  lens();
+  tabs();
+  refit = heroFit();
+  road();
+  steps();
+  gallery();
+  dock();
+  sentences();
+  counts();
+  breathe();
+  faq();
+  form();
 
-const yr = $('#yr');
-if (yr) yr.textContent = String(new Date().getFullYear());
+  /* Посилання для клавіатури не має лишатись у фокусі після переходу:
+     інакше воно висить угорі весь час, поки людина читає сторінку. */
+  const skip = $('.skip');
+  skip?.addEventListener('click', () => setTimeout(() => skip.blur(), 0));
+
+  const yr = $('#yr');
+  if (yr) yr.textContent = String(new Date().getFullYear());
+}
 
 /* Шрифти дисплейні (font-display:block), тож чекаємо — але не
    нескінченно і не довірливо. Якщо цей ланцюжок впаде, шар
    завантаження лишиться на весь екран і сайту просто не буде видно,
    тому його зняття не має права залежати від успіху. */
-const ready = document.fonts?.ready
+const fonts = document.fonts?.ready
   ? Promise.race([document.fonts.ready, wait(900)]).catch(() => {})
   : Promise.resolve();
 
-ready.then(() => {
-  refit?.();          // шрифт став на місце — міряємо смугу під силует
-  return boot();
-}).then(() => {
-  refit?.();
-  heroLit();          // маркер під словом малюється один раз
-}).catch(() => {
-  body.classList.remove('is-loading');
-  body.classList.add('is-done');
-  $('#load')?.remove();
-});
+/* Переклад іде першим і тільки потім усе інше. Інакше лічильник
+   запамʼятав би українські цифри, заголовок «Один на нішу» поділився
+   б на речення до підміни, а перший екран зміряв би не ту довжину.
+   langs() ніколи не кидає — найгірше, що буде, це українська. */
+langs()
+  .catch(() => {})
+  .then(() => { start(); return fonts; })
+  .then(() => {
+    refit?.();          // шрифт став на місце — міряємо смугу під силует
+    return boot();
+  })
+  .then(() => {
+    refit?.();
+    heroLit();          // маркер під словом малюється один раз
+  })
+  .catch(() => {
+    body.classList.remove('is-loading');
+    body.classList.add('is-done');
+    $('#load')?.remove();
+  });
 
 })();

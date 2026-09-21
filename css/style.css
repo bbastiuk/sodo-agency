@@ -214,8 +214,28 @@ body.is-menu .hd__brand,body.is-ondark .hd__brand{color:var(--pink)}
 }
 .hd__nav a:hover::after,.hd__nav a:focus-visible::after{transform:scaleX(1);transform-origin:left}
 
-.hd__menu{display:none;margin-left:auto;align-items:center;gap:10px;
+.hd__menu{display:none;align-items:center;gap:10px;
   min-height:44px;font-weight:500;font-size:14px}
+/* Перемикач мов стоїть у шапці постійно: польський трафік має
+   бачити, що версія є, не відкриваючи меню. Це справжні посилання
+   з ?lang=, тож працюють і без JS, і в індексі. */
+.hd__lang{display:flex;align-items:center;gap:2px}
+@media (max-width:900px){.hd__lang{margin-left:auto}}
+.hd__lang-b{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:40px;min-height:44px;padding:0 6px;border-radius:var(--r-s);
+  font-family:var(--ui);font-weight:500;font-size:14px;line-height:1;
+  letter-spacing:.04em;color:var(--ink-muted);
+  transition:color .25s var(--e-soft),background-color .25s var(--e-soft);
+}
+body.is-ondark .hd__lang-b,body.is-menu .hd__lang-b{color:var(--ink-muted-inv)}
+.hd__lang-b.is-on,body.is-ondark .hd__lang-b.is-on,body.is-menu .hd__lang-b.is-on{
+  background:var(--pink);color:var(--ink);
+}
+@media (hover:hover) and (pointer:fine){
+  .hd__lang-b:not(.is-on):hover{background:var(--pink-soft);color:var(--ink)}
+}
+
 .hd__menu-i{display:block;width:20px}
 .hd__menu-i i{display:block;height:1.5px;background:currentColor;transition:transform .35s var(--e)}
 .hd__menu-i i+i{margin-top:6px}
@@ -255,14 +275,7 @@ body.is-menu .mn__nav a:nth-child(4){transition-delay:.23s}
 .mn__links{display:flex;gap:24px;font-weight:500;font-size:15px}
 .mn__links a{display:inline-flex;align-items:flex-end;min-height:44px;
   border-bottom:2px solid var(--pink);padding-bottom:6px}
-.mn__langs{display:flex;gap:6px;margin-top:clamp(18px,2.6vh,28px)}
-.mn__langs button{
-  min-height:44px;padding:.5em .9em;border-radius:var(--r);border:1.5px solid var(--line-inv);
-  font-family:var(--ui);font-size:12px;letter-spacing:.06em;color:var(--ink-muted-inv);
-  transition:color .3s,border-color .3s,background-color .3s;
-}
-.mn__langs button.is-on{background:var(--pink);border-color:var(--pink);color:var(--ink)}
-.mn__langs button:hover{color:var(--bg);border-color:var(--bg)}
+
 
 /* ============ ФІГУРА ЗА СКЛОМ ============ */
 
@@ -991,7 +1004,11 @@ body.is-done .hero__foot{animation:riseIn .4s var(--e) .22s both}
   .stat:first-child{padding-left:0}
   .stat:last-child{padding-right:0}
 
-  .case__n{font-size:clamp(19px,5.4vw,26px)}
+  /* «ПРАЦЕВЛАШТУВАННЯ» — 16 літер Montserrat 800 капсом. На 320px
+     при 19px воно на три пікселі не влазить і ламається посеред
+     слова, тож нижня межа тут 17px. На 375px і ширше кегль веде
+     вже 5.4vw, і ця межа ні на що не впливає. */
+  .case__n{font-size:clamp(17px,5.4vw,26px)}
   .gal__track{padding-top:30px}
 
   .qa__q{font-size:16px;padding-right:46px}

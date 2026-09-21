@@ -13,6 +13,10 @@
 <meta property="og:description" content="Тестуємо, змінюємо, посилюємо, поки реклама й контент не почнуть приносити гроші.">
 <meta property="og:image" content="assets/images/og-image.jpg">
 
+<link rel="alternate" hreflang="uk" href="https://bbastiuk.github.io/sodo-agency/">
+<link rel="alternate" hreflang="pl" href="https://bbastiuk.github.io/sodo-agency/?lang=pl">
+<link rel="alternate" hreflang="x-default" href="https://bbastiuk.github.io/sodo-agency/">
+
 <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
 
@@ -21,8 +25,8 @@
 <link rel="preload" href="assets/fonts/Onest-400-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/Pixelify-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" as="image" href="assets/figures/figure.png">
-<link rel="stylesheet" href="assets/fonts/fonts.css">
-<link rel="stylesheet" href="css/style.css?v=11">
+<link rel="stylesheet" href="assets/fonts/fonts.css?v=2">
+<link rel="stylesheet" href="css/style.css?v=12">
 
 <noscript><style>
   .load{display:none}
@@ -45,42 +49,48 @@
 
 <!-- ═══════════ ЗАВАНТАЖЕННЯ ═══════════ -->
 <div class="load" id="load" aria-hidden="true">
-  <p class="load__w" id="loadWord">Видимість</p>
+  <p class="load__w" id="loadWord" data-i18n="load.word">Видимість</p>
   <span class="load__bar" id="loadBar"></span>
 </div>
-<p class="vh" role="status" id="loadSr">Завантаження</p>
+<p class="vh" role="status" id="loadSr" data-i18n="load.sr">Завантаження</p>
 
-<a class="skip" href="#main">Перейти до змісту</a>
+<a class="skip" href="#main" data-i18n="skip">Перейти до змісту</a>
 
 <!-- ═══════════ ШАПКА ═══════════ -->
 <header class="hd" id="hd">
-  <a class="hd__brand" href="#top" aria-label="SODO — на початок">
+  <a class="hd__brand" href="#top" aria-label="SODO — на початок" data-i18n-aria="aria.brand">
     <span class="mark" aria-hidden="true"></span>
   </a>
 
-  <nav class="hd__nav" aria-label="Основна навігація">
+  <nav class="hd__nav" aria-label="Основна навігація" data-i18n-aria="aria.nav">
     <a href="#serv" data-i18n="menu.serv">Послуги</a>
     <a href="#how" data-i18n="menu.how">Як працюємо</a>
     <a href="#cases" data-i18n="menu.cases">Кейси</a>
     <a href="#form" data-i18n="menu.form">Контакти</a>
   </nav>
 
+  <div class="hd__lang" id="lang" role="group" aria-label="Мова сайту" data-i18n-aria="aria.lang">
+    <a class="hd__lang-b" href="?lang=uk" hreflang="uk" lang="uk" data-lang="uk">UA</a>
+    <a class="hd__lang-b" href="?lang=pl" hreflang="pl" lang="pl" data-lang="pl">PL</a>
+  </div>
+
   <button class="hd__menu" id="menuBtn" type="button" aria-expanded="false" aria-controls="menu">
-    <span class="hd__menu-t" data-open="Меню" data-close="Закрити">Меню</span>
+    <span class="hd__menu-t" data-open="Меню" data-close="Закрити"
+      data-i18n-open="menu.open" data-i18n-close="menu.close">Меню</span>
     <span class="hd__menu-i" aria-hidden="true"><i></i><i></i></span>
   </button>
 </header>
 
 <!-- ═══════════ ПОВНОЕКРАННЕ МЕНЮ ═══════════ -->
 <div class="mn" id="menu" hidden>
-  <nav class="mn__nav" aria-label="Меню">
+  <nav class="mn__nav" aria-label="Меню" data-i18n-aria="aria.menu">
     <a href="#serv"><i>01</i><span data-i18n="menu.serv">Послуги</span></a>
     <a href="#how"><i>02</i><span data-i18n="menu.how">Як працюємо</span></a>
     <a href="#cases"><i>03</i><span data-i18n="menu.cases">Кейси</span></a>
     <a href="#form"><i>04</i><span data-i18n="menu.form">Контакти</span></a>
   </nav>
   <div class="mn__foot">
-    <p class="mn__lab">Напишіть напряму</p>
+    <p class="mn__lab" data-i18n="mn.direct">Напишіть напряму</p>
     <p class="mn__links">
       <a href="https://t.me/sodoagency" target="_blank" rel="noopener">Telegram</a>
       <a href="https://www.instagram.com/sodo.agency/" target="_blank" rel="noopener">Instagram</a>
@@ -116,7 +126,7 @@
 
 
 <!-- ═══════════ 02 · ЦИФРИ ═══════════ -->
-<section class="stats" aria-label="Цифри досвіду">
+<section class="stats" aria-label="Цифри досвіду" data-i18n-aria="aria.stats">
   <ul class="stats__l rv">
     <li class="stat">
       <b class="stat__n" data-i18n="one.n0" data-count>30+</b>
@@ -139,7 +149,7 @@
   </header>
 
   <div class="sw" id="sw">
-    <ul class="sw__tabs" role="tablist" aria-label="Напрями роботи">
+    <ul class="sw__tabs" role="tablist" aria-label="Напрями роботи" data-i18n-aria="aria.tabs">
       <li role="presentation"><button class="sw__tab is-on" type="button"
         role="tab" id="tab0" aria-controls="svc0" aria-selected="true"
         tabindex="0" data-i18n="serv.n0">SMM</button></li>
@@ -308,11 +318,11 @@
           <h3 class="case__n" data-i18n="case.n0">Комʼюніті</h3>
           <p class="case__c" data-i18n="case.c0">Познань</p>
           <div class="case__row">
-            <span class="case__k">Було</span>
+            <span class="case__k" data-i18n="case.was">Було</span>
             <p class="case__v" data-i18n="case.b0">Старт з нуля, жодних соцмереж, бренд без образу, обмежений бюджет.</p>
           </div>
           <div class="case__row case__row--res">
-            <span class="case__k">Стало</span>
+            <span class="case__k" data-i18n="case.now">Стало</span>
             <p class="case__v"><span class="hl" data-i18n="case.r0">Заявка по <b>$1,20</b> в перший місяць роботи. За рік імʼя почало працювати саме на себе, і половина квитків розходилась органічно.</span></p>
           </div>
         </div>
@@ -323,11 +333,11 @@
           <h3 class="case__n" data-i18n="case.n1">Легалізація</h3>
           <p class="case__c" data-i18n="case.c1">Познань</p>
           <div class="case__row">
-            <span class="case__k">Було</span>
+            <span class="case__k" data-i18n="case.was">Було</span>
             <p class="case__v" data-i18n="case.b1">Старт з нуля, без бази клієнтів.</p>
           </div>
           <div class="case__row case__row--res">
-            <span class="case__k">Стало</span>
+            <span class="case__k" data-i18n="case.now">Стало</span>
             <p class="case__v"><span class="hl" data-i18n="case.r1">Заявка по <b>$3,90</b> вже на другий місяць роботи.</span></p>
           </div>
         </div>
@@ -338,11 +348,11 @@
           <h3 class="case__n" data-i18n="case.n2">Працевлаштування</h3>
           <p class="case__c" data-i18n="case.c2">Німеччина</p>
           <div class="case__row">
-            <span class="case__k">Було</span>
+            <span class="case__k" data-i18n="case.was">Було</span>
             <p class="case__v" data-i18n="case.b2">Неякісні заявки й блокування рекламного кабінету.</p>
           </div>
           <div class="case__row case__row--res">
-            <span class="case__k">Стало</span>
+            <span class="case__k" data-i18n="case.now">Стало</span>
             <p class="case__v"><span class="hl" data-i18n="case.r2">Стабільно працюючий кабінет і заявка по <b>€3</b>.</span></p>
           </div>
         </div>
@@ -353,11 +363,11 @@
           <h3 class="case__n" data-i18n="case.n3">Студія краси</h3>
           <p class="case__c" data-i18n="case.c3">Познань</p>
           <div class="case__row">
-            <span class="case__k">Було</span>
+            <span class="case__k" data-i18n="case.was">Було</span>
             <p class="case__v" data-i18n="case.b3">Жодних соцмереж, бренд без образу.</p>
           </div>
           <div class="case__row case__row--res">
-            <span class="case__k">Стало</span>
+            <span class="case__k" data-i18n="case.now">Стало</span>
             <p class="case__v"><span class="hl" data-i18n="case.r3">Про студію знають всі, а сміливі ідеї впізнають з першого погляду.</span></p>
           </div>
         </div>
@@ -421,7 +431,7 @@
       </p>
       <p class="fld">
         <label for="f_tg"><span data-i18n="form.tg">Telegram або Instagram</span> <span class="fld__req" aria-hidden="true">*</span></label>
-        <input id="f_tg" name="contact" type="text" placeholder="@нік" autocomplete="username"
+        <input id="f_tg" name="contact" type="text" placeholder="@нік" data-i18n-ph="form.ph" autocomplete="username"
           required data-check="contact" aria-describedby="e_tg">
         <span class="fld__e" id="e_tg" hidden></span>
       </p>
@@ -653,12 +663,12 @@
 <footer class="ft">
   <span class="mark mark--ft" aria-hidden="true"></span>
   <p class="ft__c">© <span id="yr">2026</span> SODO</p>
-  <nav class="ft__nav" aria-label="Соцмережі">
+  <nav class="ft__nav" aria-label="Соцмережі" data-i18n-aria="aria.social">
     <a href="https://t.me/sodoagency" target="_blank" rel="noopener">Telegram</a>
     <a href="https://www.instagram.com/sodo.agency/" target="_blank" rel="noopener">Instagram</a>
   </nav>
 </footer>
 
-<script src="js/main.js?v=11" defer></script>
+<script src="js/main.js?v=12" defer></script>
 </body>
 </html>

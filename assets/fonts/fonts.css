@@ -113,3 +113,73 @@
   src: url("Pixelify-500.woff2") format("woff2");
   font-weight: 500; font-style: normal; font-display: swap;
 }
+
+/* ── польська діакритика ────────────────────────────────────
+   Латинські набори з Google Fonts обрізані по U+00FF, тож ą ć ę ł
+   ń ś ź ż у них немає взагалі — польський текст малював системний
+   шрифт, і літери всередині слова виходили з іншої гарнітури.
+
+   Три файли на всі шістнадцять літер, разом 13 КБ. Це варіативні
+   зрізи, тож один файл тягне всі ваги: кожен @font-face пришпилює
+   вісь wght до своєї.
+
+   Вага тут неспроста виписана по одній. Спершу я оголосив ці фейси
+   одним діапазоном (font-weight: 100 900) — і браузер їх просто не
+   брав: маючи поруч фейси з точною вагою, він добирає спочатку за
+   вагою і аж потім дивиться в таблицю символів. У Google Fonts усі
+   підмножини однієї родини оголошені з однаковою вагою саме тому:
+   вибір має вирішувати unicode-range, а не вага.
+
+   Для Pixelify цей блок має стояти ПІСЛЯ основних: у них діапазон
+   не заданий, тобто формально вони покривають і ці літери, а при
+   збігу виграє той @font-face, що оголошений останнім.
+   ──────────────────────────────────────────────────────── */
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("Montserrat-pl.woff2") format("woff2");
+  font-weight: 700; font-style: normal; font-display: swap;
+  unicode-range: U+0104-0107, U+0118-0119, U+0141-0144, U+015A-015B, U+0179-017C;
+}
+@font-face {
+  font-family: "Montserrat";
+  src: url("Montserrat-pl.woff2") format("woff2");
+  font-weight: 800; font-style: normal; font-display: swap;
+  unicode-range: U+0104-0107, U+0118-0119, U+0141-0144, U+015A-015B, U+0179-017C;
+}
+@font-face {
+  font-family: "Montserrat";
+  src: url("Montserrat-pl.woff2") format("woff2");
+  font-weight: 900; font-style: normal; font-display: swap;
+  unicode-range: U+0104-0107, U+0118-0119, U+0141-0144, U+015A-015B, U+0179-017C;
+}
+@font-face {
+  font-family: "Onest";
+  src: url("Onest-pl.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
+  unicode-range: U+0104-0107, U+0118-0119, U+0141-0144, U+015A-015B, U+0179-017C;
+}
+@font-face {
+  font-family: "Onest";
+  src: url("Onest-pl.woff2") format("woff2");
+  font-weight: 500; font-style: normal; font-display: swap;
+  unicode-range: U+0104-0107, U+0118-0119, U+0141-0144, U+015A-015B, U+0179-017C;
+}
+@font-face {
+  font-family: "Onest";
+  src: url("Onest-pl.woff2") format("woff2");
+  font-weight: 600; font-style: normal; font-display: swap;
+  unicode-range: U+0104-0107, U+0118-0119, U+0141-0144, U+015A-015B, U+0179-017C;
+}
+@font-face {
+  font-family: "Pixelify";
+  src: url("Pixelify-pl.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
+  unicode-range: U+0104-0107, U+0118-0119, U+0141-0144, U+015A-015B, U+0179-017C;
+}
+@font-face {
+  font-family: "Pixelify";
+  src: url("Pixelify-pl.woff2") format("woff2");
+  font-weight: 500; font-style: normal; font-display: swap;
+  unicode-range: U+0104-0107, U+0118-0119, U+0141-0144, U+015A-015B, U+0179-017C;
+}
