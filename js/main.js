@@ -50,14 +50,13 @@ async function boot() {
     sessionStorage.setItem(SEEN, '1');
   } catch { /* приватний режим — програємо повну версію */ }
 
-  /* Заставка на 45% довша. Рахував не суму таймерів, а заміряний
-     час від переходу до зникнення шару: у ньому є ще й очікування
-     шрифтів і перекладу, якого множити не можна. Заміряно на тому
-     самому сервері — 1682 мс було, 2439 мс стало, тобто рівно ×1.45.
-     Самі таймери від того зросли в 1.52 раза. Смуга так само добігає
-     трохи раніше, ніж шар іде. */
+  /* Довжину рахую не сумою таймерів, а заміряним часом від переходу
+     до зникнення шару: у ньому є ще й очікування шрифтів і перекладу,
+     якого множити не можна. На тому самому сервері: 1682 мс було на
+     старті, 2443 після першого подовження, 3298 тепер — ×1.45, потім
+     ×1.35. Самі таймери від того зросли в 2.1 раза від початкових. */
   const full = !seen && !calm();
-  const dur  = full ? 1094 : 334;
+  const dur  = full ? 1516 : 463;
   const ease = 'cubic-bezier(.16,.84,.26,1)';
 
   /* Кінцевий трекінг збігається з тим, що в CSS: літери сходяться
@@ -70,16 +69,33 @@ async function boot() {
 
   if (bar && full) {
     bar.animate([{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }],
-      { duration: dur + 213, easing: ease, fill: 'both' });
+      { duration: dur + 295, easing: ease, fill: 'both' });
   }
 
-  await wait(full ? 1428 : 425);
+  await wait(full ? 1990 : 592);
 
   body.classList.remove('is-loading');
   body.classList.add('is-done');
   if (sr) sr.textContent = '';
 
-  await wait(790);
+  /* Вихід розкладений, а не одним рухом: раніше слово, смуга й шар
+     зникали в одну мить, і це читалось як обрив. Тепер слово йде
+     першим — угору й у розмиття, за ним гасне смуга, і аж потім
+     повільно відходить сам шар, а під ним уже піднімається перший
+     екран. Вихід мусить бути тут, а не в CSS: слово тримає анімація
+     з fill: both, і звичайний перехід її не перебʼє. */
+  if (calm()) { await wait(140); $('#load')?.remove(); return; }
+
+  const out = 'cubic-bezier(.4,0,.2,1)';
+  word?.animate([
+    { opacity: 1, filter: 'blur(0px)',  transform: 'translateY(0)' },
+    { opacity: 0, filter: 'blur(12px)', transform: 'translateY(-14px)' },
+  ], { duration: 580, easing: out, fill: 'both' });
+
+  bar?.animate([{ opacity: 1 }, { opacity: 0 }],
+    { duration: 420, easing: out, fill: 'both' });
+
+  await wait(1094);
   $('#load')?.remove();
 }
 

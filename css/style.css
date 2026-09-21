@@ -173,7 +173,12 @@ body.dock-on .dock{transform:none}
   position:absolute;left:var(--gut);right:var(--gut);bottom:clamp(24px,6vh,54px);
   height:3px;background:var(--pink);transform:scaleX(0);transform-origin:left;
 }
-body.is-done .load{opacity:0;visibility:hidden;transition:opacity .79s var(--e),visibility 0s .79s}
+/* Шар відходить довше за слово й зі своєю затримкою, щоб вихід був
+   сходинками, а не обривом. */
+body.is-done .load{
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity 1.02s var(--e-soft) .06s,visibility 0s linear 1.08s;
+}
 
 /* ============ ШАПКА ============ */
 
@@ -364,9 +369,9 @@ body.is-lit .hero__mark{transform:scaleX(1);transition:transform .6s var(--e-io)
 
 body:not(.is-done) .hero__w,
 body:not(.is-done) .hero__foot{opacity:0}
-body.is-done .hero__w{animation:riseIn .4s var(--e) both}
-body.is-done .hero__w--2{animation-delay:.08s}
-body.is-done .hero__foot{animation:riseIn .4s var(--e) .22s both}
+body.is-done .hero__w{animation:riseIn .66s var(--e) both}
+body.is-done .hero__w--2{animation-delay:.12s}
+body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
 @keyframes riseIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 
 /* ============ ПОСИЛАННЯ-ДІЯ ============
