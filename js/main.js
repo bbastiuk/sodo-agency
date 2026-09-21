@@ -8,8 +8,9 @@
    1. лінза     — обличчя різкішає там, куди йде курсор
    2. поява     — блоки наводяться при вході в кадр
    3. послуги   — сцена відкриває, що саме ми робимо
-   4. маршрут   — лінія веде через етапи співпраці
-   5. тон шапки, меню, дрібниці
+   4. маршрут   — лінія веде через цикл SODO
+   5. питання   — відповідь розкривається на дотик
+   6. форма, мови, тон шапки, меню, дрібниці
 
    Без бібліотек. Усе, що рухається, знімається одним медіазапитом.
    ============================================================ */
@@ -413,6 +414,213 @@ function road() {
 }
 
 /* ────────────────────────────────────────────
+   9. ПИТАННЯ Й ВІДПОВІДІ
+
+   Акордеон. Перші десять видно одразу, решта — під кнопкою.
+   Висота анімується від реальної висоти вмісту, а не від max-height
+   «на око»: інакше довгі відповіді або обрізаються, або відкриваються
+   ривком після невидимого запасу.
+   ──────────────────────────────────────────── */
+
+function faq() {
+  const list = $('#qaList');
+  if (!list) return;
+
+  $$('.qa', list).forEach(item => {
+    const btn = $('.qa__q', item);
+    const box = $('.qa__a', item);
+    if (!btn || !box) return;
+
+    btn.addEventListener('click', () => {
+      const open = btn.getAttribute('aria-expanded') === 'true';
+
+      if (open) {
+        box.style.height = box.scrollHeight + 'px';
+        requestAnimationFrame(() => { box.style.height = '0px'; });
+        btn.setAttribute('aria-expanded', 'false');
+        box.addEventListener('transitionend', function end(e) {
+          if (e.propertyName !== 'height') return;
+          box.removeEventListener('transitionend', end);
+          box.hidden = true;
+          box.style.height = '';
+        });
+      } else {
+        box.hidden = false;
+        const h = box.scrollHeight;
+        box.style.height = '0px';
+        requestAnimationFrame(() => { box.style.height = h + 'px'; });
+        btn.setAttribute('aria-expanded', 'true');
+        box.addEventListener('transitionend', function end(e) {
+          if (e.propertyName !== 'height') return;
+          box.removeEventListener('transitionend', end);
+          box.style.height = 'auto';   // далі вміст може підрости сам
+        });
+      }
+    });
+  });
+
+  const more = $('#qaMore');
+  if (!more) return;
+  const label = $('span', more);
+  more.addEventListener('click', () => {
+    const open = list.classList.toggle('is-open');
+    more.setAttribute('aria-expanded', String(open));
+    label.textContent = open ? more.dataset.less : more.dataset.more;
+    if (!open) list.scrollIntoView({ block: 'start', behavior: calm() ? 'auto' : 'smooth' });
+  });
+}
+
+/* ────────────────────────────────────────────
+   10. ФОРМА
+
+   FORM_ENDPOINT лишається порожнім, доки немає адреси приймача.
+   Поки його нема, заявка не губиться: ми складаємо текст, кладемо
+   його в буфер і відкриваємо Telegram — людина просто вставляє.
+   Щойно зʼявиться endpoint, форма почне слати POST і нічого більше
+   міняти не доведеться.
+   ──────────────────────────────────────────── */
+
+const FORM_ENDPOINT = '';
+const FORM_TG = 'https://t.me/sodoagency';
+
+function form() {
+  const fm = $('#fm');
+  if (!fm) return;
+  const ok = $('#fmOk');
+  const err = $('#fmErr');
+
+  const say = msg => {
+    err.textContent = msg;
+    err.hidden = !msg;
+  };
+
+  fm.addEventListener('input', e => {
+    const fld = e.target.closest('.fld');
+    if (fld && e.target.value.trim()) { fld.classList.remove('is-bad'); say(''); }
+  });
+
+  fm.addEventListener('submit', async e => {
+    e.preventDefault();
+
+    const req = $$('[required]', fm);
+    let bad = null;
+    req.forEach(el => {
+      const empty = !el.value.trim();
+      el.closest('.fld').classList.toggle('is-bad', empty);
+      if (empty && !bad) bad = el;
+    });
+    if (bad) {
+      say('Заповніть, будь ласка, обовʼязкові поля.');
+      bad.focus();
+      return;
+    }
+
+    const data = Object.fromEntries(new FormData(fm).entries());
+    const done = () => {
+      fm.hidden = true;
+      ok.hidden = false;
+      ok.scrollIntoView({ block: 'center', behavior: calm() ? 'auto' : 'smooth' });
+    };
+
+    if (FORM_ENDPOINT) {
+      try {
+        const r = await fetch(FORM_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+        if (!r.ok) throw new Error(r.status);
+        done();
+      } catch {
+        say('Не вдалось надіслати. Напишіть нам у Telegram: t.me/sodoagency');
+      }
+      return;
+    }
+
+    // запасний шлях: нічого не губимо навіть без приймача
+    const text = $$('.fld', fm).map(fld => {
+      const el = $('input,textarea', fld);
+      const lab = $('label span', fld)?.textContent.trim();
+      return el.value.trim() ? `${lab}: ${el.value.trim()}` : null;
+    }).filter(Boolean).join('\n');
+
+    try { await navigator.clipboard.writeText(text); } catch { /* буфер закритий — не біда */ }
+    open(FORM_TG, '_blank', 'noopener');
+    done();
+  });
+}
+
+/* ────────────────────────────────────────────
+   11. МОВИ
+
+   Українська лежить прямо в розмітці — її не треба тягнути й вона
+   бачиться пошуком. Інші мови живуть у lang/<code>.json і
+   підставляються в [data-i18n]. READY перелічує мови, у яких
+   переклад уже заповнений: доки там одна мова, перемикач не
+   показується взагалі, щоб ніхто не натиснув на порожнечу.
+   ──────────────────────────────────────────── */
+
+const READY = ['uk'];
+const LANG_NAME = { uk: 'UA', pl: 'PL', en: 'EN' };
+const LANG_KEY = 'sodo:lang';
+
+async function langs() {
+  const pick = () => {
+    const q = new URLSearchParams(location.search).get('lang');
+    if (q && READY.includes(q)) return q;
+    try {
+      const s = localStorage.getItem(LANG_KEY);
+      if (s && READY.includes(s)) return s;
+    } catch { /* приватний режим */ }
+    return 'uk';
+  };
+
+  const apply = async code => {
+    if (code !== 'uk') {
+      const r = await fetch(`lang/${code}.json`, { cache: 'no-cache' });
+      const d = await r.json();
+      if (!d.ready) return;
+      $$('[data-i18n]').forEach(el => {
+        const v = d.strings[el.dataset.i18n];
+        if (v) el.textContent = v;
+      });
+      // підписи, що живуть в атрибутах, а не в тексті вузла
+      $$('[data-i18n-more]').forEach(el => {
+        const m = d.strings[el.dataset.i18nMore], l = d.strings[el.dataset.i18nLess];
+        if (m) el.dataset.more = m;
+        if (l) el.dataset.less = l;
+        const lab = $('span', el);
+        if (lab && m && el.getAttribute('aria-expanded') !== 'true') lab.textContent = m;
+      });
+    }
+    document.documentElement.lang = code;
+    try { localStorage.setItem(LANG_KEY, code); } catch { /* ok */ }
+  };
+
+  const cur = pick();
+  if (cur !== 'uk') { try { await apply(cur); } catch { /* лишаємось на uk */ } }
+
+  if (READY.length < 2) return;
+  const box = $('.mn__foot');
+  if (!box) return;
+  const nav = document.createElement('p');
+  nav.className = 'mn__langs';
+  READY.forEach(code => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.textContent = LANG_NAME[code] || code.toUpperCase();
+    b.className = code === document.documentElement.lang ? 'is-on' : '';
+    b.addEventListener('click', () => {
+      const u = new URL(location.href);
+      u.searchParams.set('lang', code);
+      location.href = u.toString();
+    });
+    nav.appendChild(b);
+  });
+  box.appendChild(nav);
+}
+
+/* ────────────────────────────────────────────
    СТАРТ
    ──────────────────────────────────────────── */
 
@@ -423,6 +631,9 @@ lens();
 tabs();
 const remeasure = strokes();
 road();
+faq();
+form();
+langs();
 
 const yr = $('#yr');
 if (yr) yr.textContent = String(new Date().getFullYear());
