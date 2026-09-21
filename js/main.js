@@ -10,11 +10,12 @@
    3. поява     — блоки піднімаються при вході в кадр
    4. послуги   — картка послуги змінюється разом із табом
    5. кейси     — галерея гортається пальцем і стрілками
-   6. цикл      — лінія веде через чотири кроки
-   7. цифри     — статистика набігає від нуля
-   8. питання   — відповідь розкривається на дотик
-   9. липка дія — зʼявляється після героя, зникає біля форми
-  10. форма, мови, тон шапки, меню, дрібниці
+   6. цикл      — кроки загоряються по одному, лінія йде з ними
+   7. кроки     — вертикальний прогрес від «привіт» до запуску
+   8. цифри     — статистика набігає від нуля
+   9. питання   — відповідь розкривається на дотик
+  10. липка дія — зʼявляється після героя, зникає біля форми
+  11. форма, мови, тон шапки, меню, дрібниці
 
    Без бібліотек. Усе, що рухається, знімається одним медіазапитом.
    ============================================================ */
@@ -404,7 +405,7 @@ function sentences() {
    Друга — округлення вниз. З Math.round число перестрибує через
    значення на початку; з floor воно справді проходить 0, 1, 2, 3…
 
-   Тривалість 1 с. До першої появи в кадрі на місці цифри стоїть нуль,
+   Тривалість 1.1 с. До першої появи в кадрі на місці цифри стоїть нуль,
    щоб фінальне значення ніде не блимнуло раніше за лічбу.
    ──────────────────────────────────────────── */
 
@@ -412,7 +413,7 @@ function counts() {
   const items = $$('[data-count]');
   if (!items.length) return;
 
-  const D = 1000;
+  const D = 1100;
   const zeros = el => el.dataset.src.replace(/\d+/g, '0');
 
   const run = el => {
@@ -563,18 +564,25 @@ function tabs() {
 }
 
 /* ────────────────────────────────────────────
-   ЦИКЛ SODO: ЛІНІЯ ЗА ПРОКРУТКОЮ
+   ЦИКЛ SODO: КРОКИ ЗАГОРЯЮТЬСЯ ПО ОДНОМУ
 
-   Пунктир попереду, суцільна рожева позаду — і це єдине, що показує
-   прогрес: жоден крок не вицвітає, четвертий читається так само, як
-   перший. Рейку міряємо від центра першої точки до центра останньої,
-   інакше вона вилазила б під текст останнього кроку.
+   Блок входить у кадр — і далі він розповідає себе сам: 1, 2, 3, 4
+   з паузою 0.9 с, один раз, назавжди.
+
+   Лінія не окремий ефект. Коли загоряється крок N, ми одразу
+   відправляємо лінію до точки N+1 і даємо їй рівно ті ж 0.9 с, тож
+   вона доходить туди в ту саму мить, коли та точка спалахує. Частки
+   рахуємо з реальних відстаней між точками одним заміром, інакше
+   прокрутка під час програвання зсунула б орієнтири.
    ──────────────────────────────────────────── */
+
+const CYCLE_GAP = 900;
 
 function road() {
   const list = $('#road');
   if (!list) return;
-  const dots = $$('.road__n', list);
+  const items = $$('.road__s', list);
+  const dots  = $$('.road__n', list);
   if (!dots.length) return;
 
   const rail = () => {
@@ -585,23 +593,104 @@ function road() {
     list.style.setProperty('--rail', (b.top - a.top).toFixed(1) + 'px');
   };
 
+  const lit = () => {
+    items.forEach(el => el.classList.add('is-on'));
+    list.style.setProperty('--road-t', '0s');
+    list.style.setProperty('--road', '1');
+  };
+
   rail();
   let rz;
   addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(rail, 160); });
   document.fonts?.ready.then(rail).catch(() => {});
 
-  if (calm()) { list.style.setProperty('--road', '1'); return; }
+  if (calm() || !('IntersectionObserver' in window)) { lit(); return; }
 
-  let ticking = false, visible = true;
+  let played = false;
+  const play = () => {
+    if (played) return;
+    played = true;
+
+    // один замір на все програвання
+    const tops = dots.map(d => d.getBoundingClientRect().top);
+    const span = tops[tops.length - 1] - tops[0];
+    const at = tops.map(t => (span > 0 ? (t - tops[0]) / span : 1));
+
+    list.style.setProperty('--road-t', CYCLE_GAP + 'ms');
+    items.forEach((el, i) => setTimeout(() => {
+      el.classList.add('is-on');
+      if (at[i + 1] !== undefined) list.style.setProperty('--road', at[i + 1].toFixed(3));
+    }, i * CYCLE_GAP));
+  };
+
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (!e.isIntersecting) return;
+    io.disconnect();
+    play();
+  }), { threshold: 0.18 });
+  io.observe(list);
+}
+
+/* ────────────────────────────────────────────
+   ПʼЯТЬ КРОКІВ: ПРОГРЕС ЗА ПРОКРУТКОЮ
+
+   Тут веде не таймер, а сама сторінка: рожева лінія росте рівно
+   стільки, скільки людина прогорнула, і кожен бейдж загоряється в
+   мить, коли лінія його дістала.
+
+   Одне свідоме обмеження: назад лінія не відкочується. Інакше
+   прокрутка в обидва боки перетворюється на смикання — бейджі то
+   гаснуть, то спалахують. Пройдене лишається пройденим.
+   ──────────────────────────────────────────── */
+
+function steps() {
+  const list = $('#steps');
+  if (!list) return;
+  const items = $$('.step', list);
+  const tags  = $$('.step__n', list);
+  if (!tags.length) return;
+
+  let at = [];
+  const measure = () => {
+    const box = list.getBoundingClientRect();
+    const a = tags[0].getBoundingClientRect();
+    const b = tags[tags.length - 1].getBoundingClientRect();
+    list.style.setProperty('--rail-top', (a.top - box.top + a.height / 2 - 1).toFixed(1) + 'px');
+    list.style.setProperty('--rail', (b.top - a.top).toFixed(1) + 'px');
+
+    const tops = tags.map(t => t.getBoundingClientRect().top);
+    const span = tops[tops.length - 1] - tops[0];
+    at = tops.map(t => (span > 0 ? (t - tops[0]) / span : 1));
+  };
+  measure();
+
+  if (calm()) {
+    items.forEach(el => el.classList.add('is-on'));
+    list.style.setProperty('--go', '1');
+    return;
+  }
+
+  let go = 0, ticking = false, visible = true;
+
   const step = () => {
     ticking = false;
     if (!visible) return;
     const r = list.getBoundingClientRect();
-    const from = innerHeight * 0.85, to = innerHeight * 0.4;
-    list.style.setProperty('--road',
-      clamp((from - r.top) / Math.max(r.height + from - to, 1), 0, 1).toFixed(3));
+    const from = innerHeight * 0.82, to = innerHeight * 0.34;
+    const p = clamp((from - r.top) / Math.max(r.height + from - to, 1), 0, 1);
+    if (p <= go) return;
+    go = p;
+    list.style.setProperty('--go', go.toFixed(3));
+    items.forEach((el, i) => { if (go >= at[i] - 0.004) el.classList.add('is-on'); });
   };
   const ask = () => { if (!ticking) { ticking = true; requestAnimationFrame(step); } };
+
+  let rz;
+  addEventListener('resize', () => {
+    clearTimeout(rz);
+    rz = setTimeout(() => { measure(); ask(); }, 160);
+  });
+  document.fonts?.ready.then(() => { measure(); ask(); }).catch(() => {});
 
   addEventListener('scroll', ask, { passive: true });
   addEventListener('resize', ask);
@@ -698,17 +787,37 @@ function faq() {
 }
 
 /* ────────────────────────────────────────────
-   10. ФОРМА
+   12. ФОРМА
+
+   Кожна помилка стоїть під своїм полем і називає, що саме не так —
+   одного рядка «заповніть обовʼязкові» замало, коли полів шість.
 
    FORM_ENDPOINT лишається порожнім, доки немає адреси приймача.
-   Поки його нема, заявка не губиться: ми складаємо текст, кладемо
-   його в буфер і відкриваємо Telegram — людина просто вставляє.
-   Щойно зʼявиться endpoint, форма почне слати POST і нічого більше
-   міняти не доведеться.
+   Поки його нема, заявка не губиться: ми складаємо підписаний текст
+   із усіх полів, кладемо його в буфер і відкриваємо Telegram —
+   менеджер одразу бачить, і куди писати, і чим людина живе.
    ──────────────────────────────────────────── */
 
 const FORM_ENDPOINT = '';
 const FORM_TG = 'https://t.me/sodoagency';
+
+/* Контакт приймаємо в будь-якому вигляді, у якому його пишуть:
+   @нік, голий нік або повне посилання на Telegram чи Instagram. */
+const okContact = v => {
+  const t = v.trim().replace(/^https?:\/\//i, '').replace(/^www\./i, '');
+  if (/^(t\.me|telegram\.me|instagram\.com)\/[\w.]{2,}\/?$/i.test(t)) return true;
+  return /^@?[a-zA-Z0-9._]{3,32}$/.test(t);
+};
+
+/* Польські, українські й міжнародні номери однаково: цифри та
+   необовʼязковий «+». 7 цифр — найкоротший місцевий, 15 — стеля
+   E.164; пробіли, дужки й дефіси людина ставить як хоче. */
+const okPhone = v => {
+  const t = v.trim();
+  if (!/^\+?[\d\s()\-.]+$/.test(t)) return false;
+  const d = t.replace(/\D/g, '');
+  return d.length >= 7 && d.length <= 15;
+};
 
 function form() {
   const fm = $('#fm');
@@ -716,29 +825,76 @@ function form() {
   const ok = $('#fmOk');
   const err = $('#fmErr');
 
-  const say = msg => {
-    err.textContent = msg;
-    err.hidden = !msg;
+  const say = msg => { err.textContent = msg; err.hidden = !msg; };
+
+  // кожна підказка сама озвучує себе, щойно зʼявляється
+  $$('.fld__e', fm).forEach(el => el.setAttribute('role', 'alert'));
+
+  const mark = (el, msg) => {
+    const fld = el.closest('.fld');
+    if (!fld) return;
+    const box = $('.fld__e', fld);
+    fld.classList.toggle('is-bad', !!msg);
+    if (box) { box.textContent = msg || ''; box.hidden = !msg; }
   };
 
+  const check = el => {
+    const v = el.value.trim();
+    if (el.required && !v) {
+      return el.id === 'f_tg'
+        ? 'Залиште Telegram або Instagram, щоб ми могли вам написати'
+        : 'Заповніть, будь ласка, це поле';
+    }
+    if (el.dataset.check === 'contact' && v && !okContact(v))
+      return 'Напишіть @нік або посилання: t.me/… чи instagram.com/…';
+    if (el.dataset.check === 'phone' && v && !okPhone(v))
+      return 'Перевірте номер: лише цифри, можна з «+» на початку';
+    return '';
+  };
+
+  // поки людина друкує, ми мовчимо: підказка знімається одразу
   fm.addEventListener('input', e => {
-    const fld = e.target.closest('.fld');
-    if (fld && e.target.value.trim()) { fld.classList.remove('is-bad'); say(''); }
+    if (!e.target.matches('input,textarea')) return;
+    mark(e.target, '');
+    say('');
   });
+
+  // а коли поле лишили заповненим — перевіряємо формат на місці
+  fm.addEventListener('focusout', e => {
+    const el = e.target;
+    if (el.matches('input,textarea') && el.value.trim()) mark(el, check(el));
+  });
+
+  /* На телефоні клавіатура зʼїдає нижню половину екрана. Якщо поле
+     після її появи лишилось під нею — піднімаємо його до середини
+     видимої частини, а не до середини вікна. */
+  const vv = window.visualViewport;
+  if (vv) {
+    fm.addEventListener('focusin', e => {
+      const el = e.target;
+      if (!el.matches('input,textarea')) return;
+      setTimeout(() => {
+        const r = el.getBoundingClientRect();
+        if (r.bottom > vv.offsetTop + vv.height - 16) {
+          el.scrollIntoView({ block: 'center', behavior: calm() ? 'auto' : 'smooth' });
+        }
+      }, 320);
+    });
+  }
 
   fm.addEventListener('submit', async e => {
     e.preventDefault();
 
-    const req = $$('[required]', fm);
     let bad = null;
-    req.forEach(el => {
-      const empty = !el.value.trim();
-      el.closest('.fld').classList.toggle('is-bad', empty);
-      if (empty && !bad) bad = el;
+    $$('input,textarea', fm).forEach(el => {
+      const msg = check(el);
+      mark(el, msg);
+      if (msg && !bad) bad = el;
     });
     if (bad) {
-      say('Заповніть, будь ласка, обовʼязкові поля.');
+      say('');
       bad.focus();
+      bad.scrollIntoView({ block: 'center', behavior: calm() ? 'auto' : 'smooth' });
       return;
     }
 
@@ -764,11 +920,11 @@ function form() {
       return;
     }
 
-    // запасний шлях: нічого не губимо навіть без приймача
+    // запасний шлях: кожне поле йде окремим підписаним рядком
     const text = $$('.fld', fm).map(fld => {
       const el = $('input,textarea', fld);
       const lab = $('label span', fld)?.textContent.trim();
-      return el.value.trim() ? `${lab}: ${el.value.trim()}` : null;
+      return el && el.value.trim() ? `${lab}: ${el.value.trim()}` : null;
     }).filter(Boolean).join('\n');
 
     try { await navigator.clipboard.writeText(text); } catch { /* буфер закритий — не біда */ }
@@ -778,7 +934,7 @@ function form() {
 }
 
 /* ────────────────────────────────────────────
-   11. МОВИ
+   13. МОВИ
 
    Українська лежить прямо в розмітці — її не треба тягнути й вона
    бачиться пошуком. Інші мови живуть у lang/<code>.json і
@@ -864,6 +1020,7 @@ lens();
 tabs();
 const refit = heroFit();
 road();
+steps();
 gallery();
 dock();
 sentences();

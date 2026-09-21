@@ -8,11 +8,19 @@
    Чистого чорного й чистого білого немає ніде: найтемніше — #161514,
    найсвітліше — #FBFAF8.
 
-   Рожевий рівно один, #FA9BB6, і він ніколи не буває текстом: на
-   світлому тлі це 1.78:1. Він працює заливкою, підкресленням,
-   маркером, точкою таймлайну й папкою; текст на ньому — --ink,
-   9.06:1. Другорядне рожеве — --pink-soft, на ньому --ink дає 14:1.
-   На один екран припадає один сильний рожевий акцент.
+   Рожевий один по духу, але трьома густинами, бо текст на ньому має
+   бути світлим, а #FA9BB6 під білим дає 1.93:1 — це не читається.
+
+   --pink      #FA9BB6  заливки без тексту: маркер, лінія, язичок папки
+   --pink-mid  #E8A0B4  ще не активна точка циклу
+   --pink-deep #B25569  усе, на чому лежить світлий текст — 4.6:1
+   --pink-soft #FFD9E4  виділення тексту маркером, --ink на ньому 14:1
+
+   Світлий текст на густому рожевому — #FBFAF8, а не чистий білий.
+
+   ── кути ──────────────────────────────────────────────────
+   Одна сітка радіусів, навмисно дрібних: 4 / 6 / 8 px. Нічого
+   таблеткового — форма ближча до квадрата, як в інтерфейсі.
 
    ── типографіка ───────────────────────────────────────────
    Montserrat — H1/H2 капсом, кнопки, великі цифри.
@@ -24,6 +32,8 @@
   --bg:#F2F1EE;
   --card:#FBFAF8;
   --pink:#FA9BB6;
+  --pink-mid:#E8A0B4;
+  --pink-deep:#B25569;
   --pink-soft:#FFD9E4;
   --ink:#161514;
   --ink-muted:#5E5C58;      /* 5.91:1 на --bg, 6.4:1 на --card */
@@ -40,6 +50,8 @@
   --display:"Montserrat",system-ui,-apple-system,sans-serif;
   --text:"Onest",system-ui,-apple-system,"Segoe UI",sans-serif;
   --ui:"Pixelify","Onest",ui-monospace,monospace;
+
+  --r-s:4px; --r:6px; --r-l:8px;
 
   --gut:clamp(18px,3.4vw,56px);
   --hd:clamp(56px,6.4vh,72px);
@@ -77,7 +89,7 @@ img{display:block;max-width:100%;height:auto}
 button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
 a{color:inherit;text-decoration:none}
 
-::selection{background:var(--pink);color:var(--ink)}
+::selection{background:var(--pink-soft);color:var(--ink)}
 :focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:2px}
 .form :focus-visible,.faq :focus-visible,.ft :focus-visible,.mn :focus-visible{outline-color:var(--pink)}
 
@@ -116,10 +128,12 @@ a{color:inherit;text-decoration:none}
   mask:var(--logo) no-repeat center/contain;
 }
 
-/* Виділення як у текстовому редакторі: рожева заливка, темний текст. */
+/* Виділення як у текстовому редакторі: світло-рожевий маркер, темний
+   текст. Кожен рядок дістає свою смугу, тож багаторядкове виділення
+   лягає рівно, а не однією плямою. */
 .hl{
-  background:var(--pink);color:var(--ink);
-  padding:.08em .26em;margin:0 -.08em;
+  background:var(--pink-soft);color:var(--ink);
+  padding:.1em .3em;margin:0 -.1em;border-radius:var(--r-s);
   -webkit-box-decoration-break:clone;box-decoration-break:clone;
 }
 
@@ -127,13 +141,12 @@ a{color:inherit;text-decoration:none}
 
 .btn{
   display:inline-flex;align-items:center;justify-content:center;
-  min-height:52px;padding:0 clamp(26px,3vw,44px);border-radius:999px;
-  background:var(--pink);color:var(--ink);
+  min-height:52px;padding:0 clamp(26px,3vw,44px);border-radius:var(--r-l);
+  background:var(--pink-deep);color:var(--card);
   font-family:var(--display);font-weight:700;
   font-size:clamp(14px,1.05vw,17px);letter-spacing:-.01em;
   transition:transform .3s var(--e),opacity .3s var(--e-soft);
 }
-.btn--ink{background:var(--ink);color:var(--bg)}
 .btn:hover{transform:translateY(-2px)}
 .btn:active{transform:none;opacity:.9}
 
@@ -248,11 +261,11 @@ body.is-menu .mn__nav a:nth-child(4){transition-delay:.23s}
   border-bottom:2px solid var(--pink);padding-bottom:6px}
 .mn__langs{display:flex;gap:6px;margin-top:clamp(18px,2.6vh,28px)}
 .mn__langs button{
-  min-height:44px;padding:.5em .9em;border-radius:999px;border:1.5px solid var(--line-inv);
+  min-height:44px;padding:.5em .9em;border-radius:var(--r);border:1.5px solid var(--line-inv);
   font-family:var(--ui);font-size:12px;letter-spacing:.06em;color:var(--ink-muted-inv);
   transition:color .3s,border-color .3s,background-color .3s;
 }
-.mn__langs button.is-on{background:var(--pink);border-color:var(--pink);color:var(--ink)}
+.mn__langs button.is-on{background:var(--pink-deep);border-color:var(--pink-deep);color:var(--card)}
 .mn__langs button:hover{color:var(--bg);border-color:var(--bg)}
 
 /* ============ ФІГУРА ЗА СКЛОМ ============ */
@@ -399,8 +412,9 @@ body.is-done .hero__foot{animation:riseIn .4s var(--e) .22s both}
 
 /* ============ 02 · ПОСЛУГИ ============
    Шість рівних табів, під ними одна картка: назва, ціна, опис і
-   пункти. Пункти — світлі нахилені підписи з рожевою обвідкою, що
-   лежать у рожевій папці. Жоден таб не виглядає як окрема кнопка. */
+   пункти. Папка густо-рожева, текст на ній світлий (4.58:1), а самі
+   пункти — світлі нахилені підписи, що лежать зверху. Жоден таб не
+   виглядає як окрема кнопка. */
 
 .serv{padding-bottom:clamp(28px,4.4vh,60px)}
 .sw{padding:0 var(--gut)}
@@ -412,16 +426,16 @@ body.is-done .hero__foot{animation:riseIn .4s var(--e) .22s both}
 .sw__tabs li{display:flex}
 .sw__tab{
   flex:1 1 auto;display:inline-flex;align-items:center;justify-content:center;
-  min-height:50px;padding:.5em .8em;border-radius:12px;
+  min-height:50px;padding:.5em .8em;border-radius:var(--r);
   background:var(--card);border:1.5px solid var(--line);
   font-weight:500;font-size:clamp(14px,1.05vw,16.5px);
   color:var(--ink);text-align:center;
   transition:background-color .25s var(--e-soft),border-color .25s var(--e-soft);
 }
-.sw__tab.is-on{background:var(--pink);border-color:var(--pink);font-weight:600}
+.sw__tab.is-on{background:var(--pink-deep);border-color:var(--pink-deep);color:var(--card);font-weight:600}
 @media (hover:hover) and (pointer:fine){
   .sw__tab:hover{background:var(--pink-soft);border-color:var(--pink-soft)}
-  .sw__tab.is-on:hover{background:var(--pink);border-color:var(--pink)}
+  .sw__tab.is-on:hover{background:var(--pink-deep);border-color:var(--pink-deep)}
 }
 
 /* Картки лежать стосом в одній комірці сітки; висоту веде JS від
@@ -432,7 +446,8 @@ body.is-done .hero__foot{animation:riseIn .4s var(--e) .22s both}
 }
 .svc{
   grid-area:1 / 1;position:relative;align-self:start;
-  background:var(--pink-soft);border-radius:0 18px 18px 18px;
+  background:var(--pink-deep);color:var(--card);
+  border-radius:0 var(--r-l) var(--r-l) var(--r-l);
   padding:clamp(20px,3vh,32px) clamp(18px,2.2vw,34px) clamp(22px,3.2vh,34px);
   opacity:0;visibility:hidden;
   transition:opacity .2s var(--e-soft) 0s,visibility 0s linear .2s;
@@ -445,7 +460,7 @@ body.is-done .hero__foot{animation:riseIn .4s var(--e) .22s both}
 .svc__tab{
   position:absolute;left:0;top:-30px;
   width:clamp(84px,17vw,124px);height:30px;
-  background:var(--pink);border-radius:12px 12px 0 0;
+  background:var(--pink);border-radius:var(--r-l) var(--r-l) 0 0;
 }
 .svc__head{display:flex;flex-wrap:wrap;align-items:center;gap:10px clamp(12px,1.6vw,22px)}
 .svc__n{
@@ -455,7 +470,8 @@ body.is-done .hero__foot{animation:riseIn .4s var(--e) .22s both}
 /* Ціну набираємо Onest, а не піксельним: у Pixelify цифри 5 і 2 на
    дрібному кеглі читаються як S, а «$550» має читатися однозначно. */
 .svc__pr{
-  padding:.34em .8em;border-radius:999px;background:var(--card);
+  padding:.34em .8em;border-radius:var(--r);
+  background:var(--card);color:var(--ink);
   font-weight:600;font-size:clamp(13px,1vw,15px);line-height:1.2;
   white-space:nowrap;
 }
@@ -465,7 +481,8 @@ body.is-done .hero__foot{animation:riseIn .4s var(--e) .22s both}
 }
 .fold__list{margin-top:clamp(16px,2.4vh,24px);display:grid;gap:9px}
 .fold__i{
-  background:var(--card);border:1.5px solid var(--pink);border-radius:10px;
+  background:var(--card);color:var(--ink);
+  border:1.5px solid var(--pink);border-radius:var(--r);
   padding:.68em .85em;
   font-size:clamp(13.5px,1vw,16px);line-height:1.45;
   rotate:-.5deg;
@@ -519,9 +536,11 @@ body.is-done .hero__foot{animation:riseIn .4s var(--e) .22s both}
 .sw__note{font-size:clamp(13.5px,.98vw,16.5px);line-height:1.55;color:var(--ink-muted)}
 
 /* ============ 03 · ЦИКЛ SODO ============
-   Вертикальний таймлайн. Номер живе всередині точки, окремого рядка
-   з цифрою немає. Прогрес показує тільки лінія: пройдена — суцільна
-   рожева, попереду — пунктир. Жоден крок не вицвітає. */
+   Вертикальний таймлайн, який сам себе розповідає. Коли блок входить
+   у кадр, кроки загоряються по одному, 0.9 с між ними, і лишаються
+   активними — програється рівно раз. Лінія не живе окремо: вона
+   рушає до наступної точки одночасно з тим, як та загоряється, і
+   доходить рівно в мить підсвічування. */
 
 .cycle{padding-bottom:clamp(48px,7vh,96px)}
 .cycle__p{
@@ -547,19 +566,27 @@ body.is-done .hero__foot{animation:riseIn .4s var(--e) .22s both}
 .road::after{
   background:var(--pink);transform-origin:top;
   transform:scaleY(var(--road,0));
-  transition:transform .3s linear;
+  transition:transform var(--road-t,.9s) linear;
 }
-.road__s{position:relative;padding-bottom:clamp(18px,2.6vh,30px)}
+/* крок, до якого лінія ще не дійшла, тримається тихіше */
+.road__s{
+  position:relative;padding-bottom:clamp(18px,2.6vh,30px);
+  opacity:.4;transition:opacity .45s var(--e);
+}
+.road__s.is-on{opacity:1}
 .road__s:last-child{padding-bottom:0}
-/* Точка з номером усередині. Заливка рожева, цифра темна — 9:1. */
+/* Точка з номером усередині. Цифра світла в обох станах; активна
+   точка густо-рожева (4.58:1) і трохи більша за решту. */
 .road__n{
   position:absolute;left:-46px;top:0;z-index:1;
   width:34px;height:34px;border-radius:50%;
   display:grid;place-items:center;
-  background:var(--pink);color:var(--ink);
+  background:var(--pink-mid);color:var(--card);
   font-family:var(--ui);font-weight:500;font-size:18px;font-style:normal;
   line-height:1;
+  transition:background-color .45s var(--e),scale .45s var(--e);
 }
+.road__s.is-on .road__n{background:var(--pink-deep);scale:1.09}
 .road__b{padding-top:3px}
 .road__s h3{font-weight:600;font-size:clamp(17px,1.4vw,25px);line-height:1.25;letter-spacing:-.01em}
 .road__s p{
@@ -576,14 +603,37 @@ body.is-done .hero__foot{animation:riseIn .4s var(--e) .22s both}
   font-size:clamp(16px,1.6vw,26px);line-height:1.2;letter-spacing:-.02em;
 }
 
-/* ============ 04 · ОДИН НА НІШУ + ЦИФРИ ============ */
+/* ============ 02 · ЦИФРИ ============
+   Три цифри в один рядок одразу під першим екраном — і на телефоні
+   теж в один. Рожева лінія зверху на всю ширину, між цифрами тонкі
+   риски, підпис стоїть лівим краєм під своєю цифрою. */
+
+.stats{
+  padding:0 var(--gut) clamp(36px,5.4vh,72px);
+  border-top:2px solid var(--pink);
+}
+.stats__l{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+.stat{padding:clamp(15px,2.2vh,24px) clamp(9px,1.6vw,24px) 0}
+.stat + .stat{border-left:1px solid var(--line)}
+.stat:first-child{padding-left:0}
+.stat:last-child{padding-right:0}
+.stat__n{
+  display:block;font-family:var(--display);font-weight:900;
+  font-size:clamp(21px,5.5vw,54px);line-height:1;letter-spacing:-.03em;
+  white-space:nowrap;font-variant-numeric:tabular-nums;
+}
+.stat__c{
+  display:block;margin-top:clamp(7px,1.2vh,13px);max-width:15ch;
+  font-size:clamp(12px,.92vw,15px);line-height:1.35;color:var(--ink-muted);
+}
+
+/* ============ 05 · ОДИН НА НІШУ ============ */
 
 .one{
   padding:clamp(48px,7.5vh,104px) var(--gut);
-  display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);
-  gap:clamp(40px,5.5vw,104px);align-items:start;
   border-top:1px solid var(--line);
 }
+.one__say{max-width:min(100%,60ch)}
 .one__t{
   font-family:var(--display);font-weight:800;text-transform:uppercase;
   font-size:clamp(23px,4.6vw,52px);line-height:1.1;letter-spacing:-.02em;
@@ -596,19 +646,9 @@ body.is-done .hero__foot{animation:riseIn .4s var(--e) .22s both}
 .one__s{margin-top:clamp(20px,2.8vh,30px);font-weight:500;
   font-size:clamp(14px,1vw,17px);line-height:1.9}
 
-.nums{display:grid;gap:clamp(26px,3.8vh,46px)}
-.nums li{display:grid;gap:8px;padding-top:clamp(14px,2vh,20px);
-  border-top:2px solid var(--pink)}
-.nums b{
-  font-family:var(--display);font-weight:900;
-  font-size:clamp(32px,3.8vw,60px);line-height:1;letter-spacing:-.03em;
-  font-variant-numeric:tabular-nums;
-}
-.nums span{font-size:clamp(13px,.95vw,16px);line-height:1.5;max-width:22ch;color:var(--ink-muted)}
-
 /* ============ 05 · КЕЙСИ ============
-   Картка-папка. Ключова цифра стоїть угорі великою, на рожевій
-   плашці з темним текстом — це єдиний рожевий акцент у картці. */
+   Картка-папка. Усередині одна пара: «Було» тихим сірим і «Стало»
+   під рожевим маркером, де цифри виділені окремо. */
 
 .cases{padding-bottom:clamp(52px,8vh,110px)}
 .gal{position:relative}
@@ -629,14 +669,14 @@ body.is-done .hero__foot{animation:riseIn .4s var(--e) .22s both}
 /* стос під аркушем: псевдоелемент іде в DOM раніше за картку */
 .case::before{
   content:"";position:absolute;left:16px;right:-10px;top:10px;bottom:-10px;
-  background:var(--bg);border:1px solid var(--line);border-radius:12px;
+  background:var(--bg);border:1px solid var(--line);border-radius:var(--r-l);
   transition:transform .4s var(--e);
 }
 .case__tab{
   position:absolute;left:0;top:-29px;height:30px;
   display:flex;align-items:center;padding:0 16px;
   background:var(--card);border:1px solid var(--line);border-bottom:0;
-  border-radius:10px 10px 0 0;
+  border-radius:var(--r) var(--r) 0 0;
 }
 .case__no{font-family:var(--ui);font-weight:500;font-size:16px;
   font-style:normal;color:var(--ink-muted)}
@@ -644,7 +684,7 @@ body.is-done .hero__foot{animation:riseIn .4s var(--e) .22s both}
   position:relative;height:100%;display:flex;flex-direction:column;
   padding:clamp(20px,2.8vh,30px) clamp(18px,2.2vw,32px);
   background:var(--card);border:1px solid var(--line);
-  border-radius:0 12px 12px 12px;
+  border-radius:0 var(--r-l) var(--r-l) var(--r-l);
   transition:transform .4s var(--e);
 }
 @media (hover:hover) and (pointer:fine){
@@ -658,22 +698,16 @@ body.is-done .hero__foot{animation:riseIn .4s var(--e) .22s both}
 }
 .case__c{margin-top:9px;font-family:var(--ui);font-size:13px;
   letter-spacing:.04em;text-transform:uppercase;color:var(--ink-muted)}
-/* ключова цифра */
-.case__key{
-  align-self:flex-start;margin-top:clamp(14px,2.2vh,20px);
-  padding:.2em .5em;border-radius:10px;
-  background:var(--pink);color:var(--ink);
-  font-family:var(--display);font-weight:900;
-  font-size:clamp(28px,7vw,44px);line-height:1.15;letter-spacing:-.03em;
-  font-variant-numeric:tabular-nums;
-}
 .case__row{margin-top:clamp(16px,2.4vh,24px)}
 .case__k{display:block;margin-bottom:7px;
   font-family:var(--ui);font-size:12.5px;line-height:1;
   letter-spacing:.06em;text-transform:uppercase;color:var(--ink-muted)}
 .case__v{font-size:clamp(14px,1vw,17px);line-height:1.6;color:var(--ink-muted)}
 .case__row--res{margin-top:auto;padding-top:clamp(16px,2.4vh,24px)}
-.case__row--res .case__v{color:var(--ink)}
+/* Маркер лягає смугою на кожен рядок, тому міжрядковий тут більший:
+   інакше смуги злипаються в одну пляму. Цифри — єдине важче місце. */
+.case__row--res .case__v{color:var(--ink);line-height:1.95}
+.case__row--res .case__v b{font-weight:600}
 
 .gal__bar{
   display:flex;align-items:center;gap:clamp(10px,1.4vw,16px);
@@ -681,50 +715,77 @@ body.is-done .hero__foot{animation:riseIn .4s var(--e) .22s both}
 }
 .gal__b{
   width:48px;height:48px;flex:none;display:grid;place-items:center;
-  border-radius:50%;border:1.5px solid var(--line);color:var(--ink);
+  border-radius:var(--r-l);border:1.5px solid var(--line);color:var(--ink);
   background:var(--card);
   transition:background-color .25s var(--e-soft),border-color .25s var(--e-soft),opacity .25s;
 }
 .gal__b svg{width:20px;height:20px;fill:none;stroke:currentColor;
   stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.gal__b:hover{border-color:var(--pink);background:var(--pink)}
+.gal__b:hover{border-color:var(--pink-deep);background:var(--pink-deep);color:var(--card)}
 .gal__b[disabled]{opacity:.35;cursor:default}
 .gal__b[disabled]:hover{border-color:var(--line);background:var(--card)}
 .gal__c{font-family:var(--ui);font-size:16px;letter-spacing:.06em;
   color:var(--ink-muted);font-variant-numeric:tabular-nums}
 .cases > .lead{margin:clamp(26px,3.8vh,42px) var(--gut) 0}
 
-/* ============ 06 · ЯК ПРАЦЮЄМО ============
-   Компактний горизонтальний степпер — навмисно не таймлайн, щоб не
-   дублювати цикл SODO. Номери дрібні, у квадратах, зʼєднані тонкою
-   лінією; рожевого тут немає взагалі. */
+/* ============ 07 · ЯК ПРАЦЮЄМО ============
+   Одна колонка, вертикальна лінія ліворуч, квадратні бейджі просто
+   на ній. Рожева лінія росте за прокруткою й тягне за собою кроки:
+   куди дійшла — те загорілось і лишилось. Назад лінія не відкочує,
+   інакше при скролі в обидва боки все смикалось би.
+
+   Останній крок — фініш: чорний бейдж і крапка, що дихає. */
 
 .how{padding-bottom:clamp(52px,8vh,110px)}
 .steps{
-  position:relative;padding:0 var(--gut);
-  display:grid;grid-template-columns:repeat(5,minmax(0,1fr));
-  gap:clamp(14px,1.8vw,28px);
+  position:relative;
+  padding:0 var(--gut) 0 calc(var(--gut) + 54px);
+  display:grid;gap:clamp(26px,4vh,44px);
 }
-.steps::before{
-  content:"";position:absolute;top:16px;height:1.5px;background:var(--line);
-  left:calc(var(--gut) + 34px);right:calc(var(--gut) + 34px);
+.steps::before,.steps::after{
+  content:"";position:absolute;left:calc(var(--gut) + 17px);width:2px;
+  top:var(--rail-top,18px);height:var(--rail,calc(100% - 36px));
 }
-.step{position:relative}
+.steps::before{background:var(--line)}
+.steps::after{
+  background:var(--pink);transform-origin:top;
+  transform:scaleY(var(--go,0));transition:transform .2s linear;
+}
+.step{position:relative;opacity:.42;transition:opacity .4s var(--e)}
+.step.is-on{opacity:1}
 .step__n{
-  display:grid;place-items:center;position:relative;z-index:1;
-  width:34px;height:34px;border-radius:9px;
-  background:var(--card);border:1.5px solid var(--line);
+  position:absolute;left:-54px;top:0;z-index:1;
+  display:grid;place-items:center;width:36px;height:36px;
+  border-radius:var(--r-s);
+  background:var(--card);border:1.5px solid var(--line);color:var(--ink-muted);
   font-family:var(--ui);font-weight:500;font-size:16px;font-style:normal;
-  color:var(--ink);
+  line-height:1;
+  transition:background-color .4s var(--e),border-color .4s var(--e),color .4s var(--e);
 }
+.step.is-on .step__n{background:var(--pink-deep);border-color:var(--pink-deep);color:var(--card)}
+.step--last.is-on .step__n{background:var(--ink);border-color:var(--ink)}
 .step h3{
-  margin-top:clamp(12px,1.8vh,18px);
-  font-weight:600;font-size:clamp(15.5px,1.2vw,20px);line-height:1.25;letter-spacing:-.01em;
+  display:flex;align-items:center;gap:.55em;min-height:36px;
+  font-weight:500;font-size:clamp(16.5px,1.3vw,22px);line-height:1.25;letter-spacing:-.01em;
 }
 .step p{
-  margin-top:6px;
-  font-size:clamp(13px,.92vw,15.5px);line-height:1.5;color:var(--ink-muted);
+  margin-top:6px;max-width:48ch;
+  font-size:clamp(13.5px,.95vw,16px);line-height:1.55;color:var(--ink-muted);
+  opacity:0;translate:0 12px;
 }
+.step.is-on p{
+  opacity:1;translate:0 0;
+  transition:opacity .4s var(--e) .08s,translate .4s var(--e) .08s;
+}
+/* фініш: більше повітря, важча назва й крапка, що тримає пульс */
+.step--last{margin-top:clamp(8px,1.4vh,18px)}
+.step--last h3{font-weight:600}
+.step__dot{
+  width:9px;height:9px;flex:none;border-radius:50%;
+  background:var(--pink-deep);opacity:0;transition:opacity .4s var(--e) .3s;
+}
+.step--last.is-on .step__dot{opacity:1;animation:pulse 2.2s var(--e-soft) .8s infinite}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.55);opacity:.45}}
 
 /* ============ 07 · ФОРМА ============ */
 
@@ -747,17 +808,21 @@ body.is-done .hero__foot{animation:riseIn .4s var(--e) .22s both}
    з неї самої, а не з кольору */
 .fld__req{color:var(--bg)}
 /* необовʼязкові поля легші: підпис тихіший, рамка тонша */
+/* Підпис набирає Onest, а не піксельний: у Pixelify немає апострофа
+   U+02BC, і «необовʼязково» розсипалось рівно на ньому. */
 .fld__opt{
-  font-family:var(--ui);font-size:12px;letter-spacing:.04em;
+  font-family:var(--text);font-size:12.5px;font-weight:400;
   text-transform:lowercase;color:var(--ink-muted-inv);
 }
 .fld--opt label{color:var(--ink-muted-inv)}
+/* запас під клавіатуру, щоб поле не лишалось під нею */
+.fld{scroll-margin-block:110px 190px}
 .fld input,.fld textarea{
   width:100%;display:block;min-height:52px;
   padding:.78em .9em;
   font:inherit;font-size:clamp(15px,1.05vw,17px);
   color:var(--ink);background:var(--card);
-  border:1.5px solid var(--line);border-radius:10px;
+  border:1.5px solid var(--line);border-radius:var(--r);
   transition:border-color .25s var(--e-soft),box-shadow .25s var(--e-soft);
 }
 .fld--opt input,.fld--opt textarea{background:var(--bg)}
@@ -765,7 +830,15 @@ body.is-done .hero__foot{animation:riseIn .4s var(--e) .22s both}
 .fld input:focus,.fld textarea:focus{
   outline:none;border-color:var(--pink);box-shadow:0 0 0 3px var(--pink-soft);
 }
-.fld.is-bad input,.fld.is-bad textarea{border-color:var(--pink);box-shadow:0 0 0 3px rgba(250,155,182,.35)}
+.fld.is-bad input,.fld.is-bad textarea{
+  border-color:var(--pink-deep);box-shadow:0 0 0 3px rgba(178,85,105,.4);
+}
+/* помилка стоїть під своїм полем, а не однією на всю форму */
+.fld__e{
+  display:block;margin-top:8px;
+  font-size:clamp(12.5px,.9vw,14px);line-height:1.4;color:var(--pink-soft);
+}
+.fld__e[hidden]{display:none}
 
 .fm__foot{display:flex;flex-wrap:wrap;align-items:center;
   gap:clamp(16px,2.4vh,26px) clamp(20px,3vw,44px);margin-top:clamp(28px,4.2vh,52px)}
@@ -859,11 +932,6 @@ body.is-done .hero__foot{animation:riseIn .4s var(--e) .22s both}
   .sw__tabs{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 
-@media (max-width:1100px){
-  .one{grid-template-columns:minmax(0,1fr);gap:clamp(34px,5vh,52px)}
-  .nums{grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(18px,2.4vw,30px)}
-}
-
 @media (max-width:1024px){
   .fig--hero{width:min(84vw,680px)}
 }
@@ -872,10 +940,6 @@ body.is-done .hero__foot{animation:riseIn .4s var(--e) .22s both}
   .hd__nav{display:none}
   .hd__menu{display:flex}
   .fm__grid{grid-template-columns:minmax(0,1fr)}
-  /* степпер складається у дві колонки, лінія між номерами зникає */
-  .steps{grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(20px,3.4vh,30px) clamp(16px,3vw,28px)}
-  .steps::before{display:none}
-  .step:last-child{grid-column:1 / -1}
 }
 
 @media (max-width:760px){
@@ -914,9 +978,9 @@ body.is-done .hero__foot{animation:riseIn .4s var(--e) .22s both}
   .road__s p{max-width:none}
   .cycle__a{font-size:clamp(16px,5vw,22px);max-width:none}
 
-  .nums{grid-template-columns:minmax(0,1fr);gap:24px}
-  .nums b{font-size:clamp(30px,9vw,44px)}
-  .nums span{max-width:28ch}
+  .stat{padding-left:clamp(8px,2.4vw,14px);padding-right:clamp(8px,2.4vw,14px)}
+  .stat:first-child{padding-left:0}
+  .stat:last-child{padding-right:0}
 
   .case__n{font-size:clamp(19px,5.4vw,26px)}
   .gal__track{padding-top:30px}
@@ -945,6 +1009,10 @@ body.is-done .hero__foot{animation:riseIn .4s var(--e) .22s both}
   .hero__mark{transform:scaleX(1)}
   .svc.is-on .fold__i{animation:none;opacity:1;translate:0 0}
   .road::after{transform:scaleY(1)}
+  .road__s,.step{opacity:1}
+  .steps::after{transform:scaleY(1)}
+  .step p{opacity:1;translate:0 0}
+  .step--last.is-on .step__dot,.step__dot{opacity:1;animation:none}
   .fig__far{filter:blur(48px) contrast(1.2)}
   .fig__soft{filter:blur(26px) contrast(1.3)}
 }

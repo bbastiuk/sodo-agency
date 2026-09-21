@@ -22,7 +22,7 @@
 <link rel="preload" href="assets/fonts/Pixelify-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" as="image" href="assets/figures/figure.png">
 <link rel="stylesheet" href="assets/fonts/fonts.css">
-<link rel="stylesheet" href="css/style.css?v=10">
+<link rel="stylesheet" href="css/style.css?v=11">
 
 <noscript><style>
   .load{display:none}
@@ -31,6 +31,9 @@
   .hero__mark{transform:scaleX(1)!important}
   .qa__a{display:block!important;height:auto!important}
   .road::after{transform:scaleY(1)!important}
+  .road__s,.step{opacity:1!important}
+  .steps::after{transform:scaleY(1)!important}
+  .step p{opacity:1!important;translate:0 0!important}
   .svc.is-on .fold__i{opacity:1!important;translate:0 0!important}
   .fig__sharp{-webkit-mask-image:none!important;mask-image:none!important}
 </style></noscript>
@@ -107,12 +110,28 @@
 
   <div class="hero__foot">
     <p class="hero__lead" id="heroLead" data-i18n="hero.lead">Digital-агенція. Тестуємо, змінюємо, посилюємо, поки реклама й контент не почнуть приносити гроші.</p>
-    <a class="btn btn--ink" href="#form" data-i18n="hero.cta">Обговоримо проект</a>
+    <a class="btn" href="#form" data-i18n="hero.cta">Обговоримо проект</a>
   </div>
 </section>
 
 
-<!-- ═══════════ 02 · ПОСЛУГИ ═══════════ -->
+<!-- ═══════════ 02 · ЦИФРИ ═══════════ -->
+<section class="stats" aria-label="Цифри досвіду">
+  <ul class="stats__l rv">
+    <li class="stat">
+      <b class="stat__n" data-i18n="one.n0" data-count>30+</b>
+      <span class="stat__c" data-i18n="one.c0">ніш</span></li>
+    <li class="stat">
+      <b class="stat__n" data-i18n="one.n1" data-count>3 роки</b>
+      <span class="stat__c" data-i18n="one.c1">з одним клієнтом</span></li>
+    <li class="stat">
+      <b class="stat__n" data-i18n="one.n2" data-count>52</b>
+      <span class="stat__c" data-i18n="one.c2">проєкти</span></li>
+  </ul>
+</section>
+
+
+<!-- ═══════════ 03 · ПОСЛУГИ ═══════════ -->
 <section class="serv" id="serv" aria-labelledby="servT">
   <header class="sh">
     <h2 class="sh__t" data-i18n="serv.title" id="servT">Все, щоб вас знайшли й купили</h2>
@@ -123,7 +142,7 @@
     <ul class="sw__tabs" role="tablist" aria-label="Напрями роботи">
       <li role="presentation"><button class="sw__tab is-on" type="button"
         role="tab" id="tab0" aria-controls="svc0" aria-selected="true"
-        tabindex="0" data-i18n="serv.n0">Instagram</button></li>
+        tabindex="0" data-i18n="serv.n0">SMM</button></li>
       <li role="presentation"><button class="sw__tab" type="button"
         role="tab" id="tab1" aria-controls="svc1" aria-selected="false"
         tabindex="-1" data-i18n="serv.n1">TikTok</button></li>
@@ -145,7 +164,7 @@
       <article class="svc is-on" id="svc0" role="tabpanel" aria-labelledby="tab0">
         <span class="svc__tab" aria-hidden="true"></span>
         <div class="svc__head">
-          <h3 class="svc__n" data-i18n="serv.n0">Instagram</h3>
+          <h3 class="svc__n" data-i18n="serv.n0">SMM</h3>
           <p class="svc__pr" data-i18n="serv.pr0">Ціна від $550</p>
         </div>
         <p class="svc__d" data-i18n="serv.d0">Контент, який зупиняє скрол і продає. Створюємо систему, яка працює на заявки.</p>
@@ -228,14 +247,14 @@
 </section>
 
 
-<!-- ═══════════ 03 · ЦИКЛ SODO ═══════════ -->
+<!-- ═══════════ 04 · ЦИКЛ SODO ═══════════ -->
 <section class="cycle" id="cycle" aria-labelledby="cycleT">
   <header class="sh">
     <p class="lab" data-i18n="cycle.lab">Цикл SODO</p>
     <h2 class="sh__t" data-i18n="cycle.title" id="cycleT">Ми не гадаємо. Ми перевіряємо.</h2>
   </header>
 
-  <p class="cycle__p" data-i18n="cycle.text">Кожен місяць у плані це заплановані тести з чітким критерієм успіху. Що працює, масштабуємо. Що ні, швидко прибираємо й пробуємо інакше. Ви завжди бачите, що ми тестуємо і навіщо.</p>
+  <p class="cycle__p" data-i18n="cycle.text">Щомісяця заплановані тести. Що працює, масштабуємо. Що ні, міняємо. Ви бачите все.</p>
 
   <ol class="road rv" id="road">
       <li class="road__s"><i class="road__n">1</i>
@@ -264,26 +283,17 @@
 </section>
 
 
-<!-- ═══════════ 04 · ОДИН НА НІШУ + ЦИФРИ ═══════════ -->
+<!-- ═══════════ 05 · ОДИН НА НІШУ ═══════════ -->
 <section class="one" aria-labelledby="oneT">
   <div class="one__say">
     <h2 class="one__t" data-i18n="one.title" id="oneT">Один на нішу. Один на місто.</h2>
     <p class="one__p" data-i18n="one.text">Ми не ведемо двох конкурентів поруч. Тому всі наші ідеї, тести й результати працюють тільки на вас, а не на сусіда через дорогу.</p>
     <p class="one__s"><span class="hl" data-i18n="one.small">Ваше місце ще вільне? Перевіримо за 5 хвилин.</span></p>
   </div>
-
-  <ul class="nums rv">
-      <li><b data-i18n="one.n0" data-count>30+</b>
-        <span data-i18n="one.c0">ніш, з якими ми працювали</span></li>
-      <li><b data-i18n="one.n1" data-count>3 роки 2 міс</b>
-        <span data-i18n="one.c1">з одним клієнтом і досі разом</span></li>
-      <li><b data-i18n="one.n2" data-count>52</b>
-        <span data-i18n="one.c2">запущених проєктів</span></li>
-  </ul>
 </section>
 
 
-<!-- ═══════════ 05 · КЕЙСИ ═══════════ -->
+<!-- ═══════════ 06 · КЕЙСИ ═══════════ -->
 <section class="cases" id="cases" aria-labelledby="casesT">
   <header class="sh">
     <h2 class="sh__t" data-i18n="cases.title" id="casesT">Що змінюється, коли ми беремося</h2>
@@ -297,14 +307,13 @@
         <div class="case__card">
           <h3 class="case__n" data-i18n="case.n0">Комʼюніті</h3>
           <p class="case__c" data-i18n="case.c0">Познань</p>
-          <p class="case__key" data-i18n="case.k0">$1,20</p>
           <div class="case__row">
             <span class="case__k">Було</span>
             <p class="case__v" data-i18n="case.b0">Старт з нуля, жодних соцмереж, бренд без образу, обмежений бюджет.</p>
           </div>
           <div class="case__row case__row--res">
-            <span class="case__k">Результат</span>
-            <p class="case__v" data-i18n="case.r0">Заявка по $1,20 в перший місяць роботи. За рік імʼя почало працювати саме на себе, і половина квитків розходилась органічно.</p>
+            <span class="case__k">Стало</span>
+            <p class="case__v"><span class="hl" data-i18n="case.r0">Заявка по <b>$1,20</b> в перший місяць роботи. За рік імʼя почало працювати саме на себе, і половина квитків розходилась органічно.</span></p>
           </div>
         </div>
       </li>
@@ -313,14 +322,13 @@
         <div class="case__card">
           <h3 class="case__n" data-i18n="case.n1">Легалізація</h3>
           <p class="case__c" data-i18n="case.c1">Познань</p>
-          <p class="case__key" data-i18n="case.k1">$3,90</p>
           <div class="case__row">
             <span class="case__k">Було</span>
             <p class="case__v" data-i18n="case.b1">Старт з нуля, без бази клієнтів.</p>
           </div>
           <div class="case__row case__row--res">
-            <span class="case__k">Результат</span>
-            <p class="case__v" data-i18n="case.r1">Заявка по $3,90 вже на другий місяць роботи.</p>
+            <span class="case__k">Стало</span>
+            <p class="case__v"><span class="hl" data-i18n="case.r1">Заявка по <b>$3,90</b> вже на другий місяць роботи.</span></p>
           </div>
         </div>
       </li>
@@ -329,14 +337,13 @@
         <div class="case__card">
           <h3 class="case__n" data-i18n="case.n2">Працевлаштування</h3>
           <p class="case__c" data-i18n="case.c2">Німеччина</p>
-          <p class="case__key" data-i18n="case.k2">€3</p>
           <div class="case__row">
             <span class="case__k">Було</span>
             <p class="case__v" data-i18n="case.b2">Неякісні заявки й блокування рекламного кабінету.</p>
           </div>
           <div class="case__row case__row--res">
-            <span class="case__k">Результат</span>
-            <p class="case__v" data-i18n="case.r2">Стабільно працюючий кабінет і заявка по €3.</p>
+            <span class="case__k">Стало</span>
+            <p class="case__v"><span class="hl" data-i18n="case.r2">Стабільно працюючий кабінет і заявка по <b>€3</b>.</span></p>
           </div>
         </div>
       </li>
@@ -345,14 +352,13 @@
         <div class="case__card">
           <h3 class="case__n" data-i18n="case.n3">Студія краси</h3>
           <p class="case__c" data-i18n="case.c3">Познань</p>
-          <p class="case__key" data-i18n="case.k3">Знають всі</p>
           <div class="case__row">
             <span class="case__k">Було</span>
             <p class="case__v" data-i18n="case.b3">Жодних соцмереж, бренд без образу.</p>
           </div>
           <div class="case__row case__row--res">
-            <span class="case__k">Результат</span>
-            <p class="case__v" data-i18n="case.r3">Про студію знають всі, а сміливі ідеї впізнають з першого погляду.</p>
+            <span class="case__k">Стало</span>
+            <p class="case__v"><span class="hl" data-i18n="case.r3">Про студію знають всі, а сміливі ідеї впізнають з першого погляду.</span></p>
           </div>
         </div>
       </li>
@@ -374,7 +380,7 @@
 </section>
 
 
-<!-- ═══════════ 06 · ЯК ПРАЦЮЄМО ═══════════ -->
+<!-- ═══════════ 07 · ЯК ПРАЦЮЄМО ═══════════ -->
 <section class="how" id="how" aria-labelledby="howT">
   <header class="sh">
     <h2 class="sh__t" data-i18n="how.title" id="howT">5 кроків від «привіт» до запуску</h2>
@@ -392,14 +398,14 @@
     <li class="step"><i class="step__n">04</i>
       <h3 data-i18n="how.h3">Стратегія</h3>
       <p data-i18n="how.p3">Чіткий план, що, де й навіщо робимо.</p></li>
-    <li class="step"><i class="step__n">05</i>
-      <h3 data-i18n="how.h4">Запуск</h3>
+    <li class="step step--last"><i class="step__n">05</i>
+      <h3><span data-i18n="how.h4">Запуск</span><i class="step__dot" aria-hidden="true"></i></h3>
       <p data-i18n="how.p4">Стартуємо й одразу тримаємо руку на пульсі.</p></li>
   </ol>
 </section>
 
 
-<!-- ═══════════ 07 · ФОРМА ═══════════ -->
+<!-- ═══════════ 08 · ФОРМА ═══════════ -->
 <section class="form" id="form" aria-labelledby="formT">
   <header class="sh">
     <h2 class="sh__t" data-i18n="form.title" id="formT">Обговоримо проєкт?</h2>
@@ -410,19 +416,29 @@
     <div class="fm__grid">
       <p class="fld">
         <label for="f_name"><span data-i18n="form.name">Імʼя</span> <span class="fld__req" aria-hidden="true">*</span></label>
-        <input id="f_name" name="name" type="text" required>
+        <input id="f_name" name="name" type="text" autocomplete="name" required aria-describedby="e_name">
+        <span class="fld__e" id="e_name" hidden></span>
       </p>
       <p class="fld">
-        <label for="f_tg"><span data-i18n="form.tg">Телефон / Telegram</span> <span class="fld__req" aria-hidden="true">*</span></label>
-        <input id="f_tg" name="tg" type="text" required>
+        <label for="f_tg"><span data-i18n="form.tg">Telegram або Instagram</span> <span class="fld__req" aria-hidden="true">*</span></label>
+        <input id="f_tg" name="contact" type="text" placeholder="@нік" autocomplete="username"
+          required data-check="contact" aria-describedby="e_tg">
+        <span class="fld__e" id="e_tg" hidden></span>
+      </p>
+      <p class="fld">
+        <label for="f_tel"><span data-i18n="form.tel">Телефон</span> <span class="fld__req" aria-hidden="true">*</span></label>
+        <input id="f_tel" name="phone" type="tel" inputmode="tel" autocomplete="tel"
+          data-check="phone" aria-describedby="e_tel">
+        <span class="fld__e" id="e_tel" hidden></span>
       </p>
       <p class="fld fld--opt">
         <label for="f_biz"><span data-i18n="form.biz">Назва бізнесу</span> <span class="fld__opt" data-i18n="form.opt">необовʼязково</span></label>
         <input id="f_biz" name="biz" type="text">
       </p>
-      <p class="fld fld--opt">
-        <label for="f_city"><span data-i18n="form.city">Місто й ніша</span> <span class="fld__opt" data-i18n="form.opt">необовʼязково</span></label>
-        <input id="f_city" name="city" type="text">
+      <p class="fld">
+        <label for="f_city"><span data-i18n="form.city">Місто й ніша</span> <span class="fld__req" aria-hidden="true">*</span></label>
+        <input id="f_city" name="city" type="text" required aria-describedby="e_city">
+        <span class="fld__e" id="e_city" hidden></span>
       </p>
       <p class="fld fld--opt">
         <label for="f_task"><span data-i18n="form.task">Що хочете вирішити?</span> <span class="fld__opt" data-i18n="form.opt">необовʼязково</span></label>
@@ -445,7 +461,7 @@
 </section>
 
 
-<!-- ═══════════ 08 · ПИТАННЯ Й ВІДПОВІДІ ═══════════ -->
+<!-- ═══════════ 09 · ПИТАННЯ Й ВІДПОВІДІ ═══════════ -->
 <section class="faq" id="faq" aria-labelledby="faqT">
   <header class="sh">
     <h2 class="sh__t" data-i18n="faq.title" id="faqT">Питання, які ви хотіли поставити</h2>
@@ -631,7 +647,7 @@
 
 <!-- липка дія: ховається, щойно форма зʼявляється в кадрі -->
 <div class="dock" id="dock" hidden>
-  <a class="btn btn--ink" href="#form" data-i18n="hero.cta">Обговоримо проект</a>
+  <a class="btn" href="#form" data-i18n="hero.cta">Обговоримо проект</a>
 </div>
 
 <footer class="ft">
@@ -643,6 +659,6 @@
   </nav>
 </footer>
 
-<script src="js/main.js?v=10" defer></script>
+<script src="js/main.js?v=11" defer></script>
 </body>
 </html>
