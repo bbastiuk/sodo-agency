@@ -466,6 +466,9 @@ function gallery() {
 
   const pad = () => parseFloat(getComputedStyle(track).paddingLeft) || 0;
 
+  const tail = () => track.scrollWidth - track.clientWidth;
+
+  /* Куди веде стрілка: перший кейс від лівого краю. */
   const cur = () => {
     const base = track.getBoundingClientRect().left + pad();
     let best = 0, d = Infinity;
@@ -476,12 +479,16 @@ function gallery() {
     return best;
   };
 
+  /* А що показує лічильник — інша річ. На широкому екрані в кадрі
+     стоять два кейси, і в самому кінці лівий з них третій: стрілка
+     вже погашена, а лічильник писав «3 / 4». У кінці рахуємо по
+     останньому видимому, а не по лівому. */
+  const shown = () => (tail() > 2 && track.scrollLeft >= tail() - 2 ? items.length - 1 : cur());
+
   const sync = () => {
-    const i = cur();
-    if (nEl) nEl.textContent = String(i + 1);
-    const end = track.scrollWidth - track.clientWidth;
+    if (nEl) nEl.textContent = String(shown() + 1);
     if (prev) prev.disabled = track.scrollLeft <= 2;
-    if (next) next.disabled = track.scrollLeft >= end - 2;
+    if (next) next.disabled = track.scrollLeft >= tail() - 2;
   };
 
   const go = d => {
