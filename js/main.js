@@ -446,6 +446,32 @@ function counts() {
 }
 
 /* ────────────────────────────────────────────
+   ПОДИХ ЦИФР
+
+   Після того як лічба добігла, цифри починають ледь помітно дихати:
+   scale до 1.06 і трохи тихіша прозорість, 3.2 с на цикл, кожна у
+   своїй фазі. Сама анімація живе в CSS — тут лише вмикач.
+
+   Дві умови. Перша: чекаємо, поки лічба закінчиться, інакше цифра
+   смикалась би й рахувала водночас. Друга: поза кадром анімація
+   стоїть, а не крутиться вхолосту.
+   ──────────────────────────────────────────── */
+
+function breathe() {
+  const box = $('.stats');
+  if (!box || calm() || !('IntersectionObserver' in window)) return;
+
+  let vis = false, waited = false;
+  new IntersectionObserver(([e]) => {
+    vis = e.isIntersecting;
+    if (!vis) { box.classList.remove('is-live'); return; }
+    if (waited) { box.classList.add('is-live'); return; }
+    waited = true;
+    setTimeout(() => { if (vis) box.classList.add('is-live'); }, 1250);
+  }, { threshold: 0.25 }).observe(box);
+}
+
+/* ────────────────────────────────────────────
    КЕЙСИ: ГОРИЗОНТАЛЬНА ГАЛЕРЕЯ
 
    Гортання пальцем працює саме собою — це звичайна горизонтальна
@@ -1032,6 +1058,7 @@ gallery();
 dock();
 sentences();
 counts();
+breathe();
 faq();
 form();
 langs();

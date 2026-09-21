@@ -616,10 +616,21 @@ body.is-done .hero__foot{animation:riseIn .4s var(--e) .22s both}
 .stat:first-child{padding-left:0}
 .stat:last-child{padding-right:0}
 .stat__n{
-  display:block;font-family:var(--display);font-weight:900;
+  display:block;width:max-content;max-width:100%;
+  font-family:var(--display);font-weight:900;
   font-size:clamp(21px,5.5vw,54px);line-height:1;letter-spacing:-.03em;
   white-space:nowrap;font-variant-numeric:tabular-nums;
+  /* Подих: росте від лівого краю, щоб цифра лишалась рівно над
+     своїм підписом. Рухається тільки scale — верстка не переливається. */
+  transform-origin:left center;
+  animation:breathe 3.2s var(--e-soft) infinite;
+  animation-play-state:paused;
 }
+/* кожна у своїй фазі — інакше всі три дихали б хором */
+.stat:nth-child(2) .stat__n{animation-delay:-1.07s}
+.stat:nth-child(3) .stat__n{animation-delay:-2.14s}
+.stats.is-live .stat__n{animation-play-state:running}
+@keyframes breathe{0%,100%{scale:1;opacity:1}50%{scale:1.06;opacity:.92}}
 .stat__c{
   display:block;margin-top:clamp(7px,1.2vh,13px);max-width:15ch;
   font-size:clamp(12px,.92vw,15px);line-height:1.35;color:var(--ink-muted);
@@ -1011,6 +1022,7 @@ body.is-done .hero__foot{animation:riseIn .4s var(--e) .22s both}
   .steps::after{transform:scaleY(1)}
   .step p{opacity:1;translate:0 0}
   .step--last.is-on .step__dot,.step__dot{opacity:1;animation:none}
+  .stat__n{animation:none;scale:1;opacity:1}
   .fig__far{filter:blur(48px) contrast(1.2)}
   .fig__soft{filter:blur(26px) contrast(1.3)}
 }
