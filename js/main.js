@@ -39,7 +39,14 @@ const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 
 const SEEN = 'sodo:seen';
 
-async function boot() {
+/* Нижня межа, а не тривалість. Заставка тримається щонайменше
+   стільки, щоб слово встигло прочитатись, і йде, щойно все
+   завантажене. Основний трафік приходить з Instagram, де кожен
+   візит перший, тож кожна зайва секунда тут платна. */
+const FLOOR_FULL = 880;
+const FLOOR_BACK = 240;   // повторний захід у тій самій вкладці
+
+async function boot(tasks) {
   const word = $('#loadWord');
   const bar  = $('#loadBar');
   const sr   = $('#loadSr');
@@ -50,52 +57,59 @@ async function boot() {
     sessionStorage.setItem(SEEN, '1');
   } catch { /* приватний режим — програємо повну версію */ }
 
-  /* Довжину рахую не сумою таймерів, а заміряним часом від переходу
-     до зникнення шару: у ньому є ще й очікування шрифтів і перекладу,
-     якого множити не можна. На тому самому сервері: 1682 мс було на
-     старті, 2443 після першого подовження, 3298 тепер — ×1.45, потім
-     ×1.35. Самі таймери від того зросли в 2.1 раза від початкових. */
-  const full = !seen && !calm();
-  const dur  = full ? 1516 : 463;
-  const ease = 'cubic-bezier(.16,.84,.26,1)';
+  const full  = !seen && !calm();
+  const floor = full ? FLOOR_FULL : FLOOR_BACK;
+  const ease  = 'cubic-bezier(.16,.84,.26,1)';
+  const t0    = performance.now();
 
   /* Кінцевий трекінг збігається з тим, що в CSS: літери сходяться
-     з .08em до .02em і там стоять. Раніше анімація дотягувала їх до
-     -.02em і тримала, тобто спокійний стан суперечив стилю. */
+     з .08em до .02em і там стоять. */
   word?.animate([
     { opacity: 0, filter: 'blur(22px)', letterSpacing: '.08em' },
     { opacity: 1, filter: 'blur(0px)',  letterSpacing: '.02em' },
-  ], { duration: dur, easing: ease, fill: 'both' });
+  ], { duration: full ? 460 : 200, easing: ease, fill: 'both' });
 
-  if (bar && full) {
-    bar.animate([{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }],
-      { duration: dur + 295, easing: ease, fill: 'both' });
-  }
+  /* Смуга внизу показує менше з двох: скільки роботи справді зроблено
+     і скільки минуло часу від нижньої межі. Тому на швидкому зʼєднанні
+     вона не стрибає в кінець одразу, а на повільному — не бреше, що
+     все готово. Раніше вона була декорацією з фіксованою тривалістю. */
+  let done = 0;
+  const total = Math.max(tasks.length, 1);
+  tasks.forEach(t => Promise.resolve(t).then(() => { done++; }, () => { done++; }));
 
-  await wait(full ? 1990 : 592);
+  await new Promise(res => {
+    const tick = () => {
+      const byWork = done / total;
+      const byTime = Math.min((performance.now() - t0) / floor, 1);
+      const p = Math.min(byWork, byTime);
+      if (bar) bar.style.transform = 'scaleX(' + p.toFixed(3) + ')';
+      if (done === total && byTime >= 1) res();
+      else requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  });
 
   body.classList.remove('is-loading');
   body.classList.add('is-done');
   if (sr) sr.textContent = '';
 
-  /* Вихід розкладений, а не одним рухом: раніше слово, смуга й шар
-     зникали в одну мить, і це читалось як обрив. Тепер слово йде
-     першим — угору й у розмиття, за ним гасне смуга, і аж потім
-     повільно відходить сам шар, а під ним уже піднімається перший
-     екран. Вихід мусить бути тут, а не в CSS: слово тримає анімація
-     з fill: both, і звичайний перехід її не перебʼє. */
   if (calm()) { await wait(140); $('#load')?.remove(); return; }
 
+  /* Вихід розкладений, а не одним рухом: слово йде першим — угору й
+     у розмиття, за ним гасне смуга, і аж потім відходить сам шар, а
+     під ним уже піднімається перший екран. Вихід мусить бути тут, а
+     не в CSS: слово тримає анімація з fill: both, і звичайний перехід
+     її не перебʼє. */
   const out = 'cubic-bezier(.4,0,.2,1)';
   word?.animate([
     { opacity: 1, filter: 'blur(0px)',  transform: 'translateY(0)' },
     { opacity: 0, filter: 'blur(12px)', transform: 'translateY(-14px)' },
-  ], { duration: 580, easing: out, fill: 'both' });
+  ], { duration: 400, easing: out, fill: 'both' });
 
   bar?.animate([{ opacity: 1 }, { opacity: 0 }],
-    { duration: 420, easing: out, fill: 'both' });
+    { duration: 300, easing: out, fill: 'both' });
 
-  await wait(1094);
+  await wait(620);
   $('#load')?.remove();
 }
 
@@ -183,25 +197,36 @@ function lens() {
 
   /* Автоматичний обхід: вікно фокуса саме ходить по фігурі, як промінь.
      Синус пригальмовує на краях, тому це читається як обхід, а не
-     бовтання. Повний прохід ≈ 8.7 с. Поза кадром цикл не крутиться. */
+     бовтання. Повний прохід ≈ 8.7 с.
+
+     Раніше цей цикл планував себе беззастережно й лише мовчав, коли
+     фігура пішла з кадру. Тобто rAF тикав 60 разів на секунду до
+     кінця сесії, навіть коли герой був за шість тисяч пікселів
+     позаду: сторінка ніколи не засинала. Тепер цикл справді
+     спиняється, а спостерігач його будить. */
   if (!calm()) {
     const sweep = t => {
+      if (!visible || document.hidden) { drift = 0; return; }
+      if (t - lastMove >= HANDOVER) {           // курсор не керує
+        const s = t / 1000;
+        tx = 50 + Math.sin(s * 0.72) * 33;
+        ty = 41 + Math.sin(s * 0.41 + 1.2) * 15;
+        tr = 155 + Math.sin(s * 0.5) * 38;
+        ask();
+      }
       drift = requestAnimationFrame(sweep);
-      if (!visible || document.hidden) return;
-      if (t - lastMove < HANDOVER) return;      // керує курсор
-      const s = t / 1000;
-      tx = 50 + Math.sin(s * 0.72) * 33;
-      ty = 41 + Math.sin(s * 0.41 + 1.2) * 15;
-      tr = 155 + Math.sin(s * 0.5) * 38;
-      ask();
     };
-    requestAnimationFrame(sweep);
+    const wake = () => {
+      if (!drift && visible && !document.hidden) drift = requestAnimationFrame(sweep);
+    };
+    wake();
 
     if ('IntersectionObserver' in window) {
-      new IntersectionObserver(([e]) => { visible = e.isIntersecting; },
+      new IntersectionObserver(([e]) => { visible = e.isIntersecting; wake(); },
         { threshold: 0.05 }).observe(box);
     }
-    addEventListener('pagehide', () => cancelAnimationFrame(drift), { once: true });
+    document.addEventListener('visibilitychange', wake);
+    addEventListener('pagehide', () => { cancelAnimationFrame(drift); drift = 0; }, { once: true });
   }
 }
 
@@ -451,8 +476,11 @@ function counts() {
       const k = Math.min((now - t0) / D, 1);
       let i = 0;
       el.textContent = src.replace(/\d+/g, () => String(Math.floor(nums[i++] * k)));
-      if (k < 1) requestAnimationFrame(frame);
-      else el.textContent = src;              // повертаємо вихідний рядок дослівно
+      if (k < 1) { requestAnimationFrame(frame); return; }
+      el.textContent = src;                   // повертаємо вихідний рядок дослівно
+      // один settle і все: цифра ледь перелітає значення й сідає
+      el.animate([{ scale: '1' }, { scale: '1.045' }, { scale: '1' }],
+        { duration: 300, easing: 'cubic-bezier(.22,.61,.36,1)' });
     };
     requestAnimationFrame(frame);
   };
@@ -468,32 +496,6 @@ function counts() {
     run(e.target);
   }), { threshold: 0.4 });
   items.forEach(el => io.observe(el));
-}
-
-/* ────────────────────────────────────────────
-   ПОДИХ ЦИФР
-
-   Після того як лічба добігла, цифри починають ледь помітно дихати:
-   scale до 1.06 і трохи тихіша прозорість, 3.2 с на цикл, кожна у
-   своїй фазі. Сама анімація живе в CSS — тут лише вмикач.
-
-   Дві умови. Перша: чекаємо, поки лічба закінчиться, інакше цифра
-   смикалась би й рахувала водночас. Друга: поза кадром анімація
-   стоїть, а не крутиться вхолосту.
-   ──────────────────────────────────────────── */
-
-function breathe() {
-  const box = $('.stats');
-  if (!box || calm() || !('IntersectionObserver' in window)) return;
-
-  let vis = false, waited = false;
-  new IntersectionObserver(([e]) => {
-    vis = e.isIntersecting;
-    if (!vis) { box.classList.remove('is-live'); return; }
-    if (waited) { box.classList.add('is-live'); return; }
-    waited = true;
-    setTimeout(() => { if (vis) box.classList.add('is-live'); }, 1250);
-  }, { threshold: 0.25 }).observe(box);
 }
 
 /* ────────────────────────────────────────────
@@ -622,19 +624,25 @@ function tabs() {
 }
 
 /* ────────────────────────────────────────────
-   ЦИКЛ SODO: КРОКИ ЗАГОРЯЮТЬСЯ ПО ОДНОМУ
+   ЦИКЛ SODO: ПРОГРЕС ЗА ПРОКРУТКОЮ
 
-   Блок входить у кадр — і далі він розповідає себе сам: 1, 2, 3, 4
-   з паузою 0.9 с, один раз, назавжди.
+   Тут був таймер: кроки загорялись по одному з паузою 0.9 с. На
+   папері добре, на телефоні — ні. Заміряно на живому сайті, скільки
+   кроків встигає загорітись, поки секція взагалі в кадрі:
 
-   Лінія не окремий ефект. Коли загоряється крок N, ми одразу
-   відправляємо лінію до точки N+1 і даємо їй рівно ті ж 0.9 с, тож
-   вона доходить туди в ту саму мить, коли та точка спалахує. Частки
-   рахуємо з реальних відстаней між точками одним заміром, інакше
-   прокрутка під час програвання зсунула б орієнтири.
+     350 px/с (людина читає)  — 2 з 4
+     800 px/с (звичайно)      — 1 з 4
+     1600 px/с (флік)         — 1 з 4
+
+   При 800 px/с секція живе в кадрі 644 мс, тож ніяка тривалість
+   таймера не встигла б: проблема була не в довжині, а в тому, що
+   таймер змагався зі скролом замість того, щоб від нього залежати.
+
+   Тепер цикл говорить тією самою мовою, що й «5 кроків» нижче:
+   лінія росте рівно стільки, скільки людина прогорнула, і точка
+   загоряється в мить, коли лінія її дістала. Назад лінія не
+   відкочується — інакше при скролі в обидва боки все смикалось би.
    ──────────────────────────────────────────── */
-
-const CYCLE_GAP = 900;
 
 function road() {
   const list = $('#road');
@@ -643,50 +651,52 @@ function road() {
   const dots  = $$('.road__n', list);
   if (!dots.length) return;
 
-  const rail = () => {
+  let at = [];
+  const measure = () => {
     const box = list.getBoundingClientRect();
     const a = dots[0].getBoundingClientRect();
     const b = dots[dots.length - 1].getBoundingClientRect();
     list.style.setProperty('--rail-top', (a.top - box.top + a.height / 2 - 1).toFixed(1) + 'px');
     list.style.setProperty('--rail', (b.top - a.top).toFixed(1) + 'px');
-  };
 
-  const lit = () => {
-    items.forEach(el => el.classList.add('is-on'));
-    list.style.setProperty('--road-t', '0s');
-    list.style.setProperty('--road', '1');
-  };
-
-  rail();
-  let rz;
-  addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(rail, 160); });
-  document.fonts?.ready.then(rail).catch(() => {});
-
-  if (calm() || !('IntersectionObserver' in window)) { lit(); return; }
-
-  let played = false;
-  const play = () => {
-    if (played) return;
-    played = true;
-
-    // один замір на все програвання
     const tops = dots.map(d => d.getBoundingClientRect().top);
     const span = tops[tops.length - 1] - tops[0];
-    const at = tops.map(t => (span > 0 ? (t - tops[0]) / span : 1));
-
-    list.style.setProperty('--road-t', CYCLE_GAP + 'ms');
-    items.forEach((el, i) => setTimeout(() => {
-      el.classList.add('is-on');
-      if (at[i + 1] !== undefined) list.style.setProperty('--road', at[i + 1].toFixed(3));
-    }, i * CYCLE_GAP));
+    at = tops.map(t => (span > 0 ? (t - tops[0]) / span : 1));
   };
+  measure();
 
-  const io = new IntersectionObserver(es => es.forEach(e => {
-    if (!e.isIntersecting) return;
-    io.disconnect();
-    play();
-  }), { threshold: 0.18 });
-  io.observe(list);
+  if (calm()) {
+    items.forEach(el => el.classList.add('is-on'));
+    list.style.setProperty('--road', '1');
+    return;
+  }
+
+  let go = 0, ticking = false, visible = true;
+
+  const step = () => {
+    ticking = false;
+    if (!visible) return;
+    const r = list.getBoundingClientRect();
+    const from = innerHeight * 0.82, to = innerHeight * 0.34;
+    const p = clamp((from - r.top) / Math.max(r.height + from - to, 1), 0, 1);
+    if (p <= go) return;
+    go = p;
+    list.style.setProperty('--road', go.toFixed(3));
+    items.forEach((el, i) => { if (go >= at[i] - 0.004) el.classList.add('is-on'); });
+  };
+  const ask = () => { if (!ticking) { ticking = true; requestAnimationFrame(step); } };
+
+  let rz;
+  addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { measure(); ask(); }, 160); });
+  document.fonts?.ready.then(() => { measure(); ask(); }).catch(() => {});
+
+  addEventListener('scroll', ask, { passive: true });
+  addEventListener('resize', ask);
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) ask(); },
+      { rootMargin: '25% 0px' }).observe(list);
+  }
+  step();
 }
 
 /* ────────────────────────────────────────────
@@ -1151,7 +1161,6 @@ function start() {
   dock();
   sentences();
   counts();
-  breathe();
   faq();
   form();
 
@@ -1164,25 +1173,37 @@ function start() {
   if (yr) yr.textContent = String(new Date().getFullYear());
 }
 
-/* Шрифти дисплейні (font-display:block), тож чекаємо — але не
-   нескінченно і не довірливо. Якщо цей ланцюжок впаде, шар
-   завантаження лишиться на весь екран і сайту просто не буде видно,
-   тому його зняття не має права залежати від успіху. */
+/* Три речі, на які заставка справді чекає. Жодна з них не має права
+   підвісити сайт, тому в кожної є стеля й кожна ловить свою помилку:
+   найгірше, що станеться, — ми покажемо сторінку трохи раніше, ніж
+   усе дозавантажилось. */
 const fonts = document.fonts?.ready
-  ? Promise.race([document.fonts.ready, wait(900)]).catch(() => {})
+  ? Promise.race([document.fonts.ready, wait(2500)]).catch(() => {})
   : Promise.resolve();
 
 /* Переклад іде першим і тільки потім усе інше. Інакше лічильник
    запамʼятав би українські цифри, заголовок «Один на нішу» поділився
    б на речення до підміни, а перший екран зміряв би не ту довжину.
    langs() ніколи не кидає — найгірше, що буде, це українська. */
-langs()
-  .catch(() => {})
+const lang = langs().catch(() => {});
+
+/* Силует — єдина важка картинка на сторінці, і вона ж перше, що
+   людина побачить. Чекати на неї чесно. */
+const figure = (() => {
+  const img = $('.fig__sharp');
+  if (!img) return Promise.resolve();
+  if (img.complete) return Promise.resolve();
+  return (img.decode ? img.decode() : Promise.resolve())
+    .catch(() => {})
+    .then(() => {});
+})();
+
+const ready = lang
   .then(() => { start(); return fonts; })
-  .then(() => {
-    refit?.();          // шрифт став на місце — міряємо смугу під силует
-    return boot();
-  })
+  .then(() => { refit?.(); });   // шрифт став на місце — міряємо смугу під силует
+
+boot([fonts, lang, figure])
+  .then(() => ready)
   .then(() => {
     refit?.();
     heroLit();          // маркер під словом малюється один раз

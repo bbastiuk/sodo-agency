@@ -139,7 +139,7 @@ a{color:inherit;text-decoration:none}
   display:inline-flex;align-items:center;justify-content:center;
   min-height:52px;padding:0 clamp(26px,3vw,44px);border-radius:var(--r-l);
   background:var(--pink);color:var(--ink);
-  font-family:var(--display);font-weight:700;
+  font-family:var(--display);font-weight:800;
   font-size:clamp(14px,1.05vw,17px);letter-spacing:-.01em;
   transition:transform .3s var(--e),opacity .3s var(--e-soft);
 }
@@ -177,7 +177,7 @@ body.dock-on .dock{transform:none}
    сходинками, а не обривом. */
 body.is-done .load{
   opacity:0;visibility:hidden;pointer-events:none;
-  transition:opacity 1.02s var(--e-soft) .06s,visibility 0s linear 1.08s;
+  transition:opacity .56s var(--e-soft) .05s,visibility 0s linear .61s;
 }
 
 /* ============ ШАПКА ============ */
@@ -358,13 +358,18 @@ body.is-lit .hero__mark{transform:scaleX(1);transition:transform .6s var(--e-io)
   display:flex;flex-direction:column;align-items:flex-start;
   gap:clamp(12px,1.8vh,18px);
 }
-/* Два рядки, а не три. Кегль підібраний заміром: довша половина
-   фрази — «поки реклама й контент не почнуть приносити гроші.» —
-   при 13px займає 333px, а на 375px екрані доступно 339. Нижче 375
-   вона вже не влазить і лягає в три рядки — це межа, а не помилка. */
+/* Цей абзац — не підпис, а сама позиція агенції, тож він має
+   читатись. Раніше тут стояло 13px заради двох рядків; на 390px це
+   13.26px, а на 360px фраза все одно лягала в три. Тобто обмеження
+   працювало лише на 375-430, а дрібний кегль платили всі.
+
+   Тепер 15px і три рядки. Кнопка від цього не рушає: перший екран —
+   сітка з гнучкою смугою зверху, тож приріст забирає фігура (на
+   390x844 вона стає 523 замість 551), а запас під кнопкою лишається
+   тим самим. */
 .hero__lead{
   max-width:54ch;text-wrap:balance;
-  font-size:clamp(13px,3.4vw,18px);line-height:1.5;color:var(--ink-muted);
+  font-size:clamp(15px,3.9vw,18px);line-height:1.5;color:var(--ink-muted);
 }
 
 body:not(.is-done) .hero__w,
@@ -382,7 +387,7 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
   position:relative;align-self:start;justify-self:start;
   display:inline-flex;align-items:center;gap:.5em;
   padding:.72em 0 .62em;min-height:46px;box-sizing:border-box;
-  font-family:var(--display);font-weight:700;
+  font-family:var(--display);font-weight:800;
   font-size:clamp(14px,1.05vw,17px);letter-spacing:-.01em;
   color:var(--ink);text-align:left;
   transition:gap .35s var(--e);
@@ -436,12 +441,12 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
 
 .sw__tabs{
   display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:10px;margin-bottom:clamp(30px,4vh,44px);
+  gap:8px;margin-bottom:clamp(26px,3.6vh,40px);
 }
 .sw__tabs li{display:flex}
 .sw__tab{
   flex:1 1 auto;display:inline-flex;align-items:center;justify-content:center;
-  min-height:50px;padding:.5em .8em;border-radius:var(--r);
+  min-height:46px;padding:.5em .8em;border-radius:var(--r);
   background:var(--card);border:1.5px solid var(--line);
   font-weight:500;font-size:clamp(14px,1.05vw,16.5px);
   color:var(--ink);text-align:center;
@@ -494,22 +499,32 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
   margin-top:clamp(12px,1.8vh,18px);max-width:46ch;
   font-size:clamp(14.5px,1.02vw,17px);line-height:1.55;
 }
-.fold__list{margin-top:clamp(16px,2.4vh,24px);display:grid;gap:9px}
-.fold__i{
+/* Був стос із пʼяти окремих карток: кожна зі своєю рамкою, падингом
+   і нахилом. На телефоні це 305px із 1095px усієї секції — чверть
+   висоти на саме лише обрамлення.
+
+   Тепер це один аркуш, покладений у папку трохи навскіс, а пункти —
+   рядки на ньому. Нахил лишився, але він тепер один на всіх, а не
+   пʼять різних; метафора від цього тільки чистішає — у папці лежить
+   документ, а не жменя карток. */
+.fold__list{
+  margin-top:clamp(16px,2.4vh,24px);
   background:var(--card);color:var(--ink);
   border:1.5px solid var(--pink);border-radius:var(--r);
-  padding:.68em .85em;
-  font-size:clamp(13.5px,1vw,16px);line-height:1.45;
-  rotate:-.5deg;
+  rotate:-.4deg;overflow:hidden;
 }
-.fold__i:nth-child(even){rotate:.45deg}
-.fold__i:nth-child(3n){rotate:-.2deg}
+.fold__i{
+  padding:.52em .8em;
+  font-size:clamp(13.5px,1vw,16px);line-height:1.4;
+  border-top:1px solid var(--line);
+}
+.fold__i:first-child{border-top:0}
 .fold__i b{font-weight:600}
 .fold__n{
   font-family:var(--ui);font-style:normal;font-size:15px;
   color:var(--ink-muted);margin-right:.45em;
 }
-/* підписи вступають по черзі, 50 мс один за одним */
+/* рядки вступають по черзі, 50 мс один за одним */
 .svc.is-on .fold__i{animation:labelIn .34s var(--e) both}
 .svc.is-on .fold__i:nth-child(1){animation-delay:.20s}
 .svc.is-on .fold__i:nth-child(2){animation-delay:.25s}
@@ -551,11 +566,10 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
 .sw__note{font-size:clamp(13.5px,.98vw,16.5px);line-height:1.55;color:var(--ink-muted)}
 
 /* ============ 03 · ЦИКЛ SODO ============
-   Вертикальний таймлайн, який сам себе розповідає. Коли блок входить
-   у кадр, кроки загоряються по одному, 0.9 с між ними, і лишаються
-   активними — програється рівно раз. Лінія не живе окремо: вона
-   рушає до наступної точки одночасно з тим, як та загоряється, і
-   доходить рівно в мить підсвічування. */
+   Вертикальний таймлайн, який веде прокрутка, а не таймер: лінія
+   росте рівно стільки, скільки людина прогорнула, і точка загоряється
+   в мить, коли лінія її дістала. Та сама механіка, що й у «5 кроків»
+   нижче — на сайті одна мова прогресу, а не дві. */
 
 .cycle{padding-bottom:clamp(48px,7vh,96px)}
 .cycle__p{
@@ -581,7 +595,7 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
 .road::after{
   background:var(--pink);transform-origin:top;
   transform:scaleY(var(--road,0));
-  transition:transform var(--road-t,.9s) linear;
+  transition:transform .2s linear;
 }
 /* крок, до якого лінія ще не дійшла, тримається тихіше */
 .road__s{
@@ -638,17 +652,13 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
   font-family:var(--display);font-weight:900;
   font-size:clamp(21px,5.5vw,54px);line-height:1;letter-spacing:-.03em;
   white-space:nowrap;font-variant-numeric:tabular-nums;
-  /* Подих: росте від лівого краю, щоб цифра лишалась рівно над
-     своїм підписом. Рухається тільки scale — верстка не переливається. */
+  /* Росте від лівого краю, щоб цифра лишалась рівно над своїм
+     підписом. Тут був нескінченний подих — прибраний: цифра, яка
+     вічно пульсує, додає рух там, де він нічого не означає, та ще й
+     просідає прозорістю. Замість нього один settle у кінці лічби,
+     і далі цифра просто стоїть. */
   transform-origin:left center;
-  animation:breathe 3.2s var(--e-soft) infinite;
-  animation-play-state:paused;
 }
-/* кожна у своїй фазі — інакше всі три дихали б хором */
-.stat:nth-child(2) .stat__n{animation-delay:-1.07s}
-.stat:nth-child(3) .stat__n{animation-delay:-2.14s}
-.stats.is-live .stat__n{animation-play-state:running}
-@keyframes breathe{0%,100%{scale:1;opacity:1}50%{scale:1.06;opacity:.92}}
 .stat__c{
   display:block;margin-top:clamp(7px,1.2vh,13px);max-width:15ch;
   font-size:clamp(12px,.92vw,15px);line-height:1.35;color:var(--ink-muted);
@@ -1021,6 +1031,13 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
   .qa__q::after{right:7.7px;height:17px;top:calc(clamp(18px,2.6vh,26px) + .72em - 7.7px)}
   .qa__a p{padding-right:46px;font-size:15px}
 
+  /* Зерно на телефоні стоїть. На DPR 3 плитка шуму розтягується
+     втричі, тож зсув на 3% не читається як живе тло — це просто
+     повношаровий композит, який крутиться вічно. Текстура лишається,
+     рух іде; шар заодно стискається до екрана, бо йому більше нема
+     куди їздити. */
+  .grain{inset:0;animation:none;opacity:.2}
+
   .ft{flex-wrap:wrap;gap:14px}
   .ft__c{margin-left:0;order:3;width:100%}
   .mn__nav a{font-size:clamp(26px,8.4vw,42px)}
@@ -1044,7 +1061,6 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
   .steps::after{transform:scaleY(1)}
   .step p{opacity:1;translate:0 0}
   .step--last.is-on .step__dot,.step__dot{opacity:1;animation:none}
-  .stat__n{animation:none;scale:1;opacity:1}
   .fig__far{filter:blur(48px) contrast(1.2)}
   .fig__soft{filter:blur(26px) contrast(1.3)}
 }
