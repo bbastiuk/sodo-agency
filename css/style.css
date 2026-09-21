@@ -760,6 +760,19 @@ body.is-done .hero__foot{animation:riseIn .8s var(--e) .5s both}
   font-weight:600;font-size:clamp(17px,1.5vw,26px);line-height:1.2;letter-spacing:-.012em;
   transition:color .45s var(--e);
 }
+/* На широкому екрані крок читається як рядок таблиці: номер, назва,
+   пояснення — через усю ширину. Інакше весь блок тулився б у лівій
+   третині й половина екрана стояла б порожня. */
+@media (min-width:901px){
+  .step__b{
+    display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.5fr);
+    gap:clamp(20px,3vw,56px);align-items:baseline;
+  }
+  .step p{margin-top:0;max-width:56ch}
+  .step{padding-bottom:clamp(30px,4.4vh,50px)}
+}
+
+/* Стани дуже делікатні: майбутні кроки просто трохи тихіші. */
 .step p{
   margin-top:8px;max-width:46ch;
   font-size:clamp(14px,.98vw,17px);line-height:1.6;color:var(--ink-2);
