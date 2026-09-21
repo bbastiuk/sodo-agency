@@ -435,38 +435,57 @@ function sentences() {
 }
 
 /* ────────────────────────────────────────────
-   ЦИФРИ ДОСВІДУ: НАБІГАННЯ ВІД НУЛЯ
+   ЦИФРИ ДОСВІДУ: ШВИДКА ЛІЧБА ВІД НУЛЯ
 
-   Шаблонів немає: беремо текст, який уже стоїть, знаходимо в ньому
-   всі числа й ведемо кожне від нуля до його ж значення. Тому «30+»,
-   «3 роки 2 міс» і «52» оживають однаково, а сам текст лишається
-   недоторканим — у кінці ми повертаємо рівно вихідний рядок.
-   Запускається раз, коли цифра вперше входить у кадр.
+   Шаблонів немає: беремо текст, який уже стоїть, знаходимо в ньому всі
+   числа й ведемо кожне від нуля до його ж значення. Тому «30+»,
+   «3 роки 2 міс» і «52» оживають однаково, а в кінці повертається
+   рівно вихідний рядок.
+
+   Дві речі роблять лічбу швидкою, а не декоративною.
+
+   Перша — рівний крок. Раніше тут стояло 1-(1-t)³: число доходило до
+   29 і повзло до 30 чверть усього часу, а «3 роки 2 міс» майже пів
+   секунди стояло на «2 роки 1 міс». Будь-яке сповільнення в кінці на
+   лічильнику читається як затримка, тому крива тут пряма — саме так
+   працює лічильник, а не декоративна анімація. Кроки виходять
+   однакові: 19 мс на одиницю в «52», 333 мс у «3 роки 2 міс».
+
+   Друга — округлення вниз. З Math.round число перестрибує через
+   значення на початку; з floor воно справді проходить 0, 1, 2, 3…
+
+   Тривалість 1 с. До першої появи в кадрі на місці цифри стоїть нуль,
+   щоб фінальне значення ніде не блимнуло раніше за лічбу.
    ──────────────────────────────────────────── */
 
 function counts() {
   const items = $$('[data-count]');
   if (!items.length) return;
 
-  const run = el => {
-    const src = el.dataset.src || (el.dataset.src = el.textContent);
-    const nums = (src.match(/\d+/g) || []).map(Number);
-    if (!nums.length) return;
+  const D = 1000;
+  const zeros = el => el.dataset.src.replace(/\d+/g, '0');
 
-    const D = 1250, t0 = performance.now();
-    const ease = t => 1 - Math.pow(1 - t, 3);
+  const run = el => {
+    const src = el.dataset.src;
+    const nums = (src.match(/\d+/g) || []).map(Number);
+    if (!nums.length) { el.textContent = src; return; }
+
+    const t0 = performance.now();
     const frame = now => {
       const k = Math.min((now - t0) / D, 1);
       let i = 0;
-      el.textContent = src.replace(/\d+/g, () => String(Math.round(nums[i++] * ease(k))));
+      el.textContent = src.replace(/\d+/g, () => String(Math.floor(nums[i++] * k)));
       if (k < 1) requestAnimationFrame(frame);
-      else el.textContent = src;
+      else el.textContent = src;              // повертаємо вихідний рядок дослівно
     };
-    el.textContent = src.replace(/\d+/g, '0');
     requestAnimationFrame(frame);
   };
 
+  items.forEach(el => { el.dataset.src = el.textContent; });
+
   if (calm() || !('IntersectionObserver' in window)) return;
+
+  items.forEach(el => { el.textContent = zeros(el); });
   const io = new IntersectionObserver(es => es.forEach(e => {
     if (!e.isIntersecting) return;
     io.unobserve(e.target);
