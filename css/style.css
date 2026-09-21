@@ -173,7 +173,7 @@ body.dock-on .dock{transform:none}
   position:absolute;left:var(--gut);right:var(--gut);bottom:clamp(24px,6vh,54px);
   height:3px;background:var(--pink);transform:scaleX(0);transform-origin:left;
 }
-body.is-done .load{opacity:0;visibility:hidden;transition:opacity .4s var(--e),visibility 0s .4s}
+body.is-done .load{opacity:0;visibility:hidden;transition:opacity .79s var(--e),visibility 0s .79s}
 
 /* ============ ШАПКА ============ */
 

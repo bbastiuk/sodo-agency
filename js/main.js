@@ -50,27 +50,36 @@ async function boot() {
     sessionStorage.setItem(SEEN, '1');
   } catch { /* приватний режим — програємо повну версію */ }
 
+  /* Заставка на 45% довша. Рахував не суму таймерів, а заміряний
+     час від переходу до зникнення шару: у ньому є ще й очікування
+     шрифтів і перекладу, якого множити не можна. Заміряно на тому
+     самому сервері — 1682 мс було, 2439 мс стало, тобто рівно ×1.45.
+     Самі таймери від того зросли в 1.52 раза. Смуга так само добігає
+     трохи раніше, ніж шар іде. */
   const full = !seen && !calm();
-  const dur  = full ? 720 : 220;
+  const dur  = full ? 1094 : 334;
   const ease = 'cubic-bezier(.16,.84,.26,1)';
 
+  /* Кінцевий трекінг збігається з тим, що в CSS: літери сходяться
+     з .08em до .02em і там стоять. Раніше анімація дотягувала їх до
+     -.02em і тримала, тобто спокійний стан суперечив стилю. */
   word?.animate([
     { opacity: 0, filter: 'blur(22px)', letterSpacing: '.08em' },
-    { opacity: 1, filter: 'blur(0px)',  letterSpacing: '-.02em' },
+    { opacity: 1, filter: 'blur(0px)',  letterSpacing: '.02em' },
   ], { duration: dur, easing: ease, fill: 'both' });
 
   if (bar && full) {
     bar.animate([{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }],
-      { duration: dur + 140, easing: ease, fill: 'both' });
+      { duration: dur + 213, easing: ease, fill: 'both' });
   }
 
-  await wait(full ? 940 : 280);
+  await wait(full ? 1428 : 425);
 
   body.classList.remove('is-loading');
   body.classList.add('is-done');
   if (sr) sr.textContent = '';
 
-  await wait(520);
+  await wait(790);
   $('#load')?.remove();
 }
 
