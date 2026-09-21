@@ -18,18 +18,17 @@
 
 <link rel="preload" href="assets/fonts/Benzin-ExtraBold.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/Benzin-Medium.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/mono-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/inter-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" as="image" href="assets/figures/figure.png">
 <link rel="stylesheet" href="assets/fonts/fonts.css">
-<link rel="stylesheet" href="css/style.css?v=7">
+<link rel="stylesheet" href="css/style.css?v=8">
 
 <noscript><style>
   .load{display:none}
-  .rv,.rv *{opacity:1!important;filter:none!important;transform:none!important;clip-path:none!important}
-  .hero__w,.lead,.hero__lead,.hero__tags{
-    opacity:1!important;filter:none!important;transform:none!important}
-  .hero__brush{clip-path:none!important}
-  .qa__a{display:block!important}
+  .rv{opacity:1!important;transform:none!important}
+  .hero__w,.lead,.hero__lead,.hero__foot{opacity:1!important;transform:none!important}
+  .hero__veil{display:none}
+  .qa__a{display:block!important;height:auto!important}
   .road__draw{stroke-dashoffset:0!important}
   .road__s > *{opacity:1!important}
   .fig__sharp{-webkit-mask-image:none!important;mask-image:none!important}
@@ -98,28 +97,17 @@
     <img class="fig__sharp" src="assets/figures/figure.png" alt="" width="848" height="1138">
   </div>
 
-  <p class="hero__lead" data-i18n="hero.lead">Digital-агенція. Тестуємо, змінюємо, посилюємо, поки реклама й контент не почнуть приносити гроші.</p>
+  <p class="hero__lead" id="heroLead" data-i18n="hero.lead">Digital-агенція. Тестуємо, змінюємо, посилюємо, поки реклама й контент не почнуть приносити гроші.</p>
 
   <h1 class="hero__t" id="heroT">
     <span class="hero__w hero__w--1" data-i18n="hero.w1">Вас мають</span>
-    <span class="hero__w hero__w--2"><span class="hero__key"><!--
+    <span class="hero__w hero__w--2"><span class="hero__key" id="heroKey"><!--
       --><span class="hero__word" data-i18n="hero.w2">помічати</span><!--
-      --><svg class="hero__brush" viewBox="0 0 300 26" preserveAspectRatio="none"
-              aria-hidden="true" focusable="false">
-        <path d="M4 18.4C39 9.4 119 4.1 195 4.7C237 5 273 7.1 296 11.1
-                 C275 16.1 235 19.3 185 20.5C117 22.1 47 21.5 4 18.4Z"/>
-      </svg></span></span>
+      --><span class="hero__veil" data-i18n="hero.w2" aria-hidden="true">помічати</span></span></span>
   </h1>
 
   <div class="hero__foot">
     <a class="lead" href="#form"><span data-i18n="hero.cta">Обговоримо проект</span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.5 12h14M12.8 5.7 19 12l-6.2 6.3"/></svg></a>
-    <ul class="hero__tags" aria-label="Напрями роботи">
-    <li data-i18n="hero.tag0">SMM</li>
-    <li data-i18n="hero.tag1">Таргет</li>
-    <li data-i18n="hero.tag2">Сайти</li>
-    <li data-i18n="hero.tag3">Чат-боти</li>
-    <li data-i18n="hero.tag4">Консультації</li>
-    </ul>
   </div>
 </section>
 
@@ -150,29 +138,133 @@
     </ul>
 
     <div class="sw__stage">
-        <figure class="scene is-on" id="scene0" role="tabpanel"
-          aria-labelledby="tab0">
-          <span class="scene__ph" aria-hidden="true"><i>01</i></span>
+        <figure class="scene is-on" id="scene0" role="tabpanel" aria-labelledby="tab0">
+          <div class="scene__art" aria-hidden="true">
+            <svg viewBox="0 0 400 260" preserveAspectRatio="xMidYMid meet" focusable="false">
+              <circle class="sc-card" cx="30" cy="26" r="13"/>
+              <rect class="sc-dim" x="52" y="18" width="74" height="8" rx="4"/>
+              <rect class="sc-dim" x="52" y="32" width="46" height="6" rx="3" opacity=".6"/>
+              <rect class="sc-card" x="40" y="70" width="96" height="132" rx="6"/>
+              <rect class="sc-fill" x="48" y="78" width="80" height="74" rx="3"/>
+              <circle class="sc-pink" cx="88" cy="115" r="19"/>
+              <rect class="sc-dim" x="48" y="162" width="66" height="7" rx="3.5"/>
+              <rect class="sc-dim" x="48" y="176" width="44" height="7" rx="3.5" opacity=".6"/>
+              <rect class="sc-card" x="152" y="54" width="96" height="162" rx="6"/>
+              <rect class="sc-pink" x="160" y="62" width="80" height="94" rx="3"/>
+              <circle class="sc-face" cx="200" cy="109" r="17"/>
+              <path class="sc-l" d="M193 101l16 8-16 8z"/>
+              <rect class="sc-dim" x="160" y="168" width="66" height="7" rx="3.5"/>
+              <rect class="sc-dim" x="160" y="182" width="52" height="7" rx="3.5" opacity=".6"/>
+              <rect class="sc-dim" x="160" y="196" width="34" height="7" rx="3.5" opacity=".6"/>
+              <rect class="sc-card" x="264" y="70" width="96" height="132" rx="6"/>
+              <rect class="sc-fill" x="272" y="78" width="80" height="74" rx="3"/>
+              <path class="sc-pink" d="M272 152l30-40 22 28 14-16 14 28z"/>
+              <rect class="sc-dim" x="272" y="162" width="58" height="7" rx="3.5"/>
+              <rect class="sc-dim" x="272" y="176" width="40" height="7" rx="3.5" opacity=".6"/>
+              <path class="sc-l sc-l--pink" d="M44 240 118 231 192 235 266 219 356 208"/>
+              <circle class="sc-pink" cx="356" cy="208" r="5"/>
+            </svg>
+          </div>
           <figcaption class="scene__cap" data-i18n="serv.desc0">Контент, який зупиняє скрол і продає. Створюємо систему, яка працює на заявки.</figcaption>
         </figure>
-        <figure class="scene" id="scene1" role="tabpanel"
-          aria-labelledby="tab1" hidden>
-          <span class="scene__ph" aria-hidden="true"><i>02</i></span>
+        <figure class="scene" id="scene1" role="tabpanel" aria-labelledby="tab1" hidden>
+          <div class="scene__art" aria-hidden="true">
+            <svg viewBox="0 0 400 260" preserveAspectRatio="xMidYMid meet" focusable="false">
+              <rect class="sc-card" x="24" y="40" width="124" height="180" rx="6"/>
+              <rect class="sc-fill" x="32" y="48" width="108" height="84" rx="3"/>
+              <circle class="sc-pink" cx="86" cy="86" r="26"/>
+              <rect class="sc-dim" x="32" y="144" width="92" height="8" rx="4"/>
+              <rect class="sc-dim" x="32" y="160" width="66" height="8" rx="4" opacity=".6"/>
+              <rect class="sc-pink" x="32" y="182" width="108" height="26" rx="13"/>
+              <path class="sc-l sc-l--dash" d="M148 130H178"/>
+              <rect class="sc-l" x="186" y="58" width="186" height="34" rx="4"/>
+              <path class="sc-l" d="M279 92v18m0 0-6-6m6 6 6-6"/>
+              <rect class="sc-l" x="214" y="116" width="130" height="34" rx="4"/>
+              <path class="sc-l" d="M279 150v18m0 0-6-6m6 6 6-6"/>
+              <rect class="sc-pink" x="240" y="174" width="78" height="34" rx="4"/>
+              <path class="sc-l sc-l--pink" d="M279 208v14"/>
+              <circle class="sc-pink" cx="279" cy="232" r="9"/>
+            </svg>
+          </div>
           <figcaption class="scene__cap" data-i18n="serv.desc1">Крутимо рекламу, доки вона не окупиться. Не спрацювала, значить міняємо. Спрацювала — посилюємо.</figcaption>
         </figure>
-        <figure class="scene" id="scene2" role="tabpanel"
-          aria-labelledby="tab2" hidden>
-          <span class="scene__ph" aria-hidden="true"><i>03</i></span>
+        <figure class="scene" id="scene2" role="tabpanel" aria-labelledby="tab2" hidden>
+          <div class="scene__art" aria-hidden="true">
+            <svg viewBox="0 0 400 260" preserveAspectRatio="xMidYMid meet" focusable="false">
+              <rect class="sc-card" x="24" y="22" width="352" height="216" rx="8"/>
+              <path class="sc-l" d="M24 56h352"/>
+              <circle class="sc-dim" cx="42" cy="39" r="4"/>
+              <circle class="sc-dim" cx="56" cy="39" r="4"/>
+              <circle class="sc-dim" cx="70" cy="39" r="4"/>
+              <rect class="sc-fill" x="88" y="31" width="180" height="16" rx="8"/>
+              <rect class="sc-dim" x="300" y="36" width="20" height="5" rx="2.5"/>
+              <rect class="sc-dim" x="326" y="36" width="20" height="5" rx="2.5"/>
+              <rect class="sc-fill" x="246" y="68" width="110" height="154" rx="6"/>
+              <circle class="sc-dim" cx="301" cy="116" r="27"/>
+              <path class="sc-dim" d="M257 222c0-26 20-44 44-44s44 18 44 44z"/>
+              <rect class="sc-dim" x="48" y="78" width="104" height="11" rx="5.5"/>
+              <rect class="sc-pink" x="48" y="97" width="152" height="24" rx="4"/>
+              <rect class="sc-dim" x="48" y="138" width="78" height="8" rx="4"/>
+              <path class="sc-l" d="M48 156h78"/>
+              <rect class="sc-l" x="48" y="182" width="56" height="40" rx="4"/>
+              <rect class="sc-l" x="111" y="182" width="56" height="40" rx="4"/>
+              <rect class="sc-l" x="174" y="182" width="56" height="40" rx="4"/>
+            </svg>
+          </div>
           <figcaption class="scene__cap" data-i18n="serv.desc2">Гарні та зручні, а головне, що збирають заявки. Від першого екрана до кнопки «Купити».</figcaption>
         </figure>
-        <figure class="scene" id="scene3" role="tabpanel"
-          aria-labelledby="tab3" hidden>
-          <span class="scene__ph" aria-hidden="true"><i>04</i></span>
+        <figure class="scene" id="scene3" role="tabpanel" aria-labelledby="tab3" hidden>
+          <div class="scene__art" aria-hidden="true">
+            <svg viewBox="0 0 400 260" preserveAspectRatio="xMidYMid meet" focusable="false">
+              <rect class="sc-fill" x="20" y="28" width="210" height="44" rx="18"/>
+              <rect class="sc-dim" x="38" y="42" width="150" height="6" rx="3"/>
+              <rect class="sc-dim" x="38" y="56" width="104" height="6" rx="3" opacity=".6"/>
+              <rect class="sc-pink" x="136" y="86" width="244" height="40" rx="18"/>
+              <rect class="sc-face" x="156" y="98" width="180" height="6" rx="3"/>
+              <rect class="sc-face" x="156" y="110" width="120" height="6" rx="3" opacity=".7"/>
+              <rect class="sc-fill" x="20" y="140" width="250" height="54" rx="18"/>
+              <rect class="sc-dim" x="38" y="152" width="190" height="6" rx="3"/>
+              <rect class="sc-dim" x="38" y="164" width="160" height="6" rx="3" opacity=".7"/>
+              <rect class="sc-dim" x="38" y="176" width="96" height="6" rx="3" opacity=".5"/>
+              <rect class="sc-fill" x="20" y="208" width="74" height="32" rx="16"/>
+              <circle class="sc-dim" cx="38" cy="224" r="4"/>
+              <circle class="sc-dim" cx="56" cy="224" r="4"/>
+              <circle class="sc-dim" cx="74" cy="224" r="4"/>
+              <rect class="sc-l" x="196" y="210" width="84" height="28" rx="14"/>
+              <rect class="sc-dim" x="212" y="221" width="52" height="6" rx="3"/>
+              <rect class="sc-l" x="290" y="210" width="92" height="28" rx="14"/>
+              <rect class="sc-dim" x="306" y="221" width="60" height="6" rx="3"/>
+            </svg>
+          </div>
           <figcaption class="scene__cap" data-i18n="serv.desc3">Відповідають клієнтам, поки ви спите, і не гублять жодної заявки.</figcaption>
         </figure>
-        <figure class="scene" id="scene4" role="tabpanel"
-          aria-labelledby="tab4" hidden>
-          <span class="scene__ph" aria-hidden="true"><i>05</i></span>
+        <figure class="scene" id="scene4" role="tabpanel" aria-labelledby="tab4" hidden>
+          <div class="scene__art" aria-hidden="true">
+            <svg viewBox="0 0 400 260" preserveAspectRatio="xMidYMid meet" focusable="false">
+              <rect class="sc-card" x="30" y="24" width="200" height="212" rx="6"/>
+              <path class="sc-l sc-l--thin" d="M62 24v212"/>
+              <rect class="sc-dim" x="76" y="42" width="112" height="9" rx="4.5"/>
+              <rect class="sc-pink" x="76" y="70" width="16" height="16" rx="3"/>
+              <path class="sc-l" d="M79.5 78l3.5 3.5 6-7"/>
+              <rect class="sc-dim" x="102" y="73" width="100" height="7" rx="3.5"/>
+              <rect class="sc-pink" x="76" y="102" width="16" height="16" rx="3"/>
+              <path class="sc-l" d="M79.5 110l3.5 3.5 6-7"/>
+              <rect class="sc-dim" x="102" y="105" width="82" height="7" rx="3.5"/>
+              <rect class="sc-l" x="76" y="134" width="16" height="16" rx="3"/>
+              <rect class="sc-dim" x="102" y="137" width="94" height="7" rx="3.5" opacity=".65"/>
+              <rect class="sc-l" x="76" y="166" width="16" height="16" rx="3"/>
+              <rect class="sc-dim" x="102" y="169" width="70" height="7" rx="3.5" opacity=".65"/>
+              <rect class="sc-l" x="76" y="198" width="16" height="16" rx="3"/>
+              <rect class="sc-dim" x="102" y="201" width="88" height="7" rx="3.5" opacity=".65"/>
+              <rect class="sc-card" x="252" y="70" width="118" height="120" rx="6"/>
+              <rect class="sc-dim" x="264" y="84" width="54" height="7" rx="3.5"/>
+              <path class="sc-l sc-l--dash" d="M264 118h94"/>
+              <rect class="sc-fill" x="264" y="140" width="20" height="36" rx="2"/>
+              <rect class="sc-fill" x="290" y="126" width="20" height="50" rx="2"/>
+              <rect class="sc-fill" x="316" y="146" width="20" height="30" rx="2"/>
+              <rect class="sc-pink" x="342" y="106" width="20" height="70" rx="2"/>
+            </svg>
+          </div>
           <figcaption class="scene__cap" data-i18n="serv.desc4">Погляд збоку на ваш маркетинг: що працює, що зливає бюджет, що робити далі.</figcaption>
         </figure>
     </div>
@@ -249,56 +341,76 @@
     <p class="sh__i" data-i18n="cases.sub">Повні кейси й відео-відгуки в Instagram.</p>
   </header>
 
-  <ol class="case__list">
-    <li class="case rv" data-rv="up">
-      <h3 class="case__n" data-i18n="case.n0">Комʼюніті</h3>
-      <p class="case__c" data-i18n="case.c0">Познань</p>
-      <div class="case__row">
-        <span class="case__k">Було</span>
-        <p class="case__v" data-i18n="case.b0">Старт з нуля, жодних соцмереж, бренд без образу, обмежений бюджет.</p>
-      </div>
-      <div class="case__row case__row--res">
-        <span class="case__k">Результат</span>
-        <p class="case__v" data-i18n="case.r0">Заявка по $1,20 в перший місяць роботи. За рік імʼя почало працювати саме на себе, і половина квитків розходилась органічно.</p>
-      </div>
-    </li>
-    <li class="case rv" data-rv="up">
-      <h3 class="case__n" data-i18n="case.n1">Легалізація</h3>
-      <p class="case__c" data-i18n="case.c1">Познань</p>
-      <div class="case__row">
-        <span class="case__k">Було</span>
-        <p class="case__v" data-i18n="case.b1">Старт з нуля, без бази клієнтів.</p>
-      </div>
-      <div class="case__row case__row--res">
-        <span class="case__k">Результат</span>
-        <p class="case__v" data-i18n="case.r1">Заявка по $3,90 вже на другий місяць роботи.</p>
-      </div>
-    </li>
-    <li class="case rv" data-rv="up">
-      <h3 class="case__n" data-i18n="case.n2">Працевлаштування</h3>
-      <p class="case__c" data-i18n="case.c2">Німеччина</p>
-      <div class="case__row">
-        <span class="case__k">Було</span>
-        <p class="case__v" data-i18n="case.b2">Неякісні заявки й блокування рекламного кабінету.</p>
-      </div>
-      <div class="case__row case__row--res">
-        <span class="case__k">Результат</span>
-        <p class="case__v" data-i18n="case.r2">Стабільно працюючий кабінет і заявка по €3.</p>
-      </div>
-    </li>
-    <li class="case rv" data-rv="up">
-      <h3 class="case__n" data-i18n="case.n3">Студія краси</h3>
-      <p class="case__c" data-i18n="case.c3">Познань</p>
-      <div class="case__row">
-        <span class="case__k">Було</span>
-        <p class="case__v" data-i18n="case.b3">Жодних соцмереж, бренд без образу.</p>
-      </div>
-      <div class="case__row case__row--res">
-        <span class="case__k">Результат</span>
-        <p class="case__v" data-i18n="case.r3">Про студію знають всі, а сміливі ідеї впізнають з першого погляду.</p>
-      </div>
-    </li>
-  </ol>
+  <div class="gal rv" id="gal">
+    <ol class="gal__track" id="galTrack">
+      <li class="case">
+        <h3 class="case__n" data-i18n="case.n0">Комʼюніті</h3>
+        <p class="case__c" data-i18n="case.c0">Познань</p>
+        <div class="case__row">
+          <span class="case__k">Було</span>
+          <p class="case__v" data-i18n="case.b0">Старт з нуля, жодних соцмереж, бренд без образу, обмежений бюджет.</p>
+        </div>
+        <div class="case__row case__row--res">
+          <div class="case__res">
+            <span class="case__k">Результат</span>
+            <p class="case__v" data-i18n="case.r0" data-hl="$1,20">Заявка по $1,20 в перший місяць роботи. За рік імʼя почало працювати саме на себе, і половина квитків розходилась органічно.</p>
+          </div>
+        </div>
+      </li>
+      <li class="case">
+        <h3 class="case__n" data-i18n="case.n1">Легалізація</h3>
+        <p class="case__c" data-i18n="case.c1">Познань</p>
+        <div class="case__row">
+          <span class="case__k">Було</span>
+          <p class="case__v" data-i18n="case.b1">Старт з нуля, без бази клієнтів.</p>
+        </div>
+        <div class="case__row case__row--res">
+          <div class="case__res">
+            <span class="case__k">Результат</span>
+            <p class="case__v" data-i18n="case.r1" data-hl="$3,90">Заявка по $3,90 вже на другий місяць роботи.</p>
+          </div>
+        </div>
+      </li>
+      <li class="case">
+        <h3 class="case__n" data-i18n="case.n2">Працевлаштування</h3>
+        <p class="case__c" data-i18n="case.c2">Німеччина</p>
+        <div class="case__row">
+          <span class="case__k">Було</span>
+          <p class="case__v" data-i18n="case.b2">Неякісні заявки й блокування рекламного кабінету.</p>
+        </div>
+        <div class="case__row case__row--res">
+          <div class="case__res">
+            <span class="case__k">Результат</span>
+            <p class="case__v" data-i18n="case.r2" data-hl="€3">Стабільно працюючий кабінет і заявка по €3.</p>
+          </div>
+        </div>
+      </li>
+      <li class="case">
+        <h3 class="case__n" data-i18n="case.n3">Студія краси</h3>
+        <p class="case__c" data-i18n="case.c3">Познань</p>
+        <div class="case__row">
+          <span class="case__k">Було</span>
+          <p class="case__v" data-i18n="case.b3">Жодних соцмереж, бренд без образу.</p>
+        </div>
+        <div class="case__row case__row--res">
+          <div class="case__res">
+            <span class="case__k">Результат</span>
+            <p class="case__v" data-i18n="case.r3" data-hl="знають всі">Про студію знають всі, а сміливі ідеї впізнають з першого погляду.</p>
+          </div>
+        </div>
+      </li>
+    </ol>
+
+    <div class="gal__bar">
+      <button class="gal__b" type="button" id="galPrev" data-d="-1"
+        aria-label="Попередній кейс" aria-controls="galTrack" data-i18n-aria="gal.prev">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19.5 12h-14M11.2 5.7 5 12l6.2 6.3"/></svg></button>
+      <button class="gal__b" type="button" id="galNext" data-d="1"
+        aria-label="Наступний кейс" aria-controls="galTrack" data-i18n-aria="gal.next">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.5 12h14M12.8 5.7 19 12l-6.2 6.3"/></svg></button>
+      <p class="gal__c"><span id="galN">1</span> / <span id="galT">4</span></p>
+    </div>
+  </div>
 
   <a class="lead" href="https://www.instagram.com/sodo.agency/" target="_blank" rel="noopener"
      ><span data-i18n="cases.cta">Дивитись кейси в Instagram</span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M9.6 7H17v7.4"/></svg></a>
@@ -546,6 +658,6 @@
   </nav>
 </footer>
 
-<script src="js/main.js?v=7" defer></script>
+<script src="js/main.js?v=8" defer></script>
 </body>
 </html>

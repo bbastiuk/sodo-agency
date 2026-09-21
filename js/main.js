@@ -6,11 +6,13 @@
    Одна ідея веде все: приховане стає видимим.
 
    1. лінза     — обличчя різкішає там, куди йде курсор
-   2. поява     — блоки наводяться при вході в кадр
-   3. послуги   — сцена відкриває, що саме ми робимо
-   4. маршрут   — лінія веде через цикл SODO
-   5. питання   — відповідь розкривається на дотик
-   6. форма, мови, тон шапки, меню, дрібниці
+   2. фокус     — головне слово заголовка раз проходить крізь смугу
+   3. поява     — блоки піднімаються при вході в кадр
+   4. послуги   — сцена відкриває, що саме ми робимо
+   5. кейси     — галерея гортається пальцем і стрілками
+   6. маршрут   — лінія веде через цикл SODO
+   7. питання   — відповідь розкривається на дотик
+   8. форма, мови, тон шапки, меню, дрібниці
 
    Без бібліотек. Усе, що рухається, знімається одним медіазапитом.
    ============================================================ */
@@ -194,7 +196,7 @@ function reveals() {
       e.target.classList.add('is-in');
       io.unobserve(e.target);   // наводимо один раз, назад не розмиваємо
     });
-  }, { rootMargin: '0px 0px -12% 0px', threshold: 0.1 });
+  }, { rootMargin: '0px 0px -5% 0px', threshold: 0.05 });
 
   items.forEach(el => io.observe(el));
 }
@@ -208,7 +210,10 @@ function reveals() {
 
 function header() {
   const hd = $('#hd');
-  const dark = $$('.talk, .ft');
+  /* Темні площини сайту — форма й підвал. Раніше тут стояв клас, якого
+     в розмітці вже немає, тому над чорною формою шапка лишалась
+     графітовою й зливалась із фоном. */
+  const dark = $$('.form, .ft');
   let last = scrollY, ticking = false;
 
   const step = () => {
@@ -218,6 +223,9 @@ function header() {
     if (!body.classList.contains('is-menu')) {
       body.classList.toggle('is-hide', y > last && y > 240);
     }
+    // підкладка під шапкою: щойно під неї заходить зміст, логотип і
+    // пункти меню перестають з ним змішуватись
+    body.classList.toggle('is-scrolled', y > 12);
     last = y;
 
     const at = (hd?.offsetHeight || 64) * 0.5;
@@ -322,6 +330,172 @@ function strokes() {
   let rz;
   addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(measure, 220); });
   return measure;
+}
+
+/* ────────────────────────────────────────────
+   ПЕРШИЙ ЕКРАН: ПОСАДКА СИЛУЕТУ
+
+   Верхній опис має власну смугу під шапкою, і силует не має права на
+   неї заходити. Точну межу видно лише після того, як шрифт став на
+   місце: «Digital-агенція…» на 360px лягає в три рядки, на 430 — у
+   два. Тому не підбираємо відсотки, а міряємо, де реально кінчається
+   опис і де починається заголовок, і ставимо постать рівно в цю
+   смугу. Міряємо через offsetTop/offsetHeight — ці величини не
+   залежать від transform, тож поява заголовка не збиває розрахунок.
+   ──────────────────────────────────────────── */
+
+function heroFit() {
+  const hero = $('.hero');
+  const lead = $('#heroLead');
+  const h1   = $('#heroT');
+  if (!hero || !lead || !h1) return () => {};
+
+  const phone = matchMedia('(max-width: 620px)');
+  let lastTop = -1, lastH = -1;
+
+  const fit = () => {
+    if (!phone.matches) {
+      hero.style.removeProperty('--fig-top');
+      hero.style.removeProperty('--fig-h');
+      lastTop = lastH = -1;
+      return;
+    }
+    if (!hero.offsetHeight) return;
+
+    const top  = lead.offsetTop + lead.offsetHeight + 14;
+    const room = h1.offsetTop - top;
+    // невеликий захід під заголовок: композиція лишається шаруватою,
+    // але жодна літера не лягає на обличчя
+    const over = Math.min(h1.offsetHeight * 0.2, 56);
+    const h    = Math.max(room + over, 180);
+
+    // Панелі браузера на телефоні згортаються й розгортаються під час
+    // прокрутки і щоразу шлють resize. Висота героя від цього не
+    // змінюється (100svh), тож переписуємо змінні лише коли число
+    // справді інше — інакше силует смикався б на кожен рух.
+    if (Math.abs(top - lastTop) < 1 && Math.abs(h - lastH) < 1) return;
+    lastTop = top; lastH = h;
+    hero.style.setProperty('--fig-top', top.toFixed(1) + 'px');
+    hero.style.setProperty('--fig-h', h.toFixed(1) + 'px');
+  };
+
+  fit();
+  let rz;
+  addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(fit, 140); });
+  addEventListener('orientationchange', () => setTimeout(fit, 260));
+  phone.addEventListener?.('change', fit);
+  return fit;
+}
+
+/* ────────────────────────────────────────────
+   ПРОХІД ФОКУСА ПО СЛОВУ
+
+   Знизу лежить готовий стан: рожеве, різке. Зверху — та сама копія
+   графітом і з легким розмиттям, яку маска знімає зліва направо
+   мʼякою вертикальною смугою. Рамки, променя чи плями поверх тексту
+   немає: зміна відбувається всередині самих букв, а розміри й
+   положення не рухаються взагалі — анімується лише позиція маски.
+
+   Запускається один раз, коли заголовок уперше входить у кадр. Від
+   наведення не залежить, назад не відкочується, і при зменшеному русі
+   слово просто одразу стоїть у фінальному вигляді.
+   ──────────────────────────────────────────── */
+
+function focusPass() {
+  const key = $('#heroKey');
+  if (!key) return;
+
+  const go = () => key.classList.add('is-lit');
+  if (calm() || !('IntersectionObserver' in window)) { go(); return; }
+
+  const io = new IntersectionObserver(([e]) => {
+    if (!e.isIntersecting) return;
+    io.disconnect();
+    setTimeout(go, 420);   // спершу рядок сам стає на місце
+  }, { threshold: 0.35 });
+  io.observe(key);
+}
+
+/* ────────────────────────────────────────────
+   ВИДІЛЕННЯ В РЕЗУЛЬТАТІ
+
+   У блоці «Результат» голосно звучить лише сама цифра або ключова
+   фраза, решта абзацу лишається звичайною. Що саме виділяти, сказано
+   в data-hl; текст при цьому не переписується — ми лише обгортаємо
+   вже наявний шматок.
+   ──────────────────────────────────────────── */
+
+function marks() {
+  $$('[data-hl]').forEach(el => {
+    const hl = el.dataset.hl;
+    const txt = el.textContent;
+    const i = txt.indexOf(hl);
+    if (i < 0) return;
+    const b = document.createElement('span');
+    b.className = 'case__hl';
+    b.textContent = hl;
+    el.textContent = '';
+    el.append(txt.slice(0, i), b, txt.slice(i + hl.length));
+  });
+}
+
+/* ────────────────────────────────────────────
+   КЕЙСИ: ГОРИЗОНТАЛЬНА ГАЛЕРЕЯ
+
+   Гортання пальцем працює саме собою — це звичайна горизонтальна
+   прокрутка зі scroll-snap. Стрілки й лічильник потрібні на великих
+   екранах і для клавіатури. Автопрокрутки немає: кейс читають, а не
+   дивляться, як він тікає.
+   ──────────────────────────────────────────── */
+
+function gallery() {
+  const track = $('#galTrack');
+  if (!track) return;
+  const items = $$('.case', track);
+  if (!items.length) return;
+
+  const nEl = $('#galN'), tEl = $('#galT');
+  const prev = $('#galPrev'), next = $('#galNext');
+  if (tEl) tEl.textContent = String(items.length);
+
+  const pad = () => parseFloat(getComputedStyle(track).paddingLeft) || 0;
+
+  const cur = () => {
+    const base = track.getBoundingClientRect().left + pad();
+    let best = 0, d = Infinity;
+    items.forEach((el, i) => {
+      const dx = Math.abs(el.getBoundingClientRect().left - base);
+      if (dx < d - 1) { d = dx; best = i; }
+    });
+    return best;
+  };
+
+  const sync = () => {
+    const i = cur();
+    if (nEl) nEl.textContent = String(i + 1);
+    const end = track.scrollWidth - track.clientWidth;
+    if (prev) prev.disabled = track.scrollLeft <= 2;
+    if (next) next.disabled = track.scrollLeft >= end - 2;
+  };
+
+  const go = d => {
+    const i = clamp(cur() + d, 0, items.length - 1);
+    const base = track.getBoundingClientRect().left + pad();
+    const dx = items[i].getBoundingClientRect().left - base;
+    track.scrollBy({ left: dx, behavior: calm() ? 'auto' : 'smooth' });
+  };
+
+  prev?.addEventListener('click', () => go(-1));
+  next?.addEventListener('click', () => go(1));
+
+  let ticking = false;
+  track.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => { ticking = false; sync(); });
+  }, { passive: true });
+  addEventListener('resize', sync);
+  sync();
 }
 
 /* ────────────────────────────────────────────
@@ -592,6 +766,12 @@ async function langs() {
         const lab = $('span', el);
         if (lab && m && el.getAttribute('aria-expanded') !== 'true') lab.textContent = m;
       });
+      // підписи, які читає лише зчитувач екрана
+      $$('[data-i18n-aria]').forEach(el => {
+        const v = d.strings[el.dataset.i18nAria];
+        if (v) el.setAttribute('aria-label', v);
+      });
+      marks();   // переклад стер обгортку — накладаємо виділення заново
     }
     document.documentElement.lang = code;
     try { localStorage.setItem(LANG_KEY, code); } catch { /* ok */ }
@@ -630,10 +810,18 @@ menu();
 lens();
 tabs();
 const remeasure = strokes();
+const refit = heroFit();
 road();
+gallery();
+marks();
 faq();
 form();
 langs();
+
+/* Посилання для клавіатури не має лишатись у фокусі після переходу:
+   інакше воно висить угорі весь час, поки людина читає сторінку. */
+const skip = $('.skip');
+skip?.addEventListener('click', () => setTimeout(() => skip.blur(), 0));
 
 const yr = $('#yr');
 if (yr) yr.textContent = String(new Date().getFullYear());
@@ -648,7 +836,11 @@ const ready = document.fonts?.ready
 
 ready.then(() => {
   remeasure?.();
+  refit?.();          // шрифт став на місце — міряємо смугу під опис
   return boot();
+}).then(() => {
+  refit?.();
+  focusPass();
 }).catch(() => {
   body.classList.remove('is-loading');
   body.classList.add('is-done');
