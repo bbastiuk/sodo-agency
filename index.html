@@ -16,18 +16,18 @@
 <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
 
-<link rel="preload" href="assets/fonts/inter-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/Benzin-ExtraBold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/Benzin-Medium.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/mono-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" as="image" href="assets/figures/figure.png">
 <link rel="stylesheet" href="assets/fonts/fonts.css">
-<link rel="stylesheet" href="css/style.css?v=5">
+<link rel="stylesheet" href="css/style.css?v=6">
 
 <noscript><style>
   .load{display:none}
   .rv,.rv *{opacity:1!important;filter:none!important;transform:none!important;clip-path:none!important}
-  .hero__w,.hero__note,.hero .circle,.hero__serv{
-    opacity:1!important;filter:none!important;transform:none!important}
-  .hero__oval path{stroke-dashoffset:0!important}
+  .hero__w,.lead{opacity:1!important;filter:none!important;transform:none!important}
+  .hero__brush{clip-path:none!important}
   .road__draw{stroke-dashoffset:0!important}
   .road__s > *{opacity:1!important}
   .fig__sharp{-webkit-mask-image:none!important;mask-image:none!important}
@@ -86,9 +86,9 @@
 <span id="top"></span>
 
 <!-- ═══════════ 01 · ПЕРШИЙ ЕКРАН ═══════════
-     Фігура за матовим склом проявляється під курсором, а на телефоні
-     сама. Слово «ПОМІЧАТИ» обведене від руки — той самий жест уваги,
-     тільки типографічний. -->
+     Три речі й повітря: фотографія, що проявляється, заголовок з
+     одним акцентом і спокійний заклик. Нічого більше тут не стоїть —
+     перелік напрямів і опис агенції переїхали в блок послуг. -->
 <section class="hero" aria-labelledby="heroT">
 
   <div class="fig fig--hero" id="fig" aria-hidden="true">
@@ -98,105 +98,76 @@
     <img class="fig__sharp" src="assets/figures/figure.png" alt="" width="848" height="1138">
   </div>
 
-  <p class="hero__note">Соцмережі, реклама й сайти для вашого бізнесу</p>
-
   <h1 class="hero__t" id="heroT">
     <span class="hero__w hero__w--1">Вас мають</span>
     <span class="hero__w hero__w--2"><span class="hero__key">помічати<!--
-      --><svg class="hero__oval" viewBox="0 0 600 200" preserveAspectRatio="none"
+      --><svg class="hero__brush" viewBox="0 0 300 26" preserveAspectRatio="none"
               aria-hidden="true" focusable="false">
-        <path d="M596 104C596 156 464 196 298 195C132 194 4 152 5 98
-                                C6 44 136 5 302 6C468 7 597 48 596 102
-                                C595 130 574 150 540 166"/>
+        <path d="M4 18.4C39 9.4 119 4.1 195 4.7C237 5 273 7.1 296 11.1
+                 C275 16.1 235 19.3 185 20.5C117 22.1 47 21.5 4 18.4Z"/>
       </svg></span></span>
   </h1>
 
-  <a class="circle" href="#talk">
-    <span class="circle__t">Обговорімо проєкт<i class="circle__a" aria-hidden="true">→</i></span>
-  </a>
-
-  <ul class="hero__serv" aria-label="Напрями роботи">
-    <li>SMM</li><li>Таргет</li><li>Сайти</li>
-    <li>SEO</li><li>Чат-боти</li><li>Консультації</li>
-  </ul>
+  <a class="lead" href="#talk">Обговорити проєкт<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M9.6 7H17v7.4"/></svg></a>
 </section>
 
 <!-- ═══════════ 02 · ПОСЛУГИ ═══════════
-     Одна сцена замість списку з шести абзаців. Назви доступні всі
-     одразу, сцена змінюється в стабільному контейнері — сторінка під
-     час перемикання не стрибає. -->
+     Одна сцена за раз: назви компактним рядком, під ними один кадр
+     і один підпис. Шести описів на екрані немає. -->
 <section class="serv" id="serv" aria-labelledby="servT">
   <header class="sh">
     <h2 class="lab" id="servT">Послуги</h2>
+    <p class="sh__i">Соцмережі, реклама й сайти для вашого бізнесу</p>
   </header>
 
   <div class="sw" id="sw">
     <ul class="sw__tabs" role="tablist" aria-label="Напрями роботи">
-      <li role="presentation"><button class="sw__tab is-on" type="button" role="tab"
-        id="tab01" aria-controls="scene01" aria-selected="true" tabindex="0">
-        <i>01</i><span>SMM</span></button></li>
-      <li role="presentation"><button class="sw__tab" type="button" role="tab"
-        id="tab02" aria-controls="scene02" aria-selected="false" tabindex="-1">
-        <i>02</i><span>Таргет</span></button></li>
-      <li role="presentation"><button class="sw__tab" type="button" role="tab"
-        id="tab03" aria-controls="scene03" aria-selected="false" tabindex="-1">
-        <i>03</i><span>Сайти</span></button></li>
-      <li role="presentation"><button class="sw__tab" type="button" role="tab"
-        id="tab04" aria-controls="scene04" aria-selected="false" tabindex="-1">
-        <i>04</i><span>SEO</span></button></li>
-      <li role="presentation"><button class="sw__tab" type="button" role="tab"
-        id="tab05" aria-controls="scene05" aria-selected="false" tabindex="-1">
-        <i>05</i><span>Чат-боти</span></button></li>
-      <li role="presentation"><button class="sw__tab" type="button" role="tab"
-        id="tab06" aria-controls="scene06" aria-selected="false" tabindex="-1">
-        <i>06</i><span>Консультації</span></button></li>
+        <li role="presentation"><button class="sw__tab is-on" type="button" role="tab"
+          id="tab01" aria-controls="scene01" aria-selected="true" tabindex="0">SMM</button></li>
+        <li role="presentation"><button class="sw__tab" type="button" role="tab"
+          id="tab02" aria-controls="scene02" aria-selected="false" tabindex="-1">Таргет</button></li>
+        <li role="presentation"><button class="sw__tab" type="button" role="tab"
+          id="tab03" aria-controls="scene03" aria-selected="false" tabindex="-1">Сайти</button></li>
+        <li role="presentation"><button class="sw__tab" type="button" role="tab"
+          id="tab04" aria-controls="scene04" aria-selected="false" tabindex="-1">SEO</button></li>
+        <li role="presentation"><button class="sw__tab" type="button" role="tab"
+          id="tab05" aria-controls="scene05" aria-selected="false" tabindex="-1">Чат-боти</button></li>
+        <li role="presentation"><button class="sw__tab" type="button" role="tab"
+          id="tab06" aria-controls="scene06" aria-selected="false" tabindex="-1">Консультації</button></li>
     </ul>
 
     <div class="sw__stage">
-      <figure class="scene is-on" id="scene01" role="tabpanel" aria-labelledby="tab01">
-        <span class="scene__no" aria-hidden="true">01</span>
-        <img src="assets/images/smm-phone.webp" alt="" width="780" height="950"
-             loading="lazy" decoding="async">
-        <figcaption class="scene__cap">Ведемо сторінки: рубрики, зйомка, тексти й відповіді підписникам.</figcaption>
-      </figure>
-      <figure class="scene" id="scene02" role="tabpanel" aria-labelledby="tab02" hidden>
-        <span class="scene__no" aria-hidden="true">02</span>
-        <img src="assets/images/hero-dart.webp" alt="" width="780" height="950"
-             loading="lazy" decoding="async">
-        <figcaption class="scene__cap">Реклама в Meta і Google — від тестів до аудиторій, які купують.</figcaption>
-      </figure>
-      <figure class="scene" id="scene03" role="tabpanel" aria-labelledby="tab03" hidden>
-        <span class="scene__no" aria-hidden="true">03</span>
-        <img src="assets/images/web-arch.webp" alt="" width="780" height="950"
-             loading="lazy" decoding="async">
-        <figcaption class="scene__cap">Лендинги й магазини: швидкі, зрозумілі, готові приймати заявки.</figcaption>
-      </figure>
-      <figure class="scene" id="scene04" role="tabpanel" aria-labelledby="tab04" hidden>
-        <span class="scene__no" aria-hidden="true">04</span>
-        <img src="assets/images/hero-main.webp" alt="" width="780" height="950"
-             loading="lazy" decoding="async">
-        <figcaption class="scene__cap">Робимо так, щоб бізнес знаходили в пошуку й на картах.</figcaption>
-      </figure>
-      <figure class="scene" id="scene05" role="tabpanel" aria-labelledby="tab05" hidden>
-        <span class="scene__no" aria-hidden="true">05</span>
-        <img src="assets/images/manifesto-loop.webp" alt="" width="780" height="950"
-             loading="lazy" decoding="async">
-        <figcaption class="scene__cap">Заявки, відповіді й нагадування працюють без ручної роботи.</figcaption>
-      </figure>
-      <figure class="scene" id="scene06" role="tabpanel" aria-labelledby="tab06" hidden>
-        <span class="scene__no" aria-hidden="true">06</span>
-        <img src="assets/images/process-stairs.webp" alt="" width="780" height="950"
-             loading="lazy" decoding="async">
-        <figcaption class="scene__cap">Розбираємо ситуацію й складаємо план, якщо робите самі.</figcaption>
-      </figure>
+        <figure class="scene is-on" id="scene01" role="tabpanel" aria-labelledby="tab01">
+          <span class="scene__ph" aria-hidden="true"><i>01</i></span>
+          <figcaption class="scene__cap">Ведемо сторінки: рубрики, зйомка, тексти й відповіді підписникам.</figcaption>
+        </figure>
+        <figure class="scene" id="scene02" role="tabpanel" aria-labelledby="tab02" hidden>
+          <span class="scene__ph" aria-hidden="true"><i>02</i></span>
+          <figcaption class="scene__cap">Реклама в Meta і Google — від тестів до аудиторій, які купують.</figcaption>
+        </figure>
+        <figure class="scene" id="scene03" role="tabpanel" aria-labelledby="tab03" hidden>
+          <span class="scene__ph" aria-hidden="true"><i>03</i></span>
+          <figcaption class="scene__cap">Лендинги й магазини: швидкі, зрозумілі, готові приймати заявки.</figcaption>
+        </figure>
+        <figure class="scene" id="scene04" role="tabpanel" aria-labelledby="tab04" hidden>
+          <span class="scene__ph" aria-hidden="true"><i>04</i></span>
+          <figcaption class="scene__cap">Робимо так, щоб бізнес знаходили в пошуку й на картах.</figcaption>
+        </figure>
+        <figure class="scene" id="scene05" role="tabpanel" aria-labelledby="tab05" hidden>
+          <span class="scene__ph" aria-hidden="true"><i>05</i></span>
+          <figcaption class="scene__cap">Заявки, відповіді й нагадування працюють без ручної роботи.</figcaption>
+        </figure>
+        <figure class="scene" id="scene06" role="tabpanel" aria-labelledby="tab06" hidden>
+          <span class="scene__ph" aria-hidden="true"><i>06</i></span>
+          <figcaption class="scene__cap">Розбираємо ситуацію й складаємо план, якщо робите самі.</figcaption>
+        </figure>
     </div>
   </div>
 </section>
 
 <!-- ═══════════ 03 · ЯК МИ ПРАЦЮЄМО ═══════════
      Лінія домальовується від прокрутки й веде через чотири етапи.
-     Секція не прилипає: прогрес рахується від її положення у вікні,
-     тож швидка прокрутка просто швидше веде лінію. -->
+     Секція не прилипає: прогрес рахується від її положення у вікні. -->
 <section class="way" id="about" aria-labelledby="wayT">
   <header class="sh">
     <h2 class="lab" id="wayT">Як ми працюємо</h2>
@@ -206,12 +177,12 @@
     <svg class="road__line road__line--wide" viewBox="0 0 1000 300"
          preserveAspectRatio="none" aria-hidden="true" focusable="false">
       <path class="road__track" d="M0 58H140L250 205H390L500 58H640L750 205"/>
-      <path class="road__draw"  d="M0 58H140L250 205H390L500 58H640L750 205"/>
+      <path class="road__draw" d="M0 58H140L250 205H390L500 58H640L750 205"/>
     </svg>
     <svg class="road__line road__line--tall" viewBox="0 0 100 1000"
          preserveAspectRatio="none" aria-hidden="true" focusable="false">
       <path class="road__track" d="M18 125V300L72 375V550L18 625V800L72 875"/>
-      <path class="road__draw"  d="M18 125V300L72 375V550L18 625V800L72 875"/>
+      <path class="road__draw" d="M18 125V300L72 375V550L18 625V800L72 875"/>
     </svg>
 
     <ol class="road__steps">
@@ -232,36 +203,29 @@
 </section>
 
 <!-- ═══════════ 04 · ПЕРЕХІД В INSTAGRAM ═══════════
-     Стос кадрів замість переліку кейсів: блок показує рівень, а не
-     переказує його словами. На миші кадри розходяться, на дотику
-     композиція вже розкладена. -->
+     Один акцент і одна дія. Кадри поки заглушки — чекають на
+     справжні публікації. -->
 <section class="look" id="look" aria-labelledby="lookT">
   <a class="look__in" href="https://www.instagram.com/sodo.agency/"
-     target="_blank" rel="noopener" aria-describedby="lookH">
+     target="_blank" rel="noopener">
     <div class="look__txt">
       <h2 class="look__t" id="lookT">Подивіться,<br>що ми робимо</h2>
-      <p class="look__h" id="lookH">@sodo.agency<i class="look__a" aria-hidden="true">→</i></p>
+      <span class="lead lead--as-text">@sodo.agency<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M9.6 7H17v7.4"/></svg></span>
     </div>
 
     <div class="look__stack rv" data-rv="up" aria-hidden="true">
-      <span class="look__c look__c--1"><img src="assets/images/content-camera.webp" alt=""
-            width="780" height="927" loading="lazy" decoding="async"></span>
-      <span class="look__c look__c--2"><img src="assets/images/branding-head.webp" alt=""
-            width="690" height="1129" loading="lazy" decoding="async"></span>
-      <span class="look__c look__c--3"><img src="assets/images/cta-start.webp" alt=""
-            width="860" height="686" loading="lazy" decoding="async"></span>
+      <span class="look__c look__c--1"></span>
+      <span class="look__c look__c--2"></span>
+      <span class="look__c look__c--3"></span>
     </div>
-
   </a>
 </section>
 
 <!-- ═══════════ 05 · КОНТАКТ ═══════════ -->
 <section class="talk" id="talk" aria-labelledby="talkT">
   <h2 class="talk__t" id="talkT">Що створимо разом?</h2>
-
-  <a class="circle circle--big" href="https://t.me/sodoagency" target="_blank" rel="noopener">
-    <span class="circle__t">Написати нам<i class="circle__a" aria-hidden="true">→</i></span>
-  </a>
+  <a class="lead lead--light" href="https://t.me/sodoagency"
+     target="_blank" rel="noopener">Написати в Telegram<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M9.6 7H17v7.4"/></svg></a>
 </section>
 
 </main>
@@ -275,6 +239,6 @@
   </nav>
 </footer>
 
-<script src="js/main.js?v=5" defer></script>
+<script src="js/main.js?v=6" defer></script>
 </body>
 </html>

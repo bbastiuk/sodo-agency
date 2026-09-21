@@ -285,13 +285,12 @@ function menu() {
 /* ────────────────────────────────────────────
    6. ДОВЖИНА ЛІНІЙ, ЯКІ МАЛЮЮТЬСЯ
 
-   Овал навколо слова й лінія маршруту домальовуються через
-   stroke-dashoffset. Обидві криві розтягнуті preserveAspectRatio="none"
-   і мають non-scaling-stroke, тому штрих рахується в екранних
-   пікселях, а не в координатах viewBox — getTotalLength() тут
-   бреше майже вдвічі. Міряємо реальну екранну довжину: беремо точки
-   вздовж шляху, переганяємо їх матрицею у координати екрана й
-   сумуємо відстані.
+   Лінія маршруту домальовується через stroke-dashoffset. Крива
+   розтягнута preserveAspectRatio="none" і має non-scaling-stroke,
+   тому штрих рахується в екранних пікселях, а не в координатах
+   viewBox — getTotalLength() тут бреше. Міряємо реальну екранну
+   довжину: беремо точки вздовж шляху, переганяємо їх матрицею у
+   координати екрана й сумуємо відстані.
    ──────────────────────────────────────────── */
 
 function screenLength(path, steps = 240) {
@@ -310,7 +309,7 @@ function screenLength(path, steps = 240) {
 }
 
 function strokes() {
-  const paths = $$('.hero__oval path, .road__draw');
+  const paths = $$('.road__draw');
   if (!paths.length) return;
 
   const measure = () => paths.forEach(el => {
@@ -437,8 +436,6 @@ const ready = document.fonts?.ready
   : Promise.resolve();
 
 ready.then(() => {
-  // шрифт уже стоїть, ширина слова остаточна — переміряємо овал,
-  // інакше він почав би малюватись від довжини запасного шрифту
   remeasure?.();
   return boot();
 }).catch(() => {
