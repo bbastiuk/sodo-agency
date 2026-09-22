@@ -506,11 +506,16 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
   background:currentColor;opacity:.45;
 }
 
+/* Назва бере всю ширину плитки, а стрілка стоїть у кутку під нею —
+   не збоку. Раніше під стрілку різервувалось 2.2em праворуч, і на
+   360px «Консультації» лишалось 104px замість 128: слово не влазило
+   й рвалось посередині. Тепер воно ціле на всіх ширинах: 18px
+   потребує 122px, а найвужча плитка дає 128. */
 .sw__nm{
-  margin-top:auto;padding-right:2.2em;
+  margin-top:auto;margin-bottom:clamp(22px,5.5vw,28px);
   font-family:var(--display);font-weight:800;
-  font-size:clamp(18.5px,5vw,25px);line-height:1.04;letter-spacing:-.022em;
-  overflow-wrap:anywhere;hyphens:none;
+  font-size:clamp(18px,4.9vw,25px);line-height:1.04;letter-spacing:-.022em;
+  overflow-wrap:normal;hyphens:none;
 }
 
 /* Стрілка стоїть в одній точці в усіх плитках — рахуємо від того
@@ -570,21 +575,32 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
 
 /* Картки лежать стосом в одній комірці сітки; висоту веде JS від
    активної, тому під короткою послугою не лишається порожнечі. */
+/* Поки людина нічого не вибрала, блоку немає зовсім: нульова висота,
+   нульовий відступ, нічого не займає місця. Секція на першому погляді
+   складається тільки з шести нейтральних плиток. */
 .sw__box{
-  display:grid;margin-top:30px;
-  height:var(--box,auto);transition:height .34s var(--e-io);
+  display:grid;overflow:hidden;
+  margin-top:0;height:0;
+  transition:height .34s var(--e-io),margin-top .34s var(--e-io);
 }
+.sw.is-picked .sw__box{margin-top:30px;height:var(--box,auto)}
+
+/* Примітки про ціни мають сенс тільки поруч із самою ціною. */
+.sw__add,.sw__fine{display:none}
+.sw.is-picked .sw__add,.sw.is-picked .sw__fine{display:block}
 .svc{
   grid-area:1 / 1;position:relative;align-self:start;
   background:var(--ink);color:var(--bg);
   border-radius:var(--r-l);overflow:hidden;
   padding:clamp(20px,3vh,32px) clamp(18px,2.2vw,34px) clamp(22px,3.2vh,34px);
-  opacity:0;visibility:hidden;
-  transition:opacity .2s var(--e-soft) 0s,visibility 0s linear .2s;
+  opacity:0;visibility:hidden;translate:0 8px;
+  transition:opacity .2s var(--e-soft) 0s,translate .2s var(--e-soft) 0s,
+             visibility 0s linear .2s;
 }
 .svc.is-on{
-  opacity:1;visibility:visible;
-  transition:opacity .3s var(--e) .16s,visibility 0s linear 0s;
+  opacity:1;visibility:visible;translate:0 0;
+  transition:opacity .3s var(--e) .16s,translate .3s var(--e) .16s,
+             visibility 0s linear 0s;
 }
 /* Замість намальованої папки — фактура самої площини: дрібна сітка,
    що гасне від верхнього правого кута. Предмета немає, працює

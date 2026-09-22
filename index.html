@@ -39,6 +39,13 @@
   .steps::after{transform:scaleY(1)!important}
   .step p{opacity:1!important;translate:0 0!important}
   .svc.is-on .fold__i{opacity:1!important;translate:0 0!important}
+  /* Вибору немає, поки немає JS, тож показуємо всі послуги підряд. */
+  .sw__box{height:auto!important;margin-top:30px!important}
+  .svc{position:static!important;grid-area:auto!important;
+       opacity:1!important;visibility:visible!important;translate:0 0!important;
+       margin-bottom:12px}
+  .svc .fold__i{opacity:1!important;translate:0 0!important}
+  .sw__add,.sw__fine{display:block!important}
   .fig__sharp{-webkit-mask-image:none!important;mask-image:none!important}
 </style></noscript>
 </head>
@@ -150,8 +157,8 @@
 
   <div class="sw" id="sw">
     <ul class="sw__tabs" role="tablist" aria-label="Напрями роботи" data-i18n-aria="aria.tabs">
-      <li role="presentation"><button class="sw__tab is-on" type="button"
-        role="tab" id="tab0" aria-controls="svc0" aria-selected="true" tabindex="0">
+      <li role="presentation"><button class="sw__tab" type="button"
+        role="tab" id="tab0" aria-controls="svc0" aria-selected="false" tabindex="0">
         <i class="sw__i" aria-hidden="true">01</i>
         <svg class="sw__cue" viewBox="0 0 32 32" aria-hidden="true" focusable="false" vector-effect="non-scaling-stroke"><rect x="5" y="5" width="22" height="22" rx="4"/><path d="M13 12.5l8 3.6-3.5 1.4-1.4 3.5z"/></svg>
         <span class="sw__nm" data-i18n="serv.n0">SMM</span>
@@ -195,7 +202,7 @@
     </ul>
 
     <div class="sw__box" id="swBox">
-      <article class="svc is-on" id="svc0" role="tabpanel" aria-labelledby="tab0">
+      <article class="svc" id="svc0" role="tabpanel" aria-labelledby="tab0">
         <div class="svc__head">
           <h3 class="svc__n" data-i18n="serv.n0">SMM</h3>
           <p class="svc__pr" data-i18n="serv.pr0">Ціна від $550</p>

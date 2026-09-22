@@ -586,18 +586,39 @@ function tabs() {
   const wrap  = $('#swBox');
   if (btns.length !== cards.length || !btns.length) return;
 
-  let cur = 0;
+  /* -1 означає «людина ще нічого не вибрала». Раніше тут стояв 0, і
+     сайт вирішував за неї, що їй потрібен SMM: плитка вже рожева,
+     чорна картка вже розкрита. Тепер секція починається з шести
+     нейтральних плиток, а блок зʼявляється тільки після вибору. */
+  let cur = -1;
 
   /* Картки лежать стосом в одній комірці сітки, тож сама по собі
      висота блоку дорівнювала б найвищій — під короткою послугою
      лишалась би порожнеча. Тому висоту веде активна картка. */
   const fit = () => {
-    if (wrap) wrap.style.setProperty('--box', cards[cur].offsetHeight + 'px');
+    if (!wrap) return;
+    wrap.style.setProperty('--box', cur < 0 ? '0px' : cards[cur].offsetHeight + 'px');
+  };
+
+  /* Мʼяко доводимо блок у кадр — і тільки якщо він справді не
+     вміщається. block:'nearest' зсуває рівно настільки, наскільки
+     треба, тож це не стрибок на пів сторінки. Чекаємо, поки висота
+     доїде: до того кінець блоку ще не там, де буде. */
+  const nudge = () => {
+    if (cur < 0 || calm()) return;
+    setTimeout(() => {
+      const r = cards[cur].getBoundingClientRect();
+      if (r.bottom > innerHeight - 8 || r.top < 0) {
+        cards[cur].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      }
+    }, 380);
   };
 
   const show = i => {
     if (i === cur) return;
+    const first = cur < 0;
     cur = i;
+    box.classList.add('is-picked');
     btns.forEach((b, k) => {
       const on = k === i;
       b.classList.toggle('is-on', on);
@@ -608,6 +629,7 @@ function tabs() {
     // черговість задана в CSS, тож дві ніколи не стоять разом
     cards.forEach((el, k) => el.classList.toggle('is-on', k === i));
     fit();
+    if (first) nudge();
   };
 
   btns.forEach((b, i) => b.addEventListener('click', () => show(i)));
@@ -622,7 +644,8 @@ function tabs() {
     const d = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
     if (!d) return;
     e.preventDefault();
-    const n = (cur + d + btns.length) % btns.length;
+    const n = cur < 0 ? (d > 0 ? 0 : btns.length - 1)
+                      : (cur + d + btns.length) % btns.length;
     show(n);
     btns[n].focus();
   });
