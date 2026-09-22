@@ -860,13 +860,17 @@ function faq() {
    Кожна помилка стоїть під своїм полем і називає, що саме не так —
    одного рядка «заповніть обовʼязкові» замало, коли полів шість.
 
-   FORM_ENDPOINT лишається порожнім, доки немає адреси приймача.
-   Поки його нема, заявка не губиться: ми складаємо підписаний текст
-   із усіх полів, кладемо його в буфер і відкриваємо Telegram —
-   менеджер одразу бачить, і куди писати, і чим людина живе.
+   Заявка йде на власну функцію (api/lead.js), а вона вже з боку
+   сервера перекладає її в Telegram. Токен бота живе там у змінній
+   середовища: сайт статичний, тож усе, що лежить у ньому, видно всім.
+
+   Якщо приймач колись відпаде, лишається запасний шлях — текст полів
+   у буфер і відкритий Telegram. Але «дякуємо» в цьому разі показуємо
+   тільки тоді, коли вкладка справді відкрилась: інакше людина йде
+   впевнена, що написала, а заявки немає.
    ──────────────────────────────────────────── */
 
-const FORM_ENDPOINT = '';
+const FORM_ENDPOINT = '/api/lead';
 const FORM_TG = 'https://t.me/sodoagency';
 
 /* Контакт приймаємо в будь-якому вигляді, у якому його пишуть:
@@ -967,6 +971,18 @@ function form() {
     }
 
     const data = Object.fromEntries(new FormData(fm).entries());
+    data.lang = document.documentElement.lang || 'uk';
+
+    /* Поки лист іде, кнопка вимкнена: на повільному звʼязку людина
+       встигає натиснути тричі, і в Telegram падають три однакові
+       заявки. Вмикаємо назад у будь-якому кінці, навіть у помилці. */
+    const btn = $('button[type=submit]', fm);
+    const busy = on => {
+      if (!btn) return;
+      btn.disabled = on;
+      btn.setAttribute('aria-busy', on ? 'true' : 'false');
+    };
+
     const done = () => {
       fm.hidden = true;
       ok.hidden = false;
@@ -974,6 +990,8 @@ function form() {
     };
 
     if (FORM_ENDPOINT) {
+      say('');
+      busy(true);
       try {
         const r = await fetch(FORM_ENDPOINT, {
           method: 'POST',
@@ -984,6 +1002,8 @@ function form() {
         done();
       } catch {
         say('Не вдалось надіслати. Напишіть нам у Telegram: t.me/sodoagency');
+      } finally {
+        busy(false);
       }
       return;
     }
@@ -996,8 +1016,11 @@ function form() {
     }).filter(Boolean).join('\n');
 
     try { await navigator.clipboard.writeText(text); } catch { /* буфер закритий — не біда */ }
-    open(FORM_TG, '_blank', 'noopener');
-    done();
+    /* Перевіряємо результат: після await Safari вважає жест витраченим
+       і глушить open(). Мовчазне «дякуємо» тут коштує заявки. */
+    const win = open(FORM_TG, '_blank', 'noopener');
+    if (win) done();
+    else say('Не вдалось відкрити Telegram. Заявку скопійовано — напишіть нам: t.me/sodoagency');
   });
 }
 

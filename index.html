@@ -438,7 +438,7 @@
       <p class="fld">
         <label for="f_tel"><span data-i18n="form.tel">Телефон</span> <span class="fld__req" aria-hidden="true">*</span></label>
         <input id="f_tel" name="phone" type="tel" inputmode="tel" autocomplete="tel"
-          data-check="phone" aria-describedby="e_tel">
+          required data-check="phone" aria-describedby="e_tel">
         <span class="fld__e" id="e_tel" hidden></span>
       </p>
       <p class="fld fld--opt">
@@ -454,6 +454,11 @@
         <label for="f_task"><span data-i18n="form.task">Що хочете вирішити?</span> <span class="fld__opt" data-i18n="form.opt">необовʼязково</span></label>
         <textarea id="f_task" name="task" rows="3"></textarea>
       </p>
+    </div>
+
+    <div class="fm__hp" aria-hidden="true">
+      <label for="f_company">Не заповнюйте це поле</label>
+      <input id="f_company" name="company" type="text" tabindex="-1" autocomplete="off">
     </div>
 
     <div class="fm__foot">

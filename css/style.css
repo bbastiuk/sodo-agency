@@ -760,6 +760,13 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
   stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .gal__b:hover{border-color:var(--pink);background:var(--pink);color:var(--ink)}
 .gal__b[disabled]{opacity:.35;cursor:default}
+
+/* Кнопка на час відправки: та сама форма, просто без відгуку. */
+.btn[disabled]{opacity:.55;cursor:default;transform:none}
+
+/* Пастка для ботів. Не display:none і не hidden — такі поля автомати
+   навчились пропускати; це справжнє поле, винесене за межі екрана. */
+.fm__hp{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
 .gal__b[disabled]:hover{border-color:var(--line);background:var(--card)}
 .gal__c{font-family:var(--ui);font-size:16px;letter-spacing:.06em;
   color:var(--ink-muted);font-variant-numeric:tabular-nums}
