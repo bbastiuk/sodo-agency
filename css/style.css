@@ -413,6 +413,16 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
   transition:transform .35s var(--e);
 }
 .lead:hover .ico{transform:translateX(3px)}
+/* Дія в героєві — не плашка, а слово з рискою: на першому екрані
+   вже є важкий заголовок і рожева смуга під ним, третя пляма там
+   зайва. Підкреслення чорне й товще за звичайне, бо це головна дія
+   сторінки, а не просто посилання. */
+.lead--hero{
+  margin-top:clamp(18px,2.6vh,28px);
+  text-transform:uppercase;letter-spacing:.01em;
+  font-size:clamp(15px,1.15vw,18px);
+}
+.lead--hero::after{height:3px;background:var(--ink)}
 .lead--btn{cursor:pointer}
 .form .lead,.faq .lead{color:var(--bg)}
 
