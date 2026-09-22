@@ -463,62 +463,109 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
   gap:8px;margin-bottom:clamp(26px,3.6vh,40px);
 }
 .sw__tabs li{display:flex}
-/* Плитка, а не кнопка. Шість однакових заокруглених прямокутників
-   читались як радіокнопки у формі; тепер у кожної є свій поверх:
-   номер угорі, назва внизу, короткий підпис під нею і стрілка в кутку.
-   Активна стає рожевою, решта лишаються світлими. */
+/* Плитка — чистий селектор послуги, а не картка з текстом. Увесь
+   зміст живе в чорній картці під сіткою; тут лише номер, назва,
+   знак і стрілка. Підписи (контент / short video / meta ads) були
+   прибрані: назви й так зрозумілі, а дрібний текст під ними робив
+   плитку дешевшою.
+
+   Рожевий лишається рівно один — #FA9BB6. Глибину активній плитці
+   дають не інші рожеві, а світло й тінь поверх нього: пляма світла
+   з лівого верхнього кута, світла грань угорі й темніння донизу. */
 .sw__tab{
-  flex:1 1 auto;position:relative;overflow:hidden;
+  flex:1 1 auto;position:relative;overflow:hidden;isolation:isolate;
   display:flex;flex-direction:column;align-items:flex-start;
-  min-height:clamp(148px,40vw,172px);
-  padding:clamp(13px,3.4vw,18px);border-radius:var(--r-l);
-  background:var(--card);border:1.5px solid var(--line);
+  min-height:clamp(150px,41vw,178px);
+  padding:clamp(14px,3.6vw,19px);
+  border-radius:12px;
+  background:var(--card);
+  border:1px solid rgba(22,21,20,.085);
+  box-shadow:0 1px 2px rgba(22,21,20,.025);
   color:var(--ink);text-align:left;
   transition:background-color .25s var(--e-soft),border-color .25s var(--e-soft),
-             transform .3s var(--e);
+             box-shadow .3s var(--e-soft),transform .3s var(--e);
 }
+
+/* Мікротекстура, щоб неактивні плитки не читались болванками.
+   Той самий шум, що накритий на весь сайт, тільки втричі тихіший. */
+.sw__tab::before{
+  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+  opacity:.03;mix-blend-mode:multiply;
+}
+
+/* Номер — свій маленький модуль: дрібний, розріджений, із короткою
+   рискою під ним. Не просто текст у кутку, а елемент системи. */
 .sw__i{
   font-family:var(--text);font-weight:600;font-style:normal;
-  font-size:12.5px;letter-spacing:.14em;line-height:1;
+  font-size:11px;letter-spacing:.18em;line-height:1;
   color:var(--ink-muted);
 }
-/* Назву притискаємо до низу: між номером і нею лишається повітря,
-   і плитка читається як картка, а не як напис у рамці. */
+.sw__i::after{
+  content:"";display:block;width:13px;height:1px;margin-top:6px;
+  background:currentColor;opacity:.45;
+}
+
 .sw__nm{
-  margin-top:auto;
+  margin-top:auto;padding-right:2.2em;
   font-family:var(--display);font-weight:800;
-  font-size:clamp(19px,5.2vw,25px);line-height:1.05;letter-spacing:-.02em;
-  overflow-wrap:anywhere;
+  font-size:clamp(18.5px,5vw,25px);line-height:1.04;letter-spacing:-.022em;
+  overflow-wrap:anywhere;hyphens:none;
 }
-.sw__k{
-  margin-top:5px;
-  font-size:clamp(12.5px,3.3vw,14px);line-height:1.3;color:var(--ink-muted);
-}
+
+/* Стрілка стоїть в одній точці в усіх плитках — рахуємо від того
+   самого відступу, що й решта змісту. */
 .sw__go{
-  position:absolute;right:clamp(12px,3.2vw,17px);bottom:clamp(12px,3.2vw,17px);
-  width:17px;height:17px;flex:none;
+  position:absolute;right:clamp(14px,3.6vw,19px);bottom:clamp(14px,3.6vw,19px);
+  width:16px;height:16px;flex:none;
   fill:none;stroke:currentColor;stroke-width:2;
   stroke-linecap:round;stroke-linejoin:round;
-  opacity:.4;transition:opacity .25s var(--e-soft),transform .3s var(--e);
+  opacity:.32;transition:opacity .25s var(--e-soft),transform .3s var(--e);
 }
-/* Знак-підказка: та сама тонка геометрія, що й решта іконок, тільки
-   великий і майже прозорий. Це фактура плитки, а не іконка. */
+
+/* Знак-підказка. Не вилазить за край і не обрізається: усі шість
+   стоять в однаковому боксі, тому читаються як один набір.
+   vector-effect тримає штрих однаковим на будь-якому масштабі. */
 .sw__cue{
-  position:absolute;right:-14px;top:-12px;
-  width:clamp(84px,24vw,104px);height:clamp(84px,24vw,104px);
+  position:absolute;right:clamp(12px,3.2vw,17px);top:clamp(12px,3.2vw,17px);
+  width:clamp(54px,14.5vw,66px);height:clamp(54px,14.5vw,66px);
   fill:none;stroke:currentColor;stroke-width:1.5;
   stroke-linecap:round;stroke-linejoin:round;
-  opacity:.12;pointer-events:none;
+  opacity:.14;pointer-events:none;
   transition:opacity .25s var(--e-soft);
 }
-.sw__tab.is-on{background:var(--pink);border-color:var(--pink)}
-.sw__tab.is-on .sw__i,.sw__tab.is-on .sw__k{color:rgba(22,21,20,.72)}
-.sw__tab.is-on .sw__cue{opacity:.2}
-.sw__tab.is-on .sw__go{opacity:.75}
+.sw__cue *{vector-effect:non-scaling-stroke}
+
+.sw__tab.is-on{
+  background:
+    radial-gradient(104% 74% at 14% -4%,rgba(251,250,248,.26) 0%,rgba(251,250,248,0) 58%),
+    var(--pink);
+  border-color:rgba(22,21,20,.12);
+  box-shadow:
+    inset 0 1px 0 rgba(251,250,248,.4),
+    inset 0 -16px 26px -24px rgba(22,21,20,.3),
+    0 8px 20px -15px rgba(22,21,20,.26);
+}
+.sw__tab.is-on .sw__i{color:rgba(22,21,20,.68)}
+.sw__tab.is-on .sw__cue{opacity:.26}
+.sw__tab.is-on .sw__go{opacity:.68}
+/* Фірмовий штрих: крапка біля номера тільки в активній. */
+.sw__tab.is-on .sw__i::before{
+  content:"";position:absolute;margin:3.5px 0 0 -9px;
+  width:4px;height:4px;border-radius:50%;background:var(--ink);opacity:.7;
+}
 @media (hover:hover) and (pointer:fine){
-  .sw__tab:hover{background:var(--pink-soft);border-color:var(--pink-soft);transform:translateY(-2px)}
-  .sw__tab:hover .sw__go{opacity:.8;transform:translate(2px,-2px)}
-  .sw__tab.is-on:hover{background:var(--pink);border-color:var(--pink)}
+  .sw__tab:hover{
+    border-color:rgba(22,21,20,.16);
+    box-shadow:0 6px 16px -10px rgba(22,21,20,.35);
+    transform:translateY(-2px);
+  }
+  .sw__tab:hover .sw__cue{opacity:.2}
+  .sw__tab:hover .sw__go{opacity:.65;transform:translate(2px,-2px)}
+  .sw__tab.is-on:hover{box-shadow:
+    inset 0 1px 0 rgba(251,250,248,.4),
+    inset 0 -16px 26px -24px rgba(22,21,20,.3),
+    0 10px 22px -15px rgba(22,21,20,.3)}
 }
 
 /* Картки лежать стосом в одній комірці сітки; висоту веде JS від
