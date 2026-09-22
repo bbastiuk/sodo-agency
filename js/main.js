@@ -280,20 +280,21 @@ function header() {
      в розмітці вже немає, тому над чорною формою шапка лишалась
      графітовою й зливалась із фоном. */
   const dark = $$('.faq, .form, .ft');
-  let last = scrollY, ticking = false;
+  let ticking = false;
 
 
   const step = () => {
     ticking = false;
     const y = scrollY;
 
-    if (!body.classList.contains('is-menu')) {
-      body.classList.toggle('is-hide', y > last && y > 240);
-    }
+    /* Шапка більше не ховається при прокрутці вниз. На айфоні Safari
+       робить те саме зі своїм рядком адреси, і дві смуги рухались
+       незалежно: то наша поїхала вгору, то Safari повернув свою, то
+       вони перекрились. Лишається одна рухома смуга — Safari, — а
+       наша просто стоїть. */
     // підкладка під шапкою: щойно під неї заходить зміст, логотип і
     // пункти меню перестають з ним змішуватись
     body.classList.toggle('is-scrolled', y > 12);
-    last = y;
 
     const at = (hd?.offsetHeight || 64) * 0.5;
     const hit = at2 => dark.some(el => {

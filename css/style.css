@@ -205,7 +205,7 @@ body.is-done .load{
   position:fixed;left:0;right:0;top:0;z-index:700;height:var(--hd-safe);
   display:flex;align-items:center;gap:clamp(12px,2.4vw,32px);
   padding:env(safe-area-inset-top,0px) var(--gut) 0;color:var(--ink);
-  transition:transform .4s var(--e),color .3s var(--e-soft);
+  transition:color .3s var(--e-soft);
 }
 .hd::before{
   content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:0;
@@ -218,9 +218,7 @@ body.is-done .load{
 body.is-scrolled .hd::before{opacity:1}
 body.is-ondark .hd::before{background:rgba(22,21,20,.66);border-bottom-color:var(--line-inv)}
 body.is-menu .hd::before{opacity:0}
-body.is-hide .hd{transform:translateY(-100%)}
 body.is-menu .hd,body.is-ondark .hd{color:var(--bg)}
-body.is-menu .hd{transform:none}
 
 /* Вордмарк на світлому чорний, на темному рожевий: рожевий на молоці
    дав би 1.78:1, а це логотип, а не декорація. */
@@ -549,10 +547,10 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
 .sw__cue{
   position:absolute;right:clamp(12px,3.2vw,17px);top:clamp(12px,3.2vw,17px);
   width:clamp(54px,14.5vw,66px);height:clamp(54px,14.5vw,66px);
-  fill:none;stroke:currentColor;stroke-width:1.5;
+  fill:none;stroke:var(--pink);stroke-width:1.5;
   stroke-linecap:round;stroke-linejoin:round;
-  opacity:.14;pointer-events:none;
-  transition:opacity .25s var(--e-soft);
+  opacity:.5;pointer-events:none;
+  transition:opacity .25s var(--e-soft),stroke .25s var(--e-soft);
 }
 .sw__cue *{vector-effect:non-scaling-stroke}
 
@@ -568,7 +566,7 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
 }
 .sw__tab.is-on{color:var(--ink)}
 .sw__tab.is-on .sw__i{color:rgba(22,21,20,.68)}
-.sw__tab.is-on .sw__cue{opacity:.26}
+.sw__tab.is-on .sw__cue{stroke:var(--ink);opacity:.26}
 .sw__tab.is-on .sw__go{opacity:.68}
 /* Фірмовий штрих: крапка біля номера тільки в активній. */
 .sw__tab.is-on .sw__i::before{
@@ -581,7 +579,7 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
     box-shadow:0 10px 22px -12px rgba(22,21,20,.6);
     transform:translateY(-2px);
   }
-  .sw__tab:hover .sw__cue{opacity:.2}
+  .sw__tab:hover .sw__cue{opacity:.72}
   .sw__tab:hover .sw__go{opacity:.65;transform:translate(2px,-2px)}
   .sw__tab.is-on:hover{box-shadow:
     inset 0 1px 0 rgba(251,250,248,.4),
