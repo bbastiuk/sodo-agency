@@ -10,8 +10,6 @@ const FIELDS = [
   ['name',    'Імʼя',                  true],
   ['contact', 'Telegram / Instagram',  true],
   ['phone',   'Телефон',               true],
-  ['biz',     'Бізнес',                false],
-  ['city',    'Місто й ніша',          true],
   ['task',    'Задача',                false],
 ];
 

@@ -28,6 +28,19 @@ const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
 const body = document.body;
 const RM   = matchMedia('(prefers-reduced-motion: reduce)');
+
+/* Верхня смуга на айфонах фарбується з theme-color. Мета стояла
+   статично світлою, тож над чорною формою, FAQ чи відкритим меню
+   телефон малював світлу шапку над темним змістом — рівно в зоні
+   вирізу камери. Тримаємо її в одному стані з кольором шапки.
+   onDark оновлює прокрутка, меню читає його, коли закривається. */
+const TOP_META = document.querySelector('meta[name="theme-color"]');
+let topTone = null, onDark = false;
+function paintTop(on) {
+  if (!TOP_META || on === topTone) return;
+  topTone = on;
+  TOP_META.setAttribute('content', on ? '#161514' : '#F2F1EE');
+}
 const FINE = matchMedia('(hover: hover) and (pointer: fine)');
 const calm = () => RM.matches;
 const wait = ms => new Promise(r => setTimeout(r, ms));
@@ -269,6 +282,7 @@ function header() {
   const dark = $$('.faq, .form, .ft');
   let last = scrollY, ticking = false;
 
+
   const step = () => {
     ticking = false;
     const y = scrollY;
@@ -286,7 +300,9 @@ function header() {
       const r = el.getBoundingClientRect();
       return r.top <= at2 && r.bottom > at2;
     });
-    body.classList.toggle('is-ondark', hit(at));
+    onDark = hit(at);
+    body.classList.toggle('is-ondark', onDark);
+    paintTop(onDark || body.classList.contains('is-menu'));
 
     /* Те саме для низу: липка кнопка чорна, і над темною секцією вона
        зливалася б із фоном. Дивимось, що лежить саме під нею. */
@@ -328,9 +344,11 @@ function menu() {
       // hidden знімає display:none — без рефлоу clip-path не програється
       void box.offsetHeight;
       body.classList.add('is-menu');
+      paintTop(true);                       // меню чорне на весь екран
       requestAnimationFrame(() => $('a', box)?.focus({ preventScroll: true }));
     } else {
       body.classList.remove('is-menu');
+      paintTop(onDark);                     // повертаємось до того, що під шапкою
       const hide = () => { box.hidden = true; };
       calm() ? hide() : setTimeout(hide, 600);
       lastFocus?.focus({ preventScroll: true });
@@ -600,23 +618,32 @@ function tabs() {
     wrap.style.setProperty('--box', cur < 0 ? '0px' : cards[cur].offsetHeight + 'px');
   };
 
-  /* Мʼяко доводимо блок у кадр — і тільки якщо він справді не
-     вміщається. block:'nearest' зсуває рівно настільки, наскільки
-     треба, тож це не стрибок на пів сторінки. Чекаємо, поки висота
-     доїде: до того кінець блоку ще не там, де буде. */
+  /* Мʼяко доводимо картку в кадр після КОЖНОГО вибору, не лише
+     першого: на телефоні сітка висока, і натиснувши нижню плитку,
+     людина не бачить, що під сіткою щось зʼявилось чи змінилось.
+     block:'nearest' зсуває рівно настільки, наскільки треба, тож
+     коли картка вже в кадрі — не відбувається нічого.
+
+     Нижню межу рахуємо з урахуванням липкої дії: вона накриває
+     близько 70px, і без цього «в кадрі» означало б «під кнопкою».
+     Чекаємо, поки доїде висота блоку: до того низ картки ще не
+     там, де буде. */
   const nudge = () => {
     if (cur < 0 || calm()) return;
     setTimeout(() => {
-      const r = cards[cur].getBoundingClientRect();
-      if (r.bottom > innerHeight - 8 || r.top < 0) {
-        cards[cur].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      const el = cards[cur];
+      const dock = $('.dock');
+      const under = dock && !dock.hidden && body.classList.contains('dock-on')
+        ? dock.getBoundingClientRect().height : 0;
+      const r = el.getBoundingClientRect();
+      if (r.bottom > innerHeight - under - 12 || r.top < 0) {
+        el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
       }
     }, 380);
   };
 
   const show = i => {
     if (i === cur) return;
-    const first = cur < 0;
     cur = i;
     box.classList.add('is-picked');
     btns.forEach((b, k) => {
@@ -629,7 +656,7 @@ function tabs() {
     // черговість задана в CSS, тож дві ніколи не стоять разом
     cards.forEach((el, k) => el.classList.toggle('is-on', k === i));
     fit();
-    if (first) nudge();
+    nudge();
   };
 
   btns.forEach((b, i) => b.addEventListener('click', () => show(i)));

@@ -60,6 +60,10 @@
   --shell:1360px;
   --gut:clamp(18px,3.4vw,56px);
   --hd:clamp(56px,6.4vh,72px);
+  /* На айфонах із вирізом viewport-fit=cover заводить сторінку під
+     рядок стану, тож шапка мусить знати про нього сама. Усе, що
+     відштовхується від висоти шапки, рахує від --hd-safe. */
+  --hd-safe:calc(var(--hd) + env(safe-area-inset-top,0px));
 
   /* Одна мова руху: тільки прозорість і зсув, ніякого пружинення. */
   --e:cubic-bezier(.22,.61,.36,1);
@@ -112,7 +116,7 @@ a{color:inherit;text-decoration:none}
 }
 .skip:focus-visible{opacity:1;pointer-events:auto;clip-path:none;transform:none}
 
-[id]{scroll-margin-top:calc(var(--hd) + 14px)}
+[id]{scroll-margin-top:calc(var(--hd-safe) + 14px)}
 
 .grain{
   position:fixed;inset:-50%;z-index:900;pointer-events:none;
@@ -198,9 +202,9 @@ body.is-done .load{
 /* ============ ШАПКА ============ */
 
 .hd{
-  position:fixed;left:0;right:0;top:0;z-index:700;height:var(--hd);
+  position:fixed;left:0;right:0;top:0;z-index:700;height:var(--hd-safe);
   display:flex;align-items:center;gap:clamp(12px,2.4vw,32px);
-  padding:0 var(--gut);color:var(--ink);
+  padding:env(safe-area-inset-top,0px) var(--gut) 0;color:var(--ink);
   transition:transform .4s var(--e),color .3s var(--e-soft);
 }
 .hd::before{
@@ -268,7 +272,8 @@ body.is-menu .hd__menu-i i+i{transform:translateY(-3.75px) rotate(-19deg)}
 .mn{
   position:fixed;inset:0;z-index:650;background:var(--ink);color:var(--bg);
   display:flex;flex-direction:column;justify-content:center;
-  padding:calc(var(--hd) + 20px) var(--gut) clamp(24px,6vh,54px);
+  padding:calc(var(--hd-safe) + 20px) var(--gut)
+          calc(clamp(24px,6vh,54px) + env(safe-area-inset-bottom,0px));
   clip-path:inset(0 0 100% 0);transition:clip-path .55s var(--e-io);
 }
 body.is-menu .mn{clip-path:inset(0 0 0 0)}
@@ -337,7 +342,7 @@ body.is-menu .mn__nav a:nth-child(4){transition-delay:.23s}
 .hero{
   position:relative;min-height:100svh;overflow:hidden;
   display:grid;grid-template-rows:minmax(0,1fr) auto auto;
-  padding:calc(var(--hd) + clamp(14px,3vh,36px)) var(--gut) clamp(28px,5vh,60px);
+  padding:calc(var(--hd-safe) + clamp(14px,3vh,36px)) var(--gut) clamp(28px,5vh,60px);
 }
 .fig--hero{
   left:50%;top:var(--fig-top,-3%);height:var(--fig-h,104%);
@@ -488,10 +493,10 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
   min-height:clamp(150px,41vw,178px);
   padding:clamp(14px,3.6vw,19px);
   border-radius:12px;
-  background:var(--card);
-  border:1px solid rgba(22,21,20,.085);
-  box-shadow:0 1px 2px rgba(22,21,20,.025);
-  color:var(--ink);text-align:left;
+  background:var(--ink);
+  border:1px solid rgba(251,250,248,.1);
+  box-shadow:0 2px 10px -6px rgba(22,21,20,.45);
+  color:var(--bg);text-align:left;
   transition:background-color .25s var(--e-soft),border-color .25s var(--e-soft),
              box-shadow .3s var(--e-soft),transform .3s var(--e);
 }
@@ -501,7 +506,7 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
 .sw__tab::before{
   content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
-  opacity:.03;mix-blend-mode:multiply;
+  opacity:.05;mix-blend-mode:screen;
 }
 
 /* Номер — свій маленький модуль: дрібний, розріджений, із короткою
@@ -509,7 +514,7 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
 .sw__i{
   font-family:var(--text);font-weight:600;font-style:normal;
   font-size:11px;letter-spacing:.18em;line-height:1;
-  color:var(--ink-muted);
+  color:var(--ink-muted-inv);
 }
 .sw__i::after{
   content:"";display:block;width:13px;height:1px;margin-top:6px;
@@ -561,6 +566,7 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
     inset 0 -16px 26px -24px rgba(22,21,20,.3),
     0 8px 20px -15px rgba(22,21,20,.26);
 }
+.sw__tab.is-on{color:var(--ink)}
 .sw__tab.is-on .sw__i{color:rgba(22,21,20,.68)}
 .sw__tab.is-on .sw__cue{opacity:.26}
 .sw__tab.is-on .sw__go{opacity:.68}
@@ -571,8 +577,8 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
 }
 @media (hover:hover) and (pointer:fine){
   .sw__tab:hover{
-    border-color:rgba(22,21,20,.16);
-    box-shadow:0 6px 16px -10px rgba(22,21,20,.35);
+    border-color:rgba(251,250,248,.26);
+    box-shadow:0 10px 22px -12px rgba(22,21,20,.6);
     transform:translateY(-2px);
   }
   .sw__tab:hover .sw__cue{opacity:.2}
@@ -600,6 +606,9 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
 .sw.is-picked .sw__add,.sw.is-picked .sw__fine{display:block}
 .svc{
   grid-area:1 / 1;position:relative;align-self:start;
+  /* запас під липку дію: інакше «доведення в кадр» кладе низ картки
+     рівно під неї */
+  scroll-margin:calc(var(--hd-safe) + 12px) 0 96px;
   background:var(--ink);color:var(--bg);
   border-radius:var(--r-l);overflow:hidden;
   padding:clamp(20px,3vh,32px) clamp(18px,2.2vw,34px) clamp(22px,3.2vh,34px);
@@ -1208,7 +1217,7 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
 @media (max-width:620px){
   :root{--gut:18px}
 
-  .hero{padding:calc(var(--hd) + 12px) var(--gut) clamp(26px,4.4vh,42px)}
+  .hero{padding:calc(var(--hd-safe) + 12px) var(--gut) clamp(26px,4.4vh,42px)}
   .fig--hero{
     left:50%;transform:translateX(-50%);width:120vw;
     top:var(--fig-top,18%);height:var(--fig-h,52%);
