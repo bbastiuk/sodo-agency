@@ -266,7 +266,7 @@ function header() {
   /* Темні площини сайту — форма й підвал. Раніше тут стояв клас, якого
      в розмітці вже немає, тому над чорною формою шапка лишалась
      графітовою й зливалась із фоном. */
-  const dark = $$('.form, .ft');
+  const dark = $$('.faq, .form, .ft');
   let last = scrollY, ticking = false;
 
   const step = () => {
@@ -282,10 +282,15 @@ function header() {
     last = y;
 
     const at = (hd?.offsetHeight || 64) * 0.5;
-    body.classList.toggle('is-ondark', dark.some(el => {
+    const hit = at2 => dark.some(el => {
       const r = el.getBoundingClientRect();
-      return r.top <= at && r.bottom > at;
-    }));
+      return r.top <= at2 && r.bottom > at2;
+    });
+    body.classList.toggle('is-ondark', hit(at));
+
+    /* Те саме для низу: липка кнопка чорна, і над темною секцією вона
+       зливалася б із фоном. Дивимось, що лежить саме під нею. */
+    body.classList.toggle('is-dockdark', hit(innerHeight - 46));
   };
 
   addEventListener('scroll', () => {

@@ -138,11 +138,14 @@ a{color:inherit;text-decoration:none}
 .btn{
   display:inline-flex;align-items:center;justify-content:center;
   min-height:52px;padding:0 clamp(26px,3vw,44px);border-radius:var(--r-l);
-  background:var(--pink);color:var(--ink);
+  background:var(--ink);color:var(--bg);
   font-family:var(--display);font-weight:800;
   font-size:clamp(14px,1.05vw,17px);letter-spacing:-.01em;
   transition:transform .3s var(--e),opacity .3s var(--e-soft);
 }
+/* На темних площинах чорна кнопка зникає — там вона світла.
+   Той самий контраст, просто з іншого боку. */
+.form .btn{background:var(--bg);color:var(--ink)}
 .btn:hover{transform:translateY(-2px)}
 .btn:active{transform:none;opacity:.9}
 
@@ -156,6 +159,9 @@ a{color:inherit;text-decoration:none}
   transform:translateY(130%);
   transition:transform .35s var(--e);
 }
+/* Над темною секцією і кнопка, і підкладка під нею перевертаються. */
+body.is-dockdark .dock{background:linear-gradient(to top,var(--ink) 62%,rgba(22,21,20,0))}
+body.is-dockdark .dock .btn{background:var(--bg);color:var(--ink)}
 .dock[hidden]{display:none}
 .dock .btn{width:100%}
 body.dock-on .dock{transform:none}
@@ -369,7 +375,10 @@ body.is-lit .hero__mark{transform:scaleX(1);transition:transform .6s var(--e-io)
    тим самим. */
 .hero__lead{
   max-width:54ch;text-wrap:balance;
-  font-size:clamp(15px,3.9vw,18px);line-height:1.5;color:var(--ink-muted);
+  /* 3.45vw тримає фразу у двох рядках на 390-430 (iPhone 12-16 і Pro
+     Max). На 360 вона все одно лягає в три: два там коштують 12.5px,
+     а це вже дрібніше за те, від чого ми свідомо пішли. */
+  font-size:clamp(13px,3.45vw,18px);line-height:1.5;color:var(--ink-muted);
 }
 
 body:not(.is-done) .hero__w,
@@ -467,7 +476,7 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
 .svc{
   grid-area:1 / 1;position:relative;align-self:start;
   background:var(--ink);color:var(--bg);
-  border-radius:0 var(--r-l) var(--r-l) var(--r-l);
+  border-radius:var(--r-l);overflow:hidden;
   padding:clamp(20px,3vh,32px) clamp(18px,2.2vw,34px) clamp(22px,3.2vh,34px);
   opacity:0;visibility:hidden;
   transition:opacity .2s var(--e-soft) 0s,visibility 0s linear .2s;
@@ -476,12 +485,18 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
   opacity:1;visibility:visible;
   transition:opacity .3s var(--e) .16s,visibility 0s linear 0s;
 }
-/* язичок папки */
-.svc__tab{
-  position:absolute;left:0;top:-30px;
-  width:clamp(84px,17vw,124px);height:30px;
-  background:var(--pink);border-radius:var(--r-l) var(--r-l) 0 0;
+/* Замість намальованої папки — фактура самої площини: дрібна сітка,
+   що гасне від верхнього правого кута. Предмета немає, працює
+   поверхня, як у референсах. */
+.svc::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:
+    repeating-linear-gradient(90deg,rgba(242,241,238,.075) 0 1px,transparent 1px 24px),
+    repeating-linear-gradient(0deg,rgba(242,241,238,.075) 0 1px,transparent 1px 24px);
+  -webkit-mask-image:radial-gradient(125% 95% at 84% 0%,#000 0%,transparent 70%);
+  mask-image:radial-gradient(125% 95% at 84% 0%,#000 0%,transparent 70%);
 }
+.svc__head,.svc__d,.svc__more,.fold{position:relative;z-index:1}
 .svc__head{display:flex;flex-wrap:wrap;align-items:center;gap:10px clamp(12px,1.6vw,22px)}
 .svc__n{
   font-family:var(--display);font-weight:800;text-transform:uppercase;
