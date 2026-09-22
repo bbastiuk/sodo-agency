@@ -1029,7 +1029,6 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
   .sh__t{font-size:clamp(23px,7.4vw,34px);max-width:none}
 
   .sw__box{margin-top:28px}
-  .svc__tab{top:-28px;height:28px}
   .svc__d{max-width:none}
 
   .cycle__p{font-size:15px}
