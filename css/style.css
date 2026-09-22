@@ -834,7 +834,7 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
 .gal{position:relative}
 .gal__track{
   display:flex;align-items:stretch;gap:clamp(16px,2.2vw,32px);
-  padding:32px var(--gut) 14px;
+  padding:6px var(--gut) 16px;
   overflow-x:auto;overscroll-behavior-x:contain;
   scroll-snap-type:x mandatory;scroll-padding-inline:var(--gut);
   -webkit-overflow-scrolling:touch;scrollbar-width:none;
@@ -846,31 +846,43 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
   width:calc(50% - clamp(16px,2.2vw,32px) / 2);
   scroll-snap-align:start;
 }
-/* стос під аркушем: псевдоелемент іде в DOM раніше за картку */
-.case::before{
-  content:"";position:absolute;left:16px;right:-10px;top:10px;bottom:-10px;
-  background:var(--bg);border:1px solid var(--line);border-radius:var(--r-l);
-  transition:transform .4s var(--e);
+/* Кейс говорить тією самою мовою, що й плитка послуги: рівні кути,
+   тонкий бордер, мікротекстура, номер як маленький модуль із рискою.
+   Раніше тут стояла та сама папка, що й у послугах, — язичок із
+   номером, зрізаний кут і «стос паперу» під карткою. Послуги її
+   втратили, кейси лишались одні з предметною метафорою. */
+.case__no{
+  display:block;margin-bottom:clamp(14px,2vh,20px);
+  font-family:var(--num);font-weight:600;font-size:11px;
+  letter-spacing:.18em;font-variant-numeric:tabular-nums;
+  font-style:normal;line-height:1;color:var(--ink-muted);
 }
-.case__tab{
-  position:absolute;left:0;top:-29px;height:30px;
-  display:flex;align-items:center;padding:0 16px;
-  background:var(--card);border:1px solid var(--line);border-bottom:0;
-  border-radius:var(--r) var(--r) 0 0;
+.case__no::after{
+  content:"";display:block;width:13px;height:1px;margin-top:6px;
+  background:currentColor;opacity:.45;
 }
-.case__no{font-family:var(--num);font-weight:600;font-size:13px;
-  letter-spacing:.14em;font-variant-numeric:tabular-nums;
-  font-style:normal;color:var(--ink-muted)}
 .case__card{
-  position:relative;height:100%;display:flex;flex-direction:column;
+  position:relative;height:100%;overflow:hidden;isolation:isolate;
+  display:flex;flex-direction:column;
   padding:clamp(20px,2.8vh,30px) clamp(18px,2.2vw,32px);
-  background:var(--card);border:1px solid var(--line);
-  border-radius:0 var(--r-l) var(--r-l) var(--r-l);
-  transition:transform .4s var(--e);
+  background:var(--card);
+  border:1px solid rgba(22,21,20,.085);border-radius:12px;
+  box-shadow:0 1px 2px rgba(22,21,20,.025);
+  transition:transform .4s var(--e),border-color .25s var(--e-soft),
+             box-shadow .3s var(--e-soft);
+}
+/* та сама мікротекстура, що й у плитках */
+.case__card::before{
+  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+  opacity:.03;mix-blend-mode:multiply;
 }
 @media (hover:hover) and (pointer:fine){
-  .case:hover::before{transform:translate(5px,5px) rotate(.6deg)}
-  .case:hover .case__card{transform:translateY(-3px)}
+  .case:hover .case__card{
+    transform:translateY(-3px);
+    border-color:rgba(22,21,20,.16);
+    box-shadow:0 8px 20px -12px rgba(22,21,20,.35);
+  }
 }
 .case__n{
   font-family:var(--display);font-weight:800;text-transform:uppercase;
@@ -1232,7 +1244,7 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
      слова, тож нижня межа тут 17px. На 375px і ширше кегль веде
      вже 5.4vw, і ця межа ні на що не впливає. */
   .case__n{font-size:clamp(17px,5.4vw,26px)}
-  .gal__track{padding-top:30px}
+  .gal__track{padding-top:4px}
 
   .qa__q{font-size:16px;padding-right:46px}
   .qa__q::before{width:17px}
