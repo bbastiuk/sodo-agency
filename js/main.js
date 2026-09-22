@@ -680,16 +680,29 @@ function road() {
   if (!dots.length) return;
 
   let at = [];
+  /* На ПК кроки стоять у ряд, і рейка йде поперек, а не вниз. Мірка
+     мусить знати вісь: інакше всі top однакові, span виходить нулем,
+     і кроки спалахують усі разом наприкінці. Клас вішаємо самі, щоб
+     без JS лишалась вертикальна розкладка з робочою рейкою. */
   const measure = () => {
+    list.classList.toggle('is-row', matchMedia('(min-width:1024px)').matches);
+    const row = list.classList.contains('is-row');
     const box = list.getBoundingClientRect();
     const a = dots[0].getBoundingClientRect();
     const b = dots[dots.length - 1].getBoundingClientRect();
-    list.style.setProperty('--rail-top', (a.top - box.top + a.height / 2 - 1).toFixed(1) + 'px');
-    list.style.setProperty('--rail', (b.top - a.top).toFixed(1) + 'px');
 
-    const tops = dots.map(d => d.getBoundingClientRect().top);
-    const span = tops[tops.length - 1] - tops[0];
-    at = tops.map(t => (span > 0 ? (t - tops[0]) / span : 1));
+    if (row) {
+      list.style.setProperty('--rail-x', (a.left - box.left + a.width / 2 - 1).toFixed(1) + 'px');
+      list.style.setProperty('--rail-y', (a.top - box.top + a.height / 2 - 1).toFixed(1) + 'px');
+      list.style.setProperty('--rail-w', (b.left - a.left).toFixed(1) + 'px');
+    } else {
+      list.style.setProperty('--rail-top', (a.top - box.top + a.height / 2 - 1).toFixed(1) + 'px');
+      list.style.setProperty('--rail', (b.top - a.top).toFixed(1) + 'px');
+    }
+
+    const pos = dots.map(d => { const r = d.getBoundingClientRect(); return row ? r.left : r.top; });
+    const span = pos[pos.length - 1] - pos[0];
+    at = pos.map(t => (span > 0 ? (t - pos[0]) / span : 1));
   };
   measure();
 
@@ -747,16 +760,26 @@ function steps() {
   if (!tags.length) return;
 
   let at = [];
+  // те саме, що в циклі: на ПК кроки стоять у ряд, рейка йде поперек
   const measure = () => {
+    list.classList.toggle('is-row', matchMedia('(min-width:1024px)').matches);
+    const row = list.classList.contains('is-row');
     const box = list.getBoundingClientRect();
     const a = tags[0].getBoundingClientRect();
     const b = tags[tags.length - 1].getBoundingClientRect();
-    list.style.setProperty('--rail-top', (a.top - box.top + a.height / 2 - 1).toFixed(1) + 'px');
-    list.style.setProperty('--rail', (b.top - a.top).toFixed(1) + 'px');
 
-    const tops = tags.map(t => t.getBoundingClientRect().top);
-    const span = tops[tops.length - 1] - tops[0];
-    at = tops.map(t => (span > 0 ? (t - tops[0]) / span : 1));
+    if (row) {
+      list.style.setProperty('--rail-x', (a.left - box.left + a.width / 2 - 1).toFixed(1) + 'px');
+      list.style.setProperty('--rail-y', (a.top - box.top + a.height / 2 - 1).toFixed(1) + 'px');
+      list.style.setProperty('--rail-w', (b.left - a.left).toFixed(1) + 'px');
+    } else {
+      list.style.setProperty('--rail-top', (a.top - box.top + a.height / 2 - 1).toFixed(1) + 'px');
+      list.style.setProperty('--rail', (b.top - a.top).toFixed(1) + 'px');
+    }
+
+    const pos = tags.map(t => { const r = t.getBoundingClientRect(); return row ? r.left : r.top; });
+    const span = pos[pos.length - 1] - pos[0];
+    at = pos.map(t => (span > 0 ? (t - pos[0]) / span : 1));
   };
   measure();
 
