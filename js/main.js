@@ -702,21 +702,26 @@ function tabs() {
    відкочується — інакше при скролі в обидва боки все смикалось би.
    ──────────────────────────────────────────── */
 
-function road() {
-  const list = $('#road');
-  if (!list) return;
-  const items = $$('.road__s', list);
-  const dots  = $$('.road__n', list);
-  if (!dots.length) return;
+/* Спільний механізм для циклу й «5 кроків».
 
+   На екрані є «лінія читання» — 72% висоти від верху. Кінчик рожевої
+   лінії стоїть рівно на ній, і номер загоряється в ту мить, коли його
+   центр її перетинає. Раніше прогрес рахувався від висоти всього
+   списку (від 82% до 34% екрана), тож останній номер чекав, поки під
+   третину екрана підніметься ще й текст під ним: на телефоні «05»
+   стояв сірим посеред екрана.
+
+   На ПК кроки в ряд, і номери на одній висоті. Там лінія росте, поки
+   ряд номерів іде від 88% до 50% екрана, а номери спалахують, коли
+   лінія дістала їх по горизонталі. */
+const READ = 0.72;
+
+function rail(list, items, dots, prop) {
   let at = [];
-  /* На ПК кроки стоять у ряд, і рейка йде поперек, а не вниз. Мірка
-     мусить знати вісь: інакше всі top однакові, span виходить нулем,
-     і кроки спалахують усі разом наприкінці. Клас вішаємо самі, щоб
-     без JS лишалась вертикальна розкладка з робочою рейкою. */
+  const isRow = () => list.classList.contains('is-row');
   const measure = () => {
     list.classList.toggle('is-row', matchMedia('(min-width:1024px)').matches);
-    const row = list.classList.contains('is-row');
+    const row = isRow();
     const box = list.getBoundingClientRect();
     const a = dots[0].getBoundingClientRect();
     const b = dots[dots.length - 1].getBoundingClientRect();
@@ -725,35 +730,41 @@ function road() {
       list.style.setProperty('--rail-x', (a.left - box.left + a.width / 2 - 1).toFixed(1) + 'px');
       list.style.setProperty('--rail-y', (a.top - box.top + a.height / 2 - 1).toFixed(1) + 'px');
       list.style.setProperty('--rail-w', (b.left - a.left).toFixed(1) + 'px');
+      const span = b.left - a.left;
+      at = dots.map(d => (span > 0 ? (d.getBoundingClientRect().left - a.left) / span : 1));
     } else {
       list.style.setProperty('--rail-top', (a.top - box.top + a.height / 2 - 1).toFixed(1) + 'px');
       list.style.setProperty('--rail', (b.top - a.top).toFixed(1) + 'px');
     }
-
-    const pos = dots.map(d => { const r = d.getBoundingClientRect(); return row ? r.left : r.top; });
-    const span = pos[pos.length - 1] - pos[0];
-    at = pos.map(t => (span > 0 ? (t - pos[0]) / span : 1));
   };
   measure();
 
   if (calm()) {
     items.forEach(el => el.classList.add('is-on'));
-    list.style.setProperty('--road', '1');
+    list.style.setProperty(prop, '1');
     return;
   }
 
   let go = 0, ticking = false, visible = true;
+  const mid = d => { const r = d.getBoundingClientRect(); return r.top + r.height / 2; };
 
   const step = () => {
     ticking = false;
     if (!visible) return;
-    const r = list.getBoundingClientRect();
-    const from = innerHeight * 0.82, to = innerHeight * 0.34;
-    const p = clamp((from - r.top) / Math.max(r.height + from - to, 1), 0, 1);
-    if (p <= go) return;
+    const vh = innerHeight;
+    let p, lit;
+    if (isRow()) {
+      p = clamp((vh * 0.88 - mid(dots[0])) / (vh * 0.38), 0, 1);
+      lit = i => p > 0 && p >= at[i] - 0.004;
+    } else {
+      const line = vh * READ, a = mid(dots[0]), b = mid(dots[dots.length - 1]);
+      p = clamp((line - a) / Math.max(b - a, 1), 0, 1);
+      lit = i => mid(dots[i]) <= line + 1;
+    }
+    if (p < go) return;
     go = p;
-    list.style.setProperty('--road', go.toFixed(3));
-    items.forEach((el, i) => { if (go >= at[i] - 0.004) el.classList.add('is-on'); });
+    list.style.setProperty(prop, go.toFixed(3));
+    items.forEach((el, i) => { if (lit(i)) el.classList.add('is-on'); });
   };
   const ask = () => { if (!ticking) { ticking = true; requestAnimationFrame(step); } };
 
@@ -768,6 +779,13 @@ function road() {
       { rootMargin: '25% 0px' }).observe(list);
   }
   step();
+}
+
+function road() {
+  const list = $('#road');
+  if (!list) return;
+  const dots = $$('.road__n', list);
+  if (dots.length) rail(list, $$('.road__s', list), dots, '--road');
 }
 
 /* ────────────────────────────────────────────
@@ -785,69 +803,8 @@ function road() {
 function steps() {
   const list = $('#steps');
   if (!list) return;
-  const items = $$('.step', list);
-  const tags  = $$('.step__n', list);
-  if (!tags.length) return;
-
-  let at = [];
-  // те саме, що в циклі: на ПК кроки стоять у ряд, рейка йде поперек
-  const measure = () => {
-    list.classList.toggle('is-row', matchMedia('(min-width:1024px)').matches);
-    const row = list.classList.contains('is-row');
-    const box = list.getBoundingClientRect();
-    const a = tags[0].getBoundingClientRect();
-    const b = tags[tags.length - 1].getBoundingClientRect();
-
-    if (row) {
-      list.style.setProperty('--rail-x', (a.left - box.left + a.width / 2 - 1).toFixed(1) + 'px');
-      list.style.setProperty('--rail-y', (a.top - box.top + a.height / 2 - 1).toFixed(1) + 'px');
-      list.style.setProperty('--rail-w', (b.left - a.left).toFixed(1) + 'px');
-    } else {
-      list.style.setProperty('--rail-top', (a.top - box.top + a.height / 2 - 1).toFixed(1) + 'px');
-      list.style.setProperty('--rail', (b.top - a.top).toFixed(1) + 'px');
-    }
-
-    const pos = tags.map(t => { const r = t.getBoundingClientRect(); return row ? r.left : r.top; });
-    const span = pos[pos.length - 1] - pos[0];
-    at = pos.map(t => (span > 0 ? (t - pos[0]) / span : 1));
-  };
-  measure();
-
-  if (calm()) {
-    items.forEach(el => el.classList.add('is-on'));
-    list.style.setProperty('--go', '1');
-    return;
-  }
-
-  let go = 0, ticking = false, visible = true;
-
-  const step = () => {
-    ticking = false;
-    if (!visible) return;
-    const r = list.getBoundingClientRect();
-    const from = innerHeight * 0.82, to = innerHeight * 0.34;
-    const p = clamp((from - r.top) / Math.max(r.height + from - to, 1), 0, 1);
-    if (p <= go) return;
-    go = p;
-    list.style.setProperty('--go', go.toFixed(3));
-    items.forEach((el, i) => { if (go >= at[i] - 0.004) el.classList.add('is-on'); });
-  };
-  const ask = () => { if (!ticking) { ticking = true; requestAnimationFrame(step); } };
-
-  let rz;
-  addEventListener('resize', () => {
-    clearTimeout(rz);
-    rz = setTimeout(() => { measure(); ask(); }, 160);
-  });
-  document.fonts?.ready.then(() => { measure(); ask(); }).catch(() => {});
-
-  addEventListener('scroll', ask, { passive: true });
-  addEventListener('resize', ask);
-  if ('IntersectionObserver' in window) {
-    new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) ask(); },
-      { rootMargin: '25% 0px' }).observe(list);
-  }
-  step();
+  const tags = $$('.step__n', list);
+  if (tags.length) rail(list, $$('.step', list), tags, '--go');
 }
 
 /* ────────────────────────────────────────────
