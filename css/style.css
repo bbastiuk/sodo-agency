@@ -723,7 +723,7 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
 
 .cycle{padding-bottom:clamp(48px,7vh,96px)}
 .cycle__p{
-  padding:0 var(--gut);max-width:60ch;
+  margin-inline:var(--gut);max-width:60ch;
   margin-bottom:clamp(28px,4vh,52px);
   font-size:clamp(15px,1.06vw,18px);line-height:1.65;color:var(--ink-muted);
 }
@@ -884,12 +884,26 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
   opacity:.03;mix-blend-mode:multiply;
 }
+/* Фото кейсу лежить під текстом на всю картку: чорно-біле й ледь
+   видиме, щоб картка мала настрій, а текст читався як на папері.
+   Донизу фото тихішає ще сильніше — там «було/стало». */
+.case__bg{
+  position:absolute;inset:0;z-index:-2;width:100%;height:100%;max-width:none;
+  object-fit:cover;object-position:center 40%;
+  filter:grayscale(1);opacity:.2;pointer-events:none;
+  -webkit-mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.75) 45%,rgba(0,0,0,.45) 100%);
+  mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.75) 45%,rgba(0,0,0,.45) 100%);
+  transition:opacity .4s var(--e-soft),scale .8s var(--e);
+}
+.case__bg--community{object-position:center 45%}
+.case__bg--beauty{object-position:center 20%}
 @media (hover:hover) and (pointer:fine){
   .case:hover .case__card{
     transform:translateY(-3px);
     border-color:rgba(22,21,20,.16);
     box-shadow:0 8px 20px -12px rgba(22,21,20,.35);
   }
+  .case:hover .case__bg{opacity:.26;scale:1.03}
 }
 .case__n{
   font-family:var(--display);font-weight:800;text-transform:uppercase;

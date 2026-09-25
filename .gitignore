@@ -16,3 +16,6 @@ node_modules/
 # High-res source masters (not needed for the live site; kept locally)
 assets/images/source/
 assets/figures/source/
+
+# Case photo originals (web copies live in assets/cases/)
+фотки на карточки кейсів/
