@@ -449,7 +449,9 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
 .sh{
   position:relative;z-index:5;
   padding:clamp(56px,9vh,120px) var(--gut) clamp(22px,3.2vh,40px);
-  max-width:min(100%,1180px);
+  /* 1180px — ширина вмісту, поля --gut зверху. Раніше поля сиділи
+     всередині 1180, і на 1920 (поле 280px) заголовку лишалось 620px. */
+  max-width:calc(1180px + 2 * var(--gut));
 }
 .sh__t{
   font-family:var(--display);font-weight:800;text-transform:uppercase;
@@ -722,6 +724,10 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
    нижче — на сайті одна мова прогресу, а не дві. */
 
 .cycle{padding-bottom:clamp(48px,7vh,96px)}
+/* «Ми не гадаємо. Ми перевіряємо.» — дві фрази, два рядки. Інакше на
+   ПК друге «МИ» відривалось і висіло окремим рядком. */
+.cycle .sh__t{max-width:none}
+.cycle .sh__t span{display:block}
 .cycle__p{
   margin-inline:var(--gut);max-width:60ch;
   margin-bottom:clamp(28px,4vh,52px);

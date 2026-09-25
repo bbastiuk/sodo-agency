@@ -443,10 +443,12 @@ function heroLit() {
    рядок або вміщує обидва, або кладе їх одне під одним; розірвати
    фразу посередині браузер уже не може. Текст не змінюється — ми
    тільки обгортаємо те, що вже стоїть.
+   Той самий поділ у заголовку циклу, тільки там кожне речення
+   завжди на своєму рядку (див. .cycle .sh__t span у стилях).
    ──────────────────────────────────────────── */
 
 function sentences() {
-  $$('.one__t').forEach(el => {
+  $$('.one__t, .cycle .sh__t').forEach(el => {
     const src = el.dataset.src || (el.dataset.src = el.textContent.trim());
     const parts = src.split('. ').map((t, i, all) => i < all.length - 1 ? t + '.' : t);
     el.textContent = '';
