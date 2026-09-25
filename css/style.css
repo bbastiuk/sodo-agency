@@ -751,7 +751,6 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
 .road::after{
   background:var(--pink);transform-origin:top;
   transform:scaleY(var(--road,0));
-  transition:transform .2s linear;
 }
 /* крок, до якого лінія ще не дійшла, тримається тихіше */
 .road__s{
@@ -969,14 +968,16 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
   padding:0 var(--gut) 0 calc(var(--gut) + 54px);
   display:grid;gap:clamp(26px,4vh,44px);
 }
-.steps::before,.steps::after{
+.steps::before,/* Без transition: лінію й так веде прокрутка щокадру. Згладжування
+   .2s змушувало її відставати на 60–250px від номера, що вже горів. */
+.steps::after{
   content:"";position:absolute;left:calc(var(--gut) + 17px);width:2px;
   top:var(--rail-top,18px);height:var(--rail,calc(100% - 36px));
 }
 .steps::before{background:var(--line)}
 .steps::after{
   background:var(--pink);transform-origin:top;
-  transform:scaleY(var(--go,0));transition:transform .2s linear;
+  transform:scaleY(var(--go,0));
 }
 .step{position:relative;opacity:.42;transition:opacity .4s var(--e)}
 .step.is-on{opacity:1}
