@@ -1207,36 +1207,68 @@ async function langs() {
 /* ────────────────────────────────────────────
    14. ПІКСЕЛЬ
 
-   Кожен клік по кнопці чи посиланню йде в Meta як ButtonClick:
-   що натиснули (ключ перекладу, тож назва однакова в обох мовах),
-   у якому блоці й куди веде. Telegram та Instagram — ще й Contact,
-   надіслана заявка — Lead (ставиться у формі).
-   Якщо блокувальник зʼїв піксель, fbq немає — мовчки пропускаємо.
+   Кожен клік по кнопці чи посиланню йде в Meta окремою подією,
+   і з назви одразу видно, що натиснули: Click_<блок>_<кнопка>,
+   напр. Click_Hero_DiscussProject, Click_Service_SMM,
+   Click_Footer_Telegram. Назви англійською й однакові в UA і PL —
+   Meta приймає в назвах лише латиницю, цифри й «_».
+   Підпис кнопки, адреса й мова лежать у параметрах.
+   Telegram та Instagram — ще й Contact, надіслана заявка — Lead
+   (ставиться у формі). Без пікселя (блокувальник) — мовчки далі.
    ──────────────────────────────────────────── */
 
 const fbq = (...a) => { try { window.fbq?.(...a); } catch { /* без пікселя */ } };
+
+const PX_AREA = [
+  ['#menu', 'Menu'], ['#hd', 'Header'], ['.ft', 'Footer'], ['#dock', 'Sticky'],
+  ['.hero', 'Hero'], ['#serv', 'Services'], ['#cases', 'Cases'],
+  ['#form', 'Form'], ['#faq', 'FAQ'],
+];
+const PX_KEY = {
+  'hero.cta': 'DiscussProject', 'serv.cta': 'NotSureAsk', 'skip': 'SkipToContent',
+  'menu.serv': 'Services', 'menu.how': 'HowWeWork', 'menu.cases': 'Cases', 'menu.form': 'Contacts',
+};
+const PX_TAB = ['SMM', 'TikTok', 'Target', 'Websites', 'Chatbots', 'Consulting'];
+
+function pxName(el) {
+  const href = el.getAttribute('href') || '';
+  const key = el.dataset.i18n || $('[data-i18n]', el)?.dataset.i18n;
+  const open = el.getAttribute('aria-expanded') === 'true';   // стан до кліку
+  const n = (el.id.match(/\d+$/) || el.getAttribute('aria-controls')?.match(/\d+$/) || [])[0];
+
+  if (/t\.me/.test(href)) return 'Telegram';
+  if (/instagram\.com/.test(href)) return 'Instagram';
+  if (/[?&]lang=/.test(href)) return 'Lang_' + el.textContent.trim();   // UA / PL, як на кнопці
+  if (el.matches('.hd__brand')) return 'Logo';
+  if (el.id === 'menuBtn') return open ? 'MenuClose' : 'MenuOpen';
+  if (el.matches('.sw__tab')) return 'Service_' + (PX_TAB[n] || n);
+  if (el.id === 'galPrev') return 'Prev';
+  if (el.id === 'galNext') return 'Next';
+  if (el.matches('.qa__q')) return 'Q' + String(+n + 1).padStart(2, '0') + (open ? '_Close' : '');
+  if (el.id === 'qaMore') return open ? 'ShowLess' : 'ShowMore';
+  if (el.type === 'submit') return 'SendRequest';
+  if (PX_KEY[key]) return PX_KEY[key];
+  return (el.id || key || 'Link').replace(/\W+/g, '_');
+}
 
 function pixel() {
   document.addEventListener('click', e => {
     const el = e.target.closest('a, button');
     if (!el) return;
 
-    const key = el.dataset.i18n || $('[data-i18n]', el)?.dataset.i18n;
-    const text = (el.getAttribute('aria-label') || el.textContent).replace(/\s+/g, ' ').trim();
-    const zone = el.parentElement.closest('section, header, footer, nav, .dock, form, [id]');
-    const href = el.getAttribute('href') || '';
+    const area = PX_AREA.find(([s]) => el.closest(s))?.[1] || 'Page';
+    const what = pxName(el);
+    // таби послуг уже несуть слово Service — без «Services_Service_SMM»
+    const name = ('Click_' + (/^Service_/.test(what) ? '' : area + '_') + what).slice(0, 50);
 
-    const p = {
-      button: key || el.id || text.slice(0, 60),
-      text: text.slice(0, 100),
-      place: zone?.id || zone?.className.split(' ')[0] || 'page',
-      lang: document.documentElement.lang || 'uk',
-    };
+    const text = (el.getAttribute('aria-label') || el.textContent).replace(/\s+/g, ' ').trim();
+    const href = el.getAttribute('href') || '';
+    const p = { button: name, place: area, text: text.slice(0, 100), lang: document.documentElement.lang || 'uk' };
     if (href) p.href = href;
 
-    fbq('trackCustom', 'ButtonClick', p);
+    fbq('trackCustom', name, p);
     if (/t\.me|instagram\.com/.test(href)) {
-      fbq('track', 'Contact', { content_name: /t\.me/.test(href) ? 'telegram' : 'instagram', place: p.place });
+      fbq('track', 'Contact', { content_name: /t\.me/.test(href) ? 'telegram' : 'instagram', place: area });
     }
   }, { capture: true, passive: true });
 }
