@@ -1022,6 +1022,7 @@ function form() {
     };
 
     const done = () => {
+      fbq('track', 'Lead', { content_name: 'form', lang: data.lang });
       fm.hidden = true;
       ok.hidden = false;
       ok.scrollIntoView({ block: 'center', behavior: calm() ? 'auto' : 'smooth' });
@@ -1204,6 +1205,43 @@ async function langs() {
 }
 
 /* ────────────────────────────────────────────
+   14. ПІКСЕЛЬ
+
+   Кожен клік по кнопці чи посиланню йде в Meta як ButtonClick:
+   що натиснули (ключ перекладу, тож назва однакова в обох мовах),
+   у якому блоці й куди веде. Telegram та Instagram — ще й Contact,
+   надіслана заявка — Lead (ставиться у формі).
+   Якщо блокувальник зʼїв піксель, fbq немає — мовчки пропускаємо.
+   ──────────────────────────────────────────── */
+
+const fbq = (...a) => { try { window.fbq?.(...a); } catch { /* без пікселя */ } };
+
+function pixel() {
+  document.addEventListener('click', e => {
+    const el = e.target.closest('a, button');
+    if (!el) return;
+
+    const key = el.dataset.i18n || $('[data-i18n]', el)?.dataset.i18n;
+    const text = (el.getAttribute('aria-label') || el.textContent).replace(/\s+/g, ' ').trim();
+    const zone = el.parentElement.closest('section, header, footer, nav, .dock, form, [id]');
+    const href = el.getAttribute('href') || '';
+
+    const p = {
+      button: key || el.id || text.slice(0, 60),
+      text: text.slice(0, 100),
+      place: zone?.id || zone?.className.split(' ')[0] || 'page',
+      lang: document.documentElement.lang || 'uk',
+    };
+    if (href) p.href = href;
+
+    fbq('trackCustom', 'ButtonClick', p);
+    if (/t\.me|instagram\.com/.test(href)) {
+      fbq('track', 'Contact', { content_name: /t\.me/.test(href) ? 'telegram' : 'instagram', place: p.place });
+    }
+  }, { capture: true, passive: true });
+}
+
+/* ────────────────────────────────────────────
    СТАРТ
    ──────────────────────────────────────────── */
 
@@ -1224,6 +1262,7 @@ function start() {
   counts();
   faq();
   form();
+  pixel();
 
   /* Посилання для клавіатури не має лишатись у фокусі після переходу:
      інакше воно висить угорі весь час, поки людина читає сторінку. */
