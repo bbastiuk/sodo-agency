@@ -1,0 +1,727 @@
+<!doctype html>
+<!-- Зібрано scripts/build-lang.mjs з index.html і lang/pl.json. Руками не правити. -->
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SODO — get visible</title>
+<meta name="description" content="SODO — agencja digital. Testujemy, zmieniamy, wzmacniamy, dopóki reklama i treści nie zaczną przynosić pieniędzy. SMM, reklamy, strony, chatboty, konsultacje.">
+<meta name="theme-color" content="#F2F1EE">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pl_PL">
+<meta property="og:title" content="SODO — musicie być widoczni">
+<meta property="og:description" content="Testujemy, zmieniamy, wzmacniamy, dopóki reklama i treści nie zaczną przynosić pieniędzy.">
+<meta property="og:url" content="https://www.sodoagency.eu/pl/">
+<meta property="og:image" content="https://www.sodoagency.eu/assets/images/og-image-pl.jpg?v=2">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="SODO — musicie być widoczni">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="canonical" href="https://www.sodoagency.eu/pl/">
+<link rel="alternate" hreflang="uk" href="https://www.sodoagency.eu/">
+<link rel="alternate" hreflang="en" href="https://www.sodoagency.eu/en/">
+<link rel="alternate" hreflang="pl" href="https://www.sodoagency.eu/pl/">
+<link rel="alternate" hreflang="x-default" href="https://www.sodoagency.eu/">
+
+
+<link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+
+<link rel="preload" href="/assets/fonts/Montserrat-900-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/Montserrat-800-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/Onest-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/Pixelify-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" as="image" href="/assets/figures/figure.webp">
+<link rel="stylesheet" href="/assets/fonts/fonts.css?v=3">
+<link rel="stylesheet" href="/css/style.css?v=16">
+
+<noscript><style>
+  .load{display:none}
+  .rv{opacity:1!important;transform:none!important}
+  .hero__w,.hero__foot{opacity:1!important;transform:none!important}
+  .hero__mark{transform:scaleX(1)!important}
+  .qa__a{display:block!important;height:auto!important}
+  .road::after{transform:scaleY(1)!important}
+  .road__s,.step{opacity:1!important}
+  .steps::after{transform:scaleY(1)!important}
+  .step p{opacity:1!important;translate:0 0!important}
+  .svc.is-on .fold__i{opacity:1!important;translate:0 0!important}
+  /* Вибору немає, поки немає JS, тож показуємо всі послуги підряд. */
+  .sw__box{height:auto!important;margin-top:30px!important}
+  .svc{position:static!important;grid-area:auto!important;
+       opacity:1!important;visibility:visible!important;translate:0 0!important;
+       margin-bottom:12px}
+  .svc .fold__i{opacity:1!important;translate:0 0!important}
+  .sw__add,.sw__fine{display:block!important}
+  .fig__sharp{-webkit-mask-image:none!important;mask-image:none!important}
+</style></noscript>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq.disablePushState = true; // якір #form це не новий перегляд
+fbq('init', '1090963936981555');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1090963936981555&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+</head>
+
+<body class="is-loading">
+
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ═══════════ ЗАВАНТАЖЕННЯ ═══════════ -->
+<div class="load" id="load" aria-hidden="true">
+  <p class="load__w" id="loadWord" data-i18n="load.word" lang="en">GET VISIBLE</p>
+  <span class="load__bar" id="loadBar"></span>
+</div>
+<p class="vh" role="status" id="loadSr" data-i18n="load.sr">Ładowanie</p>
+
+<a class="skip" href="#main" data-i18n="skip">Przejdź do treści</a>
+
+<!-- ═══════════ ШАПКА ═══════════ -->
+<header class="hd" id="hd">
+  <a class="hd__brand" href="#top" aria-label="SODO — na początek" data-i18n-aria="aria.brand">
+    <span class="mark" aria-hidden="true"></span>
+  </a>
+
+  <nav class="hd__nav" aria-label="Nawigacja główna" data-i18n-aria="aria.nav">
+    <a href="#serv" data-i18n="menu.serv">Usługi</a>
+    <a href="#how" data-i18n="menu.how">Jak pracujemy</a>
+    <a href="#cases" data-i18n="menu.cases">Realizacje</a>
+    <a href="#form" data-i18n="menu.form">Kontakt</a>
+  </nav>
+
+  <div class="hd__lang" id="lang" role="group" aria-label="Język strony" data-i18n-aria="aria.lang">
+    <a class="hd__lang-b" aria-current="false" href="/" hreflang="uk" lang="uk" data-lang="uk">UA</a>
+    <a class="hd__lang-b" href="/en/" hreflang="en" lang="en" data-lang="en">EN</a>
+    <a class="hd__lang-b is-on" aria-current="true" href="/pl/" hreflang="pl" lang="pl" data-lang="pl">PL</a>
+  </div>
+
+  <button class="hd__menu" id="menuBtn" type="button" aria-expanded="false" aria-controls="menu">
+    <span class="hd__menu-t" data-open="Menu" data-close="Zamknij"
+      data-i18n-open="menu.open" data-i18n-close="menu.close">Menu</span>
+    <span class="hd__menu-i" aria-hidden="true"><i></i><i></i></span>
+  </button>
+</header>
+
+<!-- ═══════════ ПОВНОЕКРАННЕ МЕНЮ ═══════════ -->
+<div class="mn" id="menu" hidden>
+  <nav class="mn__nav" aria-label="Menu" data-i18n-aria="aria.menu">
+    <a href="#serv"><i>01</i><span data-i18n="menu.serv">Usługi</span></a>
+    <a href="#how"><i>02</i><span data-i18n="menu.how">Jak pracujemy</span></a>
+    <a href="#cases"><i>03</i><span data-i18n="menu.cases">Realizacje</span></a>
+    <a href="#form"><i>04</i><span data-i18n="menu.form">Kontakt</span></a>
+  </nav>
+  <div class="mn__foot">
+    <p class="mn__lab" data-i18n="mn.direct">Napiszcie bezpośrednio</p>
+    <p class="mn__links">
+      <a href="https://t.me/sodoagency" target="_blank" rel="noopener">Telegram</a>
+      <a href="https://www.instagram.com/sodo.agency/" target="_blank" rel="noopener">Instagram</a>
+    </p>
+  </div>
+</div>
+
+<main id="main">
+<span id="top"></span>
+
+<!-- ═══════════ 01 · ПЕРШИЙ ЕКРАН ═══════════ -->
+<section class="hero" aria-labelledby="heroT">
+
+  <div class="fig fig--hero" id="fig" aria-hidden="true">
+    <span class="fig__halo"></span>
+    <img class="fig__far"   src="/assets/figures/figure.webp" alt="" width="913" height="1207">
+    <img class="fig__soft"  src="/assets/figures/figure.webp" alt="" width="913" height="1207">
+    <img class="fig__sharp" src="/assets/figures/figure.webp" alt="" width="913" height="1207">
+  </div>
+
+  <h1 class="hero__t" id="heroT">
+    <span class="hero__w hero__w--1" data-i18n="hero.w1">Musicie być</span>
+    <span class="hero__w hero__w--2"><span class="hero__key"><!--
+      --><span class="hero__word" data-i18n="hero.w2">widoczni</span><!--
+      --><span class="hero__mark" aria-hidden="true"></span></span></span>
+  </h1>
+
+  <div class="hero__foot">
+    <p class="hero__lead" id="heroLead" data-i18n="hero.lead">Agencja digital. Testujemy, zmieniamy, wzmacniamy, dopóki reklama i treści nie zaczną przynosić pieniędzy.</p>
+    <a class="lead lead--hero" href="#form"><span data-i18n="hero.cta">Omówimy projekt</span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.5 12h14M12.8 5.7 19 12l-6.2 6.3"/></svg></a>
+  </div>
+</section>
+
+
+<!-- ═══════════ 02 · ЦИФРИ ═══════════ -->
+<section class="stats" aria-label="Liczby doświadczenia" data-i18n-aria="aria.stats">
+  <ul class="stats__l rv">
+    <li class="stat">
+      <b class="stat__n" data-i18n="one.n0" data-count>30+</b>
+      <span class="stat__c" data-i18n="one.c0">nisz</span></li>
+    <li class="stat">
+      <b class="stat__n" data-i18n="one.n1" data-count>3 lata</b>
+      <span class="stat__c" data-i18n="one.c1">z jednym klientem</span></li>
+    <li class="stat">
+      <b class="stat__n" data-i18n="one.n2" data-count>52</b>
+      <span class="stat__c" data-i18n="one.c2">projekty</span></li>
+  </ul>
+</section>
+
+
+<!-- ═══════════ 03 · ПОСЛУГИ ═══════════ -->
+<section class="serv" id="serv" aria-labelledby="servT">
+  <header class="sh">
+    <h2 class="sh__t" data-i18n="serv.title" id="servT">Wszystko, żeby was znaleźli i kupili</h2>
+    <p class="sh__i" data-i18n="serv.sub">Bierzemy osobno albo pod klucz.</p>
+  </header>
+
+  <div class="sw" id="sw">
+    <ul class="sw__tabs" role="tablist" aria-label="Kierunki pracy" data-i18n-aria="aria.tabs">
+      <li role="presentation"><button class="sw__tab" type="button"
+        role="tab" id="tab0" aria-controls="svc0" aria-selected="false" tabindex="0">
+        <i class="sw__i" aria-hidden="true">01</i>
+        <svg class="sw__cue" viewBox="0 0 32 32" aria-hidden="true" focusable="false" vector-effect="non-scaling-stroke"><rect x="5" y="5" width="22" height="22" rx="4"/><path d="M13 12.5l8 3.6-3.5 1.4-1.4 3.5z"/></svg>
+        <span class="sw__nm" data-i18n="serv.n0">SMM</span>
+        <svg class="sw__go" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M9.6 7H17v7.4"/></svg>
+      </button></li>
+      <li role="presentation"><button class="sw__tab" type="button"
+        role="tab" id="tab1" aria-controls="svc1" aria-selected="false" tabindex="-1">
+        <i class="sw__i" aria-hidden="true">02</i>
+        <svg class="sw__cue" viewBox="0 0 32 32" aria-hidden="true" focusable="false" vector-effect="non-scaling-stroke"><rect x="9.5" y="3" width="13" height="26" rx="4"/><path d="M14 12.4l5.4 3.6-5.4 3.6z"/></svg>
+        <span class="sw__nm" data-i18n="serv.n1">TikTok</span>
+        <svg class="sw__go" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M9.6 7H17v7.4"/></svg>
+      </button></li>
+      <li role="presentation"><button class="sw__tab" type="button"
+        role="tab" id="tab2" aria-controls="svc2" aria-selected="false" tabindex="-1">
+        <i class="sw__i" aria-hidden="true">03</i>
+        <svg class="sw__cue" viewBox="0 0 32 32" aria-hidden="true" focusable="false" vector-effect="non-scaling-stroke"><circle cx="16" cy="16" r="11"/><circle cx="16" cy="16" r="4.5"/><path d="M16 1.8v4.4M16 25.8v4.4M1.8 16h4.4M25.8 16h4.4"/></svg>
+        <span class="sw__nm" data-i18n="serv.n2">Reklamy</span>
+        <svg class="sw__go" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M9.6 7H17v7.4"/></svg>
+      </button></li>
+      <li role="presentation"><button class="sw__tab" type="button"
+        role="tab" id="tab3" aria-controls="svc3" aria-selected="false" tabindex="-1">
+        <i class="sw__i" aria-hidden="true">04</i>
+        <svg class="sw__cue" viewBox="0 0 32 32" aria-hidden="true" focusable="false" vector-effect="non-scaling-stroke"><rect x="4" y="6" width="24" height="20" rx="4"/><path d="M4 12.5h24"/><path d="M8 9.3h.01M11.4 9.3h.01M14.8 9.3h.01"/></svg>
+        <span class="sw__nm" data-i18n="serv.n3">Strony</span>
+        <svg class="sw__go" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M9.6 7H17v7.4"/></svg>
+      </button></li>
+      <li role="presentation"><button class="sw__tab" type="button"
+        role="tab" id="tab4" aria-controls="svc4" aria-selected="false" tabindex="-1">
+        <i class="sw__i" aria-hidden="true">05</i>
+        <svg class="sw__cue" viewBox="0 0 32 32" aria-hidden="true" focusable="false" vector-effect="non-scaling-stroke"><path d="M5 9a4 4 0 0 1 4-4h14a4 4 0 0 1 4 4v8a4 4 0 0 1-4 4h-8l-5 4.6V21H9a4 4 0 0 1-4-4z"/><path d="M11.5 13h.01M16 13h.01M20.5 13h.01"/></svg>
+        <span class="sw__nm" data-i18n="serv.n4">Chatboty</span>
+        <svg class="sw__go" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M9.6 7H17v7.4"/></svg>
+      </button></li>
+      <li role="presentation"><button class="sw__tab" type="button"
+        role="tab" id="tab5" aria-controls="svc5" aria-selected="false" tabindex="-1">
+        <i class="sw__i" aria-hidden="true">06</i>
+        <svg class="sw__cue" viewBox="0 0 32 32" aria-hidden="true" focusable="false" vector-effect="non-scaling-stroke"><circle cx="14.5" cy="14.5" r="9.5"/><path d="M21.5 21.5 28 28"/><path d="M11 14.5h7"/></svg>
+        <span class="sw__nm" data-i18n="serv.n5">Konsultacje</span>
+        <svg class="sw__go" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M9.6 7H17v7.4"/></svg>
+      </button></li>
+    </ul>
+
+    <div class="sw__box" id="swBox">
+      <article class="svc" id="svc0" role="tabpanel" aria-labelledby="tab0">
+        <div class="svc__head">
+          <h3 class="svc__n" data-i18n="serv.n0">SMM</h3>
+          <p class="svc__pr" data-i18n="serv.pr0">Cena od $550</p>
+        </div>
+        <p class="svc__d" data-i18n="serv.d0">Treści, które zatrzymują scroll i sprzedają. Budujemy system, który pracuje na zgłoszenia.</p>
+        <ul class="fold__list">
+          <li class="fold__i"><i class="fold__n">[01]</i><b data-i18n="serv.t0_0">Strategia</b> <span data-i18n="serv.x0_0">— co i po co publikujemy, budujemy plan</span></li>
+          <li class="fold__i"><i class="fold__n">[02]</i><b data-i18n="serv.t0_1">Treści</b> <span data-i18n="serv.x0_1">— montaż, scenariusze, design</span></li>
+          <li class="fold__i"><i class="fold__n">[03]</i><b data-i18n="serv.t0_2">Publikacja</b> <span data-i18n="serv.x0_2">— my trzymamy rytm, a ty o tym nie myślisz</span></li>
+          <li class="fold__i"><i class="fold__n">[04]</i><b data-i18n="serv.t0_3">Pomysły</b> <span data-i18n="serv.x0_3">— takie, żeby zatrzymać scroll</span></li>
+          <li class="fold__i"><i class="fold__n">[05]</i><b data-i18n="serv.t0_4">Analityka</b> <span data-i18n="serv.x0_4">— widzimy liczby, podejmujemy decyzje</span></li>
+        </ul>
+      </article>
+      <article class="svc" id="svc1" role="tabpanel" aria-labelledby="tab1">
+        <div class="svc__head">
+          <h3 class="svc__n" data-i18n="serv.n1">TikTok</h3>
+          <p class="svc__pr" data-i18n="serv.pr1">Cena od $500</p>
+        </div>
+        <ul class="fold__list">
+          <li class="fold__i"><i class="fold__n">[01]</i><b data-i18n="serv.t1_0">Strategia</b> <span data-i18n="serv.x1_0">— co i po co publikujemy</span></li>
+          <li class="fold__i"><i class="fold__n">[02]</i><b data-i18n="serv.t1_1">Treści</b> <span data-i18n="serv.x1_1">— zdjęcia i wideo pod klucz</span></li>
+          <li class="fold__i"><i class="fold__n">[03]</i><b data-i18n="serv.t1_2">Rubryki</b> <span data-i18n="serv.x1_2">— szukamy działających połączeń</span></li>
+          <li class="fold__i"><i class="fold__n">[04]</i><b data-i18n="serv.t1_3">Pomysły</b> <span data-i18n="serv.x1_3">— takie, żeby zatrzymać scroll</span></li>
+          <li class="fold__i"><i class="fold__n">[05]</i><b data-i18n="serv.t1_4">Analityka</b> <span data-i18n="serv.x1_4">— widzimy liczby, podejmujemy decyzje</span></li>
+        </ul>
+      </article>
+      <article class="svc" id="svc2" role="tabpanel" aria-labelledby="tab2">
+        <div class="svc__head">
+          <h3 class="svc__n" data-i18n="serv.n2">Reklamy</h3>
+          <p class="svc__pr" data-i18n="serv.pr2">Cena od $350</p>
+        </div>
+        <p class="svc__d" data-i18n="serv.d2">Kręcimy reklamę, dopóki się nie zwróci. Nie zadziałała — zmieniamy. Zadziałała — wzmacniamy.</p>
+        <ul class="fold__list">
+          <li class="fold__i"><i class="fold__n">[01]</i><b data-i18n="serv.t2_0">Analiza</b> <span data-i18n="serv.x2_0">— rozkładamy waszą niszę na części</span></li>
+          <li class="fold__i"><i class="fold__n">[02]</i><b data-i18n="serv.t2_1">Strategia reklamowa</b> <span data-i18n="serv.x2_1">— układamy hipotezy</span></li>
+          <li class="fold__i"><i class="fold__n">[03]</i><b data-i18n="serv.t2_2">Kreacje</b> <span data-i18n="serv.x2_2">— realizacja banera reklamowego pod klucz</span></li>
+          <li class="fold__i"><i class="fold__n">[04]</i><b data-i18n="serv.t2_3">Start</b> <span data-i18n="serv.x2_3">— testy i optymalizacja</span></li>
+          <li class="fold__i"><i class="fold__n">[05]</i><b data-i18n="serv.t2_4">Analityka</b> <span data-i18n="serv.x2_4">— codzienny raport i podsumowanie miesiąca</span></li>
+        </ul>
+      </article>
+      <article class="svc" id="svc3" role="tabpanel" aria-labelledby="tab3">
+        <div class="svc__head">
+          <h3 class="svc__n" data-i18n="serv.n3">Strony</h3>
+          <p class="svc__pr" data-i18n="serv.pr3">Cena od $350</p>
+        </div>
+        <p class="svc__d" data-i18n="serv.d3">Ładne i wygodne, a przede wszystkim zbierają zgłoszenia. Od pierwszego ekranu do przycisku «Kup».</p>
+        <ul class="fold__list">
+          <li class="fold__i"><i class="fold__n">[01]</i><b data-i18n="serv.t3_0">Pomysł</b> <span data-i18n="serv.x3_0">— tam, gdzie chce się wejść</span></li>
+          <li class="fold__i"><i class="fold__n">[02]</i><b data-i18n="serv.t3_1">Struktura</b> <span data-i18n="serv.x3_1">— klient rozumie, co zamówić i jak</span></li>
+          <li class="fold__i"><i class="fold__n">[03]</i><b data-i18n="serv.t3_2">Start</b> <span data-i18n="serv.x3_2">— dostajesz gotową stronę</span></li>
+        </ul>
+      </article>
+      <article class="svc svc--plain" id="svc4" role="tabpanel" aria-labelledby="tab4">
+        <div class="svc__head">
+          <h3 class="svc__n" data-i18n="serv.n4">Chatboty</h3>
+          <p class="svc__pr" data-i18n="serv.pr4">Na zapytanie</p>
+        </div>
+        <p class="svc__d" data-i18n="serv.d4">Odpowiadają klientom, kiedy wy śpicie, i nie gubią żadnego zgłoszenia.</p>
+      </article>
+      <article class="svc svc--plain" id="svc5" role="tabpanel" aria-labelledby="tab5">
+        <div class="svc__head">
+          <h3 class="svc__n" data-i18n="serv.n5">Konsultacje</h3>
+          <p class="svc__pr" data-i18n="serv.pr5">Na zapytanie</p>
+        </div>
+        <p class="svc__d" data-i18n="serv.d5">Spojrzenie z boku na wasz marketing: co działa, co przepala budżet, co robić dalej.</p>
+      </article>
+    </div>
+
+    <p class="sw__add" data-i18n="serv.add">Dodatkowo: zdjęcia i wideo pod klucz — na zapytanie</p>
+    <p class="sw__fine" data-i18n="serv.fine">Ceny od. Ostateczny koszt po briefie. Pakiet dopasowujemy do waszego budżetu i niszy</p>
+
+    <div class="sw__foot">
+      <p class="sw__note" data-i18n="serv.note">Format dobieramy pod wasze zapytanie.</p>
+      <a class="lead" href="#form"><span data-i18n="serv.cta">Nie wiecie, czego potrzebujecie? Powiemy</span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.5 12h14M12.8 5.7 19 12l-6.2 6.3"/></svg></a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════ 04 · ЦИКЛ SODO ═══════════ -->
+<section class="cycle" id="cycle" aria-labelledby="cycleT">
+  <header class="sh">
+    <p class="lab" data-i18n="cycle.lab">Cykl SODO</p>
+    <h2 class="sh__t" data-i18n="cycle.title" id="cycleT">Nie zgadujemy. Sprawdzamy.</h2>
+  </header>
+
+  <p class="cycle__p" data-i18n="cycle.text">Co miesiąc zaplanowane testy. Co działa, skalujemy. Co nie, zmieniamy. Widzicie wszystko.</p>
+
+  <ol class="road rv" id="road">
+      <li class="road__s"><i class="road__n">1</i>
+        <div class="road__b">
+          <h3 data-i18n="cycle.h0">Hipoteza</h3>
+          <p data-i18n="cycle.p0">Co dokładnie i dlaczego zadziała dla waszego biznesu.</p>
+        </div></li>
+      <li class="road__s"><i class="road__n">2</i>
+        <div class="road__b">
+          <h3 data-i18n="cycle.h1">Test</h3>
+          <p data-i18n="cycle.p1">Uruchamiamy na małym budżecie.</p>
+        </div></li>
+      <li class="road__s"><i class="road__n">3</i>
+        <div class="road__b">
+          <h3 data-i18n="cycle.h2">Wniosek</h3>
+          <p data-i18n="cycle.p2">Patrzymy na liczby, a nie na odczucia.</p>
+        </div></li>
+      <li class="road__s"><i class="road__n">4</i>
+        <div class="road__b">
+          <h3 data-i18n="cycle.h3">Skala</h3>
+          <p data-i18n="cycle.p3">To, co zadziałało, wzmacniamy.</p>
+        </div></li>
+  </ol>
+
+  <p class="cycle__a" data-i18n="cycle.accent">Nawet pakiety usług dopasowujemy do waszego wyniku.</p>
+</section>
+
+
+<!-- ═══════════ 05 · ОДИН НА НІШУ ═══════════ -->
+<section class="one" aria-labelledby="oneT">
+  <div class="one__say">
+    <h2 class="one__t" data-i18n="one.title" id="oneT">Jeden na niszę. Jeden na miasto.</h2>
+    <p class="one__p" data-i18n="one.text">Nie prowadzimy dwóch konkurentów obok siebie. Dlatego wszystkie nasze pomysły, testy i wyniki pracują tylko na was, a nie na sąsiada przez ulicę.</p>
+    <p class="one__s"><span class="hl" data-i18n="one.small">Wasze miejsce jest jeszcze wolne? Sprawdzimy w 5 minut.</span></p>
+  </div>
+</section>
+
+
+<!-- ═══════════ 06 · КЕЙСИ ═══════════ -->
+<section class="cases" id="cases" aria-labelledby="casesT">
+  <header class="sh">
+    <h2 class="sh__t" data-i18n="cases.title" id="casesT">Co się zmienia, gdy się za was bierzemy</h2>
+    <p class="sh__i" data-i18n="cases.sub">Pełne realizacje i wideo-opinie na Instagramie.</p>
+  </header>
+
+  <div class="gal rv" id="gal">
+    <ol class="gal__track" id="galTrack">
+      <li class="case">
+        <div class="case__card">
+          <img class="case__bg case__bg--community" src="/assets/cases/community.webp" alt="" loading="lazy" decoding="async" width="719" height="1280">
+          <i class="case__no" aria-hidden="true">01</i>
+          <h3 class="case__n" data-i18n="case.n0">Community</h3>
+          <p class="case__c" data-i18n="case.c0">Poznań</p>
+          <div class="case__row">
+            <span class="case__k" data-i18n="case.was">Było</span>
+            <p class="case__v" data-i18n="case.b0">Start od zera, żadnych social mediów, marka bez wizerunku, ograniczony budżet.</p>
+          </div>
+          <div class="case__row case__row--res">
+            <span class="case__k" data-i18n="case.now">Jest</span>
+            <p class="case__v"><span class="hl" data-i18n="case.r0">Zgłoszenie po <b>$1,20</b> w pierwszym miesiącu pracy. Po roku nazwa zaczęła pracować sama na siebie, a połowa biletów rozchodziła się organicznie.</span></p>
+          </div>
+        </div>
+      </li>
+      <li class="case">
+        <div class="case__card">
+          <img class="case__bg case__bg--legal" src="/assets/cases/legal.webp" alt="" loading="lazy" decoding="async" width="900" height="1171">
+          <i class="case__no" aria-hidden="true">02</i>
+          <h3 class="case__n" data-i18n="case.n1">Legalizacja</h3>
+          <p class="case__c" data-i18n="case.c1">Poznań</p>
+          <div class="case__row">
+            <span class="case__k" data-i18n="case.was">Było</span>
+            <p class="case__v" data-i18n="case.b1">Start od zera, bez bazy klientów.</p>
+          </div>
+          <div class="case__row case__row--res">
+            <span class="case__k" data-i18n="case.now">Jest</span>
+            <p class="case__v"><span class="hl" data-i18n="case.r1">Zgłoszenie po <b>$3,90</b> już w drugim miesiącu pracy.</span></p>
+          </div>
+        </div>
+      </li>
+      <li class="case">
+        <div class="case__card">
+          <img class="case__bg case__bg--jobs" src="/assets/cases/jobs.webp" alt="" loading="lazy" decoding="async" width="900" height="1038">
+          <i class="case__no" aria-hidden="true">03</i>
+          <h3 class="case__n" data-i18n="case.n2">Zatrudnienie</h3>
+          <p class="case__c" data-i18n="case.c2">Niemcy</p>
+          <div class="case__row">
+            <span class="case__k" data-i18n="case.was">Było</span>
+            <p class="case__v" data-i18n="case.b2">Słabe jakościowo zgłoszenia i blokada konta reklamowego.</p>
+          </div>
+          <div class="case__row case__row--res">
+            <span class="case__k" data-i18n="case.now">Jest</span>
+            <p class="case__v"><span class="hl" data-i18n="case.r2">Stabilnie działające konto i zgłoszenie po <b>€3</b>.</span></p>
+          </div>
+        </div>
+      </li>
+      <li class="case">
+        <div class="case__card">
+          <img class="case__bg case__bg--beauty" src="/assets/cases/beauty.webp" alt="" loading="lazy" decoding="async" width="900" height="1015">
+          <i class="case__no" aria-hidden="true">04</i>
+          <h3 class="case__n" data-i18n="case.n3">Studio urody</h3>
+          <p class="case__c" data-i18n="case.c3">Poznań</p>
+          <div class="case__row">
+            <span class="case__k" data-i18n="case.was">Było</span>
+            <p class="case__v" data-i18n="case.b3">Żadnych social mediów, marka bez wizerunku.</p>
+          </div>
+          <div class="case__row case__row--res">
+            <span class="case__k" data-i18n="case.now">Jest</span>
+            <p class="case__v"><span class="hl" data-i18n="case.r3">O studiu wiedzą wszyscy, a odważne pomysły rozpoznaje się od pierwszego spojrzenia.</span></p>
+          </div>
+        </div>
+      </li>
+    </ol>
+
+    <div class="gal__bar">
+      <button class="gal__b" type="button" id="galPrev" data-d="-1"
+        aria-label="Poprzednia realizacja" aria-controls="galTrack" data-i18n-aria="gal.prev">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19.5 12h-14M11.2 5.7 5 12l6.2 6.3"/></svg></button>
+      <button class="gal__b" type="button" id="galNext" data-d="1"
+        aria-label="Następna realizacja" aria-controls="galTrack" data-i18n-aria="gal.next">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.5 12h14M12.8 5.7 19 12l-6.2 6.3"/></svg></button>
+      <p class="gal__c"><span id="galN">1</span> / <span id="galT">4</span></p>
+    </div>
+  </div>
+
+  <a class="lead" href="https://www.instagram.com/sodo.agency/" target="_blank" rel="noopener"
+     ><span data-i18n="cases.cta">Zobacz realizacje na Instagramie</span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M9.6 7H17v7.4"/></svg></a>
+</section>
+
+
+<!-- ═══════════ 07 · ЯК ПРАЦЮЄМО ═══════════ -->
+<section class="how" id="how" aria-labelledby="howT">
+  <header class="sh">
+    <h2 class="sh__t" data-i18n="how.title" id="howT">5 kroków od «cześć» do startu</h2>
+  </header>
+  <ol class="steps rv" id="steps">
+    <li class="step"><i class="step__n">01</i>
+      <h3 data-i18n="how.h0">Rozmowa</h3>
+      <p data-i18n="how.p0">Powiedzcie, co boli i czego chcecie.</p></li>
+    <li class="step"><i class="step__n">02</i>
+      <h3 data-i18n="how.h1">Oferta</h3>
+      <p data-i18n="how.p1">Indywidualna pod wasze zapytanie, a nie z cennika.</p></li>
+    <li class="step"><i class="step__n">03</i>
+      <h3 data-i18n="how.h2">Brief</h3>
+      <p data-i18n="how.p2">Poznajemy biznes, odbiorców, konkurencję.</p></li>
+    <li class="step"><i class="step__n">04</i>
+      <h3 data-i18n="how.h3">Strategia</h3>
+      <p data-i18n="how.p3">Jasny plan: co, gdzie i po co robimy.</p></li>
+    <li class="step step--last"><i class="step__n">05</i>
+      <h3><span data-i18n="how.h4">Start</span><i class="step__dot" aria-hidden="true"></i></h3>
+      <p data-i18n="how.p4">Ruszamy i od razu trzymamy rękę na pulsie.</p></li>
+  </ol>
+</section>
+
+
+<!-- ═══════════ 08 · ФОРМА ═══════════ -->
+<section class="form" id="form" aria-labelledby="formT">
+  <header class="sh">
+    <h2 class="sh__t" data-i18n="form.title" id="formT">Omówimy projekt?</h2>
+    <p class="sh__i" data-i18n="form.sub">Powiedzcie, co chcecie rozwiązać. Napiszemy i powiemy szczerze, czy będziemy w stanie pomóc.</p>
+  </header>
+
+  <form class="fm" id="fm" novalidate>
+    <div class="fm__grid">
+      <p class="fld">
+        <label for="f_name"><span data-i18n="form.name">Imię</span> <span class="fld__req" aria-hidden="true">*</span></label>
+        <input id="f_name" name="name" type="text" autocomplete="name" required aria-describedby="e_name">
+        <span class="fld__e" id="e_name" hidden></span>
+      </p>
+      <p class="fld">
+        <label for="f_tg"><span data-i18n="form.tg">Telegram lub Instagram</span> <span class="fld__req" aria-hidden="true">*</span></label>
+        <input id="f_tg" name="contact" type="text" placeholder="@nick" data-i18n-ph="form.ph" autocomplete="username"
+          required data-check="contact" aria-describedby="e_tg">
+        <span class="fld__e" id="e_tg" hidden></span>
+      </p>
+      <p class="fld">
+        <label for="f_tel"><span data-i18n="form.tel">Telefon</span> <span class="fld__req" aria-hidden="true">*</span></label>
+        <input id="f_tel" name="phone" type="tel" inputmode="tel" autocomplete="tel"
+          required data-check="phone" aria-describedby="e_tel">
+        <span class="fld__e" id="e_tel" hidden></span>
+      </p>
+      <p class="fld fld--opt">
+        <label for="f_task"><span data-i18n="form.task">Co chcecie rozwiązać?</span> <span class="fld__opt" data-i18n="form.opt">opcjonalnie</span></label>
+        <textarea id="f_task" name="task" rows="3"></textarea>
+      </p>
+    </div>
+
+    <div class="fm__hp" aria-hidden="true">
+      <label for="f_company" data-i18n="form.trap">Nie wypełniajcie tego pola</label>
+      <input id="f_company" name="company" type="text" tabindex="-1" autocomplete="off">
+    </div>
+
+    <div class="fm__foot">
+      <button class="btn" type="submit" data-i18n="form.cta">Wyślij zgłoszenie</button>
+      <p class="fm__u" data-i18n="form.under">Bierzemy jeden biznes w niszy i mieście. Sprawdzimy, czy wasze miejsce jest wolne.</p>
+    </div>
+
+    <p class="fm__err" id="fmErr" role="alert" hidden></p>
+  </form>
+
+  <div class="fm__ok" id="fmOk" role="status" hidden>
+    <p><span data-i18n="form.done">Dziękujemy! Wkrótce się odezwiemy. A tymczasem zajrzyjcie na nasz Instagram</span>
+      <a href="https://www.instagram.com/sodo.agency/" target="_blank" rel="noopener">@sodo.agency<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M9.6 7H17v7.4"/></svg></a></p>
+  </div>
+</section>
+
+
+<!-- ═══════════ 09 · ПИТАННЯ Й ВІДПОВІДІ ═══════════ -->
+<section class="faq" id="faq" aria-labelledby="faqT">
+  <header class="sh">
+    <h2 class="sh__t" data-i18n="faq.title" id="faqT">Pytania, które chcieliście zadać</h2>
+  </header>
+
+  <div class="qa__all" id="qaList">
+    <div class="qa__g">
+      <h3 class="qa__gt" data-i18n="faq.g0">Pieniądze</h3>
+      <ul class="qa__list">
+      <li class="qa">
+        <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa0"
+          id="qb0" data-i18n="faq.q0">Ile to kosztuje?</button>
+        <div class="qa__a" id="qa0" role="region" aria-labelledby="qb0" hidden>
+          <p data-i18n="faq.a0">W sekcji usług podane są ceny «od»: Instagram od $550, TikTok od $500, reklamy i strony od $350, chatboty i konsultacje na zapytanie. Ostateczną kwotę podajemy po briefie: zależy od zakresu i niszy. Jeśli pełny pakiet jest poza waszym zasięgiem, dobierzemy format, który będzie pasował. Finalną kwotę podajemy raz i bez ukrytych opłat.</p>
+        </div>
+      </li>
+      <li class="qa">
+        <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa1"
+          id="qb1" data-i18n="faq.q1">Jaki jest minimalny budżet na reklamę?</button>
+        <div class="qa__a" id="qa1" role="region" aria-labelledby="qb1" hidden>
+          <p data-i18n="faq.a1">Rekomendujemy od $10 dziennie. Ile potrzeba właśnie wam, policzymy razem po zgłoszeniu. Budżet reklamowy płacicie osobno od naszych usług, bezpośrednio na konto reklamowe.</p>
+        </div>
+      </li>
+      <li class="qa qa--more">
+        <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa2"
+          id="qb2" data-i18n="faq.q2">Czy bywają ukryte opłaty?</button>
+        <div class="qa__a" id="qa2" role="region" aria-labelledby="qb2" hidden>
+          <p data-i18n="faq.a2">Nie. Finalną kwotę podajemy od razu.</p>
+        </div>
+      </li>
+      </ul>
+    </div>
+    <div class="qa__g">
+      <h3 class="qa__gt" data-i18n="faq.g1">Proces</h3>
+      <ul class="qa__list">
+      <li class="qa">
+        <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa3"
+          id="qb3" data-i18n="faq.q3">Gwarantujecie wynik?</button>
+        <div class="qa__a" id="qa3" role="region" aria-labelledby="qb3" hidden>
+          <p data-i18n="faq.a3">Nie, i powiemy dlaczego. Marketing przyprowadza do was ludzi, którzy się zainteresowali. Ale kupują już u was: wiele zależy od sprzedaży, obsługi, ceny i produktu. Kto gwarantuje wynik, ten albo nie rozumie, jak to działa, albo sprzedaje bajkę. Gwarantujemy to, co zależy od nas: testy, szybkie zmiany, przejrzyste liczby. Jeśli coś nie działa, pierwsi powiemy dlaczego, nawet gdy problem nie leży w reklamie.</p>
+        </div>
+      </li>
+      <li class="qa">
+        <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa4"
+          id="qb4" data-i18n="faq.q4">Co dostanę przez pierwszy miesiąc?</button>
+        <div class="qa__a" id="qa4" role="region" aria-labelledby="qb4" hidden>
+          <p data-i18n="faq.a4">Zależy od pakietu, który wybierzecie. Zmiany wizualne widać już po pierwszym miesiącu. Na rozmowie powiemy, czego spodziewać się właśnie wam.</p>
+        </div>
+      </li>
+      <li class="qa qa--more">
+        <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa5"
+          id="qb5" data-i18n="faq.q5">Jak zrozumiem, że to działa?</button>
+        <div class="qa__a" id="qa5" role="region" aria-labelledby="qb5" hidden>
+          <p data-i18n="faq.a5">Raporty wysyłamy codziennie albo co miesiąc, zależnie od usługi. Przy reklamach codzienne raporty są obowiązkowe.</p>
+        </div>
+      </li>
+      <li class="qa qa--more">
+        <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa6"
+          id="qb6" data-i18n="faq.q6">Czy mogę zatwierdzać treści?</button>
+        <div class="qa__a" id="qa6" role="region" aria-labelledby="qb6" hidden>
+          <p data-i18n="faq.a6">Oczywiście. Uwzględniamy wasze uwagi, a jeśli zrobiliśmy inaczej, tłumaczymy dlaczego.</p>
+        </div>
+      </li>
+      <li class="qa qa--more">
+        <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa7"
+          id="qb7" data-i18n="faq.q7">Czego potrzebujecie ode mnie na starcie?</button>
+        <div class="qa__a" id="qa7" role="region" aria-labelledby="qb7" hidden>
+          <p data-i18n="faq.a7">Odpowiedzi na nasze pytania, żebyśmy szybko i skutecznie weszli w projekt, a wy poświęcili minimum czasu.</p>
+        </div>
+      </li>
+      </ul>
+    </div>
+    <div class="qa__g">
+      <h3 class="qa__gt" data-i18n="faq.g2">Umowa i dostępy</h3>
+      <ul class="qa__list">
+      <li class="qa">
+        <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa8"
+          id="qb8" data-i18n="faq.q8">Czy nie weźmiecie mojego konkurenta?</button>
+        <div class="qa__a" id="qa8" role="region" aria-labelledby="qb8" hidden>
+          <p data-i18n="faq.a8">Nie. To zapisane w umowie. Nie prowadzimy dwóch biznesów z tej samej niszy w jednym mieście.</p>
+        </div>
+      </li>
+      <li class="qa">
+        <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa9"
+          id="qb9" data-i18n="faq.q9">Czy jest umowa?</button>
+        <div class="qa__a" id="qa9" role="region" aria-labelledby="qb9" hidden>
+          <p data-i18n="faq.a9">Tak. Minimalny okres współpracy: 1 miesiąc.</p>
+        </div>
+      </li>
+      <li class="qa qa--more">
+        <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa10"
+          id="qb10" data-i18n="faq.q10">Do kogo należą konta, kampanie i treści?</button>
+        <div class="qa__a" id="qa10" role="region" aria-labelledby="qb10" hidden>
+          <p data-i18n="faq.a10">Do was. Prawa autorskie przechodzą na was, a treści i kampanie zostają z wami, nawet jeśli przestaniemy pracować razem.</p>
+        </div>
+      </li>
+      <li class="qa qa--more">
+        <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa11"
+          id="qb11" data-i18n="faq.q11">Jak zakończyć współpracę?</button>
+        <div class="qa__a" id="qa11" role="region" aria-labelledby="qb11" hidden>
+          <p data-i18n="faq.a11">Dajcie nam znać na 14 dni wcześniej. Dostaniecie wszystko, co powstało w czasie współpracy.</p>
+        </div>
+      </li>
+      </ul>
+    </div>
+    <div class="qa__g">
+      <h3 class="qa__gt" data-i18n="faq.g3">Format współpracy</h3>
+      <ul class="qa__list">
+      <li class="qa">
+        <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa12"
+          id="qb12" data-i18n="faq.q12">Czy można wziąć tylko reklamy albo tylko SMM?</button>
+        <div class="qa__a" id="qa12" role="region" aria-labelledby="qb12" hidden>
+          <p data-i18n="faq.a12">Tak. Można osobno, można wszystko pod klucz.</p>
+        </div>
+      </li>
+      <li class="qa">
+        <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa13"
+          id="qb13" data-i18n="faq.q13">Czym różnicie się od innych agencji?</button>
+        <div class="qa__a" id="qa13" role="region" aria-labelledby="qb13" hidden>
+          <p data-i18n="faq.a13">Mamy specjalistów w swoich dziedzinach. I jesteśmy elastyczni: spróbowaliśmy, nie zadziałało, zmieniliśmy, wzmocniliśmy. Nawet pakiety usług dopasowujemy do waszego wyniku.</p>
+        </div>
+      </li>
+      <li class="qa qa--more">
+        <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa14"
+          id="qb14" data-i18n="faq.q14">Kto będzie pracował z moim projektem?</button>
+        <div class="qa__a" id="qa14" role="region" aria-labelledby="qb14" hidden>
+          <p data-i18n="faq.a14">Specjalista, który odpowiada za waszą strefę: SMM, reklamy, strona czy chatbot.</p>
+        </div>
+      </li>
+      <li class="qa qa--more">
+        <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa15"
+          id="qb15" data-i18n="faq.q15">Jak często będziemy w kontakcie?</button>
+        <div class="qa__a" id="qa15" role="region" aria-labelledby="qb15" hidden>
+          <p data-i18n="faq.a15">Pracujemy od poniedziałku do piątku, od 10:00 do 18:00. Ale nie damy rady nie odpowiedzieć na mema w sobotę wieczorem 😄</p>
+        </div>
+      </li>
+      <li class="qa qa--more">
+        <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa16"
+          id="qb16" data-i18n="faq.q16">Ile czasu to zabiera mnie?</button>
+        <div class="qa__a" id="qa16" role="region" aria-labelledby="qb16" hidden>
+          <p data-i18n="faq.a16">Niewiele. Bierzemy na siebie wszystko, od pomysłu do startu. Wy musicie odpowiedzieć na nasze pytania, zatwierdzić treści i decyzje reklamowe. Resztę robimy my.</p>
+        </div>
+      </li>
+      <li class="qa qa--more">
+        <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa17"
+          id="qb17" data-i18n="faq.q17">Z jakimi niszami nie pracujecie?</button>
+        <div class="qa__a" id="qa17" role="region" aria-labelledby="qb17" hidden>
+          <p data-i18n="faq.a17">Nie bierzemy projektów z obietnicami «szybkich pieniędzy», szarymi schematami ani produktów, które nie przechodzą moderacji kont reklamowych. I nie bierzemy drugiego klienta w niszy i mieście. Jeśli nie wierzymy w produkt, powiemy o tym wprost. Resztę omówimy na rozmowie.</p>
+        </div>
+      </li>
+      <li class="qa qa--more">
+        <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa18"
+          id="qb18" data-i18n="faq.q18">Czy pracujecie poza Polską?</button>
+        <div class="qa__a" id="qa18" role="region" aria-labelledby="qb18" hidden>
+          <p data-i18n="faq.a18">Tak, pracujemy w całej Europie.</p>
+        </div>
+      </li>
+      <li class="qa qa--more">
+        <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa19"
+          id="qb19" data-i18n="faq.q19">Mam już stronę i wykonawcę. To problem?</button>
+        <div class="qa__a" id="qa19" role="region" aria-labelledby="qb19" hidden>
+          <p data-i18n="faq.a19">Nie, super! Lubimy nowe znajomości i jesteśmy pewni, że znajdziemy wspólny język.</p>
+        </div>
+      </li>
+      <li class="qa qa--more">
+        <button class="qa__q" type="button" aria-expanded="false" aria-controls="qa20"
+          id="qb20" data-i18n="faq.q20">Czy zdjęcia i montaż wchodzą w SMM?</button>
+        <div class="qa__a" id="qa20" role="region" aria-labelledby="qb20" hidden>
+          <p data-i18n="faq.a20">Tak, wchodzą. Są też rozwiązania indywidualne.</p>
+        </div>
+      </li>
+      </ul>
+    </div>
+  </div>
+
+  <button class="lead lead--btn" type="button" id="qaMore"
+    data-more="Pokaż więcej" data-less="Zwiń"
+    data-i18n-more="faq.more" data-i18n-less="faq.less"
+    aria-expanded="false" aria-controls="qaList"><span>Pokaż więcej</span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.5 12h14M12.8 5.7 19 12l-6.2 6.3"/></svg></button>
+</section>
+
+</main>
+
+<!-- липка дія: ховається, щойно форма зʼявляється в кадрі -->
+<div class="dock" id="dock" hidden>
+  <a class="btn" href="#form" data-i18n="hero.cta">Omówimy projekt</a>
+</div>
+
+<footer class="ft">
+  <span class="mark mark--ft" aria-hidden="true"></span>
+  <p class="ft__c">© <span id="yr">2026</span> SODO</p>
+  <nav class="ft__nav" aria-label="Social media" data-i18n-aria="aria.social">
+    <a href="https://t.me/sodoagency" target="_blank" rel="noopener">Telegram</a>
+    <a href="https://www.instagram.com/sodo.agency/" target="_blank" rel="noopener">Instagram</a>
+  </nav>
+</footer>
+
+<script src="/js/main.js?v=19" defer></script>
+</body>
+</html>

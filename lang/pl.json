@@ -146,6 +146,7 @@
     "form.cta": "Wyślij zgłoszenie",
     "form.under": "Bierzemy jeden biznes w niszy i mieście. Sprawdzimy, czy wasze miejsce jest wolne.",
     "form.done": "Dziękujemy! Wkrótce się odezwiemy. A tymczasem zajrzyjcie na nasz Instagram",
+    "form.trap": "Nie wypełniajcie tego pola",
     "faq.title": "Pytania, które chcieliście zadać",
     "faq.g0": "Pieniądze",
     "faq.q0": "Ile to kosztuje?",
@@ -197,6 +198,8 @@
     "faq.less": "Zwiń",
     "aria.social": "Social media",
     "doc.title": "SODO — get visible",
-    "doc.desc": "SODO — agencja digital. Testujemy, zmieniamy, wzmacniamy, dopóki reklama i treści nie zaczną przynosić pieniędzy. SMM, reklamy, strony, chatboty, konsultacje."
+    "doc.desc": "SODO — agencja digital. Testujemy, zmieniamy, wzmacniamy, dopóki reklama i treści nie zaczną przynosić pieniędzy. SMM, reklamy, strony, chatboty, konsultacje.",
+    "og.title": "SODO — musicie być widoczni",
+    "og.desc": "Testujemy, zmieniamy, wzmacniamy, dopóki reklama i treści nie zaczną przynosić pieniędzy."
   }
 }

@@ -911,6 +911,36 @@ function faq() {
 const FORM_ENDPOINT = '/api/lead';
 const FORM_TG = 'https://t.me/sodoagency';
 
+/* Підказки форми живуть лише в скрипті, тож перекладаємо їх тут.
+   Мову знає сама сторінка: <html lang> ставить збірка. */
+const MSG = {
+  uk: {
+    needTg: 'Залиште Telegram або Instagram, щоб ми могли вам написати',
+    need: 'Заповніть, будь ласка, це поле',
+    contact: 'Напишіть @нік або посилання: t.me/… чи instagram.com/…',
+    phone: 'Перевірте номер: лише цифри, можна з «+» на початку',
+    send: 'Не вдалось надіслати. Напишіть нам у Telegram: t.me/sodoagency',
+    tg: 'Не вдалось відкрити Telegram. Заявку скопійовано — напишіть нам: t.me/sodoagency',
+  },
+  pl: {
+    needTg: 'Zostawcie Telegram albo Instagram, żebyśmy mogli do was napisać',
+    need: 'Uzupełnijcie, proszę, to pole',
+    contact: 'Wpiszcie @nick albo link: t.me/… lub instagram.com/…',
+    phone: 'Sprawdźcie numer: tylko cyfry, można z «+» na początku',
+    send: 'Nie udało się wysłać. Napiszcie do nas na Telegramie: t.me/sodoagency',
+    tg: 'Nie udało się otworzyć Telegrama. Zgłoszenie skopiowane — napiszcie do nas: t.me/sodoagency',
+  },
+  en: {
+    needTg: 'Leave your Telegram or Instagram so we can message you',
+    need: 'Please fill in this field',
+    contact: 'Enter a @username or a link: t.me/… or instagram.com/…',
+    phone: 'Check the number: digits only, a leading «+» is fine',
+    send: 'Could not send. Message us on Telegram: t.me/sodoagency',
+    tg: 'Could not open Telegram. Your request is copied — message us: t.me/sodoagency',
+  },
+};
+const tx = k => (MSG[document.documentElement.lang] || MSG.uk)[k];
+
 /* Контакт приймаємо в будь-якому вигляді, у якому його пишуть:
    @нік, голий нік або повне посилання на Telegram чи Instagram. */
 const okContact = v => {
@@ -952,13 +982,13 @@ function form() {
     const v = el.value.trim();
     if (el.required && !v) {
       return el.id === 'f_tg'
-        ? 'Залиште Telegram або Instagram, щоб ми могли вам написати'
-        : 'Заповніть, будь ласка, це поле';
+        ? tx('needTg')
+        : tx('need');
     }
     if (el.dataset.check === 'contact' && v && !okContact(v))
-      return 'Напишіть @нік або посилання: t.me/… чи instagram.com/…';
+      return tx('contact');
     if (el.dataset.check === 'phone' && v && !okPhone(v))
-      return 'Перевірте номер: лише цифри, можна з «+» на початку';
+      return tx('phone');
     return '';
   };
 
@@ -1040,7 +1070,7 @@ function form() {
         if (!r.ok) throw new Error(r.status);
         done();
       } catch {
-        say('Не вдалось надіслати. Напишіть нам у Telegram: t.me/sodoagency');
+        say(tx('send'));
       } finally {
         busy(false);
       }
@@ -1059,149 +1089,48 @@ function form() {
        і глушить open(). Мовчазне «дякуємо» тут коштує заявки. */
     const win = open(FORM_TG, '_blank', 'noopener');
     if (win) done();
-    else say('Не вдалось відкрити Telegram. Заявку скопійовано — напишіть нам: t.me/sodoagency');
+    else say(tx('tg'));
   });
 }
 
 /* ────────────────────────────────────────────
    13. МОВИ
 
-   Українська лежить прямо в розмітці — її не треба тягнути й вона
-   бачиться пошуком. Польська живе в lang/pl.json і підставляється
-   в [data-i18n] та родичів.
+   Кожна мова — окрема сторінка з власною адресою: / українська,
+   /en/ англійська, /pl/ польська. Текст у них уже стоїть у розмітці
+   (en і pl збирає scripts/build-lang.mjs з index.html і lang/*.json),
+   тож посилання, пошук і прев'ю в месенджерах одразу бачать потрібну
+   мову, а скрипту нічого підставляти не треба.
 
-   Мову вибираємо в такому порядку:
-     1. ?lang= у адресі — явна воля, її ж і запамʼятовуємо;
-     2. збережений раніше вибір;
-     3. мітка в utm — щоб польська кампанія одразу привела на
-        польську версію;
-     4. мова браузера;
-     5. українська.
-
-   Автовизначення навмисно не зберігаємо: інакше людина, яка один
-   раз прийшла з польського оголошення, назавжди лишилась би на
-   польській, навіть якщо їй зручніше українською.
+   Тут лишається одне: перемикач. Він несе з собою решту адреси (ті ж
+   utm) і запамʼятовує вибір — тоді корінь більше не відводить людину
+   деінде (див. #langGo в index.html). Автовизначення там навмисно не
+   зберігається: інакше людина, яка один раз прийшла з польського
+   оголошення, назавжди лишилась би на польській.
    ──────────────────────────────────────────── */
 
-const READY = ['uk', 'pl'];
 const LANG_KEY = 'sodo:lang';
+const LANG_PATH = { uk: '/', en: '/en/', pl: '/pl/' };
 
-/* Мітка в utm — окремий токен, а не підрядок: «pl» усередині
-   «display» чи «plumber» не має нікуди нас відправляти. */
-const UTM = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
-const PL_TAG = /^(pl|pol|poland|polska|polski|polskie|polska_pl)$/;
-
-function fromUtm(q) {
-  for (const key of UTM) {
-    const v = q.get(key);
-    if (v && v.toLowerCase().split(/[^a-z0-9]+/).some(t => PL_TAG.test(t))) return 'pl';
-  }
-  return null;
-}
-
-function fromBrowser() {
-  const list = navigator.languages || [navigator.language || ''];
-  for (const raw of list) {
-    const c = String(raw).toLowerCase();
-    if (c.startsWith('pl')) return 'pl';
-    if (c.startsWith('uk')) return 'uk';
-  }
-  return null;
-}
-
-/* Перекладені рядки можуть нести **жирне** — у кейсах це суми.
-   Складаємо вузли руками, а не через innerHTML: у JSON може бути
-   що завгодно, і воно ніколи не має стати розміткою. */
-function render(el, str) {
-  el.textContent = '';
-  str.split('**').forEach((part, i) => {
-    if (!part) return;
-    if (i % 2) {
-      const b = document.createElement('b');
-      b.textContent = part;
-      el.append(b);
-    } else {
-      el.append(document.createTextNode(part));
-    }
-  });
-}
-
-function markLang(code) {
+function langs() {
+  const code = document.documentElement.lang || 'uk';
   const box = $('#lang');
   if (!box) return;
+
+  const q = new URLSearchParams(location.search);
+  q.delete('lang');
+  const rest = q.toString() ? '?' + q : '';
+
   $$('.hd__lang-b', box).forEach(a => {
-    const on = a.dataset.lang === code;
+    const c = a.dataset.lang;
+    const on = c === code;
     a.classList.toggle('is-on', on);
     a.setAttribute('aria-current', on ? 'true' : 'false');
-    // решту параметрів адреси (ті ж utm) переносимо з собою
-    const u = new URL(location.href);
-    u.searchParams.set('lang', a.dataset.lang);
-    u.hash = '';
-    a.href = u.pathname + u.search;
+    a.href = (LANG_PATH[c] || '/') + rest;
+    a.addEventListener('click', () => {
+      try { localStorage.setItem(LANG_KEY, c); } catch { /* приватний режим */ }
+    });
   });
-}
-
-async function langs() {
-  const q = new URLSearchParams(location.search);
-
-  let code = null, stick = false;
-  const asked = q.get('lang');
-  if (asked && READY.includes(asked)) { code = asked; stick = true; }
-
-  if (!code) {
-    try {
-      const saved = localStorage.getItem(LANG_KEY);
-      if (saved && READY.includes(saved)) code = saved;
-    } catch { /* приватний режим */ }
-  }
-  if (!code) code = fromUtm(q) || fromBrowser() || 'uk';
-
-  document.documentElement.lang = code;
-  markLang(code);
-  if (stick) { try { localStorage.setItem(LANG_KEY, code); } catch { /* ok */ } }
-
-  if (code === 'uk') return;
-
-  let d;
-  try {
-    const opt = { cache: 'no-cache' };
-    if (AbortSignal.timeout) opt.signal = AbortSignal.timeout(1500);
-    const r = await fetch(`lang/${code}.json`, opt);
-    d = await r.json();
-  } catch {
-    // переклад не приїхав — лишаємось українською, сайт цілий
-    document.documentElement.lang = 'uk';
-    markLang('uk');
-    return;
-  }
-  if (!d || !d.ready) { document.documentElement.lang = 'uk'; markLang('uk'); return; }
-
-  const S = d.strings || {};
-  const get = k => S[k];
-
-  $$('[data-i18n]').forEach(el => { const v = get(el.dataset.i18n); if (v) render(el, v); });
-  $$('[data-i18n-aria]').forEach(el => { const v = get(el.dataset.i18nAria); if (v) el.setAttribute('aria-label', v); });
-  $$('[data-i18n-ph]').forEach(el => { const v = get(el.dataset.i18nPh); if (v) el.placeholder = v; });
-
-  // підписи, що живуть в атрибутах, а не в тексті вузла
-  $$('[data-i18n-more]').forEach(el => {
-    const m = get(el.dataset.i18nMore), l = get(el.dataset.i18nLess);
-    if (m) el.dataset.more = m;
-    if (l) el.dataset.less = l;
-    const lab = $('span', el);
-    if (lab && m && el.getAttribute('aria-expanded') !== 'true') lab.textContent = m;
-  });
-  $$('[data-i18n-open]').forEach(el => {
-    const o = get(el.dataset.i18nOpen), c = get(el.dataset.i18nClose);
-    if (o) { el.dataset.open = o; el.textContent = o; }
-    if (c) el.dataset.close = c;
-  });
-
-  if (get('doc.title')) document.title = get('doc.title');
-  const meta = $('meta[name="description"]');
-  if (meta && get('doc.desc')) meta.content = get('doc.desc');
-
-  markLang(code);
 }
 
 /* ────────────────────────────────────────────
@@ -1210,7 +1139,7 @@ async function langs() {
    Кожен клік по кнопці чи посиланню йде в Meta окремою подією,
    і з назви одразу видно, що натиснули: Click_<блок>_<кнопка>,
    напр. Click_Hero_DiscussProject, Click_Service_SMM,
-   Click_Footer_Telegram. Назви англійською й однакові в UA і PL —
+   Click_Footer_Telegram. Назви англійською й однакові в UA, EN і PL —
    Meta приймає в назвах лише латиницю, цифри й «_».
    Підпис кнопки, адреса й мова лежать у параметрах.
    Telegram та Instagram — ще й Contact, надіслана заявка — Lead
@@ -1238,7 +1167,7 @@ function pxName(el) {
 
   if (/t\.me/.test(href)) return 'Telegram';
   if (/instagram\.com/.test(href)) return 'Instagram';
-  if (/[?&]lang=/.test(href)) return 'Lang_' + el.textContent.trim();   // UA / PL, як на кнопці
+  if (el.matches('.hd__lang-b')) return 'Lang_' + el.textContent.trim();   // UA / EN / PL, як на кнопці
   if (el.matches('.hd__brand')) return 'Logo';
   if (el.id === 'menuBtn') return open ? 'MenuClose' : 'MenuOpen';
   if (el.matches('.sw__tab')) return 'Service_' + (PX_TAB[n] || n);
@@ -1313,11 +1242,10 @@ const fonts = document.fonts?.ready
   ? Promise.race([document.fonts.ready, wait(2500)]).catch(() => {})
   : Promise.resolve();
 
-/* Переклад іде першим і тільки потім усе інше. Інакше лічильник
-   запамʼятав би українські цифри, заголовок «Один на нішу» поділився
-   б на речення до підміни, а перший екран зміряв би не ту довжину.
-   langs() ніколи не кидає — найгірше, що буде, це українська. */
-const lang = langs().catch(() => {});
+/* Текст уже потрібною мовою в розмітці, лишилось налаштувати
+   перемикач. Обгортка в проміс — щоб заставка чекала на те саме, що й
+   раніше, і помилка тут нічого не зупинила. */
+const lang = Promise.resolve().then(langs).catch(() => {});
 
 /* Силует — єдина важка картинка на сторінці, і вона ж перше, що
    людина побачить. Чекати на неї чесно. */

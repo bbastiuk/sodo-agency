@@ -18,20 +18,64 @@
 <meta property="og:image:alt" content="SODO — вас мають помічати">
 <meta name="twitter:card" content="summary_large_image">
 
+<link rel="canonical" href="https://www.sodoagency.eu/">
 <link rel="alternate" hreflang="uk" href="https://www.sodoagency.eu/">
-<link rel="alternate" hreflang="pl" href="https://www.sodoagency.eu/?lang=pl">
+<link rel="alternate" hreflang="en" href="https://www.sodoagency.eu/en/">
+<link rel="alternate" hreflang="pl" href="https://www.sodoagency.eu/pl/">
 <link rel="alternate" hreflang="x-default" href="https://www.sodoagency.eu/">
 
-<link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
+<!-- Тільки на кореневій: чи не відвести людину на /en/ чи /pl/.
+     Стоїть до стилів, щоб українська навіть не почала малюватись.
+     Порядок: ?lang= зі старих посилань -> вибір, зроблений кліком
+     у перемикачі -> мітка в utm -> мова браузера. Пошуковиків не
+     чіпаємо: корінь для них — українська сторінка. -->
+<script id="langGo">
+(function () {
+  var P = { pl: '/pl/', en: '/en/' }, K = 'sodo:lang';
+  var q = new URLSearchParams(location.search), to = null;
+  var go = function (c) {
+    q.delete('lang');
+    var s = q.toString();
+    location.replace(P[c] + (s ? '?' + s : '') + location.hash);
+  };
+  var asked = q.get('lang');
+  if (asked) {
+    try { localStorage.setItem(K, asked); } catch (e) {}
+    if (P[asked]) return go(asked);
+    return;
+  }
+  try { to = localStorage.getItem(K); } catch (e) {}
+  if (to) { if (P[to]) go(to); return; }
+  if (/bot|crawl|spider|slurp|facebookexternalhit|preview/i.test(navigator.userAgent)) return;
+  var tag = function (re) {
+    var keys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+    for (var i = 0; i < keys.length; i++) {
+      var v = (q.get(keys[i]) || '').toLowerCase().split(/[^a-z0-9]+/);
+      for (var j = 0; j < v.length; j++) if (re.test(v[j])) return true;
+    }
+    return false;
+  };
+  if (tag(/^(pl|pol|poland|polska|polski|polskie)$/)) return go('pl');
+  if (tag(/^(en|eng|english)$/)) return go('en');
+  var list = navigator.languages || [navigator.language || ''];
+  for (var i = 0; i < list.length; i++) {
+    var c = String(list[i]).toLowerCase();
+    if (c.indexOf('uk') === 0) return;
+    if (c.indexOf('pl') === 0) return go('pl');
+  }
+})();
+</script>
 
-<link rel="preload" href="assets/fonts/Montserrat-900-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/Montserrat-800-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/Onest-400-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/Pixelify-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" as="image" href="assets/figures/figure.webp">
-<link rel="stylesheet" href="assets/fonts/fonts.css?v=3">
-<link rel="stylesheet" href="css/style.css?v=16">
+<link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+
+<link rel="preload" href="/assets/fonts/Montserrat-900-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/Montserrat-800-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/Onest-400-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/Pixelify-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" as="image" href="/assets/figures/figure.webp">
+<link rel="stylesheet" href="/assets/fonts/fonts.css?v=3">
+<link rel="stylesheet" href="/css/style.css?v=16">
 
 <noscript><style>
   .load{display:none}
@@ -100,8 +144,9 @@ src="https://www.facebook.com/tr?id=1090963936981555&ev=PageView&noscript=1"
   </nav>
 
   <div class="hd__lang" id="lang" role="group" aria-label="Мова сайту" data-i18n-aria="aria.lang">
-    <a class="hd__lang-b" href="?lang=uk" hreflang="uk" lang="uk" data-lang="uk">UA</a>
-    <a class="hd__lang-b" href="?lang=pl" hreflang="pl" lang="pl" data-lang="pl">PL</a>
+    <a class="hd__lang-b is-on" aria-current="true" href="/" hreflang="uk" lang="uk" data-lang="uk">UA</a>
+    <a class="hd__lang-b" href="/en/" hreflang="en" lang="en" data-lang="en">EN</a>
+    <a class="hd__lang-b" href="/pl/" hreflang="pl" lang="pl" data-lang="pl">PL</a>
   </div>
 
   <button class="hd__menu" id="menuBtn" type="button" aria-expanded="false" aria-controls="menu">
@@ -136,9 +181,9 @@ src="https://www.facebook.com/tr?id=1090963936981555&ev=PageView&noscript=1"
 
   <div class="fig fig--hero" id="fig" aria-hidden="true">
     <span class="fig__halo"></span>
-    <img class="fig__far"   src="assets/figures/figure.webp" alt="" width="913" height="1207">
-    <img class="fig__soft"  src="assets/figures/figure.webp" alt="" width="913" height="1207">
-    <img class="fig__sharp" src="assets/figures/figure.webp" alt="" width="913" height="1207">
+    <img class="fig__far"   src="/assets/figures/figure.webp" alt="" width="913" height="1207">
+    <img class="fig__soft"  src="/assets/figures/figure.webp" alt="" width="913" height="1207">
+    <img class="fig__sharp" src="/assets/figures/figure.webp" alt="" width="913" height="1207">
   </div>
 
   <h1 class="hero__t" id="heroT">
@@ -362,7 +407,7 @@ src="https://www.facebook.com/tr?id=1090963936981555&ev=PageView&noscript=1"
     <ol class="gal__track" id="galTrack">
       <li class="case">
         <div class="case__card">
-          <img class="case__bg case__bg--community" src="assets/cases/community.webp" alt="" loading="lazy" decoding="async" width="719" height="1280">
+          <img class="case__bg case__bg--community" src="/assets/cases/community.webp" alt="" loading="lazy" decoding="async" width="719" height="1280">
           <i class="case__no" aria-hidden="true">01</i>
           <h3 class="case__n" data-i18n="case.n0">Комʼюніті</h3>
           <p class="case__c" data-i18n="case.c0">Познань</p>
@@ -378,7 +423,7 @@ src="https://www.facebook.com/tr?id=1090963936981555&ev=PageView&noscript=1"
       </li>
       <li class="case">
         <div class="case__card">
-          <img class="case__bg case__bg--legal" src="assets/cases/legal.webp" alt="" loading="lazy" decoding="async" width="900" height="1171">
+          <img class="case__bg case__bg--legal" src="/assets/cases/legal.webp" alt="" loading="lazy" decoding="async" width="900" height="1171">
           <i class="case__no" aria-hidden="true">02</i>
           <h3 class="case__n" data-i18n="case.n1">Легалізація</h3>
           <p class="case__c" data-i18n="case.c1">Познань</p>
@@ -394,7 +439,7 @@ src="https://www.facebook.com/tr?id=1090963936981555&ev=PageView&noscript=1"
       </li>
       <li class="case">
         <div class="case__card">
-          <img class="case__bg case__bg--jobs" src="assets/cases/jobs.webp" alt="" loading="lazy" decoding="async" width="900" height="1038">
+          <img class="case__bg case__bg--jobs" src="/assets/cases/jobs.webp" alt="" loading="lazy" decoding="async" width="900" height="1038">
           <i class="case__no" aria-hidden="true">03</i>
           <h3 class="case__n" data-i18n="case.n2">Працевлаштування</h3>
           <p class="case__c" data-i18n="case.c2">Німеччина</p>
@@ -410,7 +455,7 @@ src="https://www.facebook.com/tr?id=1090963936981555&ev=PageView&noscript=1"
       </li>
       <li class="case">
         <div class="case__card">
-          <img class="case__bg case__bg--beauty" src="assets/cases/beauty.webp" alt="" loading="lazy" decoding="async" width="900" height="1015">
+          <img class="case__bg case__bg--beauty" src="/assets/cases/beauty.webp" alt="" loading="lazy" decoding="async" width="900" height="1015">
           <i class="case__no" aria-hidden="true">04</i>
           <h3 class="case__n" data-i18n="case.n3">Студія краси</h3>
           <p class="case__c" data-i18n="case.c3">Познань</p>
@@ -500,7 +545,7 @@ src="https://www.facebook.com/tr?id=1090963936981555&ev=PageView&noscript=1"
     </div>
 
     <div class="fm__hp" aria-hidden="true">
-      <label for="f_company">Не заповнюйте це поле</label>
+      <label for="f_company" data-i18n="form.trap">Не заповнюйте це поле</label>
       <input id="f_company" name="company" type="text" tabindex="-1" autocomplete="off">
     </div>
 
@@ -717,6 +762,6 @@ src="https://www.facebook.com/tr?id=1090963936981555&ev=PageView&noscript=1"
   </nav>
 </footer>
 
-<script src="js/main.js?v=18" defer></script>
+<script src="/js/main.js?v=19" defer></script>
 </body>
 </html>
