@@ -1121,6 +1121,10 @@ function langs() {
   q.delete('lang');
   const rest = q.toString() ? '?' + q : '';
 
+  // ?lang= зі старого посилання вже зробив своє — з адреси його прибираємо,
+  // щоб скопійоване посилання було чистим
+  if (/[?&]lang=/.test(location.search)) history.replaceState(history.state, '', location.pathname + rest + location.hash);
+
   $$('.hd__lang-b', box).forEach(a => {
     const c = a.dataset.lang;
     const on = c === code;
