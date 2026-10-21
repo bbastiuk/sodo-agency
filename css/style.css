@@ -597,7 +597,7 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
 .sw__box{
   display:grid;overflow:hidden;
   margin-top:0;height:0;
-  transition:height .34s var(--e-io),margin-top .34s var(--e-io);
+  transition:height .28s var(--e),margin-top .28s var(--e);
 }
 .sw.is-picked .sw__box{margin-top:30px;height:var(--box,auto)}
 
@@ -613,13 +613,12 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
   border-radius:var(--r-l);overflow:hidden;
   padding:clamp(20px,3vh,32px) clamp(18px,2.2vw,34px) clamp(22px,3.2vh,34px);
   opacity:0;visibility:hidden;translate:0 8px;
-  transition:opacity .2s var(--e-soft) 0s,translate .2s var(--e-soft) 0s,
-             visibility 0s linear .2s;
+  /* Старий опис зникає відразу: два тексти не накладаються. */
+  transition:none;
 }
 .svc.is-on{
   opacity:1;visibility:visible;translate:0 0;
-  transition:opacity .3s var(--e) .16s,translate .3s var(--e) .16s,
-             visibility 0s linear 0s;
+  transition:opacity .22s var(--e),translate .22s var(--e);
 }
 /* Замість намальованої папки — фактура самої площини: дрібна сітка,
    що гасне від верхнього правого кута. Предмета немає, працює
@@ -676,14 +675,7 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
   letter-spacing:.06em;font-variant-numeric:tabular-nums;
   color:var(--ink-muted);margin-right:.45em;
 }
-/* рядки вступають по черзі, 50 мс один за одним */
-.svc.is-on .fold__i{animation:labelIn .34s var(--e) both}
-.svc.is-on .fold__i:nth-child(1){animation-delay:.20s}
-.svc.is-on .fold__i:nth-child(2){animation-delay:.25s}
-.svc.is-on .fold__i:nth-child(3){animation-delay:.30s}
-.svc.is-on .fold__i:nth-child(4){animation-delay:.35s}
-.svc.is-on .fold__i:nth-child(5){animation-delay:.40s}
-@keyframes labelIn{from{opacity:0;translate:0 10px}to{opacity:1;translate:0 0}}
+/* Опис входить однією площиною: рядки не наздоганяють контейнер. */
 
 /* На широкому екрані папка стає двоколонковою: назва, ціна й опис
    ліворуч, підписи праворуч. Інакше підписи розтягувались на всю
@@ -752,26 +744,23 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
   background:var(--pink);transform-origin:top;
   transform:scaleY(var(--road,0));
 }
-/* крок, до якого лінія ще не дійшла, тримається тихіше */
+/* Текст читається відразу; прогрес показують тільки рейка й номери. */
 .road__s{
   position:relative;padding-bottom:clamp(18px,2.6vh,30px);
-  opacity:.4;transition:opacity .45s var(--e);
 }
-.road__s.is-on{opacity:1}
 .road__s:last-child{padding-bottom:0}
-/* Точка з номером усередині. Заливка та сама фірмова рожева завжди,
-   цифра темна (9.06:1); різницю між активним і ще не активним дає
-   яскравість усього кроку й трохи більший розмір точки. */
+/* Активна точка з номером — фірмова рожева;
+   неактивна точка теж непрозора: рейка не просвічує крізь номер. */
 .road__n{
   position:absolute;left:-46px;top:0;z-index:1;
   width:34px;height:34px;border-radius:50%;
   display:grid;place-items:center;
-  background:var(--pink);color:var(--ink);
+  background:color-mix(in srgb,var(--pink) 40%,var(--bg));color:var(--ink-muted);
   font-family:var(--num);font-weight:600;font-size:16px;font-style:normal;
   font-variant-numeric:tabular-nums;line-height:1;
-  transition:scale .45s var(--e);
+  transition:background-color .18s var(--e),color .18s var(--e),scale .18s var(--e);
 }
-.road__s.is-on .road__n{scale:1.09}
+.road__s.is-on .road__n{background:var(--pink);color:var(--ink);scale:1.09}
 .road__b{padding-top:3px}
 .road__s h3{font-weight:600;font-size:clamp(17px,1.4vw,25px);line-height:1.25;letter-spacing:-.01em}
 .road__s p{
@@ -956,8 +945,8 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
 
 /* ============ 07 · ЯК ПРАЦЮЄМО ============
    Одна колонка, вертикальна лінія ліворуч, квадратні бейджі просто
-   на ній. Рожева лінія росте за прокруткою й тягне за собою кроки:
-   куди дійшла — те загорілось і лишилось. Назад лінія не відкочує,
+   на ній. Рожева лінія росте за прокруткою й підсвічує номери;
+   підписи весь час читабельні. Назад лінія не відкочує,
    інакше при скролі в обидва боки все смикалось би.
 
    Останній крок — фініш: чорний бейдж і крапка, що дихає. */
@@ -979,8 +968,7 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
   background:var(--pink);transform-origin:top;
   transform:scaleY(var(--go,0));
 }
-.step{position:relative;opacity:.42;transition:opacity .4s var(--e)}
-.step.is-on{opacity:1}
+.step{position:relative}
 .step__n{
   position:absolute;left:-54px;top:0;z-index:1;
   display:grid;place-items:center;width:36px;height:36px;
@@ -988,7 +976,7 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
   background:var(--card);border:1.5px solid var(--line);color:var(--ink-muted);
   font-family:var(--num);font-weight:600;font-size:13px;font-style:normal;
   letter-spacing:.08em;font-variant-numeric:tabular-nums;line-height:1;
-  transition:background-color .4s var(--e),border-color .4s var(--e),color .4s var(--e);
+  transition:background-color .18s var(--e),border-color .18s var(--e),color .18s var(--e);
 }
 .step.is-on .step__n{background:var(--pink);border-color:var(--pink);color:var(--ink)}
 .step--last.is-on .step__n{background:var(--ink);border-color:var(--ink);color:var(--bg)}
@@ -999,18 +987,13 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
 .step p{
   margin-top:6px;max-width:48ch;
   font-size:clamp(13.5px,.95vw,16px);line-height:1.55;color:var(--ink-muted);
-  opacity:0;translate:0 12px;
-}
-.step.is-on p{
-  opacity:1;translate:0 0;
-  transition:opacity .4s var(--e) .08s,translate .4s var(--e) .08s;
 }
 /* фініш: більше повітря, важча назва й крапка, що тримає пульс */
 .step--last{margin-top:clamp(8px,1.4vh,18px)}
 .step--last h3{font-weight:600}
 .step__dot{
   width:9px;height:9px;flex:none;border-radius:50%;
-  background:var(--pink);opacity:0;transition:opacity .4s var(--e) .3s;
+  background:var(--pink);opacity:0;transition:opacity .18s var(--e);
 }
 .step--last.is-on .step__dot{opacity:1;animation:pulse 2.2s var(--e-soft) .8s infinite}
 @keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.55);opacity:.45}}
@@ -1120,7 +1103,7 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
 .qa__q[aria-expanded="true"]::after{transform:rotate(90deg)}
 @media (hover:hover) and (pointer:fine){.qa__q:hover{color:var(--pink-soft)}}
 
-.qa__a{overflow:hidden;height:0;transition:height .35s var(--e-io)}
+.qa__a{overflow:hidden;height:0;transition:height .28s var(--e)}
 .qa__a[hidden]{display:none}
 .qa__a p{
   max-width:66ch;padding:0 clamp(50px,5vw,80px) clamp(20px,2.8vh,30px) 0;
@@ -1306,6 +1289,7 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
   .svc.is-on .fold__i{animation:none;opacity:1;translate:0 0}
   .road::after{transform:scaleY(1)}
   .road__s,.step{opacity:1}
+  .road__n{background:var(--pink);color:var(--ink)}
   .steps::after{transform:scaleY(1)}
   /* у ряд рейка заповнюється вбік, тож і тут інша вісь */
   .road.is-row::after,.steps.is-row::after{transform:scaleX(1)}

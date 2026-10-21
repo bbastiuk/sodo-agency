@@ -186,6 +186,8 @@ function lens() {
   let lastMove = -1e9, visible = true;
 
   addEventListener('pointermove', e => {
+    // Скрол пальцем не перехоплює автоматичний обхід фігури.
+    if (e.pointerType === 'touch' || !visible || document.hidden) return;
     const r = box.getBoundingClientRect();
     if (!r.width) return;
     lastMove = performance.now();
@@ -329,10 +331,11 @@ function menu() {
   const lbl = $('.hd__menu-t');
   if (!btn || !box) return;
 
-  let open = false, lastFocus = null;
+  let open = false, lastFocus = null, hideTimer = 0;
 
   function set(state) {
     if (state === open) return;
+    clearTimeout(hideTimer);
     open = state;
 
     btn.setAttribute('aria-expanded', String(open));
@@ -350,8 +353,8 @@ function menu() {
     } else {
       body.classList.remove('is-menu');
       paintTop(onDark);                     // повертаємось до того, що під шапкою
-      const hide = () => { box.hidden = true; };
-      calm() ? hide() : setTimeout(hide, 600);
+      const hide = () => { if (!open) box.hidden = true; };
+      calm() ? hide() : (hideTimer = setTimeout(hide, 600));
       lastFocus?.focus({ preventScroll: true });
     }
   }
@@ -481,7 +484,7 @@ function sentences() {
    Друга — округлення вниз. З Math.round число перестрибує через
    значення на початку; з floor воно справді проходить 0, 1, 2, 3…
 
-   Тривалість 1.1 с. До першої появи в кадрі на місці цифри стоїть нуль,
+   Тривалість 0.72 с. До першої появи в кадрі на місці цифри стоїть нуль,
    щоб фінальне значення ніде не блимнуло раніше за лічбу.
    ──────────────────────────────────────────── */
 
@@ -489,7 +492,7 @@ function counts() {
   const items = $$('[data-count]');
   if (!items.length) return;
 
-  const D = 1100;
+  const D = 720;
   const zeros = el => el.dataset.src.replace(/\d+/g, '0');
 
   const run = el => {
@@ -520,7 +523,7 @@ function counts() {
     if (!e.isIntersecting) return;
     io.unobserve(e.target);
     run(e.target);
-  }), { threshold: 0.4 });
+  }), { threshold: 0.15 });
   items.forEach(el => io.observe(el));
 }
 
@@ -631,18 +634,27 @@ function tabs() {
      близько 70px, і без цього «в кадрі» означало б «під кнопкою».
      Чекаємо, поки доїде висота блоку: до того низ картки ще не
      там, де буде. */
+  let nudgeTimer = 0;
+  const cancelNudge = () => clearTimeout(nudgeTimer);
+  // Ручне гортання має пріоритет над доведенням картки в кадр.
+  addEventListener('touchmove', cancelNudge, { passive: true });
+  addEventListener('wheel', cancelNudge, { passive: true });
   const nudge = () => {
-    if (cur < 0 || calm()) return;
-    setTimeout(() => {
+    cancelNudge();
+    if (cur < 0) return;
+    nudgeTimer = setTimeout(() => {
       const el = cards[cur];
       const dock = $('.dock');
       const under = dock && !dock.hidden && body.classList.contains('dock-on')
         ? dock.getBoundingClientRect().height : 0;
       const r = el.getBoundingClientRect();
-      if (r.bottom > innerHeight - under - 12 || r.top < 0) {
-        el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-      }
-    }, 380);
+      const top = ($('#hd')?.offsetHeight || 64) + 12;
+      const bottom = innerHeight - under - 12;
+      // Довгий опис показуємо від заголовка, короткий уміщуємо повністю.
+      const dy = r.height > bottom - top || r.top < top
+        ? r.top - top : Math.max(0, r.bottom - bottom);
+      if (Math.abs(dy) > 1) scrollBy({ top: dy, behavior: calm() ? 'auto' : 'smooth' });
+    }, calm() ? 0 : 300);
   };
 
   const show = i => {
@@ -655,8 +667,7 @@ function tabs() {
       b.setAttribute('aria-selected', String(on));
       b.tabIndex = on ? 0 : -1;
     });
-    // спершу гасне попередня картка, тільки потім проступає нова —
-    // черговість задана в CSS, тож дві ніколи не стоять разом
+    // Старий опис ховається відразу; новий входить одним рухом.
     cards.forEach((el, k) => el.classList.toggle('is-on', k === i));
     fit();
     nudge();
@@ -853,31 +864,37 @@ function faq() {
     const box = $('.qa__a', item);
     if (!btn || !box) return;
 
+    let cleanup = () => {};
     btn.addEventListener('click', () => {
-      const open = btn.getAttribute('aria-expanded') === 'true';
+      cleanup();
+      const opening = btn.getAttribute('aria-expanded') !== 'true';
+      const from = box.hidden ? 0 : box.getBoundingClientRect().height;
+      btn.setAttribute('aria-expanded', String(opening));
+      box.hidden = false;
+      box.style.height = from + 'px';
+      void box.offsetHeight;
 
-      if (open) {
-        box.style.height = box.scrollHeight + 'px';
-        requestAnimationFrame(() => { box.style.height = '0px'; });
-        btn.setAttribute('aria-expanded', 'false');
-        box.addEventListener('transitionend', function end(e) {
-          if (e.propertyName !== 'height') return;
-          box.removeEventListener('transitionend', end);
-          box.hidden = true;
-          box.style.height = '';
-        });
-      } else {
-        box.hidden = false;
-        const h = box.scrollHeight;
-        box.style.height = '0px';
-        requestAnimationFrame(() => { box.style.height = h + 'px'; });
-        btn.setAttribute('aria-expanded', 'true');
-        box.addEventListener('transitionend', function end(e) {
-          if (e.propertyName !== 'height') return;
-          box.removeEventListener('transitionend', end);
-          box.style.height = 'auto';   // далі вміст може підрости сам
-        });
-      }
+      let frame = 0, timer = 0;
+      const finish = () => {
+        cleanup();
+        box.hidden = !opening;
+        box.style.height = opening ? 'auto' : '';
+      };
+      const end = e => {
+        if (e.target === box && e.propertyName === 'height') finish();
+      };
+      cleanup = () => {
+        cancelAnimationFrame(frame);
+        clearTimeout(timer);
+        box.removeEventListener('transitionend', end);
+      };
+      if (calm()) { finish(); return; }
+      box.addEventListener('transitionend', end);
+      frame = requestAnimationFrame(() => {
+        box.style.height = (opening ? box.scrollHeight : 0) + 'px';
+        // Завершуємо й коли висота не змінилась або transition скасовано.
+        timer = setTimeout(finish, 340);
+      });
     });
   });
 
