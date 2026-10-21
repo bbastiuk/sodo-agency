@@ -1298,3 +1298,19 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
   .fig__far{filter:blur(48px) contrast(1.2)}
   .fig__soft{filter:blur(26px) contrast(1.3)}
 }
+
+/* Вирізи під номерами нерухомі; прогрес відкриває рейку, а не масштабує її. */
+.road::before,.road::after,.steps::before,.steps::after{
+  -webkit-mask-image:var(--rail-mask,none);mask-image:var(--rail-mask,none);
+}
+.road::after,.steps::after{
+  transform:none;
+  clip-path:inset(0 0 calc((1 - var(--road,var(--go,0))) * 100%) 0);
+}
+.road.is-row::after,.steps.is-row::after{
+  transform:none;
+  clip-path:inset(0 calc((1 - var(--road,var(--go,0))) * 100%) 0 0);
+}
+@media(prefers-reduced-motion:reduce){
+  .road::after,.steps::after{clip-path:none}
+}

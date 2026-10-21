@@ -737,6 +737,23 @@ function rail(list, items, dots, prop) {
     const a = dots[0].getBoundingClientRect();
     const b = dots[dots.length - 1].getBoundingClientRect();
 
+    // Рейка існує лише між бейджами: запас враховує scale 1.09.
+    const start = row ? a.left + a.width / 2 : a.top + a.height / 2;
+    const finish = row ? b.left + b.width / 2 : b.top + b.height / 2;
+    const length = Math.max(1, finish - start);
+    const stops = ['transparent 0%'];
+    dots.forEach((dot, i) => {
+      const r = dot.getBoundingClientRect();
+      const center = (row ? r.left + r.width / 2 : r.top + r.height / 2) - start;
+      const half = (row ? dot.offsetWidth : dot.offsetHeight) * 1.09 / 2 + 4;
+      const lo = (clamp((center - half) / length, 0, 1) * 100).toFixed(3) + '%';
+      const hi = (clamp((center + half) / length, 0, 1) * 100).toFixed(3) + '%';
+      if (i) stops.push('#000 ' + lo, 'transparent ' + lo);
+      stops.push('transparent ' + hi);
+      if (i < dots.length - 1) stops.push('#000 ' + hi);
+    });
+    list.style.setProperty('--rail-mask', 'linear-gradient(to ' + (row ? 'right' : 'bottom') + ',' + stops.join(',') + ')');
+
     if (row) {
       list.style.setProperty('--rail-x', (a.left - box.left + a.width / 2 - 1).toFixed(1) + 'px');
       list.style.setProperty('--rail-y', (a.top - box.top + a.height / 2 - 1).toFixed(1) + 'px');
