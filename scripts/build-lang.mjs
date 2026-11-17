@@ -66,6 +66,8 @@ function build(code) {
   // активна мова позначена ще до скрипта
   h = h.replace(/class="hd__lang-b is-on" ([^>]*?)aria-current="true"/, 'class="hd__lang-b" $1aria-current="false"');
   h = sub(h, new RegExp('class="hd__lang-b" ([^>]*?data-lang="' + code + '")'), 'class="hd__lang-b is-on" aria-current="true" $1', 'перемикач');
+  // політика конфіденційності — своя на кожну мову
+  h = h.replace(/href="\/privacy\/"/g, `href="/${code}/privacy/"`);
   // кирилиця цій сторінці не потрібна, а латинка — одразу
   h = h.replace(/(<link rel="preload" href="[^"]*?)-cyrillic(\.woff2")/g, '$1-latin$2');
 

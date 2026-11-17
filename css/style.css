@@ -1009,7 +1009,7 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
   display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
   gap:clamp(18px,2.4vw,32px);max-width:920px;
 }
-.fld:last-of-type{grid-column:1 / -1}
+.fld:last-child{grid-column:1 / -1}
 .fld label{
   display:flex;align-items:baseline;gap:.5em;flex-wrap:wrap;
   margin-bottom:9px;font-weight:500;
@@ -1050,6 +1050,29 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
   font-size:clamp(12.5px,.9vw,14px);line-height:1.4;color:var(--pink-soft);
 }
 .fld__e[hidden]{display:none}
+/* тиха підказка під полем, коли треба пояснити, навіщо воно */
+.fld__h{
+  display:block;margin-top:8px;
+  font-size:clamp(12.5px,.9vw,14px);line-height:1.4;color:var(--ink-muted-inv);
+}
+
+/* Telegram | Instagram — де людині написати. Радіо сховані, але живі:
+   стрілки, Tab і читач екрана працюють як зі звичайною групою. */
+.via{display:flex;align-items:center;gap:8px;margin:0 0 9px;padding:0;border:0;min-width:0}
+.fld .via__o{position:relative;display:inline-flex;margin:0;cursor:pointer}
+.via__o input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer}
+.via__o span{
+  display:inline-flex;align-items:center;min-height:34px;padding:0 14px;
+  font-weight:500;font-size:clamp(13px,.95vw,15px);color:var(--bg);
+  border:1.5px solid var(--line-inv);border-radius:999px;
+  transition:background-color .25s var(--e-soft),border-color .25s var(--e-soft),color .25s var(--e-soft);
+}
+/* ціль дотику 44px, хоча сама пігулка нижча */
+.via__o span::after{content:"";position:absolute;inset:-5px 0}
+.via__o:hover span{border-color:var(--ink-muted-inv)}
+.via__o input:checked + span{background:var(--pink);border-color:var(--pink);color:var(--ink)}
+.via__o input:focus-visible + span{outline:2px solid var(--pink);outline-offset:3px}
+.via .fld__req{margin-left:2px}
 
 .fm__foot{display:flex;flex-wrap:wrap;align-items:center;
   gap:clamp(16px,2.4vh,26px) clamp(20px,3vw,44px);margin-top:clamp(28px,4.2vh,52px)}
@@ -1126,6 +1149,54 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
 .ft__nav{display:flex;gap:clamp(12px,1.8vw,24px);font-weight:500;font-size:14px}
 .ft__nav a{display:inline-flex;align-items:center;min-height:44px;transition:color .25s}
 .ft__nav a:hover{color:var(--pink-soft)}
+.ft__lg{display:flex;flex-wrap:wrap;gap:0 clamp(12px,1.8vw,24px);font-size:13px;color:var(--ink-muted-inv)}
+.ft__lg a,.ft__lg button{
+  display:inline-flex;align-items:center;min-height:44px;padding:0;
+  font:inherit;color:inherit;background:none;border:0;cursor:pointer;transition:color .25s;
+}
+.ft__lg a:hover,.ft__lg button:hover{color:var(--bg)}
+
+/* рядок про дані під кнопкою форми */
+.fm__pv{margin-top:clamp(14px,2vh,20px);font-size:clamp(12.5px,.9vw,14px);line-height:1.5;color:var(--ink-muted-inv)}
+.fm__pv a{color:var(--bg);text-decoration:underline;text-underline-offset:.2em}
+
+/* ============ ЗГОДА НА ПІКСЕЛЬ ============
+   Темна плашка внизу ліворуч. «Погоджуюсь» і «Відмовитись» однакового
+   розміру: відмова не має бути дрібнішою чи схованою. */
+.ck{
+  position:fixed;left:var(--gut);right:var(--gut);
+  bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:1000;
+  max-width:520px;padding:18px 20px;border-radius:12px;
+  background:var(--ink);color:var(--bg);
+  border:1px solid var(--line-inv);box-shadow:0 18px 50px rgba(22,21,20,.28);
+}
+.ck[hidden]{display:none}
+.ck__t{font-size:14px;line-height:1.55}
+.ck__t a{color:var(--pink-soft);text-decoration:underline;text-underline-offset:.2em}
+.ck__b{display:flex;gap:10px;margin-top:14px}
+.ck__btn{
+  flex:1;min-height:44px;padding:0 16px;border-radius:var(--r-l);cursor:pointer;
+  font:inherit;font-weight:600;font-size:14px;
+  color:var(--bg);background:transparent;border:1.5px solid var(--line-inv);
+  transition:border-color .25s var(--e-soft),opacity .25s var(--e-soft);
+}
+.ck__btn:hover{border-color:var(--ink-muted-inv)}
+.ck__btn--on{background:var(--pink);border-color:var(--pink);color:var(--ink)}
+.ck__btn--on:hover{border-color:var(--pink);opacity:.9}
+.ck :focus-visible{outline:2px solid var(--pink);outline-offset:3px}
+
+/* ============ СТОРІНКА ПОЛІТИКИ ============ */
+.doc{max-width:760px;margin:0 auto;padding:clamp(28px,5vh,56px) var(--gut) clamp(56px,9vh,110px)}
+.doc__top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:clamp(32px,6vh,64px)}
+.doc__top .mark{width:clamp(60px,6vw,84px);color:var(--ink)}
+.doc__top a{display:inline-flex;align-items:center;min-height:44px;font-weight:500;font-size:14px}
+.doc h1{font-family:var(--display);font-weight:900;text-transform:uppercase;
+  font-size:clamp(30px,5vw,56px);line-height:1;letter-spacing:-.02em}
+.doc__date{margin-top:14px;font-family:var(--num);font-size:13px;color:var(--ink-muted)}
+.doc h2{margin-top:clamp(30px,4.5vh,44px);font-family:var(--text);font-weight:600;font-size:clamp(18px,1.4vw,21px)}
+.doc p,.doc li{margin-top:10px;font-size:clamp(15px,1.05vw,17px);line-height:1.65}
+.doc ul{padding-left:1.2em;list-style:disc}
+.doc a{text-decoration:underline;text-underline-offset:.2em}
 
 /* ============ ПОЯВА ПРИ СКРОЛІ ============
    Тільки прозорість і зсув на 10px, 340 мс, ease-out. */
@@ -1184,6 +1255,8 @@ body.is-done .hero__foot{animation:riseIn .66s var(--e) .3s both}
    57% ширини, а на 1920 — 43%. Довгий текст лишається на всю. */
 @media (min-width:1100px){
   .fm__grid{grid-template-columns:repeat(3,minmax(0,1fr));max-width:none}
+  /* у ряду з пігулками підписи тієї ж висоти, щоб поля стояли рівно */
+  .fld > label:not(.vh){min-height:34px;align-items:center}
 }
 
 /* FAQ на ПК: тема ліворуч, питання праворуч. Питання не стають

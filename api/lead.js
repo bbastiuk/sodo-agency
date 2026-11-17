@@ -9,7 +9,7 @@
 const FIELDS = [
   ['name',    'Імʼя',                  true],
   ['contact', 'Telegram / Instagram',  true],
-  ['phone',   'Телефон',               true],
+  ['phone',   'Телефон',               false],
   ['task',    'Задача',                false],
 ];
 
@@ -39,13 +39,18 @@ module.exports = async function handler(req, res) {
      може тільки автомат. Відповідаємо успіхом — хай думає, що дійшло. */
   if (clean(body.company)) return res.status(200).json({ ok: true });
 
+  /* Друга пастка — час. Сторінка рахує, скільки людина на ній була до
+     відправки (t, мс). Людина не вписує імʼя й нік швидше за 3 секунди,
+     а скрипт, що б'є прямо сюди, t не знає зовсім. */
+  if (!(Number(body.t) >= 3000)) return res.status(200).json({ ok: true });
+
   const miss = FIELDS.filter(([k, , req_]) => req_ && !clean(body[k])).map(([, label]) => label);
   if (miss.length) return res.status(400).json({ ok: false, miss });
 
   const lines = FIELDS
-    .map(([k, label]) => [label, clean(body[k])])
-    .filter(([, v]) => v)
-    .map(([label, v]) => `<b>${esc(label)}:</b> ${esc(v)}`);
+    .map(([k, label]) => [k, label, clean(body[k])])
+    .filter(([, , v]) => v)
+    .map(([k, label, v]) => k === 'contact' ? contactLine(v, body.via) : `<b>${esc(label)}:</b> ${esc(v)}`);
 
   const lang = clean(body.lang) || 'uk';
   const text = [`🔔 <b>Нова заявка з сайту</b>`, '', ...lines, '', `<i>мова: ${esc(lang)}</i>`].join('\n');
@@ -74,5 +79,19 @@ module.exports = async function handler(req, res) {
     return res.status(502).json({ ok: false });
   }
 };
+
+/* Рядок контакту: де людина просила писати і клікабельне посилання
+   на профіль, щоб не шукати нік руками. Посилання в полі важить більше
+   за вибір кнопки: вставили instagram.com/… — значить, Instagram. */
+function contactLine(v, via) {
+  const t = v.replace(/^https?:\/\//i, '').replace(/^www\./i, '');
+  const m = t.match(/^(t\.me|telegram\.me|instagram\.com)\/([\w.]+)\/?$/i);
+  const ig = m ? /instagram/i.test(m[1]) : via === 'instagram';
+  const nick = m ? m[2] : t.replace(/^@/, '');
+  const name = ig ? 'Instagram' : 'Telegram';
+  if (!/^[A-Za-z0-9._]{2,32}$/.test(nick)) return `<b>${name}:</b> ${esc(v)}`;
+  const href = ig ? `https://instagram.com/${nick}` : `https://t.me/${nick}`;
+  return `<b>${name}:</b> <a href="${href}">@${nick}</a>`;
+}
 
 function safeParse(s) { try { return JSON.parse(s); } catch { return null; } }

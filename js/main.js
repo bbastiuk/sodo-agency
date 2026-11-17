@@ -770,6 +770,11 @@ function rail(list, items, dots, prop) {
   if (calm()) {
     items.forEach(el => el.classList.add('is-on'));
     list.style.setProperty(prop, '1');
+    /* Руху немає, а розкладка є: повернули планшет через 1024 — ряд
+       і список мають помінятись і тут, інакше кроки лишаються в ряд
+       на вузькому екрані. */
+    let rzc;
+    addEventListener('resize', () => { clearTimeout(rzc); rzc = setTimeout(measure, 160); });
     return;
   }
 
@@ -949,25 +954,31 @@ const FORM_TG = 'https://t.me/sodoagency';
    Мову знає сама сторінка: <html lang> ставить збірка. */
 const MSG = {
   uk: {
-    needTg: 'Залиште Telegram або Instagram, щоб ми могли вам написати',
+    needTg: 'Впишіть свій нік, щоб ми могли вам написати',
+    phTg: '@нік у Telegram',
+    phIg: '@нік в Instagram',
     need: 'Заповніть, будь ласка, це поле',
-    contact: 'Напишіть @нік або посилання: t.me/… чи instagram.com/…',
+    contact: 'Напишіть @нік або посилання на профіль',
     phone: 'Перевірте номер: лише цифри, можна з «+» на початку',
     send: 'Не вдалось надіслати. Напишіть нам у Telegram: t.me/sodoagency',
     tg: 'Не вдалось відкрити Telegram. Заявку скопійовано — напишіть нам: t.me/sodoagency',
   },
   pl: {
-    needTg: 'Zostawcie Telegram albo Instagram, żebyśmy mogli do was napisać',
+    needTg: 'Wpiszcie swój nick, żebyśmy mogli do was napisać',
+    phTg: '@nick na Telegramie',
+    phIg: '@nick na Instagramie',
     need: 'Uzupełnijcie, proszę, to pole',
-    contact: 'Wpiszcie @nick albo link: t.me/… lub instagram.com/…',
+    contact: 'Wpiszcie @nick albo link do profilu',
     phone: 'Sprawdźcie numer: tylko cyfry, można z «+» na początku',
     send: 'Nie udało się wysłać. Napiszcie do nas na Telegramie: t.me/sodoagency',
     tg: 'Nie udało się otworzyć Telegrama. Zgłoszenie skopiowane — napiszcie do nas: t.me/sodoagency',
   },
   en: {
-    needTg: 'Leave your Telegram or Instagram so we can message you',
+    needTg: 'Enter your username so we can message you',
+    phTg: '@username on Telegram',
+    phIg: '@username on Instagram',
     need: 'Please fill in this field',
-    contact: 'Enter a @username or a link: t.me/… or instagram.com/…',
+    contact: 'Enter a @username or a link to your profile',
     phone: 'Check the number: digits only, a leading «+» is fine',
     send: 'Could not send. Message us on Telegram: t.me/sodoagency',
     tg: 'Could not open Telegram. Your request is copied — message us: t.me/sodoagency',
@@ -998,8 +1009,25 @@ function form() {
   if (!fm) return;
   const ok = $('#fmOk');
   const err = $('#fmErr');
+  // скільки людина була на сторінці до відправки: бот вкладається в мить
+  const t0 = Date.now();
 
   const say = msg => { err.textContent = msg; err.hidden = !msg; };
+
+  // поля, які людина заповнює; радіо «де писати» сюди не входять
+  const FLD = 'input:not([type=radio]),textarea';
+
+  /* Обрали Instagram — і підказка в полі вже про Instagram. Без JS
+     лишається загальне «@нік», і форма так само працює. */
+  const nick = $('#f_tg');
+  const via = () => $('input[name=via]:checked', fm)?.value || 'telegram';
+  const ph = () => { if (nick) nick.placeholder = tx(via() === 'instagram' ? 'phIg' : 'phTg'); };
+  ph();
+  fm.addEventListener('change', e => {
+    if (e.target.name !== 'via') return;
+    ph();
+    if (nick && !nick.value.trim()) nick.focus();
+  });
 
   // кожна підказка сама озвучує себе, щойно зʼявляється
   $$('.fld__e', fm).forEach(el => el.setAttribute('role', 'alert'));
@@ -1028,7 +1056,7 @@ function form() {
 
   // поки людина друкує, ми мовчимо: підказка знімається одразу
   fm.addEventListener('input', e => {
-    if (!e.target.matches('input,textarea')) return;
+    if (!e.target.matches(FLD)) return;
     mark(e.target, '');
     say('');
   });
@@ -1036,7 +1064,7 @@ function form() {
   // а коли поле лишили заповненим — перевіряємо формат на місці
   fm.addEventListener('focusout', e => {
     const el = e.target;
-    if (el.matches('input,textarea') && el.value.trim()) mark(el, check(el));
+    if (el.matches(FLD) && el.value.trim()) mark(el, check(el));
   });
 
   /* На телефоні клавіатура зʼїдає нижню половину екрана. Якщо поле
@@ -1046,7 +1074,7 @@ function form() {
   if (vv) {
     fm.addEventListener('focusin', e => {
       const el = e.target;
-      if (!el.matches('input,textarea')) return;
+      if (!el.matches(FLD)) return;
       setTimeout(() => {
         const r = el.getBoundingClientRect();
         if (r.bottom > vv.offsetTop + vv.height - 16) {
@@ -1060,7 +1088,7 @@ function form() {
     e.preventDefault();
 
     let bad = null;
-    $$('input,textarea', fm).forEach(el => {
+    $$(FLD, fm).forEach(el => {
       const msg = check(el);
       mark(el, msg);
       if (msg && !bad) bad = el;
@@ -1074,6 +1102,7 @@ function form() {
 
     const data = Object.fromEntries(new FormData(fm).entries());
     data.lang = document.documentElement.lang || 'uk';
+    data.t = Date.now() - t0;
 
     /* Поки лист іде, кнопка вимкнена: на повільному звʼязку людина
        встигає натиснути тричі, і в Telegram падають три однакові
@@ -1113,8 +1142,10 @@ function form() {
 
     // запасний шлях: кожне поле йде окремим підписаним рядком
     const text = $$('.fld', fm).map(fld => {
-      const el = $('input,textarea', fld);
-      const lab = $('label span', fld)?.textContent.trim();
+      const el = $(FLD, fld);
+      const lab = el === nick
+        ? (via() === 'instagram' ? 'Instagram' : 'Telegram')
+        : $('label span', fld)?.textContent.trim();
       return el && el.value.trim() ? `${lab}: ${el.value.trim()}` : null;
     }).filter(Boolean).join('\n');
 
@@ -1244,6 +1275,46 @@ function pixel() {
    СТАРТ
    ──────────────────────────────────────────── */
 
+/* ────────────────────────────────────────────
+   ЗГОДА НА ПІКСЕЛЬ
+
+   Піксель Meta вмикається тільки після «Погоджуюсь» (RODO). Сам
+   вмикач — window.sodoPixel у <head>, бо повторний захід зі згодою
+   має рахуватись одразу, ще до цього скрипта. Тут лише банер: він
+   висить, поки людина не обрала, а «Налаштування cookie» в підвалі
+   відкриває його знову, щоб згоду можна було забрати.
+   ──────────────────────────────────────────── */
+
+const CONSENT = 'sodo:consent';
+
+function consent() {
+  const box = $('#ck');
+  if (!box) return;
+
+  let saved = null;
+  try { saved = localStorage.getItem(CONSENT); } catch { /* приватний режим */ }
+
+  const show = on => { box.hidden = !on; };
+  if (saved !== 'yes' && saved !== 'no') show(true);
+
+  box.addEventListener('click', e => {
+    const b = e.target.closest('[data-ck]');
+    if (!b) return;
+    const yes = b.dataset.ck === 'yes';
+    try { localStorage.setItem(CONSENT, yes ? 'yes' : 'no'); } catch { /* тоді спитаємо знову */ }
+    show(false);
+    if (yes) { window.sodoPixel?.(); return; }
+    /* Забрали згоду, а піксель уже стоїть: кажемо йому замовкнути
+       до кінця візиту; з наступного заходу його просто не буде. */
+    try { window.fbq?.('consent', 'revoke'); } catch { /* без пікселя */ }
+  });
+
+  $('#ckOpen')?.addEventListener('click', () => {
+    show(true);
+    $('[data-ck="yes"]', box)?.focus();
+  });
+}
+
 let refit = null;
 
 function start() {
@@ -1262,6 +1333,7 @@ function start() {
   faq();
   form();
   pixel();
+  consent();
 
   /* Посилання для клавіатури не має лишатись у фокусі після переходу:
      інакше воно висить угорі весь час, поки людина читає сторінку. */

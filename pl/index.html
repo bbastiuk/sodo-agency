@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>SODO — get visible</title>
+<title>SODO — agencja digital: SMM, reklamy, strony www</title>
 <meta name="description" content="SODO — agencja digital. Testujemy, zmieniamy, wzmacniamy, dopóki reklama i treści nie zaczną przynosić pieniędzy. SMM, reklamy, strony, chatboty, konsultacje.">
 <meta name="theme-color" content="#F2F1EE">
 
@@ -35,7 +35,7 @@
 <link rel="preload" href="/assets/fonts/Pixelify-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" as="image" href="/assets/figures/figure.webp">
 <link rel="stylesheet" href="/assets/fonts/fonts.css?v=3">
-<link rel="stylesheet" href="/css/style.css?v=19">
+<link rel="stylesheet" href="/css/style.css?v=20">
 
 <noscript><style>
   .load{display:none}
@@ -58,24 +58,27 @@
   .sw__add,.sw__fine{display:block!important}
   .fig__sharp{-webkit-mask-image:none!important;mask-image:none!important}
 </style></noscript>
-<!-- Meta Pixel Code -->
+<!-- Meta Pixel — тільки після згоди (RODO). До згоди window.fbq немає
+     зовсім, а main.js кличе його через обгортку, що мовчить без пікселя.
+     Вибір живе в localStorage 'sodo:consent': 'yes' | 'no'. Версію
+     для <noscript> прибрано: без скрипта згоду не спитати. -->
 <script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq.disablePushState = true; // якір #form це не новий перегляд
-fbq('init', '1090963936981555');
-fbq('track', 'PageView');
+window.sodoPixel = function () {
+  if (window.fbq) return;
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq.disablePushState = true; // якір #form це не новий перегляд
+  fbq('init', '1090963936981555');
+  fbq('track', 'PageView');
+};
+try { if (localStorage.getItem('sodo:consent') === 'yes') window.sodoPixel(); } catch (e) {}
 </script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1090963936981555&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Meta Pixel Code -->
 </head>
 
 <body class="is-loading">
@@ -240,7 +243,7 @@ src="https://www.facebook.com/tr?id=1090963936981555&ev=PageView&noscript=1"
         <ul class="fold__list">
           <li class="fold__i"><i class="fold__n">[01]</i><b data-i18n="serv.t0_0">Strategia</b> <span data-i18n="serv.x0_0">— co i po co publikujemy, budujemy plan</span></li>
           <li class="fold__i"><i class="fold__n">[02]</i><b data-i18n="serv.t0_1">Treści</b> <span data-i18n="serv.x0_1">— montaż, scenariusze, design</span></li>
-          <li class="fold__i"><i class="fold__n">[03]</i><b data-i18n="serv.t0_2">Publikacja</b> <span data-i18n="serv.x0_2">— my trzymamy rytm, a ty o tym nie myślisz</span></li>
+          <li class="fold__i"><i class="fold__n">[03]</i><b data-i18n="serv.t0_2">Publikacja</b> <span data-i18n="serv.x0_2">— my trzymamy rytm, a wy nie musicie o tym myśleć</span></li>
           <li class="fold__i"><i class="fold__n">[04]</i><b data-i18n="serv.t0_3">Pomysły</b> <span data-i18n="serv.x0_3">— takie, żeby zatrzymać scroll</span></li>
           <li class="fold__i"><i class="fold__n">[05]</i><b data-i18n="serv.t0_4">Analityka</b> <span data-i18n="serv.x0_4">— widzimy liczby, podejmujemy decyzje</span></li>
         </ul>
@@ -281,7 +284,7 @@ src="https://www.facebook.com/tr?id=1090963936981555&ev=PageView&noscript=1"
         <ul class="fold__list">
           <li class="fold__i"><i class="fold__n">[01]</i><b data-i18n="serv.t3_0">Pomysł</b> <span data-i18n="serv.x3_0">— tam, gdzie chce się wejść</span></li>
           <li class="fold__i"><i class="fold__n">[02]</i><b data-i18n="serv.t3_1">Struktura</b> <span data-i18n="serv.x3_1">— klient rozumie, co zamówić i jak</span></li>
-          <li class="fold__i"><i class="fold__n">[03]</i><b data-i18n="serv.t3_2">Start</b> <span data-i18n="serv.x3_2">— dostajesz gotową stronę</span></li>
+          <li class="fold__i"><i class="fold__n">[03]</i><b data-i18n="serv.t3_2">Start</b> <span data-i18n="serv.x3_2">— dostajecie gotową stronę</span></li>
         </ul>
       </article>
       <article class="svc svc--plain" id="svc4" role="tabpanel" aria-labelledby="tab4">
@@ -487,16 +490,26 @@ src="https://www.facebook.com/tr?id=1090963936981555&ev=PageView&noscript=1"
         <input id="f_name" name="name" type="text" autocomplete="name" required aria-describedby="e_name">
         <span class="fld__e" id="e_name" hidden></span>
       </p>
-      <p class="fld">
-        <label for="f_tg"><span data-i18n="form.tg">Telegram lub Instagram</span> <span class="fld__req" aria-hidden="true">*</span></label>
+      <!-- Де писати, людина обирає сама. Нік — єдиний обовʼязковий
+           контакт; телефон запасний, на випадок закритих повідомлень. -->
+      <div class="fld fld--via">
+        <fieldset class="via">
+          <legend class="vh" data-i18n="form.tg">Telegram lub Instagram</legend>
+          <label class="via__o"><input type="radio" name="via" value="telegram" checked><span>Telegram</span></label>
+          <label class="via__o"><input type="radio" name="via" value="instagram"><span>Instagram</span></label>
+          <span class="fld__req" aria-hidden="true">*</span>
+        </fieldset>
+        <label class="vh" for="f_tg" data-i18n="form.nick">Wasz nick</label>
         <input id="f_tg" name="contact" type="text" placeholder="@nick" data-i18n-ph="form.ph" autocomplete="username"
+          autocapitalize="none" spellcheck="false"
           required data-check="contact" aria-describedby="e_tg">
         <span class="fld__e" id="e_tg" hidden></span>
-      </p>
-      <p class="fld">
-        <label for="f_tel"><span data-i18n="form.tel">Telefon</span> <span class="fld__req" aria-hidden="true">*</span></label>
+      </div>
+      <p class="fld fld--opt">
+        <label for="f_tel"><span data-i18n="form.tel">Telefon</span> <span class="fld__opt" data-i18n="form.opt">opcjonalnie</span></label>
         <input id="f_tel" name="phone" type="tel" inputmode="tel" autocomplete="tel"
-          required data-check="phone" aria-describedby="e_tel">
+          data-check="phone" aria-describedby="h_tel e_tel">
+        <span class="fld__h" id="h_tel" data-i18n="form.telhint">Na wszelki wypadek, gdyby nie udało się napisać</span>
         <span class="fld__e" id="e_tel" hidden></span>
       </p>
       <p class="fld fld--opt">
@@ -515,6 +528,7 @@ src="https://www.facebook.com/tr?id=1090963936981555&ev=PageView&noscript=1"
       <p class="fm__u" data-i18n="form.under">Bierzemy jeden biznes w niszy i mieście. Sprawdzimy, czy wasze miejsce jest wolne.</p>
     </div>
 
+    <p class="fm__pv"><span data-i18n="form.pv">Jak przetwarzamy wasze dane, opisujemy w</span> <a href="/pl/privacy/" data-i18n="form.pvl">polityce prywatności</a></p>
     <p class="fm__err" id="fmErr" role="alert" hidden></p>
   </form>
 
@@ -716,13 +730,28 @@ src="https://www.facebook.com/tr?id=1090963936981555&ev=PageView&noscript=1"
 
 <footer class="ft">
   <span class="mark mark--ft" aria-hidden="true"></span>
-  <p class="ft__c">© <span id="yr">2026</span> SODO</p>
+  <p class="ft__lg">
+    <a href="/pl/privacy/" data-i18n="ft.privacy">Polityka prywatności</a>
+    <button type="button" id="ckOpen" data-i18n="ft.cookie">Ustawienia cookie</button>
+  </p>
+  <p class="ft__c">© <span id="yr">2026</span> SODO Sofiia Dombyk · NIP 7822966459</p>
   <nav class="ft__nav" aria-label="Social media" data-i18n-aria="aria.social">
     <a href="https://t.me/sodoagency" target="_blank" rel="noopener">Telegram</a>
     <a href="https://www.instagram.com/sodo.agency/" target="_blank" rel="noopener">Instagram</a>
   </nav>
 </footer>
 
-<script src="/js/main.js?v=22" defer></script>
+<!-- згода на піксель: показується, поки людина не обрала; дві кнопки
+     однакової ваги, бо відмова має бути не важчою за згоду -->
+<div class="ck" id="ck" role="dialog" aria-labelledby="ckT" hidden>
+  <p class="ck__t" id="ckT"><span data-i18n="ck.text">Chcemy włączyć piksel Meta, żeby widzieć, które reklamy przyprowadzają ludzi. Bez waszej zgody pozostaje wyłączony.</span>
+    <a href="/pl/privacy/" data-i18n="ck.more">Więcej</a></p>
+  <p class="ck__b">
+    <button class="ck__btn ck__btn--on" type="button" data-ck="yes" data-i18n="ck.yes">Zgadzam się</button>
+    <button class="ck__btn" type="button" data-ck="no" data-i18n="ck.no">Odrzucam</button>
+  </p>
+</div>
+
+<script src="/js/main.js?v=24" defer></script>
 </body>
 </html>
