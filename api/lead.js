@@ -6,6 +6,8 @@
      TG_CHAT  — chat_id, куди слати заявки
    У репозиторії їх немає і бути не повинно. */
 
+const https = require('node:https');
+
 const FIELDS = [
   ['name',    'Імʼя',                  true],
   ['contact', 'Telegram / Instagram',  true],
@@ -56,29 +58,51 @@ module.exports = async function handler(req, res) {
   const text = [`🔔 <b>Нова заявка з сайту</b>`, '', ...lines, '', `<i>мова: ${esc(lang)}</i>`].join('\n');
 
   try {
-    const r = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: chat,
-        text: text.slice(0, 4000),
-        parse_mode: 'HTML',
-        disable_web_page_preview: true,
-      }),
+    const r = await tg(token, {
+      chat_id: chat,
+      text: text.slice(0, 4000),
+      parse_mode: 'HTML',
+      disable_web_page_preview: true,
     });
 
-    if (!r.ok) {
+    if (r.status !== 200) {
       /* Текст помилки йде тільки в лог Vercel — назовні віддаємо голий
          статус, щоб не підказувати, як влаштований приймач. */
-      console.error('telegram', r.status, await r.text().catch(() => ''));
+      console.error('telegram', r.status, r.body);
       return res.status(502).json({ ok: false });
     }
     return res.status(200).json({ ok: true });
   } catch (e) {
-    console.error('telegram unreachable', e);
+    console.error('telegram unreachable', e && e.message);
     return res.status(502).json({ ok: false });
   }
 };
+
+/* Лист у Telegram. Не через fetch: на сервері він іноді йде на IPv6
+   адресу api.telegram.org і висить без кінця, а людина на сайті дивиться
+   на сіру кнопку. Тут тільки IPv4 і жорстка стеля 8 с — після неї
+   відповідаємо помилкою, і сайт показує, куди написати напряму. */
+function tg(token, payload) {
+  const data = JSON.stringify(payload);
+  return new Promise((resolve, reject) => {
+    const req = https.request({
+      host: 'api.telegram.org',
+      path: `/bot${token}/sendMessage`,
+      method: 'POST',
+      family: 4,
+      timeout: 8000,
+      headers: { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(data) },
+    }, res => {
+      let body = '';
+      res.setEncoding('utf8');
+      res.on('data', c => { body += c; });
+      res.on('end', () => resolve({ status: res.statusCode, body: body.slice(0, 300) }));
+    });
+    req.on('timeout', () => req.destroy(new Error('timeout 8s')));
+    req.on('error', reject);
+    req.end(data);
+  });
+}
 
 /* Рядок контакту: де людина просила писати і клікабельне посилання
    на профіль, щоб не шукати нік руками. Посилання в полі важить більше

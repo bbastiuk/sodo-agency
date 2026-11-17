@@ -561,14 +561,26 @@ function gallery() {
     return best;
   };
 
-  /* А що показує лічильник — інша річ. На широкому екрані в кадрі
-     стоять два кейси, і в самому кінці лівий з них третій: стрілка
-     вже погашена, а лічильник писав «3 / 4». У кінці рахуємо по
-     останньому видимому, а не по лівому. */
-  const shown = () => (tail() > 2 && track.scrollLeft >= tail() - 2 ? items.length - 1 : cur());
+  /* Лічильник показує те, що справді в кадрі. На широкому екрані там
+     два кейси, і колись лічильник писав то лівий, то (в кінці) правий:
+     виходило 1 → 2 → 4, і третій кейс ніби зникав. Тепер це пара —
+     «1–2», «2–3», «3–4»; на телефоні, де кейс один, просто «2». */
+  const shown = () => {
+    const box = track.getBoundingClientRect();
+    const lo = box.left + pad() - 2;
+    const hi = box.right - (parseFloat(getComputedStyle(track).paddingRight) || 0) + 2;
+    const vis = [];
+    items.forEach((el, i) => {
+      const r = el.getBoundingClientRect();
+      if (r.left >= lo && r.right <= hi) vis.push(i);
+    });
+    if (!vis.length) return String(cur() + 1);
+    const a = vis[0] + 1, b = vis[vis.length - 1] + 1;
+    return a === b ? String(a) : `${a}–${b}`;
+  };
 
   const sync = () => {
-    if (nEl) nEl.textContent = String(shown() + 1);
+    if (nEl) nEl.textContent = shown();
     if (prev) prev.disabled = track.scrollLeft <= 2;
     if (next) next.disabled = track.scrollLeft >= tail() - 2;
   };
@@ -731,6 +743,11 @@ function rail(list, items, dots, prop) {
   let at = [];
   const isRow = () => list.classList.contains('is-row');
   const measure = () => {
+    /* Зі зменшеним рухом усі переходи тривають .01 мс — і відступ ряду
+       теж. Мірка в ту ж мить бачила відступ ще нульовим, і рейка лягала
+       на 53px вище номерів. На час мірки переходів немає зовсім. */
+    const was = list.style.transition;
+    list.style.transition = 'none';
     list.classList.toggle('is-row', matchMedia('(min-width:1024px)').matches);
     const row = isRow();
     const box = list.getBoundingClientRect();
@@ -764,6 +781,7 @@ function rail(list, items, dots, prop) {
       list.style.setProperty('--rail-top', (a.top - box.top + a.height / 2 - 1).toFixed(1) + 'px');
       list.style.setProperty('--rail', (b.top - a.top).toFixed(1) + 'px');
     }
+    list.style.transition = was;
   };
   measure();
 
@@ -1129,6 +1147,9 @@ function form() {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data),
+          /* Сервер завис — людина не має дивитись на сіру кнопку вічно:
+             за 15 с здаємось і показуємо, куди написати напряму. */
+          signal: AbortSignal.timeout?.(15000),
         });
         if (!r.ok) throw new Error(r.status);
         done();
