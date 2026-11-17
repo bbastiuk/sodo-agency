@@ -25,6 +25,23 @@ module.exports = async function handler(req, res) {
     probe('www.google.com', 4),
     probe('core.telegram.org', 4),
   ]);
+  /* Чи живий ключ бота: getMe нічого не надсилає. Назовні — лише
+     статус, час і опис помилки від Telegram, без ключа й без імені бота. */
+  const tok = process.env.TG_TOKEN || '';
+  out.tokenShape = { len: tok.length, trimmedDiffers: tok !== tok.trim(), hasColon: tok.includes(':') };
+  out.chatShape = { len: (process.env.TG_CHAT || '').length };
+  out.getMe = await new Promise(resolve => {
+    const t0 = Date.now();
+    const r = https.request({ host: 'api.telegram.org', path: `/bot${tok.trim()}/getMe`, method: 'POST', family: 4, timeout: 8000,
+      headers: { 'Content-Type': 'application/json', 'Content-Length': 2 } }, rs => {
+      let b = ''; rs.on('data', c => { b += c; });
+      rs.on('end', () => { let j = {}; try { j = JSON.parse(b); } catch {}
+        resolve({ status: rs.statusCode, ok: j.ok, description: j.description || null, ms: Date.now() - t0 }); });
+    });
+    r.on('timeout', () => r.destroy(new Error('timeout')));
+    r.on('error', e => resolve({ error: e.message, ms: Date.now() - t0 }));
+    r.end('{}');
+  });
   res.setHeader('Cache-Control', 'no-store');
   res.status(200).json(out);
 };
