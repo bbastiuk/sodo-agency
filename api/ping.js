@@ -42,6 +42,20 @@ module.exports = async function handler(req, res) {
     r.on('error', e => resolve({ error: e.message, ms: Date.now() - t0 }));
     r.end('{}');
   });
+  // для порівняння: явно фальшивий ключ і GET замість POST
+  const call = (path, method) => new Promise(resolve => {
+    const t0 = Date.now();
+    const r = https.request({ host: 'api.telegram.org', path, method, family: 4, timeout: 8000 }, rs => {
+      let b = ''; rs.on('data', c => { b += c; });
+      rs.on('end', () => { let j = {}; try { j = JSON.parse(b); } catch {}
+        resolve({ status: rs.statusCode, description: j.description || null, ms: Date.now() - t0 }); });
+    });
+    r.on('timeout', () => r.destroy(new Error('timeout')));
+    r.on('error', e => resolve({ error: e.message, ms: Date.now() - t0 }));
+    r.end();
+  });
+  out.fakeGet = await call('/bot123456:AAAAfakefakefakefakefakefakefakefake/getMe', 'GET');
+  out.realGet = await call(`/bot${tok.trim()}/getMe`, 'GET');
   res.setHeader('Cache-Control', 'no-store');
   res.status(200).json(out);
 };
